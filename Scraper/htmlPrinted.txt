@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <title>
+   Scraping Sandbox
+  </title>
+  <link href="./css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="./css/main.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10 well">
+     <img class="logo" src="img/zyte.png" width="200px"/>
+     <h1 class="text-right">
+      Web Scraping Sandbox
+     </h1>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+     <h2>
+      Books
+     </h2>
+     <p>
+      A
+      <a href="http://books.toscrape.com">
+       fictional bookstore
+      </a>
+      that desperately wants to be scraped. It's a safe place for beginners learning web scraping and for developers validating their scraping technologies as well. Available at:
+      <a href="http://books.toscrape.com">
+       books.toscrape.com
+      </a>
+     </p>
+     <div class="col-md-6">
+      <a href="http://books.toscrape.com">
+       <img class="img-thumbnail" src="./img/books.png"/>
+      </a>
+     </div>
+     <div class="col-md-6">
+      <table class="table table-hover">
+       <tr>
+        <th colspan="2">
+         Details
+        </th>
+       </tr>
+       <tr>
+        <td>
+         Amount of items
+        </td>
+        <td>
+         1000
+        </td>
+       </tr>
+       <tr>
+        <td>
+         Pagination
+        </td>
+        <td>
+         ✔
+        </td>
+       </tr>
+       <tr>
+        <td>
+         Items per page
+        </td>
+        <td>
+         max 20
+        </td>
+       </tr>
+       <tr>
+        <td>
+         Requires JavaScript
+        </td>
+        <td>
+         ✘
+        </td>
+       </tr>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-10">
+     <h2>
+      Quotes
+     </h2>
+     <p>
+      <a href="http://quotes.toscrape.com/">
+       A website
+      </a>
+      that lists quotes from famous people. It has many endpoints showing the quotes in many different ways, each of them including new scraping challenges for you, as described below.
+     </p>
+     <div class="col-md-6">
+      <a href="http://quotes.toscrape.com">
+       <img class="img-thumbnail" src="./img/quotes.png"/>
+      </a>
+     </div>
+     <div class="col-md-6">
+      <table class="table table-hover">
+       <tr>
+        <th colspan="2">
+         Endpoints
+        </th>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/">
+          Default
+         </a>
+        </td>
+        <td>
+         Microdata and pagination
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/scroll">
+          Scroll
+         </a>
+        </td>
+        <td>
+         infinite scrolling pagination
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/js">
+          JavaScript
+         </a>
+        </td>
+        <td>
+         JavaScript generated content
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/js-delayed">
+          Delayed
+         </a>
+        </td>
+        <td>
+         Same as JavaScript but with a delay (?delay=10000)
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/tableful">
+          Tableful
+         </a>
+        </td>
+        <td>
+         a table based messed-up layout
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/login">
+          Login
+         </a>
+        </td>
+        <td>
+         login with CSRF token (any user/passwd works)
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/search.aspx">
+          ViewState
+         </a>
+        </td>
+        <td>
+         an AJAX based filter form with ViewStates
+        </td>
+       </tr>
+       <tr>
+        <td>
+         <a href="http://quotes.toscrape.com/random">
+          Random
+         </a>
+        </td>
+        <td>
+         a single random quote
+        </td>
+       </tr>
+      </table>
+     </div>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>
