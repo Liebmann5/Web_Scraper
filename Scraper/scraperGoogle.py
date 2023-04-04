@@ -1,7 +1,10 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from dotenv import load_dotenv
-from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver import Firefox, Safari, Chrome
+#from dotenv import load_dotenv
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
@@ -33,14 +36,24 @@ class scrapeGoogle():
               + " COPY. When you come back here just right click. If you don't have a right"
               + " click well then crap. Life is tough but get your crap together cause idk")
         #time.sleep(1)
-        print("When you are done type 1 (the number) then press ENTER")
+        print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
+        print(f"\t1) FireFox")
+        print(f"\t2) Safari")
+        print(f"\t3) Chrome")
+        print(f"\t4) Edge")
         while True:
             user_jobs = input()
             user_jobs.strip()
             #if user_jobs == 1:   #! ERROR: comparing a string to an int!!!!
             if user_jobs == "1":
-                return
-            else:
+                return 1, " FireFox "
+            elif user_jobs == "2":
+                return 2, " Safari "
+            elif user_jobs == "3":
+                return 3, " Chrome "
+            elif user_jobs == "4":
+                return 4, " Edge "
+            else:     #TODO: Make else just check OS and return number of that OS's web browser!!!
                 self.job_titles.append(user_jobs)
          
         #TODO       
@@ -55,20 +68,41 @@ class scrapeGoogle():
         #     ==> When printed in search do   ==>   " & near=" + user_location
     
     def browser_setup(self, test):
-        self.user_requirements()
-        print('Execution Started -- Opening Firefox Browser')
+        user_browser_choice, browser_name = self.user_requirements()
+        print('Execution Started -- Opening' + browser_name + 'Browser')
         
-        options = Options()
-        options.set_preference("dom.webnotifications.enabled", False)
-        options.set_preference("extensions.enabledScopes", 0)
-        options.set_preference("browser.toolbars.bookmarks.visibilty", "never")
-        options.set_preference("signon.rememberSignons", False)
-        options.set_preference("places.history.enabled", False)
-        
-        browser = self.browser
-        browser = webdriver.Firefox(options=options)
-        browser.set_page_load_timeout(30)
-        
+        if user_browser_choice == 1:
+            browser = self.browser
+            
+            options = FirefoxOptions()
+            options.set_preference("dom.webnotifications.enabled", False)
+            options.set_preference("extensions.enabledScopes", 0)
+            options.set_preference("browser.toolbars.bookmarks.visibilty", "never")
+            options.set_preference("signon.rememberSignons", False)
+            options.set_preference("places.history.enabled", False)
+            
+            browser = webdriver.Firefox(options=options)
+            browser.set_page_load_timeout(30)
+        elif user_browser_choice == 2:
+            browser = self.browser
+            
+            options = SafariOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+                
+            browser = webdriver.Safari(options=options)
+            browser.set_page_load_timeout(30)
+        elif user_browser_choice == 3:
+            browser = self.browser
+            
+            options = ChromeOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+            
+            browser = webdriver.Chrome(options=options)
+            browser.set_page_load_timeout(30)
         
         if(test == 0):
             browser.get('https://www.google.com')
@@ -153,7 +187,7 @@ class scrapeGoogle():
         
     def search_results(self, browser, list_first_index, list_last_index):
         if list_first_index == 0:
-            search_results= browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
+            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
             print(f"Number of search results: {len(search_results)}")
             list_last_index = len(search_results)
             
@@ -170,7 +204,12 @@ class scrapeGoogle():
             print(results_link)
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
-            print(link.get_attribute("href"))
+            job_link = link.get_attribute("href")
+            #print(link.get_attribute("href"))
+            print(job_link)
+            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            # scraperGoogleJob(job_link)
+            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             
             if count == list_last_index:
                 list_first_index = list_last_index
@@ -247,6 +286,18 @@ if __name__ == '__main__':
 
 
 
+
+
+
+
+# HOW TO SET UP SAFARI !!!!!
+#    1) Open Safari.
+#    2) Click on Safari in the top menu bar.
+#    3) Click on Preferences.
+#    4) Click on Advanced.
+#    5) At the bottom, check the box next to "Show Develop menu in menu bar".
+#    6) Click on Develop in the top menu bar.
+#    7) Click on Allow Remote Automation.
 
 
 
