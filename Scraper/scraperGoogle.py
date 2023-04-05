@@ -11,6 +11,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 
+import scraperGoogleJob
+
 class scrapeGoogle():
     def __init__(self):
         self.browser = None
@@ -122,12 +124,12 @@ class scrapeGoogle():
         search_bar.send_keys('site:lever.co | site:greenhouse.io | site:workday.com')
         print('1/2')
         time.sleep(1)
-        job_titles_string = ' ('
+        job_titles_string = ' ("'
         for i, job in enumerate(job_titles):
             if i == len(job_titles)-1 or len(job_titles) == 0:
-                job_titles_string += (job + ')')
+                job_titles_string += (job + '")')
             else:
-                job_titles_string += (job + ' | ')
+                job_titles_string += (job + '" | "')
         search_bar.send_keys(job_titles_string)
         print('2/2')
         print("Searching google for...       adult films?")
@@ -258,7 +260,7 @@ class scrapeGoogle():
                     elif not more_results:
                         print("NOTHING == more_results")
                 except NoSuchElementException:
-                    return  ("ERROR: Crap didn't work I guess idk??")
+                    return  ("ERROR: Didn't work I guess idk??")
                 
             current_height = new_height
             list_first_index, list_last_index = self.search_results(browser, list_first_index, list_last_index)
@@ -267,13 +269,25 @@ class scrapeGoogle():
         print('\n\n\n')
         
         print("Scrolled to the end of search results, GOOBER!")
-        time.sleep(1)
+        time.sleep(5)
+        print("++++++++++++++++++++++++++++++++++++++++++++++")
+        job_link = "https://www.google.com"
+        scraperGoogleJob().get_job_info(job_link)
+        print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
 
 if __name__ == '__main__':
     scraper = scrapeGoogle()
     scraper.browser_setup(0)
+
+
+
+
+
+
+
+#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
 
 
 
