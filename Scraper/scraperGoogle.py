@@ -21,20 +21,20 @@ class scrapeGoogle():
     def user_requirements(self):
         #global job_titles     #! ERROR: the code didn't like this with .append() for whatever reason!!!?!?!?
         
-        print("Well well well. Somebody needs a job... figures someone poor like you"
+        print("Well well well. Somebody needs a job... figures someone like you"
               + " is wanting more money! What a weiner your parents raised. You weiner!")
         #time.sleep(1)
-        print("Any who just go ahead and type the job title you want 1 at a time and after"
+        print("Any who just go ahead and type out the job title you want. "
               + " each job title press ENTER! (When you press ENTER it will probably take "
-              + "you to the next line, this is normal... sexually speaking of course)")
+              + "you to the next line, this is normal... illiterately speaking of course)")
         #time.sleep(1)
-        print("Try and keep it to like 3-4 you eager son of gun. You'll (most likely) get "
-              + "you dirty pig money soon enough.")
+        print("Try and keep it to around 3-4 you eager eagle. Exceling past these "
+              + "numbers will yield less results, so thats why.")
         #time.sleep(1)
-        print("Fianlly for the love of the Hoover Dam please spell the crap correctly! If "
-              + "you're not confident then highlight the name with your mouse and click\n"
+        print("Fianlly for the love of the Hoover Dam please spell the everything correctly! "
+              + "If you're not confident then highlight the name with your mouse and click\n"
               + " COPY. When you come back here just right click. If you don't have a right"
-              + " click well then crap. Life is tough but get your crap together cause idk")
+              + " click well then huh. Life is tough but get your crap together cause idk")
         #time.sleep(1)
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
@@ -116,7 +116,7 @@ class scrapeGoogle():
     def search_for_jobs(self, browser):
         job_titles = self.job_titles
         
-        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy inbred')
+        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
         search_bar = browser.find_element(By.NAME, "q")
         search_bar.clear()
         search_bar.send_keys('site:lever.co | site:greenhouse.io | site:workday.com')
@@ -179,7 +179,7 @@ class scrapeGoogle():
             past_week = browser.find_element(By.XPATH, "//a[text()='Past week']")
             past_week.click()
         else:
-            raise TypeError('Homo sexuals lick each other')
+            raise TypeError('ERROR: Didnt pick a registered time!')
         print("Filtering by past " + decisi)
         time.sleep(1)
         self.search_results(browser, self.list_first_index, self.list_last_index)
@@ -266,7 +266,7 @@ class scrapeGoogle():
         print("****************************************************************")
         print('\n\n\n')
         
-        print("Scrolled to the end of search results, Jew!")
+        print("Scrolled to the end of search results, GOOBER!")
         time.sleep(1)
         return
         
