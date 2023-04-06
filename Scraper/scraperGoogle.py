@@ -11,10 +11,15 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 
-import scraperGoogleJob
+#I'm running all these inside the Scraper folder so that's why I believe I only need import scraperGoogleJob!!
+#import Scraper.scraperGoogleJob
+from scraperGoogleJob import scraperGoogleJob   #? ERASED THE b (in import)
+#from scraperGoogleJob import *
+#/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/
 
 class scrapeGoogle():
     def __init__(self):
+        print(scraperGoogleJob)   #? ERASED THE b
         self.browser = None
         self.job_titles = []
         self.list_first_index = 0
@@ -70,7 +75,10 @@ class scrapeGoogle():
         #     ==> When printed in search do   ==>   " & near=" + user_location
     
     def browser_setup(self, test):
-        user_browser_choice, browser_name = self.user_requirements()
+        #user_browser_choice, browser_name = self.user_requirements()
+        user_browser_choice, browser_name = 2, " Safari "
+        self.job_titles.append("software engineer")
+        self.job_titles.append("backend engineer")
         print('Execution Started -- Opening' + browser_name + 'Browser')
         
         if user_browser_choice == 1:
@@ -218,10 +226,11 @@ class scrapeGoogle():
                 break
         print("All done loser!")
         time.sleep(1)
-        self.increment_search_results(browser, list_first_index, list_last_index)
+        #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
+        self.increment_search_results(browser, list_first_index, list_last_index, search_results)
         return list_first_index, list_last_index
     
-    def increment_search_results(self, browser, list_first_index, list_last_index):
+    def increment_search_results(self, browser, list_first_index, list_last_index, search_results):
         current_height = browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
         print("increment_search_results")
@@ -269,10 +278,12 @@ class scrapeGoogle():
         print('\n\n\n')
         
         print("Scrolled to the end of search results, GOOBER!")
-        time.sleep(5)
+        time.sleep(2.5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
-        job_link = "https://www.google.com"
-        scraperGoogleJob().get_job_info(job_link)
+        #job_link = "https://www.google.com"
+        #scraperGoogleJob.get_job_info(self, job_link)   #? ERASED THE b
+        #job_link = scraperGoogleJob.get_job_info(job_link)
+        scraperGoogleJob(search_results)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         

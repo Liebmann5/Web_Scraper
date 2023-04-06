@@ -1,9 +1,12 @@
 from urllib import request
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import csv
 
-class scraperGoogleJob():
-    print("Made it this far!!")
+class scraperGoogleJob:
+    
+    # def __init__(self, job_link):
+    #     print("Made it this far!!")
+    #     self.job_link = job_link
     
     #def read_job_data(job_data):
     def convert_csv_data(job_data):
@@ -23,34 +26,39 @@ class scraperGoogleJob():
         return 0
     
     
-    @classmethod
-    def get_job_info(cls, job_link):   #param == job_link
-        print("Made it to the get_job_info method!")
-        job_link = ["https://jobs.lever.co/rover/0a6bcb57-bc8b-4826-b98c-7a17cbb4a911/apply", "https://jobs.lever.co/palantir/e82b696e-a085-4bbf-8bcb-6d2c4f8cf2f7"]
-        for job in job_link:
+    #@classmethod
+    def get_job_info(var_search_results):   #param == cls, job_link  |  self, var_search_results
+        search_results = var_search_results
+        #job_link = ["https://jobs.lever.co/rover/0a6bcb57-bc8b-4826-b98c-7a17cbb4a911/apply", "https://jobs.lever.co/palantir/e82b696e-a085-4bbf-8bcb-6d2c4f8cf2f7"]
+        print(search_results)
+        for job in search_results:
             result = request.get(job)
             content = result.text
             soup = BeautifulSoup(content, 'lxml')
             print(soup.prettify())
             
             if "jobs.lever.co" in job:
-                cls.lever_io(job, soup)
+                self.lever_io_data(job, soup)
                 # Captcha
                 # <input id="hcaptchaResponseInput" type="hidden" name="h-captcha-response" value>
                 # <button id="hcaptchaSubmitBtn" type="submit" class="hidden"></button>
             
             elif "boards.greenhouse.io" in job:
-                cls.greenhouse_io(soup)
+                self.greenhouse_io(soup)
 
             elif "workday" in job:
-                cls.workday(soup)               
+                self.workday(soup)
+        print("Well sue me silly!")
+        self.lever_io_apply(self, "application_link", "application_webpage_html")
         return "ok"
     
     
     #filter out already applied jobs
     #traverse job webpage
     #?????
-    def lever_io_data(job_link, soup):
+    def lever_io_data(self, joby_link, soup):
+        self.joby_link = joby_link
+        
         opening_link_application = soup.find('div', class_='page-application')      #application immediate
         opening_link_description = soup.find('div', class_='page-show')             #regular description start
         
@@ -85,7 +93,7 @@ class scraperGoogleJob():
                 
         return soup
 
-    def lever_io_apply(application_link, application_webpage_html):
+    def lever_io_apply(self, application_link, application_webpage_html):
         job_form_html = application_webpage_html.find("form", id="application-form", method="POST")
         application_section_html = job_form_html.find_all("h4")
         #using ^this list .find() 1st <h4> then increment...
@@ -104,10 +112,9 @@ class scraperGoogleJob():
         return 0
     
     def apply_to_job(job_data: list):
-        if len(job_data)-1:
+        if (len(job_data)-1):
             return "ok"
 
-#if __name__ == '__main__':
-#    scraper = scraperGoogleJob()
+
 
 
