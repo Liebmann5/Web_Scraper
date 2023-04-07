@@ -1,6 +1,19 @@
 from urllib import request
+from urllib.parse import urlparse, parse_qs
 #from bs4 import BeautifulSoup
 import csv
+
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+import time
 
 class scraperGoogleJob:
     
@@ -27,11 +40,34 @@ class scraperGoogleJob:
     
     
     #@classmethod
-    def get_job_info(var_search_results):   #param == cls, job_link  |  self, var_search_results
-        search_results = var_search_results
+    def get_job_info(var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+        search_results = var_job_link
         #job_link = ["https://jobs.lever.co/rover/0a6bcb57-bc8b-4826-b98c-7a17cbb4a911/apply", "https://jobs.lever.co/palantir/e82b696e-a085-4bbf-8bcb-6d2c4f8cf2f7"]
         print(search_results)
-        for job in search_results:
+        print("Length of search_results is ", end="")
+        print(len(search_results))
+        #for job in range(len(search_results)-1, -1, -1):
+        for job in search_results[::-1]:
+            # if job.startswith('/url?'):
+            #     url_start_index = job.find('http')
+            #     url_end_index = job.find('&', url_start_index)
+            #     job_url = job[url_start_index:url_end_index]
+            # else:
+            #     job_url = job
+            # a_tag = browser.find_element(By.XPATH, "//a")
+            print(google_search_button)
+            #click_job_link = job.find_element(By.CSS_SELECTOR, google_search_button)
+            #parent = job.find_element(By.XPATH, "./ancestor::h3")
+            #linky3 = parent.find_element(By.XPATH, ".//a")
+            #linky3.click()
+            link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_search_button}"]')
+            print(link_elemen)
+            link_elemen.click()
+            print("Waiting for link to load...")
+            browser.implicitly_wait(5)
+            time.sleep(15)
+            
+            #get HTML from clicked webpage
             result = request.get(job)
             content = result.text
             soup = BeautifulSoup(content, 'lxml')
@@ -39,6 +75,7 @@ class scraperGoogleJob:
             
             if "jobs.lever.co" in job:
                 self.lever_io_data(job, soup)
+                #scraperGoogleJob.lever_io_data(job, soup)
                 # Captcha
                 # <input id="hcaptchaResponseInput" type="hidden" name="h-captcha-response" value>
                 # <button id="hcaptchaSubmitBtn" type="submit" class="hidden"></button>
@@ -114,6 +151,31 @@ class scraperGoogleJob:
     def apply_to_job(job_data: list):
         if (len(job_data)-1):
             return "ok"
+
+
+
+
+
+
+
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#!       REMEMBER TO COUNT THE NUMBER OF OPEN SENIOR > ROLES AVAILABLE           !
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+#<cite class="qLRx3b tjvcx GvPZzd cHaqb" role="text" style="max-width:315px">https://jobs.lever.co<span class="dyjrff qzEoUe" role="text"> › ltaresearch</span></cite>
+
+#<a href="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jsarwt="1" data-usg="AOvVaw1WnH3yWFh2qyF8H83db1P7" data-ved="2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB" data-ctbtn="0" data-cthref="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jrwt="1"><br><h3 class="LC20lb MBeuO DKV0Md">LTA Research</h3><div class="TbwUpd NJjxre iUh30 ojE3Fb"><span class="H9lube"><div class="eqA2re NjwKYd Vwoesf" aria-hidden="true"><img class="XNo5Ab" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAWlBMVEU+SEpvdXjIysvEx8edoaN4f4FOV1n6+vr////j5eVjamxyeXvZ2dn39/dqcXPNz9CLkJCqra7y8/PU1NRdZWfs7e7d3t5cY2ZTW12zt7hYXmKTmJp/hYe6vLweb9tYAAAAn0lEQVR4AcTPAxLAMBBA0TKszfsfs1acYf9w54XOT7meH4RA7SFEe5gonJ6OfF/vXhQBqcePR4nE3cvTaCsTPfl6lBtcXJAUp5enl8TgCefE0iPF+SavajtvFN6ynpq84rwzuNOfjlXuRIy3jnwB46FP+AWMZxAVCbvgcm/Y5xFtxfS7gPEAHcHpXVB/PUd32fPN+Sjo9oFGb906+uRTAOgAEo+qriNyAAAAAElFTkSuQmCC" style="height:18px;width:18px" alt=""></div></span><div><span class="VuuXrf">lever.co</span><div class="byrV5b"><cite class="qLRx3b tjvcx GvPZzd cHaqb" role="text" style="max-width:315px">https://jobs.lever.co<span class="dyjrff qzEoUe" role="text"> › ltaresearch</span></cite></div></div></div></a>
+
+
+
+
+#<a href="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jsarwt="1" data-usg="AOvVaw1WnH3yWFh2qyF8H83db1P7" data-ved="2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB" data-ctbtn="0" data-cthref="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jrwt="1"><br><h3 class="LC20lb MBeuO DKV0Md">LTA Research</h3>
+
+
 
 
 

@@ -24,6 +24,7 @@ class scrapeGoogle():
         self.job_titles = []
         self.list_first_index = 0
         self.list_last_index = 0
+        self.links_to_jobs = []
     
     def user_requirements(self):
         #global job_titles     #! ERROR: the code didn't like this with .append() for whatever reason!!!?!?!?
@@ -215,11 +216,16 @@ class scrapeGoogle():
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
             job_link = link.get_attribute("href")
+            self.links_to_jobs.append(job_link)
             #print(link.get_attribute("href"))
             print(job_link)
             #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             # scraperGoogleJob(job_link)
             #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            google_search_buttony = link.find_element(By.TAG_NAME, "h3")
+            google_search_button = google_search_buttony.get_attribute('innerHTML')
+            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             if count == list_last_index:
                 list_first_index = list_last_index
@@ -227,10 +233,10 @@ class scrapeGoogle():
         print("All done loser!")
         time.sleep(1)
         #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(browser, list_first_index, list_last_index, search_results)
+        self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
         return list_first_index, list_last_index
     
-    def increment_search_results(self, browser, list_first_index, list_last_index, search_results):
+    def increment_search_results(self, browser, list_first_index, list_last_index, google_search_button):
         current_height = browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
         print("increment_search_results")
@@ -283,7 +289,7 @@ class scrapeGoogle():
         #job_link = "https://www.google.com"
         #scraperGoogleJob.get_job_info(self, job_link)   #? ERASED THE b
         #job_link = scraperGoogleJob.get_job_info(job_link)
-        scraperGoogleJob(search_results)
+        scraperGoogleJob.get_job_info(self.links_to_jobs, browser, google_search_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
