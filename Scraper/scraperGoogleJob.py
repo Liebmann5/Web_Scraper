@@ -1,6 +1,7 @@
 from urllib import request
+import requests
 from urllib.parse import urlparse, parse_qs
-#from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import csv
 
 from selenium import webdriver
@@ -40,35 +41,26 @@ class scraperGoogleJob:
     
     
     #@classmethod
-    def get_job_info(var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+    def get_job_info(self, var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
         search_results = var_job_link
-        #job_link = ["https://jobs.lever.co/rover/0a6bcb57-bc8b-4826-b98c-7a17cbb4a911/apply", "https://jobs.lever.co/palantir/e82b696e-a085-4bbf-8bcb-6d2c4f8cf2f7"]
+        
         print(search_results)
         print("Length of search_results is ", end="")
         print(len(search_results))
-        #for job in range(len(search_results)-1, -1, -1):
+        
         for job in search_results[::-1]:
-            # if job.startswith('/url?'):
-            #     url_start_index = job.find('http')
-            #     url_end_index = job.find('&', url_start_index)
-            #     job_url = job[url_start_index:url_end_index]
-            # else:
-            #     job_url = job
-            # a_tag = browser.find_element(By.XPATH, "//a")
             print(google_search_button)
-            #click_job_link = job.find_element(By.CSS_SELECTOR, google_search_button)
-            #parent = job.find_element(By.XPATH, "./ancestor::h3")
-            #linky3 = parent.find_element(By.XPATH, ".//a")
-            #linky3.click()
             link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_search_button}"]')
             print(link_elemen)
             link_elemen.click()
             print("Waiting for link to load...")
+            print(job)
             browser.implicitly_wait(5)
             time.sleep(15)
             
             #get HTML from clicked webpage
-            result = request.get(job)
+            #try:
+            result = requests.get(job)
             content = result.text
             soup = BeautifulSoup(content, 'lxml')
             print(soup.prettify())
@@ -81,10 +73,10 @@ class scraperGoogleJob:
                 # <button id="hcaptchaSubmitBtn" type="submit" class="hidden"></button>
             
             elif "boards.greenhouse.io" in job:
-                self.greenhouse_io(soup)
+                self.greenhouse_io_data(soup)
 
             elif "workday" in job:
-                self.workday(soup)
+                self.workday_data(soup)
         print("Well sue me silly!")
         self.lever_io_apply(self, "application_link", "application_webpage_html")
         return "ok"
@@ -140,11 +132,11 @@ class scraperGoogleJob:
             print(user_input)
         return 0
     
-    def greenhouse_io_data(soup):
+    def greenhouse_io_data(self, soup):
         print("Here")
         return 0
     
-    def workday_data(soup):
+    def workday_data(self, soup):
         print("Here")
         return 0
     

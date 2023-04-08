@@ -77,7 +77,7 @@ class scrapeGoogle():
     
     def browser_setup(self, test):
         #user_browser_choice, browser_name = self.user_requirements()
-        user_browser_choice, browser_name = 2, " Safari "
+        user_browser_choice, browser_name = 1, " Firefox "
         self.job_titles.append("software engineer")
         self.job_titles.append("backend engineer")
         print('Execution Started -- Opening' + browser_name + 'Browser')
@@ -289,7 +289,7 @@ class scrapeGoogle():
         #job_link = "https://www.google.com"
         #scraperGoogleJob.get_job_info(self, job_link)   #? ERASED THE b
         #job_link = scraperGoogleJob.get_job_info(job_link)
-        scraperGoogleJob.get_job_info(self.links_to_jobs, browser, google_search_button)
+        scraperGoogleJob.get_job_info(self, self.links_to_jobs, browser, google_search_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
