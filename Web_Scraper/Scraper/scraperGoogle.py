@@ -11,21 +11,16 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 
-#I'm running all these inside the Scraper folder so that's why I believe I only need import scraperGoogleJob!!
-#import Scraper.scraperGoogleJob
-from scraperGoogleJob import scraperGoogleJob   #? ERASED THE b (in import)
-#from scraperGoogleJob import *
-#/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/
+import scraperGoogleJob
+import sys
 
-class scraperGoogle():
-    
+class scrapeGoogle():
     def __init__(self):
-        print(scraperGoogleJob)   #? ERASED THE b
+        sys.path.append('fsd')
         self.browser = None
         self.job_titles = []
         self.list_first_index = 0
         self.list_last_index = 0
-        self.links_to_jobs = []
     
     def user_requirements(self):
         #global job_titles     #! ERROR: the code didn't like this with .append() for whatever reason!!!?!?!?
@@ -77,10 +72,7 @@ class scraperGoogle():
         #     ==> When printed in search do   ==>   " & near=" + user_location
     
     def browser_setup(self, test):
-        #user_browser_choice, browser_name = self.user_requirements()
-        user_browser_choice, browser_name = 2, " Safari "
-        self.job_titles.append("software engineer")
-        self.job_titles.append("backend engineer")
+        user_browser_choice, browser_name = self.user_requirements()
         print('Execution Started -- Opening' + browser_name + 'Browser')
         
         if user_browser_choice == 1:
@@ -217,27 +209,21 @@ class scraperGoogle():
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
             job_link = link.get_attribute("href")
-            self.links_to_jobs.append(job_link)
             #print(link.get_attribute("href"))
             print(job_link)
             #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             # scraperGoogleJob(job_link)
             #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            google_search_buttony = link.find_element(By.TAG_NAME, "h3")
-            google_search_button = google_search_buttony.get_attribute('innerHTML')
-            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             if count == list_last_index:
                 list_first_index = list_last_index
                 break
         print("All done loser!")
         time.sleep(1)
-        #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
+        self.increment_search_results(browser, list_first_index, list_last_index)
         return list_first_index, list_last_index
     
-    def increment_search_results(self, browser, list_first_index, list_last_index, google_search_button):
+    def increment_search_results(self, browser, list_first_index, list_last_index):
         current_height = browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
         print("increment_search_results")
@@ -248,45 +234,36 @@ class scraperGoogle():
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
             print("Scrolled...")
-           
+            
+            #search_results = browser.find_elements(By.CSS_SELECTOR, "div.g")
             current_list_length = list_last_index-list_first_index
             #**************************************************************************************************************
             if (current_list_length%100) == 1:
                 print("Length of the current list == " + str(current_list_length))
-        #--------------------------------------------------------------------
-            search_results = browser.find_elements(By.XPATH, "//div[@class='g']")
-            if len(search_results) < list_last_index:
+            try:
+                no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
                 print("No more search results")
                 break
-            # try:
-            #     no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-            #     print("No more search results")
-            #     break
-            # except NoSuchElementException:
-            #     pass
-            #**************************************************************************************************************
-            # new_height = browser.execute_script("return document.body.scrollHeight")
-            # print("New Height == " + str(new_height))
-            
-            #if new_height == current_height:
-            try:
-                more_results = browser.find_element(By.XPATH, "//span[text()='More results']")
-                if more_results:
-                    print("Found the more_results == ", end="")
-                    print(more_results)
-                    more_results.click()
-                    print("Clicked 'More results' button")
-                    time.sleep(1)
-                elif not more_results:
-                    print("NOTHING == more_results")
             except NoSuchElementException:
-                return  ("ERROR: Didn't work I guess idk??")
+                pass
+            #**************************************************************************************************************
             new_height = browser.execute_script("return document.body.scrollHeight")
             print("New Height == " + str(new_height))
+            
             if new_height == current_height:
-                print("No more search results")
-                break
-        #--------------------------------------------------------------------   
+                try:
+                    more_results = browser.find_element(By.XPATH, "//span[text()='More results']")
+                    if more_results:
+                        print("Found the more_results == ", end="")
+                        print(more_results)
+                        more_results.click()
+                        print("Clicked 'More results' button")
+                        time.sleep(1)
+                    elif not more_results:
+                        print("NOTHING == more_results")
+                except NoSuchElementException:
+                    return  ("ERROR: Didn't work I guess idk??")
+                
             current_height = new_height
             list_first_index, list_last_index = self.search_results(browser, list_first_index, list_last_index)
             print("Current height == " + str(current_height))
@@ -294,16 +271,16 @@ class scraperGoogle():
         print('\n\n\n')
         
         print("Scrolled to the end of search results, GOOBER!")
-        time.sleep(2.5)
+        time.sleep(5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
-
-        scraperGoogleJob(browser).get_job_info(self.links_to_jobs, browser, google_search_button)
+        job_link = "https://www.google.com"
+        scraperGoogleJob.get_job_info(job_link)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
 
 if __name__ == '__main__':
-    scraper = scraperGoogle()
+    scraper = scrapeGoogle()
     scraper.browser_setup(0)
 
 

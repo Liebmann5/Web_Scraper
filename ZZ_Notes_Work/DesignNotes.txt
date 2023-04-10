@@ -1,0 +1,31 @@
+When doing the google search and you collect all the links when the link is clicked
+    get the URL of the page you are on and if they don't match-up that's bad! Maybe
+    they took the job away! (job is no longer available)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
