@@ -17,7 +17,8 @@ from scraperGoogleJob import scraperGoogleJob   #? ERASED THE b (in import)
 #from scraperGoogleJob import *
 #/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/
 
-class scrapeGoogle():
+class scraperGoogle():
+    
     def __init__(self):
         print(scraperGoogleJob)   #? ERASED THE b
         self.browser = None
@@ -247,36 +248,45 @@ class scrapeGoogle():
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
             print("Scrolled...")
-            
-            #search_results = browser.find_elements(By.CSS_SELECTOR, "div.g")
+           
             current_list_length = list_last_index-list_first_index
             #**************************************************************************************************************
             if (current_list_length%100) == 1:
                 print("Length of the current list == " + str(current_list_length))
-            try:
-                no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+        #--------------------------------------------------------------------
+            search_results = browser.find_elements(By.XPATH, "//div[@class='g']")
+            if len(search_results) < list_last_index:
                 print("No more search results")
                 break
-            except NoSuchElementException:
-                pass
+            # try:
+            #     no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+            #     print("No more search results")
+            #     break
+            # except NoSuchElementException:
+            #     pass
             #**************************************************************************************************************
+            # new_height = browser.execute_script("return document.body.scrollHeight")
+            # print("New Height == " + str(new_height))
+            
+            #if new_height == current_height:
+            try:
+                more_results = browser.find_element(By.XPATH, "//span[text()='More results']")
+                if more_results:
+                    print("Found the more_results == ", end="")
+                    print(more_results)
+                    more_results.click()
+                    print("Clicked 'More results' button")
+                    time.sleep(1)
+                elif not more_results:
+                    print("NOTHING == more_results")
+            except NoSuchElementException:
+                return  ("ERROR: Didn't work I guess idk??")
             new_height = browser.execute_script("return document.body.scrollHeight")
             print("New Height == " + str(new_height))
-            
             if new_height == current_height:
-                try:
-                    more_results = browser.find_element(By.XPATH, "//span[text()='More results']")
-                    if more_results:
-                        print("Found the more_results == ", end="")
-                        print(more_results)
-                        more_results.click()
-                        print("Clicked 'More results' button")
-                        time.sleep(1)
-                    elif not more_results:
-                        print("NOTHING == more_results")
-                except NoSuchElementException:
-                    return  ("ERROR: Didn't work I guess idk??")
-                
+                print("No more search results")
+                break
+        #--------------------------------------------------------------------   
             current_height = new_height
             list_first_index, list_last_index = self.search_results(browser, list_first_index, list_last_index)
             print("Current height == " + str(current_height))
@@ -286,16 +296,14 @@ class scrapeGoogle():
         print("Scrolled to the end of search results, GOOBER!")
         time.sleep(2.5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
-        #job_link = "https://www.google.com"
-        #scraperGoogleJob.get_job_info(self, job_link)   #? ERASED THE b
-        #job_link = scraperGoogleJob.get_job_info(job_link)
-        scraperGoogleJob.get_job_info(self, self.links_to_jobs, browser, google_search_button)
+
+        scraperGoogleJob(browser).get_job_info(self.links_to_jobs, browser, google_search_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
 
 if __name__ == '__main__':
-    scraper = scrapeGoogle()
+    scraper = scraperGoogle()
     scraper.browser_setup(0)
 
 
