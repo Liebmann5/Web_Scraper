@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
-#from selenium.webdriver import Firefox, Safari, Chrome
+
 #from dotenv import load_dotenv
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.safari.options import Options as SafariOptions
@@ -11,11 +11,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 
-#I'm running all these inside the Scraper folder so that's why I believe I only need import scraperGoogleJob!!
-#import Scraper.scraperGoogleJob
 from scraperGoogleJob import scraperGoogleJob   #? ERASED THE b (in import)
-#from scraperGoogleJob import *
-#/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/
+
 
 class scraperGoogle():
     

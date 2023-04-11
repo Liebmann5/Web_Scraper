@@ -18,8 +18,7 @@ import time
 
 class scraperGoogleJob():
     
-    def __init__(self, list_of_links, browser):
-        self.list_of_links = list_of_links
+    def __init__(self, browser):
         self.browser = browser
         
     
@@ -38,51 +37,6 @@ class scraperGoogleJob():
             #for row in writer:
             writer.writerow(job_data)
         return "All done!"
-    
-    
-    def deal_with_links(self, var_job_link, browser, google_search_name):
-        self.list_of_links = var_job_link
-        google_link_title = google_search_name
-        
-        for job_index in self.list_of_links[::-1]:
-            selenium_google_link = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_link_title}"]')
-            selenium_google_link.click()
-            browser.implicitly_wait(5)
-            time.sleep(3)
-        
-            if "jobs.lever.co" in job_index:
-                self.convert_to_bs(job_index, "lever")
-                applic = self.lever_io_data(job_index, soup)
-                self.find_and_organize_inputs(applic)
-    
-            elif "boards.greenhouse.io" in job_index:
-                self.convert_to_bs(job_index)
-                applic = self.greenhouse_io_start_page_decider(soup)
-                applic = soup.find('div', id="application")
-                self.find_and_organize_inputs(applic)
-    
-    def convert_to_bs(self, job_index, application_company):
-        result = requests.get(job_index)
-        content = result.text
-        soup = BeautifulSoup(content, 'lxml')
-        
-        
-    
-        if application_company == "lever":
-            app_body = soup.find("div", id="app_body")
-            
-            opening_link_application = soup.find('div', {"class": 'application-page'})
-            opening_link_description = soup.find('div', {"class": 'posting-page'})
-            
-            #3 openinng page possibilities [Job Description/Application/Company Openings]
-            return
-        elif application_company == "greenhouse":
-            return
-    
-    
-    
-        everything_about_job = app_body.get_text()
-    
     
     
     #@classmethod
@@ -135,7 +89,7 @@ class scraperGoogleJob():
                 applic = soup.find('div', id="application")
                 self.find_and_organize_inputs(applic)
                 print("===Ballsack = boards.greenhouse.io = 2")
-    #--------------------------------------------------------------------------------------------------
+
             elif "workday" in job_index:
                 print("===Ballsack = workday = 1")
                 self.workday_data(soup)
@@ -645,3 +599,22 @@ class scraperGoogleJob():
     #         if input_needed.get_attr("aria-hidden") and input_needed.get("aria-hidden") == "true":
     #             print(input_needed.prettify())
     #         for 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
