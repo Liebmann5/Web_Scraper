@@ -294,7 +294,7 @@ class scraperGoogle():
         time.sleep(2.5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
 
-        scraperGoogleJob(browser).get_job_info(self.links_to_jobs, browser, google_search_button)
+        scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         

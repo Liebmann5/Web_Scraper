@@ -40,48 +40,184 @@ class scraperGoogleJob():
         return "All done!"
     
     
-    def deal_with_links(self, var_job_link, browser, google_search_name):
-        self.list_of_links = var_job_link
+    def deal_with_links(self, google_search_name):
+        #self.list_of_links = var_job_link
         google_link_title = google_search_name
+        application_company = None
         
         for job_index in self.list_of_links[::-1]:
-            selenium_google_link = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_link_title}"]')
+            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_link_title}"]')
             selenium_google_link.click()
-            browser.implicitly_wait(5)
+            self.browser.implicitly_wait(5)
             time.sleep(3)
+            
+            result = requests.get(job_index)
+            content = result.text
+            soup = BeautifulSoup(content, 'lxml')
         
             if "jobs.lever.co" in job_index:
-                self.convert_to_bs(job_index, "lever")
+                application_company = "lever"
+                self.other_company_openings(soup, application_company)
+                self.convert_to_bs(job_index, soup, "lever")
                 applic = self.lever_io_data(job_index, soup)
                 self.find_and_organize_inputs(applic)
     
             elif "boards.greenhouse.io" in job_index:
-                self.convert_to_bs(job_index)
+                application_company = "greenhouse"
+                self.other_company_openings(soup, application_company)
+                self.convert_to_bs(job_index, soup, "greenhouse")
                 applic = self.greenhouse_io_start_page_decider(soup)
                 applic = soup.find('div', id="application")
                 self.find_and_organize_inputs(applic)
+                
+    def other_company_openings(self, soup, application_company):
+        plethora_of_jobs = None
+        if application_company == "lever":
+            other_company_jobs = soup.find('div', {"class": 'page show'})
+            company_open_positions = other_company_jobs.find('a', {"class": "main-header-logo"})
+            if company_open_positions['href']:
+                plethora_of_jobs = company_open_positions['href']
+
+            print("Couldn't find the logo with the lick to plethora_of_jobs")
+        elif application_company == "greenhouse":
+            a_tag = soup.find('a', text='View all jobs')
+            if a_tag:
+                a_tag_inner_html = a_tag.decode_contents()
+                plethora_of_jobs = a_tag_inner_html['href']
+        print("Here1")
+        print(plethora_of_jobs)
+        print("Here2")
+        return plethora_of_jobs
     
-    def convert_to_bs(self, job_index, application_company):
-        result = requests.get(job_index)
-        content = result.text
-        soup = BeautifulSoup(content, 'lxml')
-        
-        
-    
+    def convert_to_bs(self, job_index, soup, application_company):
         if application_company == "lever":
             app_body = soup.find("div", id="app_body")
             
+            other_company_openings = soup.find('div', {"class": 'page show'})
+            company_open_positions = other_company_openings.find('a', {"class": "main-header-logo"})
+            try:
+                if company_open_positions['href']:
+                    plethora_of_jobs = company_open_positions['href']
+                    print(plethora_of_jobs)
+            except:
+                print("This company has no ALL job openings page!")
             opening_link_application = soup.find('div', {"class": 'application-page'})
             opening_link_description = soup.find('div', {"class": 'posting-page'})
             
             #3 openinng page possibilities [Job Description/Application/Company Openings]
+            if opening_link_application:
+                try:
+                    company_open_positions = soup.find('a', {"class": "main-header-logo"})
+                    application_webpage_html = soup.find("div", {"class": "application-page"})
+                    self.lever_io_application(joby_link, application_webpage_html)
+                except:
+                    #TODO: Change this Error type!
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+            elif opening_link_description:
+                try:
+                    a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+                    div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+                    application_at_bottom = soup.find("div", id="application")
+                    if a_tag_butt:
+                        has_apply_button = a_tag_butt
+                    elif div_tag_butt:
+                        has_apply_button = div_tag_butt
+                    
+                    if ok_to_apply():
+                        fill_out_application()
+                except:
+                    raise "Something went wrong with the the greenhouse.io job_description page"
             return
+                    
+            #         position_title = soup.find('h2')
+            #         job_title = position_title.get_text().split()
+            #         job_info = soup.find('div', {"class": "posting-categories"})
+            #         job_location = job_info.find('div', {"class": 'location'}).get_text().strip()
+            #         job_department = job_info.find('div', {"class": 'department'}).get_text().strip()
+            #         job_commitment = job_info.find('div', {"class": 'commitment'}).get_text().strip()
+            #         job_style = job_info.find('div', {"class": 'workplaceTypes'}).get_text().strip()
+            #         print("HERE------------------------------------")
+                    
+            #         a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+            #         div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+            #         job_apply_butt = None
+            #         link_to_apply = None
+            #         #job_apply_butt = soup.select_one('a.btn-apply-bottom, div.btn-apply-bottom')
+            #         #if job_apply_butt.name == 'div':
+            #         if div_tag_butt:
+            #             job_apply_butt = job_apply_butt.find('a')
+            #             link_to_apply = job_apply_butt['href']
+            #         elif a_tag_butt:
+            #             link_to__apply = a_tag_butt['href']
+            #     except:
+            #         #TODO: Change this Error type!
+            #         raise ConnectionError("ERROR: Companies other open positions are not present")
+            # return
+        
         elif application_company == "greenhouse":
+            div_main = soup.find("div", id="main")
+
+            next_elem = div_main.find_next()
+            while next_elem:
+                if next_elem.name == "div" and next_elem.get("id") == "flash-wrapper":
+                    print('-Job Page')
+                    return soup.find("div", id="flash-wrapper")
+                    break
+                elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
+                    print('-Job Listings Page')
+                    return soup.find("div", id="embedded_job_board_wrapper")
+                    break
+                elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
+                    print("-Job Listings Page")
+                    print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
+                    #TODO: for this one in the elif you have to look through all "level-0" sections!!
+                    return soup.find("section", {"class": "level-0"})
+                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
+                    app_body = next_elem
+                    header = next_elem.find("div", id="header")
+                    content = next_elem.find("div", id="content")
+                    application = soup.find("div", id="application")
+                    if header and content:
+                        print("Job Description Page")
+                        self.greenhouse_io_header(app_body, header, content)
+                    else:
+                        print("Application at bottom or <button>")
+                        #TODO
+                        apply_button = div_main.find("button", text="Apply Here")
+                        if application:
+                            self.greenhouse_io_application(application)
+                        elif apply_button:
+                            apply_button.click()
+                            time.sleep(5)
+                            self.greenhouse_io_application(application)
+                            print("Application = ", end="")
+                            print(application)
+                            return application
+                    break
+                else:
+                    next_elem = next_elem.find_next()
             return
     
     
     
         everything_about_job = app_body.get_text()
+        dont_apply(everything_about_job)
+        
+    def dont_apply(self, everything_about_job):
+        job_exp_needed = everything_about_job.find()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
