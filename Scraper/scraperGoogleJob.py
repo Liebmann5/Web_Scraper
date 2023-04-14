@@ -57,41 +57,43 @@ class scraperGoogleJob():
         
             if "jobs.lever.co" in job_index:
                 application_company = "lever"
-                self.other_company_openings(soup, application_company)
-                self.convert_to_bs(job_index, soup, "lever")
+                #self.link_to_other_company_openings(soup, application_company)
+                self.convert_to_bs(job_index, soup, application_company)
                 applic = self.lever_io_data(job_index, soup)
                 self.find_and_organize_inputs(applic)
     
             elif "boards.greenhouse.io" in job_index:
                 application_company = "greenhouse"
-                self.other_company_openings(soup, application_company)
-                self.convert_to_bs(job_index, soup, "greenhouse")
+                #self.link_to_other_company_openings(soup, application_company)
+                self.convert_to_bs(job_index, soup, application_company)
                 applic = self.greenhouse_io_start_page_decider(soup)
                 applic = soup.find('div', id="application")
                 self.find_and_organize_inputs(applic)
-                
-    def other_company_openings(self, soup, application_company):
-        plethora_of_jobs = None
-        if application_company == "lever":
-            other_company_jobs = soup.find('div', {"class": 'page show'})
-            company_open_positions = other_company_jobs.find('a', {"class": "main-header-logo"})
-            if company_open_positions['href']:
-                plethora_of_jobs = company_open_positions['href']
+    
+    #This checks the header for other company links and then buttons to apply as well?           
+    # def link_to_other_company_openings(self, soup, application_company):
+    #     plethora_of_jobs = None
+    #     if application_company == "lever":
+    #         other_company_jobs = soup.find('div', {"class": 'page show'})
+    #         company_open_positions = other_company_jobs.find('a', {"class": "main-header-logo"})
+    #         if company_open_positions['href']:
+    #             plethora_of_jobs = company_open_positions['href']
 
-            print("Couldn't find the logo with the lick to plethora_of_jobs")
-        elif application_company == "greenhouse":
-            a_tag = soup.find('a', text='View all jobs')
-            if a_tag:
-                a_tag_inner_html = a_tag.decode_contents()
-                plethora_of_jobs = a_tag_inner_html['href']
-        print("Here1")
-        print(plethora_of_jobs)
-        print("Here2")
-        return plethora_of_jobs
+    #         print("Couldn't find the logo with the lick to plethora_of_jobs")
+    #     elif application_company == "greenhouse":
+    #         div_main = soup.find("div", id="main")
+    #         a_tag = soup.find('a', text='View all jobs')
+    #         if a_tag:
+    #             a_tag_inner_html = a_tag.decode_contents()
+    #             plethora_of_jobs = a_tag_inner_html['href']
+    #     print("Here1")
+    #     print(plethora_of_jobs)
+    #     print("Here2")
+    #     return plethora_of_jobs
     
     def convert_to_bs(self, job_index, soup, application_company):
         if application_company == "lever":
-            app_body = soup.find("div", id="app_body")
+            app_body = soup.find("div", id=["app_body", "app-body"])
             
             other_company_openings = soup.find('div', {"class": 'page show'})
             company_open_positions = other_company_openings.find('a', {"class": "main-header-logo"})
@@ -109,7 +111,7 @@ class scraperGoogleJob():
                 try:
                     company_open_positions = soup.find('a', {"class": "main-header-logo"})
                     application_webpage_html = soup.find("div", {"class": "application-page"})
-                    self.lever_io_application(joby_link, application_webpage_html)
+                    self.company_job_openings(joby_link, application_webpage_html)
                 except:
                     #TODO: Change this Error type!
                     raise ConnectionError("ERROR: Companies other open positions are not present")
@@ -157,9 +159,10 @@ class scraperGoogleJob():
         elif application_company == "greenhouse":
             div_main = soup.find("div", id="main")
 
+            #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
             next_elem = div_main.find_next()
             while next_elem:
-                if next_elem.name == "div" and next_elem.get("id") == "flash-wrapper":
+                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
                     print('-Job Page')
                     return soup.find("div", id="flash-wrapper")
                     break
@@ -168,9 +171,10 @@ class scraperGoogleJob():
                     return soup.find("div", id="embedded_job_board_wrapper")
                     break
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
-                    print("-Job Listings Page")
+                    print("-Company Job Openings Page")
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
+                    self.company_job_openings(div_main)
                     return soup.find("section", {"class": "level-0"})
                 elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
                     app_body = next_elem
@@ -179,6 +183,8 @@ class scraperGoogleJob():
                     application = soup.find("div", id="application")
                     if header and content:
                         print("Job Description Page")
+                        #self.link_to_other_company_openings(soup, application_company)
+                        self.company_job_openings(self, soup, div_main, application_company)
                         self.greenhouse_io_header(app_body, header, content)
                     else:
                         print("Application at bottom or <button>")
@@ -205,6 +211,64 @@ class scraperGoogleJob():
         
     def dont_apply(self, everything_about_job):
         job_exp_needed = everything_about_job.find()
+    
+    def company_job_openings(self, soup, div_main, application_company):
+        plethora_of_jobs = None
+        if application_company == 'lever':
+            other_company_jobs = soup.find('div', {"class": 'page show'})
+            company_open_positions = other_company_jobs.find('a', {"class": "main-header-logo"})
+            if company_open_positions['href']:
+                plethora_of_jobs = company_open_positions['href']
+
+        #     print("Couldn't find the logo with the lick to plethora_of_jobs")
+        # elif application_company == "greenhouse":
+        #     div_main = soup.find("div", id="main")
+        #     a_tag = soup.find('a', text='View all jobs')
+        #     if a_tag:
+        #         a_tag_inner_html = a_tag.decode_contents()
+        #         plethora_of_jobs = a_tag_inner_html['href']
+        # elif application_company == 'greenhouse':
+        sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+        
+        for section in sections:
+            #if section.name == "class" and section.get("class") == 'level-0':
+            if section.name == 'h3':
+                company_department = section.text
+            if section.name == 'h4':
+                print('This is most likely just a SUB-category so not really important otber than making sure we go through EVERY job it contains!')
+                
+            job_opening = section.find('div', {'class': 'opening'})
+            if job_opening:
+                job_opening_href = job_opening.find('a')
+                if job_opening_href:
+                    job_title = job_opening_href.text
+                    job_link = job_opening_href.get('href')
+                    span_tag = job_opening.find('span', {'class', 'location'})
+                    if span_tag:
+                        job_opening_location = span_tag.text
+                    job_opening_href.click()
+        return
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
+    
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   
+    
+    
+    
     
     
     
@@ -781,3 +845,117 @@ class scraperGoogleJob():
     #         if input_needed.get_attr("aria-hidden") and input_needed.get("aria-hidden") == "true":
     #             print(input_needed.prettify())
     #         for 
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ChatGPT:
+# This accidentally might be a better option b/c all I care about is the department and then the job! So if they do have a bunch of sub-'levels'
+# it's probably just like office names and then managers so not stuff we really care about!?!?!?
+# from bs4 import BeautifulSoup
+
+# html = '''
+# <div id="main">
+# <section class="level-0"></section>
+# <section class="level-0"></section>
+# <section class="level-0"></section>
+#   <h3 id="4051531004">Research, Engineering, Product</h3>
+#   <section class="child level-1">
+#   <h4 id="4013603004">All teams (roles across multiple teams)</h4>
+#   <div class="opening" department_id="4013603004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4013603004="true" data-department-4051531004="true">
+#       <a data-mapped="true" href="/openai/jobs/4050126004">Research Engineer</a>
+#       <br>
+#       <span class="location">San Francisco, California, United States</span>
+#   </div>
+#   <div class="opening" department_id="4013603004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4013603004="true" data-department-4051531004="true">
+#       <a data-mapped="true" href="/openai/jobs/4229594004">Research Scientist</a>
+#       <br>
+#       <span class="location">San Francisco, California, United States</span>
+#   </div>
+#  </section>
+
+# <section class="child level-1">
+#   <h4 id="4049554004">Applied AI Engineering</h4>
+
+#   <div class="opening" department_id="4049554004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4049554004="true" data-department-4051531004="true">
+#   <a data-mapped="true" href="/openai/jobs/4857084004">Mobile Engineering Manager, ChatGPT</a>
+#   <br>
+#  </section>
+#  <section class="child level-1"></section>
+#  <section class="child level-1"></section>
+#  <section class="child level-1"></section>
+#  <section class="child level-1"></section>
+#  </div>
+# '''
+
+# soup = BeautifulSoup(html, 'html.parser')
+# main_div = soup.find('div', {'id': 'main'})
+
+# sections = main_div.find_all('section', class_=lambda x: x and 'level' in x)
+
+# for section in sections:
+#     opening_div = section.find('div', {'class': 'opening'})
+#     if opening_div:
+#         a_tag = opening_div.find('a')
+#         if a_tag:
+#             job_title = a_tag.text
+#             job_link = a_tag.get('href')
+#             span_tag = opening_div.find('span', {'class': 'location'})
+#             if span_tag:
+#                 job_location = span_tag.text
+#                 print(f'Title: {job_title}\nLink: {job_link}\nLocation: {job_location}\n')
+#             else:
+#                 print(f'Title: {job_title}\nLink: {job_link}\nLocation: N/A\n')
+#             a_tag.click()
+#         else:
+#             print('No <a> tag found in the opening div')
+#     else:
+#         print('No opening div found in the section')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
