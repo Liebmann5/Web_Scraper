@@ -10776,3 +10776,348 @@ DevTools listening on ws://127.0.0.1:51775/devtools/browser/4eb0d814-0c5e-4bb0-a
 console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
 1680249681902	Marionette	INFO	Stopped listening on port 51782
 Dynamically enable window occlusion 1
+1681537774295	geckodriver	INFO	Listening on 127.0.0.1:49385
+1681537777351	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "49386" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileLwl5tM"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681537777657	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681537777662	Marionette	INFO	Listening on port 49394
+Read port: 49394
+WebDriver BiDi listening on ws://127.0.0.1:49386
+1681537777793	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileLwl5tM\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:49386/devtools/browser/9d2cc6cb-1d90-4ef0-a133-a6415fa7e7c7
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681537901312	geckodriver	INFO	Listening on 127.0.0.1:49526
+1681537904402	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "49527" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilehi6bCs"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681537904677	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681537904682	Marionette	INFO	Listening on port 49536
+Read port: 49536
+WebDriver BiDi listening on ws://127.0.0.1:49527
+1681537904784	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilehi6bCs\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:49527/devtools/browser/a1d7497a-e39e-43e1-92da-28a218f47c11
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1681540798374	geckodriver	INFO	Listening on 127.0.0.1:53448
+1681540801430	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "53449" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile487UlX"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681540801742	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681540801747	Marionette	INFO	Listening on port 53520
+Read port: 53520
+WebDriver BiDi listening on ws://127.0.0.1:53449
+1681540801850	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile487UlX\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:53449/devtools/browser/7f8c9f1c-e679-43b9-bd53-5fb6fe4725a4
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1681548566939	geckodriver	INFO	Listening on 127.0.0.1:53313
+1681548569996	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "53314" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile2TGi6R"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681548570282	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681548570287	Marionette	INFO	Listening on port 53322
+Read port: 53322
+WebDriver BiDi listening on ws://127.0.0.1:53314
+1681548570393	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile2TGi6R\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:53314/devtools/browser/21536e8f-50be-4158-b3e5-805c612df23b
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681548815072	geckodriver	INFO	Listening on 127.0.0.1:53468
+1681548818114	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "53469" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofiley8h0Js"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681548818405	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681548818410	Marionette	INFO	Listening on port 53479
+Read port: 53479
+WebDriver BiDi listening on ws://127.0.0.1:53469
+1681548818517	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofiley8h0Js\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:53469/devtools/browser/dc3fb0a0-626f-4e51-8acf-5fa56451736b
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+console.error: "Unable to find target with innerWindowId:15032385537"
+console.error: "Unable to find target with innerWindowId:15032385537"
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Error while destroying front:" "inspector" (new Error("Connection closed, pending request to server0.conn0.windowGlobal17179869187/inspectorActor4, type getWalker failed\n\nRequest stack:\nrequest@resource://devtools/shared/protocol/Front.js:300:14\ngenerateRequestMethods/</frontProto[name]@resource://devtools/shared/protocol/Front/FrontClassWithSpec.js:47:19\n_getWalker@resource://devtools/client/fronts/inspector.js:84:30\ninitialize@resource://devtools/client/fronts/inspector.js:73:12\n", "resource://devtools/shared/protocol/Front.js", 106))
+console.error: "Failed to start [root-node] legacy listener for target null" (new Error("Connection closed, pending request to server0.conn0.windowGlobal17179869187/inspectorActor4, type getWalker failed\n\nRequest stack:\nrequest@resource://devtools/shared/protocol/Front.js:300:14\ngenerateRequestMethods/</frontProto[name]@resource://devtools/shared/protocol/Front/FrontClassWithSpec.js:47:19\n_getWalker@resource://devtools/client/fronts/inspector.js:84:30\ninitialize@resource://devtools/client/fronts/inspector.js:73:12\n", "resource://devtools/shared/protocol/Front.js", 106))
+JavaScript error: resource://devtools/shared/protocol/Front.js, line 106: Error: Connection closed, pending request to server0.conn0.windowGlobal17179869187/inspectorActor4, type getWalker failed
+
+Request stack:
+request@resource://devtools/shared/protocol/Front.js:300:14
+generateRequestMethods/</frontProto[name]@resource://devtools/shared/protocol/Front/FrontClassWithSpec.js:47:19
+_getWalker@resource://devtools/client/fronts/inspector.js:84:30
+initialize@resource://devtools/client/fronts/inspector.js:73:12
+
+console.error: "Unable to find target with innerWindowId:17179869185"
+Handler function threw an exception: TypeError: can't access property "documentPrincipal", browsingContext.currentWindowGlobal is null
+Stack: isChannelFromSystemPrincipal@resource://devtools/shared/network-observer/NetworkUtils.sys.mjs:91:1
+_createResource@resource://devtools/server/actors/network-monitor/network-event-actor.js:187:40
+NetworkEventActor@resource://devtools/server/actors/network-monitor/network-event-actor.js:104:27
+onNetworkEvent@resource://devtools/server/actors/resources/network-events.js:285:19
+#createNetworkEvent@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:729:46
+#onRequestHeader@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:772:29
+@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:649:28
+makeInfallible/<@resource://devtools/shared/DevToolsInfaillibleUtils.sys.mjs:43:22
+Line: 91, column: 1
+console.error: (new TypeError("can't access property \"documentPrincipal\", browsingContext.currentWindowGlobal is null", "resource://devtools/shared/network-observer/NetworkUtils.sys.mjs", 91))
+Handler function threw an exception: TypeError: can't access property "addResponseStart", httpActivity.owner is null
+Stack: #onResponseHeader@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:1081:5
+#dispatchActivity@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:570:31
+@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:679:29
+makeInfallible/<@resource://devtools/shared/DevToolsInfaillibleUtils.sys.mjs:43:22
+Line: 1081, column: 5
+console.error: (new TypeError("can't access property \"addResponseStart\", httpActivity.owner is null", "resource://devtools/shared/network-observer/NetworkObserver.sys.mjs", 1081))
+Handler function threw an exception: TypeError: can't access property "documentPrincipal", browsingContext.currentWindowGlobal is null
+Stack: isChannelFromSystemPrincipal@resource://devtools/shared/network-observer/NetworkUtils.sys.mjs:91:1
+_createResource@resource://devtools/server/actors/network-monitor/network-event-actor.js:187:40
+NetworkEventActor@resource://devtools/server/actors/network-monitor/network-event-actor.js:104:27
+onNetworkEvent@resource://devtools/server/actors/resources/network-events.js:285:19
+#createNetworkEvent@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:729:46
+@resource://devtools/shared/network-observer/NetworkObserver.sys.mjs:338:33
+makeInfallible/<@resource://devtools/shared/DevToolsInfaillibleUtils.sys.mjs:43:22
+Line: 91, column: 1
+console.error: (new TypeError("can't access property \"documentPrincipal\", browsingContext.currentWindowGlobal is null", "resource://devtools/shared/network-observer/NetworkUtils.sys.mjs", 91))
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.error: "Unable to find target with innerWindowId:19327352833"
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+console.warn: "Listener for event 'frame' did not return a promise."
+1681564157057	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1681564211705	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1681564220127	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+[Parent 29284, IPC I/O Parent] WARNING: DuplicateHandle failed for handle 0 in TransferHandles: file /builds/worker/checkouts/gecko/ipc/chromium/src/chrome/common/ipc_channel_win.cc:777
+1681564235143	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.error: "Unable to find target with innerWindowId:47244640257"
+1681565033848	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFoundError: No such JSWindowActor 'DevToolsFrame'
+1681572478166	Marionette	INFO	Stopped listening on port 53479
+Dynamically enable window occlusion 1
+1681653091162	geckodriver	INFO	Listening on 127.0.0.1:58858
+1681653094253	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58859" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile3yS4iY"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681653094534	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681653094539	Marionette	INFO	Listening on port 58869
+Read port: 58869
+WebDriver BiDi listening on ws://127.0.0.1:58859
+1681653094637	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile3yS4iY\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:58859/devtools/browser/e2418576-6658-4a1d-9e3a-01e686546a0a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681653108757	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1681653156673	geckodriver	INFO	Listening on 127.0.0.1:58978
+1681653159744	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58979" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileDTeWCs"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681653160041	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681653160045	Marionette	INFO	Listening on port 58987
+Read port: 58987
+WebDriver BiDi listening on ws://127.0.0.1:58979
+1681653160143	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileDTeWCs\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:58979/devtools/browser/4c1cb11e-41bc-4489-99e9-3ed82cf8fa99
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681653481703	geckodriver	INFO	Listening on 127.0.0.1:59174
+1681653484786	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "59175" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilee3GP9U"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681653485085	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681653485089	Marionette	INFO	Listening on port 59183
+Read port: 59183
+WebDriver BiDi listening on ws://127.0.0.1:59175
+1681653485186	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilee3GP9U\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:59175/devtools/browser/add95470-bc7c-43b7-bbe2-ebb5b3b8c225
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1681655947798	geckodriver	INFO	Listening on 127.0.0.1:59974
+1681655950855	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "59975" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileqrqiid"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681655951136	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681655951140	Marionette	INFO	Listening on port 59983
+Read port: 59983
+WebDriver BiDi listening on ws://127.0.0.1:59975
+1681655951242	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileqrqiid\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:59975/devtools/browser/b34cbeed-aa2d-4d42-9963-aaf0e68f339d
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+1681656094026	geckodriver	INFO	Listening on 127.0.0.1:58151
+1681656097105	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58152" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileSUshC6"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681656097389	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681656097393	Marionette	INFO	Listening on port 58162
+Read port: 58162
+WebDriver BiDi listening on ws://127.0.0.1:58152
+1681656097508	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileSUshC6\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:58152/devtools/browser/dacd5f0b-3041-4fca-8f8f-687a6c02466a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1681657523793	geckodriver	INFO	Listening on 127.0.0.1:59215
+1681657526838	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "59216" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilerIEJd3"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681657527125	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681657527129	Marionette	INFO	Listening on port 59225
+Read port: 59225
+WebDriver BiDi listening on ws://127.0.0.1:59216
+1681657527233	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilerIEJd3\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:59216/devtools/browser/d581114d-06dd-470e-9286-09c62d6c7d8c
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+1681661773619	geckodriver	INFO	Listening on 127.0.0.1:58125
+1681661776653	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58126" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilefIHUTh"
+1681661799480	geckodriver	INFO	Listening on 127.0.0.1:58202
+1681661802544	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58203" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilei3KCub"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681661802826	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681661802831	Marionette	INFO	Listening on port 58212
+Read port: 58212
+WebDriver BiDi listening on ws://127.0.0.1:58203
+1681661802935	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilei3KCub\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:58203/devtools/browser/57629638-2f4f-412e-8e4d-54dda035282e
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681661982839	geckodriver	INFO	Listening on 127.0.0.1:58358
+1681661985890	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "58359" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilelrG9IG"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681661986197	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681661986202	Marionette	INFO	Listening on port 58372
+Read port: 58372
+WebDriver BiDi listening on ws://127.0.0.1:58359
+1681661986312	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilelrG9IG\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:58359/devtools/browser/10bf737b-568b-4ccc-93cb-57e676cb7329
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681667907787	geckodriver	INFO	Listening on 127.0.0.1:61352
+1681667910855	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "61353" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilewrDtNT"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681667911136	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681667911141	Marionette	INFO	Listening on port 61361
+Read port: 61361
+WebDriver BiDi listening on ws://127.0.0.1:61353
+1681667911238	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilewrDtNT\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:61353/devtools/browser/97ff8b14-eca5-4b65-b670-5d304ee84838
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
