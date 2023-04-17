@@ -494,3 +494,18 @@ Traceback (most recent call last):
     label_elements = applic.find_element(By.TAG_NAME, "label")
 AttributeError: 'NoneType' object has no attribute 'find_element'
 nliebmann@dhcp017104094139 Scraper % 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

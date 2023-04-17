@@ -492,7 +492,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -579,62 +580,71 @@ class scraperGoogleJob():
         return inputs_info
         
     def find_and_organize_inputs(self, applic, soup):
-        form = self.browser.find_element(By.TAG_NAME, "form")
-        label_elements = form.find_elements(By.TAG_NAME, "label")
-        form_data = []
-        invisible_data = []
-        for label_element in label_elements:
-            label_text = label_element.text.strip()
-            input_elements = []
-            input_id = label_element.get_attribute('for')  #<label for="same"> = <input id="same">
-            print(input_id)
-            print("label element = ", end="")
-            label_xpath = f"//label[@for='{input_id}']"
-            print(self.browser.find_element(By.XPATH, label_xpath).get_attribute('outerHTML'))
-            if input_id:
-                print("input element found by id="" = ", end="")
-                print(self.browser.find_element(By.ID, input_id))
-                input_elements.append(self.browser.find_element(By.ID, input_id))
-            else:
-                print("input element found by sibling = ", end="")
-                print(label_element.find_elements(By.XPATH, "./following-sibling::*[1]"))
-                input_elements = label_element.find_elements(By.XPATH, "./following-sibling::*[1]")
-            print("Well fudge!----------------")
-            input_values = []
-            input_tags = []
-            for input_element in input_elements:
-                if input_element.tag_name == "input":
-                    input_type = input_element.get_attribute('type')
-                    if input_type == "checkbox":
-                        input_values.append(input_element.get_attribute('value'))
-                    elif input_type == "radio":
-                        if input_element.get_attribute('name') not in [x[0] for x in form_data]:
-                            form_data.append([input_element.get_attribute('name'), []])
-                        form_data[[x[0] for x in form_data].index(input_element.get_attribute('name'))][1].append(input_element.get_attribute('value'))
-                    elif input_type in ["text", "email", "password", "number"]:
-                        input_values.append(input_element.get_attribute('value'))
-                    input_tags.append(input_element.get_attribute('name') + " (" + input_element.tag_name + " - " + input_type + ")")
-                elif input_element.tag_name == "select":
-                    select_options = input_element.find_elements(By.XPATH, "./option")
-                    select_values = [option.get_attribute('value') for option in select_options]
-                    input_values.append(select_values)
-                    input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-                elif input_element.tag_name == "textarea":
-                    input_values.append(input_element.text.strip())
-                    input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-            print("Well fudge...   wicked!----------------")
-            form_data.append([label_text] + input_values)
-            input_tags = [""] + input_tags
-            form_data.append(input_tags)
-            
-            # Check if the input element is inside an invisible container.
-            #if self.is_input_invisible(input_elements[0]):
-            #    invisible_data.append([label_text] + input_values)
-            #    invisible_data.append(input_tags)
+        from scraperGoogle import webdriver
+        """
+        Finds all the input elements in a form and returns a list of dictionaries
+        containing information about each input.
+        """
+        #self.browser.get(form['url'])
+        form_inputs = []
+        input_types = ["text", "email", "password", "number", "checkbox", "radio"]
+        select_types = ["select"]
+        textarea_types = ["textarea"]
+        file_types = ["file"]
+        input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
         
-        print("----------------Well fudge that crap is wicked!----------------")
-        self.print_form_data(form_data)
-        return form_data, invisible_data
+        for input_element in input_elements:
+            input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+            if input_type in input_types or input_type in select_types or input_type in textarea_types:
+                input_label = ""
+                input_values = []
+                parent_element = input_element.find_element(By.XPATH, '..')
+                while parent_element is not None:
+                    try:
+                        input_label_element = parent_element.find_element(By.XPATH, ".//label")
+                        input_label = input_label_element.text.strip()
+                        break
+                    except NoSuchElementException:
+                        parent_element = parent_element.find_element(By.XPATH, '..')
+                if input_type in input_types:
+                    if input_type == "checkbox":
+                        if input_element.is_selected():
+                            input_values.append(input_element.get_attribute('value'))
+                    elif input_type == "radio":
+                        radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+                        radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+                        if radio_values:
+                            input_values = radio_values
+                    else:
+                        input_values.append(input_element.get_attribute('value'))
+                elif input_type in select_types:
+                    select_options = input_element.find_elements(By.XPATH, ".//option")
+                    input_values = [option.text.strip() for option in select_options]
+                elif input_type in textarea_types:
+                    input_values.append(input_element.get_attribute('value'))
+                    
+                is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+                if is_hidden:
+                    self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+                    self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+                
+                form_inputs.append({
+                    "label": input_label,
+                    "type": input_type,
+                    "values": input_values,
+                    "is_hidden": is_hidden
+                })
+            self.print_form_inputs(form_inputs)
+        print(len(form_inputs))        
+        return form_inputs
+
+    def print_form_inputs(self, form_inputs):
+        for input in form_inputs:
+            print("Label: " + input["label"])
+            print("Type: " + input["type"])
+            print("Values: " + str(input["values"]))
+            print("Is Hidden: " + str(input["is_hidden"]))
+            print("--------------------")
     
     def is_input_invisible(self, input_element):
         from scraperGoogle import webdriver
@@ -642,6 +652,9 @@ class scraperGoogleJob():
         Checks if an input element is invisible to the user
         Returns True if the input is invisible, False otherwise
         """
+        if input_element is None:
+            return False
+        
         # Check if input element itself is hidden
         if input_element.get_attribute("type") == "hidden" or input_element.get_attribute("style") == "display: none;":
             return True
@@ -654,7 +667,6 @@ class scraperGoogleJob():
             if parent_element.get_attribute("style") == "display: none;":
                 return True
             parent_element = parent_element.find_element(By.XPATH, '..')
-        
         return False
     
     def print_form_data(self, form_data):
@@ -773,7 +785,123 @@ class scraperGoogleJob():
 #         return form_data
     
     
-    
+
+
+
+
+
+
+
+
+
+
+#   This code works pretty darn well and the print statements are baller!!!!
+# def find_and_organize_inputs(self, applic, soup):
+#         element_is_hidden = False
+#         form = self.browser.find_element(By.TAG_NAME, "form")
+#         label_elements = form.find_elements(By.TAG_NAME, "label")
+#         form_data = []
+#         invisible_data = []
+#         for label_element in label_elements:
+#             label_text = label_element.text.strip()
+#             input_elements = []
+#             input_id = label_element.get_attribute('for')  #<label for="same"> = <input id="same">
+#             print('\n')
+#             print("label element text = " + label_text)
+#             if(label_text == None):
+#                 label_text = "Nothing"
+#             print("label for && input id = ")
+#             print("\t", end="")
+#             print(input_id)
+#             print("label element = ", end="")
+#             label_xpath = f"//label[@for='{input_id}']"
+#             print(self.browser.find_element(By.XPATH, label_xpath).get_attribute('outerHTML'))
+#             if input_id:
+#                 print("input element found by id = ")
+#                 input_element = self.browser.find_element(By.ID, input_id)
+#                 print(input_element.get_attribute('outerHTML'))
+#                 input_elements.append(input_element)
+#             else:
+#                 print("input element found by sibling = ")
+#                 input_element = label_element.find_elements(By.XPATH, "./following-sibling::*[1]")
+#                 print(input_element.get_attribute('outerHTML'))
+#                 input_elements = input_element
+                
+#             # Check if input element is hidden and make it visible
+#             for input_element in input_elements:
+#                 is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+#                 if is_hidden:
+#                     element_is_hidden = True
+#                     print("^^^^^HIDDEN^^^^^")
+#                     print('\n')
+#                     self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+#                     self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+                    
+#             print("Well fudge!----------------------------")
+#             input_values = []
+#             input_tags = []
+#             for input_element in input_elements:
+#                 if element_is_hidden == True:
+#                     # Check if the input element is inside an invisible container.
+#                     #if self.is_input_invisible(input_elements[0]):
+#                     #    invisible_data.append([label_text] + input_values)
+#                     #    invisible_data.append(input_tags)
+#                     element_is_hidden = False
+#                     break
+#                 if input_element.tag_name == "input":
+#                     input_type = input_element.get_attribute('type')
+#                     if input_type == "checkbox":
+#                         input_values.append(input_element.get_attribute('value'))
+#                     elif input_type == "radio":
+#                         if input_element.get_attribute('name') not in [x[0] for x in form_data]:
+#                             form_data.append([input_element.get_attribute('name'), []])
+#                         form_data[[x[0] for x in form_data].index(input_element.get_attribute('name'))][1].append(input_element.get_attribute('value'))
+#                     elif input_type in ["text", "email", "password", "number"]:
+#                         input_values.append(input_element.get_attribute('value'))
+#                     input_tags.append(input_element.get_attribute('name') + " (" + input_element.tag_name + " - " + input_type + ")")
+#                 elif input_element.tag_name == "select":
+#                     select_options = input_element.find_elements(By.XPATH, "./option")
+#                     select_values = [option.get_attribute('value') for option in select_options]
+#                     input_values.append(select_values)
+#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
+#                 elif input_element.tag_name == "textarea":
+#                     input_values.append(input_element.text.strip())
+#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
+#             print("Well fudge...   wicked!----------------")
+#             form_data.append([label_text] + input_values)
+#             input_tags = [""] + input_tags
+#             form_data.append(input_tags)
+            
+#             # Check if the input element is inside an invisible container.
+#             #if self.is_input_invisible(input_elements[0]):
+#             #    invisible_data.append([label_text] + input_values)
+#             #    invisible_data.append(input_tags)
+        
+#         print("----------------Well fudge that crap is wicked!----------------")
+#         self.print_form_data(form_data)
+#         return form_data, invisible_data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     

@@ -1,0 +1,129 @@
+
+
+
+<input type="text" id="dev-field-1" name="dev_field_1" maxlength="255" autocomplete="off">
+
+
+
+
+ok I believe I came across a bit of a special case I think find_and_organize_inputs() method is failing in this case. How would you change the method to best solve this issue and why?
+<div class="field">
+  <fieldset id="resume_fieldset" aria-describedby="validate_resume">
+    <legend>
+      <label aria-label="required" id="resume">
+        Resume/CV <span class="asterisk">*</span>
+      </label>
+    </legend>
+  
+<div class="attach-or-paste " required="required" data-allow-s3="true" data-field="resume" data-file-types="[&quot;pdf&quot;,&quot;doc&quot;,&quot;docx&quot;,&quot;txt&quot;,&quot;rtf&quot;]" data-model="job_application">
+
+  <div class="drop-zone hidden">
+    Drop files here
+  </div>
+
+  <div id="resume_chosen" class="chosen">
+    <img alt="resume chosen" src="https://boards.cdn.greenhouse.io/assets/file-296f4c2a42607d24e6901b7c58b0693d4178df7fe4edf1b50e9585efdfad7d39.png">&nbsp;&nbsp;
+    <span id="resume_filename"></span>
+    <button name="button" type="button" class="unstyled-button remove" aria-label="Remove attachment"><img width="11" height="11" alt="Remove attachment" src="https://boards.cdn.greenhouse.io/assets/cancellation/x-00cb7c69bded92bc90f03e0028a3457a4905b1e28c8a7fe16b792086c4288c29.png"></button>
+</div>
+  <div class="link-container">
+    <button name="button" type="button" data-source="attach" class="unstyled-button link-button" aria-describedby="resume-allowable-file-types">Attach</button>
+
+        <a data-source="dropbox" href="#">Dropbox</a>
+
+        <a data-source="google-drive" href="#">Google Drive</a>
+
+      <button name="button" type="button" data-source="paste" class="unstyled-button link-button" aria-pressed="false">or enter manually</button>
+</div>  <div data-messages="uploaders"></div>
+
+  <div class="validation-anchor" id="validate_resume" style="display: none"></div>
+  <div id="resume-allowable-file-types" class="file-types">
+    (File types: pdf, doc, docx, txt, rtf)
+  </div>
+
+  <div class="progress-bar">
+    <div class="upload">
+      <div class="progress"><div class="bar" style="width: 0%"></div></div>
+    </div>
+    <a href="#" class="cancel">
+      <img width="11" height="11" alt="Cancel" src="https://boards.cdn.greenhouse.io/assets/cancellation/x-00cb7c69bded92bc90f03e0028a3457a4905b1e28c8a7fe16b792086c4288c29.png">
+    </a>
+</div>
+    <textarea name="job_application[resume_text]" id="resume_text" class="paste" title="Enter manually"></textarea>
+
+</div>
+
+  </fieldset>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
