@@ -11121,3 +11121,128 @@ JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError:
 [ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
 DevTools listening on ws://127.0.0.1:61353/devtools/browser/97ff8b14-eca5-4b65-b670-5d304ee84838
 console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+1681799867667	geckodriver	INFO	Listening on 127.0.0.1:50920
+1681799870735	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "50921" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilehwB12m"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681799871017	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681799871021	Marionette	INFO	Listening on port 50929
+Read port: 50929
+WebDriver BiDi listening on ws://127.0.0.1:50921
+1681799871120	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofilehwB12m\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:50921/devtools/browser/2441e155-d60c-4a16-a1d1-735b95a338e6
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+Marionette threw an error: [Exception... "Failure"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136"  data: no]
+capture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62
+takeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37
+
+console.error: "Marionette threw an error: [Exception... \"Failure\"  nsresult: \"0x80004005 (NS_ERROR_FAILURE)\"  location: \"JS frame :: chrome://remote/content/shared/Capture.sys.mjs :: capture.canvas :: line 136\"  data: no]\ncapture.canvas@chrome://remote/content/shared/Capture.sys.mjs:136:62\ntakeScreenshot@chrome://remote/content/marionette/actors/MarionetteCommandsParent.sys.mjs:232:37\n"
+1681803287090	geckodriver	INFO	Listening on 127.0.0.1:52279
+1681803290167	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "52280" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileYoYmMC"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681803290444	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681803290449	Marionette	INFO	Listening on port 52288
+Read port: 52288
+WebDriver BiDi listening on ws://127.0.0.1:52280
+1681803290549	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileYoYmMC\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:52280/devtools/browser/bd5e6990-7558-470f-946e-e87a3a87d24a
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+1681803383472	geckodriver	INFO	Listening on 127.0.0.1:52393
+1681803386538	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "52394" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile8Zf7nX"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681803386864	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681803386870	Marionette	INFO	Listening on port 52413
+WebDriver BiDi listening on ws://127.0.0.1:52394
+Read port: 52413
+1681803387525	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofile8Zf7nX\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:52394/devtools/browser/9d87ce05-a62a-4f3b-b335-9ae6fa49626e
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+1681803682279	geckodriver	INFO	Listening on 127.0.0.1:52617
+1681803685340	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Firefox Developer Edition\\firefox.exe" "--marionette" "--remote-debugging-port" "52618" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileM5HOgk"
+console.warn: services.settings: Ignoring preference override of remote settings server
+console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
+1681803685618	Marionette	INFO	Marionette enabled
+Dynamically enable window occlusion 0
+1681803685623	Marionette	INFO	Listening on port 52626
+Read port: 52626
+WebDriver BiDi listening on ws://127.0.0.1:52618
+1681803685720	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileM5HOgk\\search.json.mozlz4", (void 0)))
+JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2056: TypeError: can't access property "isActive", addon is null
+[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
+DevTools listening on ws://127.0.0.1:52618/devtools/browser/36a28f65-3762-4093-9605-32c1ddd73c87
+console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
+JavaScript error: resource:///modules/SearchSERPTelemetry.sys.mjs, line 881: TypeError: can't access property "adsReported", telemetryState is undefined

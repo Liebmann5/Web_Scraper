@@ -87,6 +87,266 @@ ok I believe I came across a bit of a special case I think find_and_organize_inp
 
 
 
+    def find_and_organize_inputs(self, applic, soup):
+        """
+        Finds all the input elements in a form and returns a list of dictionaries
+        containing information about each input.
+        """
+        form_inputs = []
+        input_types = ["text", "email", "password", "number", "checkbox", "radio"]
+        select_types = ["select"]
+        textarea_types = ["textarea"]
+        file_types = ["file"]
+        input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+        for input_element in input_elements:
+            input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+            if input_type in input_types or input_type in select_types or input_type in textarea_types:
+                input_label = ""
+                input_values = []
+                parent_element = input_element.find_element(By.XPATH, '..')
+                while parent_element is not None:
+                    try:
+                        input_label_element = parent_element.find_element(By.XPATH, ".//label")
+                        input_label = input_label_element.text.strip()
+                        break
+                    except NoSuchElementException:
+                        parent_element = parent_element.find_element(By.XPATH, '..')
+                if input_type in input_types:
+                    if input_type == "checkbox":
+                        if input_element.is_selected():
+                            input_values.append(input_element.get_attribute('value'))
+                    elif input_type == "radio":
+                        radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+                        radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+                        if radio_values:
+                            input_values = radio_values
+                    else:
+                        input_values.append(input_element.get_attribute('value'))
+                elif input_type in select_types:
+                    select_options = input_element.find_elements(By.XPATH, ".//option")
+                    input_values = [option.text.strip() for option in select_options]
+                elif input_type in textarea_types:
+                    input_values.append(input_element.get_attribute('value'))
+                    
+                is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+                if is_hidden:
+                    self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+                    self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+                
+                form_inputs.append({
+                    "label": input_label,
+                    "type": input_type,
+                    "values": input_values,
+                    "is_hidden": is_hidden
+                })
+
+        return form_inputs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def find_and_organize_inputs(self, applic, soup):
+    """
+    Finds all the input elements in a form and returns a list of dictionaries
+    containing information about each input.
+    """
+    self.browser.get(form['url'])
+    form_inputs = []
+    input_types = ["text", "email", "password", "number", "checkbox", "radio"]
+    select_types = ["select"]
+    textarea_types = ["textarea"]
+    file_types = ["file"]
+    input_elements = self.browser.find_elements_by_xpath("//form//input | //form//select | //form//textarea")
+    
+    for input_element in input_elements:
+        input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+        if input_type in input_types or input_type in select_types or input_type in textarea_types:
+            input_label = ""
+            input_values = []
+            parent_element = input_element.find_element(By.XPATH, '..')
+            while parent_element is not None:
+                try:
+                    input_label_element = parent_element.find_element(By.XPATH, ".//label")
+                    input_label = input_label_element.text.strip()
+                    break
+                except NoSuchElementException:
+                    parent_element = parent_element.find_element(By.XPATH, '..')
+            if input_type in input_types:
+                if input_type == "checkbox":
+                    if input_element.is_selected():
+                        input_values.append(input_element.get_attribute('value'))
+                elif input_type == "radio":
+                    radio_inputs = self.browser.find_elements_by_xpath("//form//input[@name='" + input_element.get_attribute('name') + "']")
+                    radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+                    if radio_values:
+                        input_values = radio_values
+                else:
+                    input_values.append(input_element.get_attribute('value'))
+            elif input_type in select_types:
+                select_options = input_element.find_elements(By.XPATH, ".//option")
+                input_values = [option.text.strip() for option in select_options]
+            elif input_type in textarea_types:
+                input_values.append(input_element.get_attribute('value'))
+                
+            is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+            if is_hidden:
+                self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+                self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+            
+            form_inputs.append({
+                "label": input_label,
+                "type": input_type,
+                "values": input_values,
+                "is_hidden": is_hidden
+            })
+            
+    return form_inputs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

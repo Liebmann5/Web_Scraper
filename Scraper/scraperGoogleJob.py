@@ -52,6 +52,41 @@ class scraperGoogleJob():
             writer.writerow(job_data)
         return "All done!"
     
+    #TODO: This goes to all the links!!
+    # def troubleshoot_xpath(self):
+    #     for link in self.list_of_links:
+    #         try:
+    #             self.browser.get(link)
+    #             time.sleep(2)
+    #             job_title = self.browser.title
+    #             print(f"Scraping job: {job_title}")
+
+    #             # Search for the Google search name in the page
+    #             google_search_name = job_title.split("-")[0].strip()
+    #             print(f"Searching for: {google_search_name}")
+    #             selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][text()="{google_search_name}"]')
+    #             print("Found search result")
+
+    #             # Click on the Google search result link
+    #             selenium_google_link.click()
+    #             print("Clicked on the search result link")
+
+    #             # Wait for the page to load and switch to the new tab
+    #             WebDriverWait(self.browser, 10).until(EC.number_of_windows_to_be(2))
+    #             self.browser.switch_to.window(self.browser.window_handles[-1])
+    #             print("Switched to new tab")
+
+    #             # Perform actions on the job page
+    #             self.scrape_job_page()
+
+    #             # Close the new tab and switch back to the search results tab
+    #             self.browser.close()
+    #             self.browser.switch_to.window(self.browser.window_handles[0])
+    #             print("Closed new tab and switched back to search results tab")
+
+    #         except NoSuchElementException:
+    #             print(f"No search result found for: {google_search_name}")
+    #             continue
     
     def deal_with_links(self, google_search_name):
         #self.list_of_links = var_job_link
@@ -59,8 +94,20 @@ class scraperGoogleJob():
         application_company = None
         
         for job_index in self.list_of_links[::-1]:
-            #selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
-            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][text()="{google_search_name}"]')
+            print("D")
+            d = "h"
+            if d == "d":
+                h3_element = self.browser.find_element(By.XPATH, '//h3')
+                ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
+                print(ancestor_element.get_attribute('outerHTML'))
+                #linky = self.browser.get(job_index)
+                #print(linky)
+                print("\D/")
+                selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_name}"]')
+                parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
+                print(parent_a_tag_xpath)
+                print("Defence")
+            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
             selenium_google_link.click()
             self.browser.implicitly_wait(5)
             time.sleep(3)
@@ -492,8 +539,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -578,21 +625,21 @@ class scraperGoogleJob():
             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
             inputs_info.append((input_id, input_type, is_hidden))
         return inputs_info
-        
+       
+       
+       
+       
     def find_and_organize_inputs(self, applic, soup):
-        from scraperGoogle import webdriver
         """
         Finds all the input elements in a form and returns a list of dictionaries
         containing information about each input.
         """
-        #self.browser.get(form['url'])
         form_inputs = []
         input_types = ["text", "email", "password", "number", "checkbox", "radio"]
         select_types = ["select"]
         textarea_types = ["textarea"]
         file_types = ["file"]
         input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-        
         for input_element in input_elements:
             input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
             if input_type in input_types or input_type in select_types or input_type in textarea_types:
@@ -634,9 +681,92 @@ class scraperGoogleJob():
                     "values": input_values,
                     "is_hidden": is_hidden
                 })
-            self.print_form_inputs(form_inputs)
-        print(len(form_inputs))        
+        self.print_form_details(form_inputs)
         return form_inputs
+       
+    def print_form_details(self, form_inputs):
+        print("Form Input Details:")
+        for index, input_element in enumerate(form_inputs, start=1):
+            print(f"Input {index}:")
+            print(f"  Label: {input_element['label']}")
+            print(f"  Type: {input_element['type']}")
+            print(f"  Values: {input_element['values']}")
+            print(f"  Is Hidden: {input_element['is_hidden']}")
+        print("\n")       
+       
+        
+    # def find_and_organize_inputs(self, applic, soup):
+    #     from scraperGoogle import webdriver
+    #     """
+    #     Finds all the input elements in a form and returns a list of dictionaries
+    #     containing information about each input.
+    #     """
+    #     #self.browser.get(form['url'])
+    #     form_inputs = []
+    #     input_types = ["text", "email", "password", "number", "checkbox", "radio"]
+    #     select_types = ["select"]
+    #     textarea_types = ["textarea"]
+    #     file_types = ["file"]
+    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+        
+        
+    #     selenium_to_html = []
+        
+        
+    #     for input_element in input_elements:
+    #         self.print_input_element(selenium_to_html, (input_element.get_attribute("outerHTML")))
+            
+    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
+    #             input_label = ""
+    #             input_values = []
+    #             parent_element = input_element.find_element(By.XPATH, '..')
+    #             while parent_element is not None:
+    #                 try:
+    #                     input_label_element = parent_element.find_element(By.XPATH, ".//label")
+    #                     input_label = input_label_element.text.strip()
+    #                     break
+    #                 except NoSuchElementException:
+    #                     parent_element = parent_element.find_element(By.XPATH, '..')
+    #             if input_type in input_types:
+    #                 if input_type == "checkbox":
+    #                     if input_element.is_selected():
+    #                         input_values.append(input_element.get_attribute('value'))
+    #                 elif input_type == "radio":
+    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+    #                     if radio_values:
+    #                         input_values = radio_values
+    #                 else:
+    #                     input_values.append(input_element.get_attribute('value'))
+    #             elif input_type in select_types:
+    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
+    #                 input_values = [option.text.strip() for option in select_options]
+    #             elif input_type in textarea_types:
+    #                 input_values.append(input_element.get_attribute('value'))
+                    
+    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+    #             if is_hidden:
+    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+                
+    #             form_inputs.append({
+    #                 "label": input_label,
+    #                 "type": input_type,
+    #                 "values": input_values,
+    #                 "is_hidden": is_hidden
+    #             })
+    #         self.print_form_inputs(form_inputs)
+    #     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    #     print(len(form_inputs))
+    #     self.print_input_element(selenium_to_html, "ready to party")
+    #     self.print_form_inputs(form_inputs) 
+    #     return form_inputs
+
+
+
+
+
 
     def print_form_inputs(self, form_inputs):
         for input in form_inputs:
@@ -646,6 +776,16 @@ class scraperGoogleJob():
             print("Is Hidden: " + str(input["is_hidden"]))
             print("--------------------")
     
+    def print_input_element(self, selenium_to_html, input_element):
+        if input_element == "ready to party":
+            count = 0
+            for html_element in selenium_to_html:
+                print((str(count)) + ": ", end="")
+                print(html_element)
+                count += 1
+        else:
+            selenium_to_html.append(input_element)
+
     def is_input_invisible(self, input_element):
         from scraperGoogle import webdriver
         """

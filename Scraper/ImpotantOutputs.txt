@@ -1,0 +1,442 @@
+https://www.google.com/search?q=site:lever.co+%7C+site:greenhouse.io+%7C+site:workday.com+(%22software+engineer%22+%7C+%22backend+engineer%22)&source=lnt&tbs=qdr:d&sa=X&ved=2ahUKEwjQwaHs9LL-AhXtGFkFHdNCAosQpwV6BAgQEBY&biw=1280&bih=955&dpr=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>> https://boards.greenhouse.io/sonyinteractiveentertainmentglobal/jobs/4833566004
+
+
+
+
+
+
+
+
+
+
+PowerShell:
+--------------------
+Label: First Name *
+Type: text
+Values: ['lm2e3469ulc']
+Is Hidden: True
+--------------------
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+33
+0: <input name="utf8" type="hidden" value="✓">
+1: <input type="hidden" name="fingerprint" id="fingerprint" value="7fde5fcd599d0aefbb30f02cee71644281404753">
+2: <input type="hidden" name="render_date" id="render_date" value="2023-04-18 08:55:25 +0000">
+3: <input type="hidden" name="page_load_time" id="page_load_time" value="Tue, 18 Apr 2023 09:03:37 GMT">
+4: <input type="text" id="first_name" name="job_application[first_name]" aria-required="true" maxlength="255" autocomplete="given-name">
+5: <input type="text" id="last_name" name="job_application[last_name]" aria-required="true" maxlength="255" autocomplete="family-name">
+6: <input type="text" id="email" name="job_application[email]" aria-required="true" maxlength="255" autocomplete="email">
+7: <input type="text" id="phone" name="job_application[phone]" maxlength="255" autocomplete="tel" required="required" aria-required="true">
+8: <input type="text" id="dev-field-1" name="dev_field_1" maxlength="255" autocomplete="off">
+9: <textarea name="job_application[resume_text]" id="resume_text" class="paste" title="Enter manually" style="display: none;"></textarea>
+10: <textarea name="job_application[cover_letter_text]" id="cover_letter_text" class="paste" title="Enter manually"></textarea>
+11: <input type="hidden" name="job_application[answers_attributes][0][question_id]" id="job_application_answers_attributes_0_question_id" value="8562894004">
+12: <input type="hidden" name="job_application[answers_attributes][0][priority]" id="job_application_answers_attributes_0_priority" value="0">
+13: <input type="text" name="job_application[answers_attributes][0][text_value]" id="job_application_answers_attributes_0_text_value" aria-required="false" maxlength="255" autocomplete="custom-question-linkedin-profile">
+14: <input type="hidden" name="job_application[answers_attributes][1][question_id]" id="job_application_answers_attributes_1_question_id" value="8562895004">
+15: <input type="hidden" name="job_application[answers_attributes][1][priority]" id="job_application_answers_attributes_1_priority" value="1">
+16: <input type="text" name="job_application[answers_attributes][1][text_value]" id="job_application_answers_attributes_1_text_value" aria-required="false" maxlength="255" autocomplete="custom-question-website">
+17: <input type="hidden" name="job_application[answers_attributes][2][question_id]" id="job_application_answers_attributes_2_question_id" value="8562896004">
+18: <input type="hidden" name="job_application[answers_attributes][2][priority]" id="job_application_answers_attributes_2_priority" value="2">
+19: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-1" id="s2id_autogen1">
+20: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-1" id="s2id_autogen1_search" placeholder="">
+21: <select name="job_application[answers_attributes][2][boolean_value]" id="job_application_answers_attributes_2_boolean_value" aria-required="true" tabindex="-1" title="" style="display: none;"><option value="">--</option>
+<option value="1">Yes</option>
+<option value="0">No</option></select>
+22: <input type="hidden" name="job_application[answers_attributes][3][question_id]" id="job_application_answers_attributes_3_question_id" value="8562897004">
+23: <input type="hidden" name="job_application[answers_attributes][3][priority]" id="job_application_answers_attributes_3_priority" value="3">
+24: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-2" id="s2id_autogen2">
+25: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-2" id="s2id_autogen2_search" placeholder="">
+26: <select name="job_application[answers_attributes][3][answer_selected_options_attributes][3][question_option_id]" id="job_application_answers_attributes_3_answer_selected_options_attributes_3_question_option_id" aria-required="true" style="width: 200px; display: none;" tabindex="-1" title=""><option value="">Please select</option><option value="26456105004">Yes</option>
+<option value="26456106004">No</option></select>
+27: <input type="hidden" name="job_application[answers_attributes][4][question_id]" id="job_application_answers_attributes_4_question_id" value="8562898004">
+28: <input type="hidden" name="job_application[answers_attributes][4][priority]" id="job_application_answers_attributes_4_priority" value="4">
+29: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-3" id="s2id_autogen3">
+30: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-3" id="s2id_autogen3_search" placeholder="">
+31: <select name="job_application[answers_attributes][4][boolean_value]" id="job_application_answers_attributes_4_boolean_value" aria-required="true" tabindex="-1" title="" style="display: none;"><option value="">--</option>
+<option value="1">Yes</option>
+<option value="0">No</option></select>
+32: <input type="hidden" name="job_application[answers_attributes][5][question_id]" id="job_application_answers_attributes_5_question_id" value="8562899004">
+33: <input type="hidden" name="job_application[answers_attributes][5][priority]" id="job_application_answers_attributes_5_priority" value="5">
+34: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-4" id="s2id_autogen4">
+35: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-4" id="s2id_autogen4_search" placeholder="">
+36: <select name="job_application[answers_attributes][5][boolean_value]" id="job_application_answers_attributes_5_boolean_value" aria-required="true" tabindex="-1" title="" style="display: none;"><option value="">--</option>
+<option value="1">Yes</option>
+<option value="0">No</option></select>
+37: <input type="hidden" name="job_application[answers_attributes][6][question_id]" id="job_application_answers_attributes_6_question_id" value="8562900004">
+38: <input type="hidden" name="job_application[answers_attributes][6][priority]" id="job_application_answers_attributes_6_priority" value="6">
+39: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-5" id="s2id_autogen5">
+40: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-5" id="s2id_autogen5_search" placeholder="">
+41: <select name="job_application[answers_attributes][6][boolean_value]" id="job_application_answers_attributes_6_boolean_value" aria-required="true" tabindex="-1" title="" style="display: none;"><option value="">--</option>
+<option value="1">Yes</option>
+<option value="0">No</option></select>
+42: <input type="hidden" name="job_application[answers_attributes][7][question_id]" id="job_application_answers_attributes_7_question_id" value="8562901004">
+43: <input type="hidden" name="job_application[answers_attributes][7][priority]" id="job_application_answers_attributes_7_priority" value="7">
+44: <input type="text" name="job_application[answers_attributes][7][text_value]" id="job_application_answers_attributes_7_text_value" aria-required="false" maxlength="255" autocomplete="custom-question-if-yes-please-state-their-name-the-department-or-studio-they-work-for-and-their-job-title-if-you-know-it">
+45: <input type="hidden" name="job_application[answers_attributes][8][question_id]" id="job_application_answers_attributes_8_question_id" value="8562902004">
+46: <input type="hidden" name="job_application[answers_attributes][8][priority]" id="job_application_answers_attributes_8_priority" value="8">
+47: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-6" id="s2id_autogen6">
+48: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-6" id="s2id_autogen6_search" placeholder="">
+49: <select name="job_application[answers_attributes][8][boolean_value]" id="job_application_answers_attributes_8_boolean_value" aria-required="true" tabindex="-1" title="" style="display: none;"><option value="">--</option>
+<option value="1">Yes</option>
+<option value="0">No</option></select>
+50: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-7" id="s2id_autogen7">
+51: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-7" id="s2id_autogen7_search" placeholder="">
+52: <select name="job_application[gender]" id="job_application_gender" tabindex="-1" title="Gender" style="display: none;"><option value="">Please select</option><option value="1">Male</option>
+<option value="2">Female</option>
+<option value="3">Decline To Self Identify</option></select>
+53: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-8" id="s2id_autogen8">
+54: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-8" id="s2id_autogen8_search" placeholder="">
+55: <select name="job_application[hispanic_ethnicity]" id="job_application_hispanic_ethnicity" tabindex="-1" title="Are you Hispanic/Latino?" style="display: none;"><option value="">Please select</option><option value="Yes">Yes</option>
+<option value="No">No</option>
+<option value="Decline To Self Identify">Decline To Self Identify</option></select>
+56: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-9" id="s2id_autogen9">
+57: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-9" id="s2id_autogen9_search" placeholder="">
+58: <select name="job_application[race]" id="job_application_race" tabindex="-1" title="Please identify your race" style="display: none;"><option value="">Please select</option><option value="1">American Indian or Alaskan Native</option>
+<option value="2">Asian</option>
+<option value="3">Black or African American</option>
+<option value="4" hidden="hidden">Hispanic or Latino</option>
+<option value="5">White</option>
+<option value="6">Native Hawaiian or Other Pacific Islander</option>
+<option value="7">Two or More Races</option>
+<option value="8">Decline To Self Identify</option></select>
+59: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-10" id="s2id_autogen10">
+60: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-10" id="s2id_autogen10_search" placeholder="">
+61: <select name="job_application[veteran_status]" id="job_application_veteran_status" tabindex="-1" title="Veteran Status" style="display: none;"><option value="">Please select</option><option value="1">I am not a protected veteran</option>
+<option value="2">I identify as one or more of the classifications of a protected veteran</option>
+<option value="3">I don't wish to answer</option></select>
+62: <input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-11" id="s2id_autogen11">
+63: <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-11" id="s2id_autogen11_search" placeholder="">
+64: <select name="job_application[disability_status]" id="job_application_disability_status" tabindex="-1" title="Disability Status" style="display: none;"><option value="">Please select</option><option value="1">Yes, I have a disability, or have a history/record of having a disability</option>
+<option value="2">No, I don't have a disability, or a history/record of having a disability</option>
+<option value="3">I don't wish to answer</option></select>
+65: <input type="button" value="Submit Application" id="submit_app" class="button">
+66: <input type="hidden" id="resume_url" name="job_application[resume_url]" value="https://grnhse-prod-jben-us-east-1.s3.us-east-1.amazonaws.com/stash%2Fapplications%2Fresumes%2F1681808631938-mbqifwlry1f-8e459e2e28425d1978a242b159c6d8be">
+67: <input type="hidden" id="resume_url_filename" name="job_application[resume_url_filename]" value="Nicholas_Liebmann_Resume_23.pdf">
+68: <input name="utf8" type="hidden" value="✓">
+69: <input type="hidden" name="x-amz-server-side-encryption" value="AES256">
+70: <input type="hidden" name="success_action_status" value="201">
+71: <input type="hidden" name="policy" value="eyJleHBpcmF0aW9uIjoiMjAyMy0wNS0xOFQwOTowMzo0MFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJncm5oc2UtcHJvZC1qYmVuLXVzLWVhc3QtMSJ9LFsic3RhcnRzLXdpdGgiLCIkdXRmOCIsIiJdLFsic3RhcnRzLXdpdGgiLCIkYXV0aGVudGljaXR5X3Rva2VuIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJzdGFzaC9hcHBsaWNhdGlvbnMvcmVzdW1lcyJdLHsieC1hbXotc2VydmVyLXNpZGUtZW5jcnlwdGlvbiI6IkFFUzI1NiJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMSw1MzY4NzA5MTIwXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLHsieC1hbXotY3JlZGVudGlhbCI6IkFLSUFWUUdPTEdZMzVNTDQ1RUMyLzIwMjMwNDE4L3VzLWVhc3QtMS9zMy9hd3M0X3JlcXVlc3QifSx7IngtYW16LWFsZ29yaXRobSI6IkFXUzQtSE1BQy1TSEEyNTYifSx7IngtYW16LWRhdGUiOiIyMDIzMDQxOFQwOTAzNDBaIn1dfQ==">
+72: <input type="hidden" name="x-amz-credential" value="AKIAVQGOLGY35ML45EC2/20230418/us-east-1/s3/aws4_request">
+73: <input type="hidden" name="x-amz-algorithm" value="AWS4-HMAC-SHA256">
+74: <input type="hidden" name="x-amz-date" value="20230418T090340Z">
+75: <input type="hidden" name="x-amz-signature" value="872bccaa138f41656ce3ce21802bdd3708287ddcb0b434609faeec12ab19e9bd">
+76: <input type="file" name="file" tabindex="-1" style="display: block;">
+77: <input type="hidden" name="key" value="stash/applications/resumes/1681808631938-mbqifwlry1f-8e459e2e28425d1978a242b159c6d8be">
+78: <input name="authenticity_token" value="lm2e3469ulc">
+79: <input name="utf8" type="hidden" value="✓">
+80: <input type="hidden" name="x-amz-server-side-encryption" value="AES256">
+81: <input type="hidden" name="success_action_status" value="201">
+82: <input type="hidden" name="policy" value="eyJleHBpcmF0aW9uIjoiMjAyMy0wNS0xOFQwOTowMzo0MFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJncm5oc2UtcHJvZC1qYmVuLXVzLWVhc3QtMSJ9LFsic3RhcnRzLXdpdGgiLCIkdXRmOCIsIiJdLFsic3RhcnRzLXdpdGgiLCIkYXV0aGVudGljaXR5X3Rva2VuIiwiIl0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJzdGFzaC9hcHBsaWNhdGlvbnMvcmVzdW1lcyJdLHsieC1hbXotc2VydmVyLXNpZGUtZW5jcnlwdGlvbiI6IkFFUzI1NiJ9LHsic3VjY2Vzc19hY3Rpb25fc3RhdHVzIjoiMjAxIn0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMSw1MzY4NzA5MTIwXSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLHsieC1hbXotY3JlZGVudGlhbCI6IkFLSUFWUUdPTEdZMzVNTDQ1RUMyLzIwMjMwNDE4L3VzLWVhc3QtMS9zMy9hd3M0X3JlcXVlc3QifSx7IngtYW16LWFsZ29yaXRobSI6IkFXUzQtSE1BQy1TSEEyNTYifSx7IngtYW16LWRhdGUiOiIyMDIzMDQxOFQwOTAzNDBaIn1dfQ==">
+83: <input type="hidden" name="x-amz-credential" value="AKIAVQGOLGY35ML45EC2/20230418/us-east-1/s3/aws4_request">
+84: <input type="hidden" name="x-amz-algorithm" value="AWS4-HMAC-SHA256">
+85: <input type="hidden" name="x-amz-date" value="20230418T090340Z">
+86: <input type="hidden" name="x-amz-signature" value="872bccaa138f41656ce3ce21802bdd3708287ddcb0b434609faeec12ab19e9bd">
+87: <input type="file" name="file" tabindex="-1">
+88: <input type="hidden" name="key">
+Label: First Name *
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label: Last Name *
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label: Email *
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label: Phone *
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Resume/CV *
+Type: textarea
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Cover Letter
+Type: textarea
+Values: ['']
+Is Hidden: True
+--------------------
+Label: LinkedIn Profile
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label: Website
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: If yes, please state their name, the department or studio they work for, and their job title (if you know it).
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Gender
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Are you Hispanic/Latino?
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Veteran Status
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: Disability Status
+Type: text
+Values: ['']
+Is Hidden: False
+--------------------
+Label:
+Type: text
+Values: ['']
+Is Hidden: True
+--------------------
+Label: First Name *
+Type: text
+Values: ['lm2e3469ulc']
+Is Hidden: True
+--------------------
+Traceback (most recent call last):
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 304, in <module>
+    scraper.browser_setup(0)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 118, in browser_setup
+    self.search_for_jobs(browser)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 146, in search_for_jobs
+    self.search_time_frame(browser, search_bar)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 194, in search_time_frame
+    self.search_results(browser, self.list_first_index, self.list_last_index)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 234, in search_results
+    self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 297, in increment_search_results
+    scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogleJob.py", line 135, in deal_with_links
+    apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogleJob.py", line 302, in convert_to_bs
+    self.company_other_openings_href.click()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'click'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Firefox Console:
+
+var forms = document.getElementsByTagName("form");
+console.log("Found " + forms.length + " forms");
+
+for (var i = 0; i < forms.length; i++) {
+  console.log("Form " + (i + 1) + ":");
+  var formInputs = forms[i].querySelectorAll("input, select, textarea");
+  console.log("Found " + formInputs.length + " input/select/textarea tags:");
+  for (var j = 0; j < formInputs.length; j++) {
+    console.log(formInputs[j]);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
