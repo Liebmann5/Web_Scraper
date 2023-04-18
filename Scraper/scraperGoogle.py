@@ -75,7 +75,7 @@ class scraperGoogle():
     
     def browser_setup(self, test):
         #user_browser_choice, browser_name = self.user_requirements()
-        user_browser_choice, browser_name = 1, " Firefox "
+        user_browser_choice, browser_name = 2, " Safari "
         self.job_titles.append("software engineer")
         self.job_titles.append("backend engineer")
         print('Execution Started -- Opening' + browser_name + 'Browser')

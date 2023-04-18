@@ -539,8 +539,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -627,62 +627,188 @@ class scraperGoogleJob():
         return inputs_info
        
        
-       
-       
+    # def find_and_organize_inputs(self, applic, soup):
+    #     """
+    #     Finds all the input elements in a form and returns a list of dictionaries
+    #     containing information about each input.
+    #     """
+    #     form_inputs = []
+    #     input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
+    #     select_types = ["select"]
+    #     textarea_types = ["textarea"]
+    #     file_types = ["file"]
+    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+    #     for input_element in input_elements:
+    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
+    #             input_label = ""
+    #             input_values = []
+
+    #             input_id = input_element.get_attribute('id')
+    #             if input_id:
+    #                 try:
+    #                     input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
+    #                     input_label = input_label_element.text.strip()
+    #                 except NoSuchElementException:
+    #                     input_label = ""
+    #             else:
+    #                 parent_element = input_element.find_element(By.XPATH, '..')
+    #                 while parent_element is not None:
+    #                     try:
+    #                         input_label_element = parent_element.find_element(By.XPATH, ".//label")
+    #                         input_label = input_label_element.text.strip()
+    #                         break
+    #                     except NoSuchElementException:
+    #                         parent_element = parent_element.find_element(By.XPATH, '..')
+    #                 if not input_label:
+    #                     input_label = parent_element.text.strip()
+
+    #             if input_type in input_types:
+    #                 if input_type == "checkbox":
+    #                     if input_element.is_selected():
+    #                         input_values.append(input_element.get_attribute('value'))
+    #                 elif input_type == "radio":
+    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+    #                     if radio_values:
+    #                         input_values = radio_values
+    #                 else:
+    #                     input_values.append(input_element.get_attribute('value'))
+    #             elif input_type in select_types:
+    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
+    #                 input_values = [option.text.strip() for option in select_options]
+    #             elif input_type in textarea_types:
+    #                 input_values.append(input_element.get_attribute('value'))
+
+    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+    #             if is_hidden:
+    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+
+    #             form_inputs.append({
+    #                 "label": input_label,
+    #                 "type": input_type,
+    #                 "values": input_values,
+    #                 "is_hidden": is_hidden
+    #             })
+
+    #     self.print_form_details(form_inputs)
+    #     return form_inputs
+
+    #def test_form_submission(self):
     def find_and_organize_inputs(self, applic, soup):
-        """
-        Finds all the input elements in a form and returns a list of dictionaries
-        containing information about each input.
-        """
-        form_inputs = []
-        input_types = ["text", "email", "password", "number", "checkbox", "radio"]
-        select_types = ["select"]
-        textarea_types = ["textarea"]
-        file_types = ["file"]
-        input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-        for input_element in input_elements:
-            input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-            if input_type in input_types or input_type in select_types or input_type in textarea_types:
-                input_label = ""
-                input_values = []
-                parent_element = input_element.find_element(By.XPATH, '..')
-                while parent_element is not None:
-                    try:
-                        input_label_element = parent_element.find_element(By.XPATH, ".//label")
-                        input_label = input_label_element.text.strip()
-                        break
-                    except NoSuchElementException:
-                        parent_element = parent_element.find_element(By.XPATH, '..')
-                if input_type in input_types:
-                    if input_type == "checkbox":
-                        if input_element.is_selected():
-                            input_values.append(input_element.get_attribute('value'))
-                    elif input_type == "radio":
-                        radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-                        radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-                        if radio_values:
-                            input_values = radio_values
-                    else:
-                        input_values.append(input_element.get_attribute('value'))
-                elif input_type in select_types:
-                    select_options = input_element.find_elements(By.XPATH, ".//option")
-                    input_values = [option.text.strip() for option in select_options]
-                elif input_type in textarea_types:
-                    input_values.append(input_element.get_attribute('value'))
-                    
-                is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-                if is_hidden:
-                    self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-                    self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+        # Find all form elements
+        form_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+        
+        # Loop through each form element and fill it out
+        for form_element in form_elements:
+            # Check if form element is hidden or disabled
+            if not form_element.is_displayed() or form_element.is_enabled():
+                continue
+            
+            # Get form element tag name and type
+            tag_name = form_element.tag_name.lower()
+            input_type = form_element.get_attribute('type') or tag_name
+            
+            # Fill out the form element based on its type
+            if input_type == "text" or input_type == "email" or input_type == "password" or input_type == "number":
+                form_element.clear()
+                form_element.send_keys("Test")
+            elif input_type == "checkbox":
+                form_element.click()
+            elif input_type == "radio":
+                radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + form_element.get_attribute('name') + "']")
+                for radio_input in radio_inputs:
+                    if radio_input.is_displayed() and radio_input.is_enabled():
+                        radio_input.click()
+            elif input_type == "select":
+                select_options = form_element.find_elements(By.XPATH, ".//option")
+                if select_options:
+                    select_options[0].click()
+            elif input_type == "textarea":
+                form_element.clear()
+                form_element.send_keys("Test")
+            else:
+                continue
+            
+            # Click on the submit button if present
+            submit_buttons = self.browser.find_elements(By.XPATH, "//form//button[@type='submit'] | //form//input[@type='submit']")
+            for submit_button in submit_buttons:
+                if submit_button.is_displayed() and submit_button.is_enabled():
+                    submit_button.click()
+                    break
+            
+            # Verify that the form has been submitted successfully
+            success_elements = self.browser.find_elements(By.XPATH, "//*[contains(text(), 'success')]")
+            if success_elements:
+                print(f"Form submission successful for element: {form_element.get_attribute('name')}")
+            else:
+                print(f"Form submission failed for element: {form_element.get_attribute('name')}")
+      
+       
+    # def find_and_organize_inputs(self, applic, soup):
+    #     """
+    #     Finds all the input elements in a form and returns a list of dictionaries
+    #     containing information about each input.
+    #     """
+    #     form_inputs = []
+    #     input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
+    #     select_types = ["select"]
+    #     textarea_types = ["textarea"]
+    #     file_types = ["file"]
+    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+    #     for input_element in input_elements:
+    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
+    #             input_label = ""
+    #             input_values = []
                 
-                form_inputs.append({
-                    "label": input_label,
-                    "type": input_type,
-                    "values": input_values,
-                    "is_hidden": is_hidden
-                })
-        self.print_form_details(form_inputs)
-        return form_inputs
+    #         input_id = input_element.get_attribute('id')
+    #         if input_id:
+    #             try:
+    #                 input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
+    #                 input_label = input_label_element.text.strip()
+    #             except NoSuchElementException:
+    #                 input_label = ""
+    #         else:
+    #             parent_element = input_element.find_element(By.XPATH, '..')
+    #             while parent_element is not None:
+    #                 try:
+    #                     input_label_element = parent_element.find_element(By.XPATH, ".//label")
+    #                     input_label = input_label_element.text.strip()
+    #                     break
+    #                 except NoSuchElementException:
+    #                     parent_element = parent_element.find_element(By.XPATH, '..')
+    #             if input_type in input_types:
+    #                 if input_type == "checkbox":
+    #                     if input_element.is_selected():
+    #                         input_values.append(input_element.get_attribute('value'))
+    #                 elif input_type == "radio":
+    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+    #                     if radio_values:
+    #                         input_values = radio_values
+    #                 else:
+    #                     input_values.append(input_element.get_attribute('value'))
+    #             elif input_type in select_types:
+    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
+    #                 input_values = [option.text.strip() for option in select_options]
+    #             elif input_type in textarea_types:
+    #                 input_values.append(input_element.get_attribute('value'))
+                    
+    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+    #             if is_hidden:
+    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+                
+    #             form_inputs.append({
+    #                 "label": input_label,
+    #                 "type": input_type,
+    #                 "values": input_values,
+    #                 "is_hidden": is_hidden
+    #             })
+    #     self.print_form_details(form_inputs)
+    #     return form_inputs
        
     def print_form_details(self, form_inputs):
         print("Form Input Details:")

@@ -12589,3 +12589,5 @@ console.warn: services.settings: Ignoring preference override of remote settings
 console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
 console.error: (new TypeError("can't access property \"addBlocker\", lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
 console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
+1681830414128	geckodriver	INFO	Listening on 127.0.0.1:59364
+1681830430287	geckodriver	INFO	Listening on 127.0.0.1:59396

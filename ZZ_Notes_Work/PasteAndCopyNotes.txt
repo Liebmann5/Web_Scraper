@@ -1,5 +1,22 @@
 
 
+I came across another form tag page that my code needs to work for.
+[https://pastebin.com/UsHgaKi3]
+Will my code still work for this form or will I have to make a few changes?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <input type="text" id="dev-field-1" name="dev_field_1" maxlength="255" autocomplete="off">
 
@@ -238,26 +255,50 @@ def find_and_organize_inputs(self, applic, soup):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Have you ever worked for a Sony company previously?*
+--
+Yes
+No
+Are you authorized to work in the United States? * 
+Please select
+Yes
+No
+Will you now, or in the future, require sponsorship to work in the United States? *
+--
+Yes
+No
+Will you need relocation assistance to work at this role's specified location? * 
+--
+Yes
+No
+Are you related to, or in a shared housing situation with, anyone who currently works for SIE or any SIE-affiliated studios? *
+--
+Yes
+No
+By selecting "Yes", I am certifying that, to the best of my knowledge, the information I have provided in this employment application is true and correct. *
+--
+Yes
+No
+Gender
+Please select
+Yes
+No
+Decline To Self Identify
+Are you Hispanic/Latino?
+Please select
+Yes
+No
+Decline To Self Identify
+​Veteran Status​
+Please select
+​I am not a protected veteran
+​I identify as one or more of the classifications of a protected veteran​
+​I don't wish to answer
+​Disability Status​
+​Please select​
+​Yes, I have a disability, or have a history/record of having a disability​
+​No, I don't have a disability, or a history/record of having a disability
+​I don't wish to answer
 
 
 
