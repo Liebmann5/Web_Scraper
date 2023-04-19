@@ -11,37 +11,23 @@ from selenium.common.exceptions import NoSuchElementException
 
 import time
 
-from scraperGoogleJob import scraperGoogleJob   #? ERASED THE b (in import)
+#from fileName import className
+from GoogleSearch import scraperGoogle
 
 
-class scraperGoogle():
-    
+class Workflow():
+       
     def __init__(self):
-        print(scraperGoogleJob)   #? ERASED THE b
         self.browser = None
-        self.job_titles = []
-        self.list_first_index = 0
-        self.list_last_index = 0
-        self.links_to_jobs = []
-    
-    def user_requirements(self):
-        #global job_titles     #! ERROR: the code didn't like this with .append() for whatever reason!!!?!?!?
+        self.google_search_results_links = None
         
-        print("Well well well. Somebody needs a job... figures someone like you"
-              + " is wanting more money! What a weiner your parents raised. You weiner!")
-        #time.sleep(1)
-        print("Any who just go ahead and type out the job title you want. "
-              + " each job title press ENTER! (When you press ENTER it will probably take "
-              + "you to the next line, this is normal... illiterately speaking of course)")
-        #time.sleep(1)
-        print("Try and keep it to around 3-4 you eager eagle. Exceling past these "
-              + "numbers will yield less results, so thats why.")
-        #time.sleep(1)
-        print("Fianlly for the love of the Hoover Dam please spell the everything correctly! "
-              + "If you're not confident then highlight the name with your mouse and click\n"
-              + " COPY. When you come back here just right click. If you don't have a right"
-              + " click well then huh. Life is tough but get your crap together cause idk")
-        #time.sleep(1)
+          
+    #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
+    #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
+    def user_browser_choice(self):
+        user_browser_choice, browser_name = 1, " Firefox "
+        #user_browser_choice, browser_name = 2, " Safari "
+        self.browser_setup(user_browser_choice, browser_name)
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
         print(f"\t2) Safari")
@@ -59,26 +45,13 @@ class scraperGoogle():
                 return 3, " Chrome "
             elif user_jobs == "4":
                 return 4, " Edge "
-            else:     #TODO: Make else just check OS and return number of that OS's web browser!!!
-                self.job_titles.append(user_jobs)
-         
-        #TODO       
-        # print("Ok now yrs of exp?")
-        # user_exp = input()
-        # yrs_of_exp.append(user_exp)
-        #     -> Add as global like this =>   yrs_of_exp = None  =>  b/c it's an empty string
-        # print("Ok and which locations?")
-        # location = input()
-        # (.env).add(location)    #so it's saved on their system
-        # user_location.appemd(location)
-        #     ==> When printed in search do   ==>   " & near=" + user_location
+            else:
+                print("That's kinda messed up dog... I give you an opportunity to pick and you pick some dumb crap.")
+                print("You've squandered any further opportunities to decide stuff. I hope you are happy with yourself.")
+                print("Don't worry clown I'll pick for you!")
+                #TODO: Make else just check OS and return number of that OS's web browser!!!
     
-    def browser_setup(self, test):
-        #user_browser_choice, browser_name = self.user_requirements()
-        user_browser_choice, browser_name = 1, " Firefox "
-        #user_browser_choice, browser_name = 2, " Safari "
-        self.job_titles.append("software engineer")
-        self.job_titles.append("backend engineer")
+    def browser_setup(self, user_browser_choice, browser_name):
         print('Execution Started -- Opening' + browser_name + 'Browser')
         
         if user_browser_choice == 1:
@@ -114,9 +87,11 @@ class scraperGoogle():
             browser = webdriver.Chrome(options=options)
             browser.set_page_load_timeout(30)
         
-        if(test == 0):
+        #TODO:   if (browser is open == True && browser is ready == True)
+        if(True):
             browser.get('https://www.google.com')
-            self.search_for_jobs(browser)
+            links_to_jobs = scraperGoogle().search_for_jobs(browser)
+            self.google_search_results_links = links_to_jobs
         else:
             raise ConnectionError('ERROR: Check Internet Connection')
         
@@ -301,8 +276,8 @@ class scraperGoogle():
         
 
 if __name__ == '__main__':
-    scraper = scraperGoogle()
-    scraper.browser_setup(0)
+    workflow = Workflow()
+    workflow.user_browser_choice()
 
 
 
@@ -311,30 +286,3 @@ if __name__ == '__main__':
 
 
 #site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
-
-
-
-
-
-
-# In order to show you the most relevant results, we have omitted some entries very similar to
-# the 225 already displayed.
-# If you like, you can "repeat the search with the omitted results included."
-
-
-
-
-
-
-
-# HOW TO SET UP SAFARI !!!!!
-#    1) Open Safari.
-#    2) Click on Safari in the top menu bar.
-#    3) Click on Preferences.
-#    4) Click on Advanced.
-#    5) At the bottom, check the box next to "Show Develop menu in menu bar".
-#    6) Click on Develop in the top menu bar.
-#    7) Click on Allow Remote Automation.
-
-
-
