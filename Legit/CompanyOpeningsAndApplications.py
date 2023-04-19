@@ -400,8 +400,6 @@ class scraperGoogleJob():
     
     def lever_co_header(self, soup):
         app_body = soup.find("div", id=["app_body", "app-body"])
-        
-        #other_company_openings = soup.find('div', {"class": 'page show'})
         other_company_openings = app_body.find('div', {"class": 'page show'})
         company_open_positions = other_company_openings.find('a', {"class": "main-header-logo"})
         try:
@@ -414,9 +412,6 @@ class scraperGoogleJob():
             other_company_jobs_url = "This company has no ALL job openings page!"
         return other_company_jobs_url
     
-    
-    #line 570 #elif child.name == "a"
-            #if ("button" in child.get("class")) => remember !BUTTON! to click
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!!!!!!!!!!!!!!!!!         greenhouse_io_BANNER  [not header]           !!!!!!!!!!!!!!!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -435,18 +430,6 @@ class scraperGoogleJob():
             elif child.name == "span" and  "company-name" in child.get("class"):
                 self.company_name = child.get_text().strip()    #"at Braintrust" => maybe look for 1st capital letter
             elif child.name == "a" and not searched_all_a:  #TODO: v only captured the 1st <a>
-                # has_hash = header.find_all('a', href=(lambda value: value and '#' in value))
-                # for a_tag in has_hash:
-                #     if '/' in a_tag['href']:
-                #         self.a_href = a_tag
-                #     #! HTML <a href='#ANYTHINGH'> -> REMEMBER *#* means redirect to that part of the webpage
-                #     elif '#' in a_tag['href']:
-                #         self.a_fragment_identifier = a_tag
-                # if self.company_other_openings_href == None:
-                #     logo_container = app_body.find('div', class_="logo-container")
-                #     company_openings_a = logo_container.find('a')
-                #     self.company_other_openings_href = company_openings_a['href']
-                # searched_all_a = True
                 header_a_tags = header.find_all('a')
                 for head_a_tag in header_a_tags:
                     if '/' in head_a_tag['href']:
@@ -458,57 +441,16 @@ class scraperGoogleJob():
                         company_openings_a = logo_container.find('a')
                         self.company_other_openings_href = company_openings_a['href']
                         searched_all_a = True
-                #all_jobs_available_a_href = child['href']  #! ^ ^ ^ ^ ^ ^ ^ ^ ^
-                #print("all_jobs_available_a_href 1 = ")
-                #print(all_jobs_available_a_href)
-                #! If it opens on job_description see the bottom is 'apply_button' or 'job_application'
-                # print("all_jobs_available_a_href 2 = ")
-                # all_jobs_available_a_href = child.decode_contents()
-                #print(all_jobs_available_a_href)
-                #!since child is the <a> remember to click it!!!
-                #companies_jobs_link_a = child
             elif child.name == "div" and "location" in child.get("class"):
                 self.company_job_location = child.get_text().strip()
             else:
                 print("child = ")
                 print(child)
-            #self.company_openings_test_link = 
         if self.company_other_openings_href == None:
             self.print_to_console("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplicationOnPageID=self.a_fragment_identifier)
         else:
             self.print_to_console("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplicationOnPageID=self.a_fragment_identifier)
         return
-        #self.greenhouse_io_content(app_body, content)
-        # if self.a_fragment_identifier == None:
-        #     return self.company_job_title, self.company_name, self.company_job_location, self.company_other_openings_href
-        # else:
-        #     return self.company_job_title, self.company_name, self.company_job_location, self.company_other_openings_href, self.a_fragment_identifier
-    
-    
-            #         position_title = soup.find('h2')
-            #         job_title = position_title.get_text().split()
-            #         job_info = soup.find('div', {"class": "posting-categories"})
-            #         job_location = job_info.find('div', {"class": 'location'}).get_text().strip()
-            #         job_department = job_info.find('div', {"class": 'department'}).get_text().strip()
-            #         job_commitment = job_info.find('div', {"class": 'commitment'}).get_text().strip()
-            #         job_style = job_info.find('div', {"class": 'workplaceTypes'}).get_text().strip()
-            #         print("HERE------------------------------------")
-                    
-            #         a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-            #         div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-            #         job_apply_butt = None
-            #         link_to_apply = None
-            #         #job_apply_butt = soup.select_one('a.btn-apply-bottom, div.btn-apply-bottom')
-            #         #if job_apply_butt.name == 'div':
-            #         if div_tag_butt:
-            #             job_apply_butt = job_apply_butt.find('a')
-            #             link_to_apply = job_apply_butt['href']
-            #         elif a_tag_butt:
-            #             link_to__apply = a_tag_butt['href']
-            #     except:
-            #         #TODO: Change this Error type!
-            #         raise ConnectionError("ERROR: Companies other open positions are not present")
-            # return
     
     def fill_out_application(self, applic, soup):
         self.insert_resume()
@@ -552,18 +494,13 @@ class scraperGoogleJob():
             print("4")
         else:
             print("5")
-            #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button.visible-resume-upload')
             resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
             print("--------------------------------------------------------")
             print(resume_upload_button)
             print("--------------------------------------------------------")
-            #print()
+
             print("6")
             if resume_upload_button:
-                print("7")
-                #resume_upload_button[0].click()
-                #resume_upload_button.click()
-                #file_popup_window = self.browser.window_handles[1]
                 time.sleep(1)
                 print("8")
                 input_elements = self.get_input_tag_elements()
@@ -574,32 +511,10 @@ class scraperGoogleJob():
                 print("Bargain-Mart")
                 print((input_element, is_visible))
                 
-                #input_elements = self.get_input_elements()
-                
                 upload_input = self.browser.find_element(By.CSS_SELECTOR, 'input[type="file"]')
                 upload_input.send_keys(resume_path)
                 print("8.1")
                 time.sleep(2)
-                              
-                # self.browser.switch_to.window(file_popup_window)
-                # self.browser.close()
-                # self.browser.switch_to.window(self.browser.window_handles[0])
-                
-                # print("SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX")
-                # # upload_frame = self.browser.find_element(By.CSS_SELECTOR, 'iframe[src*="greenhouse.io/applications/upload"]')
-                # upload_frame = self.browser.find_element(By.XPATH, 'iframe[source="attach"]')
-                # print("9")
-                # self.browser.switch_to.frame(upload_frame)
-                # print("10")
-                
-                # upload_input = self.browser.find_element(By.CSS_SELECTOR, 'input[type="file"]')
-                # print("11")
-                # upload_input.send_keys(resume_path)
-                # print("12")
-                # time.sleep(5)
-                
-                # self.browser.switch_to.default_content()
-                print("13")
             else:
                 raise Exception('Could not find resume upload element')
         print("14 Holy Crap")
@@ -625,76 +540,8 @@ class scraperGoogleJob():
             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
             inputs_info.append((input_id, input_type, is_hidden))
         return inputs_info
-       
-       
-    # def find_and_organize_inputs(self, applic, soup):
-    #     """
-    #     Finds all the input elements in a form and returns a list of dictionaries
-    #     containing information about each input.
-    #     """
-    #     form_inputs = []
-    #     input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
-    #     select_types = ["select"]
-    #     textarea_types = ["textarea"]
-    #     file_types = ["file"]
-    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-    #     for input_element in input_elements:
-    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
-    #             input_label = ""
-    #             input_values = []
 
-    #             input_id = input_element.get_attribute('id')
-    #             if input_id:
-    #                 try:
-    #                     input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
-    #                     input_label = input_label_element.text.strip()
-    #                 except NoSuchElementException:
-    #                     input_label = ""
-    #             else:
-    #                 parent_element = input_element.find_element(By.XPATH, '..')
-    #                 while parent_element is not None:
-    #                     try:
-    #                         input_label_element = parent_element.find_element(By.XPATH, ".//label")
-    #                         input_label = input_label_element.text.strip()
-    #                         break
-    #                     except NoSuchElementException:
-    #                         parent_element = parent_element.find_element(By.XPATH, '..')
-    #                 if not input_label:
-    #                     input_label = parent_element.text.strip()
-
-    #             if input_type in input_types:
-    #                 if input_type == "checkbox":
-    #                     if input_element.is_selected():
-    #                         input_values.append(input_element.get_attribute('value'))
-    #                 elif input_type == "radio":
-    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-    #                     if radio_values:
-    #                         input_values = radio_values
-    #                 else:
-    #                     input_values.append(input_element.get_attribute('value'))
-    #             elif input_type in select_types:
-    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
-    #                 input_values = [option.text.strip() for option in select_options]
-    #             elif input_type in textarea_types:
-    #                 input_values.append(input_element.get_attribute('value'))
-
-    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-    #             if is_hidden:
-    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
-
-    #             form_inputs.append({
-    #                 "label": input_label,
-    #                 "type": input_type,
-    #                 "values": input_values,
-    #                 "is_hidden": is_hidden
-    #             })
-
-    #     self.print_form_details(form_inputs)
-    #     return form_inputs
-
+ 
     def find_and_organize_inputs(self, applic, soup):
         """
         Finds all the input elements in a form and returns a list of dictionaries
@@ -766,71 +613,6 @@ class scraperGoogleJob():
         self.print_form_details(form_inputs)
         return form_inputs
 
-      
-       
-    # def find_and_organize_inputs(self, applic, soup):
-    #     """
-    #     Finds all the input elements in a form and returns a list of dictionaries
-    #     containing information about each input.
-    #     """
-    #     form_inputs = []
-    #     input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
-    #     select_types = ["select"]
-    #     textarea_types = ["textarea"]
-    #     file_types = ["file"]
-    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-    #     for input_element in input_elements:
-    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
-    #             input_label = ""
-    #             input_values = []
-                
-    #         input_id = input_element.get_attribute('id')
-    #         if input_id:
-    #             try:
-    #                 input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
-    #                 input_label = input_label_element.text.strip()
-    #             except NoSuchElementException:
-    #                 input_label = ""
-    #         else:
-    #             parent_element = input_element.find_element(By.XPATH, '..')
-    #             while parent_element is not None:
-    #                 try:
-    #                     input_label_element = parent_element.find_element(By.XPATH, ".//label")
-    #                     input_label = input_label_element.text.strip()
-    #                     break
-    #                 except NoSuchElementException:
-    #                     parent_element = parent_element.find_element(By.XPATH, '..')
-    #             if input_type in input_types:
-    #                 if input_type == "checkbox":
-    #                     if input_element.is_selected():
-    #                         input_values.append(input_element.get_attribute('value'))
-    #                 elif input_type == "radio":
-    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-    #                     if radio_values:
-    #                         input_values = radio_values
-    #                 else:
-    #                     input_values.append(input_element.get_attribute('value'))
-    #             elif input_type in select_types:
-    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
-    #                 input_values = [option.text.strip() for option in select_options]
-    #             elif input_type in textarea_types:
-    #                 input_values.append(input_element.get_attribute('value'))
-                    
-    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-    #             if is_hidden:
-    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
-                
-    #             form_inputs.append({
-    #                 "label": input_label,
-    #                 "type": input_type,
-    #                 "values": input_values,
-    #                 "is_hidden": is_hidden
-    #             })
-    #     self.print_form_details(form_inputs)
-    #     return form_inputs
        
     def print_form_details(self, form_inputs):
         print('\n\n\n')
@@ -843,80 +625,6 @@ class scraperGoogleJob():
             print(f"  Is Hidden: {input_element['is_hidden']}")
             print(f"  HTML: {input_element['html_element']}")
         print("\n")       
-       
-        
-    # def find_and_organize_inputs(self, applic, soup):
-    #     from scraperGoogle import webdriver
-    #     """
-    #     Finds all the input elements in a form and returns a list of dictionaries
-    #     containing information about each input.
-    #     """
-    #     #self.browser.get(form['url'])
-    #     form_inputs = []
-    #     input_types = ["text", "email", "password", "number", "checkbox", "radio"]
-    #     select_types = ["select"]
-    #     textarea_types = ["textarea"]
-    #     file_types = ["file"]
-    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-        
-        
-    #     selenium_to_html = []
-        
-        
-    #     for input_element in input_elements:
-    #         self.print_input_element(selenium_to_html, (input_element.get_attribute("outerHTML")))
-            
-    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
-    #             input_label = ""
-    #             input_values = []
-    #             parent_element = input_element.find_element(By.XPATH, '..')
-    #             while parent_element is not None:
-    #                 try:
-    #                     input_label_element = parent_element.find_element(By.XPATH, ".//label")
-    #                     input_label = input_label_element.text.strip()
-    #                     break
-    #                 except NoSuchElementException:
-    #                     parent_element = parent_element.find_element(By.XPATH, '..')
-    #             if input_type in input_types:
-    #                 if input_type == "checkbox":
-    #                     if input_element.is_selected():
-    #                         input_values.append(input_element.get_attribute('value'))
-    #                 elif input_type == "radio":
-    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-    #                     if radio_values:
-    #                         input_values = radio_values
-    #                 else:
-    #                     input_values.append(input_element.get_attribute('value'))
-    #             elif input_type in select_types:
-    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
-    #                 input_values = [option.text.strip() for option in select_options]
-    #             elif input_type in textarea_types:
-    #                 input_values.append(input_element.get_attribute('value'))
-                    
-    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-    #             if is_hidden:
-    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
-                
-    #             form_inputs.append({
-    #                 "label": input_label,
-    #                 "type": input_type,
-    #                 "values": input_values,
-    #                 "is_hidden": is_hidden
-    #             })
-    #         self.print_form_inputs(form_inputs)
-    #     print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    #     print(len(form_inputs))
-    #     self.print_input_element(selenium_to_html, "ready to party")
-    #     self.print_form_inputs(form_inputs) 
-    #     return form_inputs
-
-
-
-
-
 
     def print_form_inputs(self, form_inputs):
         for input in form_inputs:
@@ -937,7 +645,7 @@ class scraperGoogleJob():
             selenium_to_html.append(input_element)
 
     def is_input_invisible(self, input_element):
-        from scraperGoogle import webdriver
+        #from scraperGoogle import webdriver
         """
         Checks if an input element is invisible to the user
         Returns True if the input is invisible, False otherwise
@@ -958,17 +666,6 @@ class scraperGoogleJob():
                 return True
             parent_element = parent_element.find_element(By.XPATH, '..')
         return False
-    
-    def print_form_data(self, form_data):
-        for data in form_data:
-            label_text = data[0]
-            input_values = data[1:]
-            input_tags = [input.get('name') + " (" + input.name + input.get('type') + ")" for input in data[1:]]
-            print(f"label_text = {label_text}")
-            print(f"input_tags = {input_tags}")
-            print(f"input_values = {input_values}")
-            print("-------------------")
-        return print("Get Sucked Loser")
     
     def print_to_console(*args, **kwargs):
         print('\n\n\n')
@@ -1005,171 +702,8 @@ class scraperGoogleJob():
     
     
     
-    
-    
-    
-    
-    
-    
-    
-#  The O.G. idea/code   
-#     def find_and_organize_inputs(self, applic, soup):
-#         # selenium_soupy = self.browser.find_element(By.XPATH, "form[contains(lower-case(method), 'post')]")
-#         selenium_soupy = self.browser.find_element(By.TAG_NAME, "form")
-        
-        
-#         #label_elements = applic.find_elements(By.TAG_NAME, "label")
-#         label_elements = selenium_soupy.find_elements(By.TAG_NAME, "label")
-#         print(label_elements)
-#         form_data = []
-#         form_data_length = len(form_data)
-        
-#         for label_element in label_elements:
-#             label_text = label_element.text.strip()
-#             input_elements = []
-#             input_id = label_element.get_attribute('for')
-#             if input_id:
-#                 input_elements.append(self.browser.find_element(By.ID, input_id))
-#             else:
-#                 input_elements = label_element.find_elements(By.XPATH, "./following-sibling::*[1]")
-#             print("Well fudge!")
-#             input_values = []
-#             input_tags = []
-#             for input_element in input_elements:
-#                 if input_element.tag_name == "input":
-#                     input_type = input_element.get_attribute('type')
-#                     if input_type == "checkbox":
-#                         input_values.append(input_element.get_attribute('value'))
-#                     elif input_type == "radio":
-#                         if input_element.get_attribute('name') not in [x[0] for x in form_data]:
-#                             form_data.append([input_element.get_attribute('name'), []])
-#                         form_data[[x[0] for x in form_data].index(input_element.get_attribute('name'))][1].append(input_element.get_attribute('value'))
-#                     elif input_type in ["text", "email", "password", "number"]:
-#                         input_values.append(input_element.get_attribute('value'))
-#                     input_tags.append(input_element.get_attribute('name') + " (" + input_element.tag_name + " - " + input_type + ")")
-#                 elif input_element.tag_name == "select":
-#                     select_options = input_element.find_elements(By.XPATH, "./option")
-#                     select_values = [option.get_attribute('value') for option in select_options]
-#                     input_values.append(select_values)
-#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-#                 elif input_element.tag_name == "textarea":
-#                     input_values.append(input_element.text.strip())
-#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-            
-#             print(input_tags)
-            
-#             print("Well fudge...   wicked!")
-#             form_data.append([label_text] + input_values)
-#             input_tags = [""] + input_tags
-#             #TODO: Don't think this is necessary to add so maybe 'comment' out later on down the road
-#             form_data.append(input_tags)
-#             if len(form_data) > form_data_length:
-#                 form_data_length = len(form_data)
-#             else:
-#                 print("form_data_length = ", end="")
-#                 print(form_data_length)
-#                 print("len(form_data) = ", end="")
-#                 print(len(form_data))
-#         print("Well fudge that crap is wicked!")
-#         self.print_form_data(form_data)
-#         return form_data
-    
-    
 
 
-
-
-
-
-
-
-
-
-#   This code works pretty darn well and the print statements are baller!!!!
-# def find_and_organize_inputs(self, applic, soup):
-#         element_is_hidden = False
-#         form = self.browser.find_element(By.TAG_NAME, "form")
-#         label_elements = form.find_elements(By.TAG_NAME, "label")
-#         form_data = []
-#         invisible_data = []
-#         for label_element in label_elements:
-#             label_text = label_element.text.strip()
-#             input_elements = []
-#             input_id = label_element.get_attribute('for')  #<label for="same"> = <input id="same">
-#             print('\n')
-#             print("label element text = " + label_text)
-#             if(label_text == None):
-#                 label_text = "Nothing"
-#             print("label for && input id = ")
-#             print("\t", end="")
-#             print(input_id)
-#             print("label element = ", end="")
-#             label_xpath = f"//label[@for='{input_id}']"
-#             print(self.browser.find_element(By.XPATH, label_xpath).get_attribute('outerHTML'))
-#             if input_id:
-#                 print("input element found by id = ")
-#                 input_element = self.browser.find_element(By.ID, input_id)
-#                 print(input_element.get_attribute('outerHTML'))
-#                 input_elements.append(input_element)
-#             else:
-#                 print("input element found by sibling = ")
-#                 input_element = label_element.find_elements(By.XPATH, "./following-sibling::*[1]")
-#                 print(input_element.get_attribute('outerHTML'))
-#                 input_elements = input_element
-                
-#             # Check if input element is hidden and make it visible
-#             for input_element in input_elements:
-#                 is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-#                 if is_hidden:
-#                     element_is_hidden = True
-#                     print("^^^^^HIDDEN^^^^^")
-#                     print('\n')
-#                     self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-#                     self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
-                    
-#             print("Well fudge!----------------------------")
-#             input_values = []
-#             input_tags = []
-#             for input_element in input_elements:
-#                 if element_is_hidden == True:
-#                     # Check if the input element is inside an invisible container.
-#                     #if self.is_input_invisible(input_elements[0]):
-#                     #    invisible_data.append([label_text] + input_values)
-#                     #    invisible_data.append(input_tags)
-#                     element_is_hidden = False
-#                     break
-#                 if input_element.tag_name == "input":
-#                     input_type = input_element.get_attribute('type')
-#                     if input_type == "checkbox":
-#                         input_values.append(input_element.get_attribute('value'))
-#                     elif input_type == "radio":
-#                         if input_element.get_attribute('name') not in [x[0] for x in form_data]:
-#                             form_data.append([input_element.get_attribute('name'), []])
-#                         form_data[[x[0] for x in form_data].index(input_element.get_attribute('name'))][1].append(input_element.get_attribute('value'))
-#                     elif input_type in ["text", "email", "password", "number"]:
-#                         input_values.append(input_element.get_attribute('value'))
-#                     input_tags.append(input_element.get_attribute('name') + " (" + input_element.tag_name + " - " + input_type + ")")
-#                 elif input_element.tag_name == "select":
-#                     select_options = input_element.find_elements(By.XPATH, "./option")
-#                     select_values = [option.get_attribute('value') for option in select_options]
-#                     input_values.append(select_values)
-#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-#                 elif input_element.tag_name == "textarea":
-#                     input_values.append(input_element.text.strip())
-#                     input_tags.append(input_element.get('name') + " (" + input_element.tag_name + ")")
-#             print("Well fudge...   wicked!----------------")
-#             form_data.append([label_text] + input_values)
-#             input_tags = [""] + input_tags
-#             form_data.append(input_tags)
-            
-#             # Check if the input element is inside an invisible container.
-#             #if self.is_input_invisible(input_elements[0]):
-#             #    invisible_data.append([label_text] + input_values)
-#             #    invisible_data.append(input_tags)
-        
-#         print("----------------Well fudge that crap is wicked!----------------")
-#         self.print_form_data(form_data)
-#         return form_data, invisible_data
 
 
 
@@ -1247,10 +781,6 @@ class scraperGoogleJob():
                 applic = self.lever_io_data(job_index, soup)
                 self.find_and_organize_inputs(applic)
                 print("===Ballsack = jobs.lever.co = 2")
-                #scraperGoogleJob.lever_io_data(job_index, soup)
-                # Captcha
-                # <input id="hcaptchaResponseInput" type="hidden" name="h-captcha-response" value>
-                # <button id="hcaptchaSubmitBtn" type="submit" class="hidden"></button>
             
             elif "boards.greenhouse.io" in job_index:
                 print("===Ballsack = boards.greenhouse.io = 1")
@@ -1361,69 +891,15 @@ class scraperGoogleJob():
         #print("===Ballsack = leaving the lever.co")
         return soup
 
-    def lever_io_applicatio(self, application_link, application_webpage_html):
-        job_form_html = application_webpage_html.find("form", id="application-form", method="POST")
-        #? Nick was here
-        # application_section_html = job_form_html.find_all("h4")
-        # #using ^this list .find() 1st <h4> then increment...
-        # print(application_section_html)
-        # for user_input in application_section_html:
-        #     #loop through <input> tags and fill in using selenium!!
-        #     print(user_input)
-        # return 0
-        for user_input in job_form_html.children:
-            labels = user_input.find_all("label")
-            for label in labels:
-                needed_inpu = label.find("application-label")
-                needed_input = needed_inpu.get_text()
-                #TODO: call and retrieve the value of needed_input
-                #! CLEAR !!!!!!!!! all input fields before you start typing
-                for tag_type in label.find_all(True):
-                    #if input_type.name in ['input', 'button', 'select', 'textarea']:
-                    input_type = tag_type.name
-                    if input_type == "input":
-                        print("In .lever_io_application() found an <input>")
-                        fill_in_input(needed_input, input_type)
-                    elif input_type == "button":
-                        print("In .lever_io_application() found an <button>")
-                        fill_in_button(needed_input, input_type)
-                    elif input_type == "select":
-                        print("In .lever_io_application() found an <select>")
-                        fill_in_select(needed_input, input_type)  #multiple choice
-                    elif input_type == "textarea":
-                        print("In .lever_io_application() found an <textarea>")
-                        fill_in_textarea(needed_input, input_type)
-    
+
 
 #plethora_of_jobs (outter) = <meta property="og:url" content="https://jobs.lever.co/anduril/51af4cee-1380-439c-86c2-510863722099/apply">
 #plethora_of_jobs (inner)  = 
     
     
+
     
-    
-    def application_or_butto(self, website):
-        if(website == "greenhouse"):
-            application = soup.find("div", id="application")
-            
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    #NOTE: These have the forms below the descriptions...       1st find "Apply for this Job" | 2nd go to each incremental <button> and <input>
-    def greenhouse_io_dat(self, soup):
-        print("Here")
-        return 0
-    
-    
-    #if id="app_body" and [check which page you are on]
+
     
     def greenhouse_io_start_page_decide(self, soup): #if (child of main is one of these)
         print("Welcome fair maiden we have gathered to make decisions based on your skin color... please after you!")
@@ -1470,45 +946,7 @@ class scraperGoogleJob():
             else:
                 next_elem = next_elem.find_next()
         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
-#line 570 #elif child.name == "a"
-            #if ("button" in child.get("class")) => remember !BUTTON! to click
-    # def greenhouse_io_header(self, app_body, header, content): #! ^ ^ ^ ^
-    #     print("===Ballsack = .greenhouse_io_header() = ")
-    #     print(header)
-    #     print("----------------------------------")
-    #     first_child = True
-    #     for child in header.children:
-    #         if first_child:                 #! if child == '\n'
-    #             first_child = False
-    #             continue
-    #         if child.name == "h1" and "app-title" in child.get("class"):
-    #             company_job_name = child.get_text()
-    #             print("company_job_name = ")
-    #             print(company_job_name)
-    #         elif child.name == "span" and  "company-name" in child.get("class"):
-    #             company_name = child.get_text()    #"at Braintrust" => maybe look for 1st capital letter
-    #             print("company_name = ")
-    #             print(company_name)
-    #         elif child.name == "a" and "button" in child.get("class"):     #as long as 'href' just exists
-    #             all_jobs_available_a_href = child['href']  #! ^ ^ ^ ^ ^ ^ ^ ^ ^
-    #             print("all_jobs_available_a_href 1 = ")
-    #             print(all_jobs_available_a_href)
-    #             #! If it opens on job_description see the bottom is 'apply_button' or 'job_application'
-    #             # print("all_jobs_available_a_href 2 = ")
-    #             # all_jobs_available_a_href = child.decode_contents()
-    #             #print(all_jobs_available_a_href)
-    #             #!since child is the <a> remember to click it!!!
-    #             companies_jobs_link_a = child
-    #         elif child.name == "div" and "location" in child.get("class"):
-    #             company_job_location = child.get_text()
-    #             print("company_job_location = ")
-    #             print(company_job_location)
-    #         else:
-    #             print("child = ")
-    #             print(child)
-    #     return print("finished all over .greenhouse_io_header()")
-    #     #self.greenhouse_io_content(app_body, content)
-    #     return 
+
         
     def greenhouse_io_conten(self, app_body, content):
         for child in content.children:
@@ -1529,193 +967,29 @@ class scraperGoogleJob():
             apply_button.click()
             time.sleep(5)
             self.greenhouse_io_application(application)
-            
-    def greenhouse_io_applicatio(application):
-        app_form = application.find("form", id="application_form", method="post")
-        for user_input in app_form.children:
-            if user_input.get_attr("type") and user_input["input"] == "hidden":
-                print(user_input.prettify())
-            elif user_input.name == "div" and user_input.get("id") == "main_fields":
-                job_a(user_info)
-            elif user_input.name == "div" and user_input.get("id") == "custom_fields":
-                job_app_general(user_info)
-            elif user_input.name == "div" and user_input.get("id") == "demographic_questions":
-                job_app_general(user_info)
-            elif user_input.name == "div" and user_input.get("id") == "eeoc_fields":
-                job_app_general(user_info)
-            elif user_input.name == "div" and user_input.get("id") == "submit_buttons":
-                job_app_general(user_info)
-            
-    
-            #For college start & end dates their's 2 input boxes
-            #Current Employee end date skip ahead and find current employee check/button
-            #Previously worked for company
-    
-    
-    
-    
-    
-    
-    
-    
-            
-    
-    #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
-    def attach_resum(self, application):
-        resume_element = application.find_element(By.XPATH, "//*[@id[contains(@id, 'resume')]]")
-        resume_path = "get from .env file"
-        
-        #How does the form want us to upload our resume? Button click...
-        while True:
-            upload_by_button = application.find_element(By.TAG_NAME, "//fieldset[@aria-describedby='resume-allowable-file-types']")
-            if upload_by_button:
-                ActionChains(self.browser).move_to_element(upload_by_button).click().perform()
-                upload_by_button.send_keys(resume_path)
-                break
-        try:
-            ActionChains(self.browser).send_keys(Keys.ENTER).perform()
-        except:
-            raise "Something went wrong meanie! Help me :("
-    
-    #Purpose of this method is to find all the inputs!!!
-    #Goal is to make a list of lists' where the inside list .len()=3 index1=label.text(){gender} |
-        #index2=input_type {<select>, <button>} | index3=empty & fill with user's value
-    #maybe rather than have a .len()=3 just for input's keep appending all possible box input's{only
-    #for <input> b/c sometimes multiple BUT not radio buttons} and FINALLY append user's value
-    #eff it just find all the labels then all the inputs
-    def find_and_organize_input(self, applic):
-        print("===Ballsack = find_and_organize_inputs() = ", end="")
-        print(applic)
-        label_elements = applic.find_element(By.TAG_NAME, "label")
-        form_data = []
-        for label_element in label_elements:
-            #text value of the <label>
-            label_text = label_element.text.strip()
-            
-            #get all inputs after label
-            user_input_type = []
-            input_id = label_element.get_attribute('for')
-            if input_id:
-                input_elements.append(self.browser.find_element(By.ID, input_id))
-            else:
-                input_elements = label_element.find_elements(By.XPATH, "./following-sibling::*[1]")
-                
-            #get input types
-            input_values = []
-            for input_element in input_elements:
-                if input_element.tag_name == "input":
-                    if not input_element.get_attribute('type'):
-                        print("type some crap")
-                    else:
-                        if input_element.get_attribute('type') == "checkbox":
-                            print("CHECK FOR ALL POSSIBLE TYPES")
-                elif input_element.tag_name == "select":
-                    select_options = input_element.find_all(By.XPATH, "./option")
-                    input_values.append(select_options.text.strip())
-                elif input_element.tag_name == "button":
-                    if not input_element.get_attribute('type'):
-                        print("type some crap")
-                    else:
-                        if input_element.get_attribute('type') == "radio":
-                            print("CHECK FOR ALL POSSIBLE TYPES")
-                        elif input_element.get_attribute('type') == "submit":
-                            print("Form Submit Button")
-                elif input_element.tag_name == "textarea":
-                    print("Type stuff dog")
-            
-            #Add the label and input types
-            form_data.append([label_text] + input_values)
-            
-            for sublist in form_data:
-                print(sublist)
-            
-            self.fill_in_input(form_data)
-    
-    
-    def fill_in_inpu(form_data):
-        print("user <input>")
-        for user_form_question in form_data:
-            print(user_form_question)
-    
-    #Figure out the section you are in
-    #Figure out the <label>.get_text()
-    #Figure out if it's a <select>/<radio>/<input>
-    #if label
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    #, website_root, job_url, job_name, company_name, job_location, job_style, apply_button, company_department, company_commitment
-    def print_inf(self):
-        print('\n\n\n')
-        print('----------------------------------------------------------------------------------------------------')
-        if self.website_root:
-            print(f'\t-The website_root = ' + self.website_root)
-        if self.job_url:
-            print(f'\t-The job_url      = ' + self.job_url)
-        if self.job_name:
-            print(f'\t-The job_name     = ' + self.job_name)
-        if self.company_name:
-            print(f'\tThe company_name  = ' + self.company_name)
-        if self.job_location:
-            print(f'\t-The job_location = ' + self.job_location)
-        if self.job_style:
-            print(f'\t-The job_style    = ' + self.job_style)
-        if self.apply_button:
-            print(f'\t-The apply_button = ' + self.apply_button)
-        if self.company_department:
-            print(f'\t-The company_department = ' + self.company_department)
-        if self.company_commitment:
-            print(f'\t-The company_commitment = ' + self.company_commitment)
-        print('----------------------------------------------------------------------------------------------------')
-        print('\n\n\n')
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    def workday_dat(self, soup):
-        print("Here")
-        return 0
 
-    def general_b(self, app_body):
-        everything_about_job = app_body.get_text()
-        print("===Ballsack = general_bs()... all the text in the job description = ")
-        print("You'll never succeed here...")
-        #print(everything_about_job)
-        
-        #filter the job out as needed
+
+ 
     
-    def apply_to_jo(job_data: list):
-        if (len(job_data)-1):
-            return "ok"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 
+    
+    
+    
+    
 
     def get_application_value():
         if "phone" in label.lower():
@@ -1743,37 +1017,7 @@ class scraperGoogleJob():
 
 #<cite class="qLRx3b tjvcx GvPZzd cHaqb" role="text" style="max-width:315px">https://jobs.lever.co<span class="dyjrff qzEoUe" role="text"> › ltaresearch</span></cite>
 
-#<a href="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jsarwt="1" data-usg="AOvVaw1WnH3yWFh2qyF8H83db1P7" data-ved="2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB" data-ctbtn="0" data-cthref="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jrwt="1"><br><h3 class="LC20lb MBeuO DKV0Md">LTA Research</h3><div class="TbwUpd NJjxre iUh30 ojE3Fb"><span class="H9lube"><div class="eqA2re NjwKYd Vwoesf" aria-hidden="true"><img class="XNo5Ab" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAWlBMVEU+SEpvdXjIysvEx8edoaN4f4FOV1n6+vr////j5eVjamxyeXvZ2dn39/dqcXPNz9CLkJCqra7y8/PU1NRdZWfs7e7d3t5cY2ZTW12zt7hYXmKTmJp/hYe6vLweb9tYAAAAn0lEQVR4AcTPAxLAMBBA0TKszfsfs1acYf9w54XOT7meH4RA7SFEe5gonJ6OfF/vXhQBqcePR4nE3cvTaCsTPfl6lBtcXJAUp5enl8TgCefE0iPF+SavajtvFN6ynpq84rwzuNOfjlXuRIy3jnwB46FP+AWMZxAVCbvgcm/Y5xFtxfS7gPEAHcHpXVB/PUd32fPN+Sjo9oFGb906+uRTAOgAEo+qriNyAAAAAElFTkSuQmCC" style="height:18px;width:18px" alt=""></div></span><div><span class="VuuXrf">lever.co</span><div class="byrV5b"><cite class="qLRx3b tjvcx GvPZzd cHaqb" role="text" style="max-width:315px">https://jobs.lever.co<span class="dyjrff qzEoUe" role="text"> › ltaresearch</span></cite></div></div></div></a>
 
-
-
-
-#<a href="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jsarwt="1" data-usg="AOvVaw1WnH3yWFh2qyF8H83db1P7" data-ved="2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB" data-ctbtn="0" data-cthref="/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;ved=2ahUKEwiJt8e-kpj-AhXdnWoFHTlfAxE4WhAWegQIBxAB&amp;url=https%3A%2F%2Fjobs.lever.co%2Fltaresearch&amp;usg=AOvVaw1WnH3yWFh2qyF8H83db1P7" data-jrwt="1"><br><h3 class="LC20lb MBeuO DKV0Md">LTA Research</h3>
-
-
-
-
-
-
-
-
-
-    #This is the BeautifulSoup way
-    # def find_and_organize_inputs(application):
-    #     app_form = application.find("form", id="application_form", method="post")
-    #     application_user_input = []
-    #     for count, input_needed in enumerate(app_form.children):
-    #         #Find all hidden stuff
-    #         if input_needed.get_attr("type") and input_needed.get("type") == "hidden":
-    #             print(input_needed.prettify())
-    #         if input_needed.get_attr("aria-hidden") and input_needed.get("aria-hidden") == "true":
-    #             print(input_needed.prettify())
-    #         for 
-    
-    
-    
-    
-    
 
 
 
