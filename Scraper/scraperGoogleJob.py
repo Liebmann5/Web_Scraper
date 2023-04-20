@@ -695,76 +695,131 @@ class scraperGoogleJob():
     #     self.print_form_details(form_inputs)
     #     return form_inputs
 
-    def find_and_organize_inputs(self, applic, soup):
-        """
-        Finds all the input elements in a form and returns a list of dictionaries
-        containing information about each input.
-        """
-        form_inputs = []
-        input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
-        select_types = ["select"]
-        textarea_types = ["textarea"]
-        file_types = ["file"]
-        input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+    def get_form_input_details(url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-        for input_element in input_elements:
-            print(input_element.get_attribute('outerHTML'))  # Printing the HTML element
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+
+        details = []
+
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
+
+            if field.name == 'button':
+                input_type = 'button'
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
+
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
+
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
+
+            details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+            })
+
+        return details
+
+    url = "https://pastebin.com/raw/NF8tBsnE"
+    form_input_details = get_form_input_details(url)
+
+    print("Form Input Details:")
+    for i, detail in enumerate(form_input_details, start=1):
+        print(f"Input {i}:")
+        print(f"  Label: {detail['label']}")
+        print(f"  Type: {detail['type']}")
+        print(f"  Values: {detail['values']}")
+        print(f"  Is Hidden: {detail['is_hidden']}")
+        print(f"  HTML: {detail['html']}")
+
+    # def find_and_organize_inputs(self, applic, soup):
+    #     """
+    #     Finds all the input elements in a form and returns a list of dictionaries
+    #     containing information about each input.
+    #     """
+    #     form_inputs = []
+    #     input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
+    #     select_types = ["select"]
+    #     textarea_types = ["textarea"]
+    #     file_types = ["file"]
+    #     input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+    #     html_element = None
+
+    #     for input_element in input_elements:
+    #         html_element = input_element.get_attribute('outerHTML')
             
-            html_element = input_element.get_attribute('outerHTML')
+    #         #print(input_element.get_attribute('outerHTML'))  # Printing the HTML element
+    #         print(html_element)
+    #         input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
+    #         if input_type in input_types or input_type in select_types or input_type in textarea_types:
+    #             input_label = ""
+    #             input_values = []
 
-            input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-            if input_type in input_types or input_type in select_types or input_type in textarea_types:
-                input_label = ""
-                input_values = []
+    #             input_id = input_element.get_attribute('id')
+    #             if input_id:
+    #                 try:
+    #                     input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
+    #                     input_label = input_label_element.text.strip()
+    #                 except NoSuchElementException:
+    #                     input_label = ""
+    #             else:
+    #                 parent_element = input_element.find_element(By.XPATH, '..')
+    #                 while parent_element is not None:
+    #                     try:
+    #                         input_label_element = parent_element.find_element(By.XPATH, ".//label")
+    #                         input_label = input_label_element.text.strip()
+    #                         break
+    #                     except NoSuchElementException:
+    #                         parent_element = parent_element.find_element(By.XPATH, '..')
 
-                input_id = input_element.get_attribute('id')
-                if input_id:
-                    try:
-                        input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
-                        input_label = input_label_element.text.strip()
-                    except NoSuchElementException:
-                        input_label = ""
-                else:
-                    parent_element = input_element.find_element(By.XPATH, '..')
-                    while parent_element is not None:
-                        try:
-                            input_label_element = parent_element.find_element(By.XPATH, ".//label")
-                            input_label = input_label_element.text.strip()
-                            break
-                        except NoSuchElementException:
-                            parent_element = parent_element.find_element(By.XPATH, '..')
+    #             if input_type in input_types:
+    #                 if input_type == "checkbox":
+    #                     if input_element.is_selected():
+    #                         input_values.append(input_element.get_attribute('value'))
+    #                 elif input_type == "radio":
+    #                     radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
+    #                     radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
+    #                     if radio_values:
+    #                         input_values = radio_values
+    #                 else:
+    #                     input_values.append(input_element.get_attribute('value'))
+    #             elif input_type in select_types:
+    #                 select_options = input_element.find_elements(By.XPATH, ".//option")
+    #                 input_values = [option.text.strip() for option in select_options]
+    #             elif input_type in textarea_types:
+    #                 input_values.append(input_element.get_attribute('value'))
 
-                if input_type in input_types:
-                    if input_type == "checkbox":
-                        if input_element.is_selected():
-                            input_values.append(input_element.get_attribute('value'))
-                    elif input_type == "radio":
-                        radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-                        radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-                        if radio_values:
-                            input_values = radio_values
-                    else:
-                        input_values.append(input_element.get_attribute('value'))
-                elif input_type in select_types:
-                    select_options = input_element.find_elements(By.XPATH, ".//option")
-                    input_values = [option.text.strip() for option in select_options]
-                elif input_type in textarea_types:
-                    input_values.append(input_element.get_attribute('value'))
+    #             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+    #             if is_hidden:
+    #                 self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
+    #                 self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
 
-                is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-                if is_hidden:
-                    self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-                    self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
+    #             form_inputs.append({
+    #                 "label": input_label,
+    #                 "type": input_type,
+    #                 "values": input_values,
+    #                 "is_hidden": is_hidden,
+    #                 "HTML": html_element
+    #             })
+    #     self.print_form_details(form_inputs)
+    #     return form_inputs
 
-                form_inputs.append({
-                    "label": input_label,
-                    "type": input_type,
-                    "values": input_values,
-                    "is_hidden": is_hidden,
-                    "HTML": html_element
-                })
-        self.print_form_details(form_inputs)
-        return form_inputs
 
       
        
@@ -841,8 +896,8 @@ class scraperGoogleJob():
             print(f"  Type: {input_element['type']}")
             print(f"  Values: {input_element['values']}")
             print(f"  Is Hidden: {input_element['is_hidden']}")
-            print(f"  HTML: {input_element['html_element']}")
-        print("\n")       
+            print(f"  HTML: {input_element['HTML']}")
+        print("\n")                       #^ HERE-go to input_elements: HTML key and get its value!!!!
        
         
     # def find_and_organize_inputs(self, applic, soup):

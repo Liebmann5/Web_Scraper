@@ -553,12 +553,13 @@ class scraperGoogleJob():
         textarea_types = ["textarea"]
         file_types = ["file"]
         input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
+        html_element = None
 
         for input_element in input_elements:
-            print(input_element.get_attribute('outerHTML'))  # Printing the HTML element
-            
             html_element = input_element.get_attribute('outerHTML')
-
+            
+            #print(input_element.get_attribute('outerHTML'))  # Printing the HTML element
+            print(html_element)
             input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
             if input_type in input_types or input_type in select_types or input_type in textarea_types:
                 input_label = ""
@@ -598,7 +599,7 @@ class scraperGoogleJob():
                 elif input_type in textarea_types:
                     input_values.append(input_element.get_attribute('value'))
 
-                is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+                is_hidden = (input_type == 'hidden' or not input_element.is_displayed()) and input_type not in file_types
                 if is_hidden:
                     self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
                     self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
@@ -623,7 +624,7 @@ class scraperGoogleJob():
             print(f"  Type: {input_element['type']}")
             print(f"  Values: {input_element['values']}")
             print(f"  Is Hidden: {input_element['is_hidden']}")
-            print(f"  HTML: {input_element['html_element']}")
+            print(f"  HTML: {input_element['HTML']}")
         print("\n")       
 
     def print_form_inputs(self, form_inputs):
