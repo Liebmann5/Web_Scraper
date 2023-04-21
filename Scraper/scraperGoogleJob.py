@@ -88,6 +88,19 @@ class scraperGoogleJob():
     #             print(f"No search result found for: {google_search_name}")
     #             continue
     
+    def eff_that_link(self):
+        print('Coolio, waiting...')
+        time.sleep(5)
+        print("Eff that old website! Out with the old in with the new!!")
+        url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        self.browser.get(url)
+        time.sleep(5)
+        form_input_details = self.get_form_input_details(url)
+        form_inputs = self.print_form_details(form_input_details)
+        print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
+        time.sleep(5)
+        #form_input_details = get_form_input_details(url)
+    
     def deal_with_links(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
@@ -111,6 +124,10 @@ class scraperGoogleJob():
             selenium_google_link.click()
             self.browser.implicitly_wait(5)
             time.sleep(3)
+            
+            
+            self.eff_that_link()
+            
             
             result = requests.get(job_index)
             content = result.text
@@ -539,8 +556,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -695,58 +712,77 @@ class scraperGoogleJob():
     #     self.print_form_details(form_inputs)
     #     return form_inputs
 
-    def get_form_input_details(url):
-        page = requests.get(url)
-        soup = BeautifulSoup(page.content, 'html.parser')
+    # def get_form_input_details(self, url):
+    #     page = requests.get(url)
+    #     soup = BeautifulSoup(page.content, 'html.parser')
 
-        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+    #     form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
-        details = []
+    #     form_input_details = []
 
-        for i, field in enumerate(form_fields, start=1):
-            input_type = field.get('type')
-            input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
-            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
-            input_html = str(field).strip()
+    #     for i, field in enumerate(form_fields, start=1):
+    #         input_type = field.get('type')
+    #         input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
+    #         is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+    #         input_html = str(field).strip()
 
-            if field.name == 'button':
-                input_type = 'button'
-            elif field.name == 'textarea':
-                input_type = 'textarea'
-            elif field.name == 'select':
-                input_type = 'select'
+    #         if field.name == 'button':
+    #             input_type = 'button'
+    #         elif field.name == 'textarea':
+    #             input_type = 'textarea'
+    #         elif field.name == 'select':
+    #             input_type = 'select'
 
-            values = []
-            if input_type == 'select':
-                options = field.find_all('option')
-                for option in options:
-                    values.append(option.text.strip())
+    #         values = []
+    #         if input_type == 'select':
+    #             options = field.find_all('option')
+    #             for option in options:
+    #                 values.append(option.text.strip())
 
-            # Skip hidden fields without a label
-            if is_hidden and not input_label:
-                continue
+    #         # Skip hidden fields without a label
+    #         if is_hidden and not input_label:
+    #             continue
 
-            details.append({
-                'label': input_label,
-                'type': input_type,
-                'values': values,
-                'is_hidden': is_hidden,
-                'html': input_html,
-            })
+    #         form_input_details.append({
+    #             'label': input_label,
+    #             'type': input_type,
+    #             'values': values,
+    #             'is_hidden': is_hidden,
+    #             'html': input_html,
+    #         })
 
-        return details
+    #     return form_input_details
 
-    url = "https://pastebin.com/raw/NF8tBsnE"
-    form_input_details = get_form_input_details(url)
 
-    print("Form Input Details:")
-    for i, detail in enumerate(form_input_details, start=1):
-        print(f"Input {i}:")
-        print(f"  Label: {detail['label']}")
-        print(f"  Type: {detail['type']}")
-        print(f"  Values: {detail['values']}")
-        print(f"  Is Hidden: {detail['is_hidden']}")
-        print(f"  HTML: {detail['html']}")
+    def get_form_input_details(self, url):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        forms = soup.find_all('form')
+        extracted_forms = []
+
+        for form in forms:
+            form_info = {
+                'action': form.get('action', ''),
+                'method': form.get('method', '').upper(),
+                'fields': []
+            }
+
+            for field in form.find_all(['input', 'select', 'textarea']):
+                field_info = {
+                    'name': field.get('name', ''),
+                    'type': field.get('type', ''),
+                    'label': field.find_previous_sibling('label')
+                }
+                if field_info['label']:
+                    field_info['label'] = field_info['label'].text.strip()
+                
+                form_info['fields'].append(field_info)
+
+            extracted_forms.append(form_info)
+
+        return extracted_forms
+
 
     # def find_and_organize_inputs(self, applic, soup):
     #     """
@@ -889,16 +925,36 @@ class scraperGoogleJob():
        
     def print_form_details(self, form_inputs):
         print('\n\n\n')
-        print("Form Input Details:")
-        for index, input_element in enumerate(form_inputs, start=1):
-            print(f"Input {index}:")
-            print(f"  Label: {input_element['label']}")
-            print(f"  Type: {input_element['type']}")
-            print(f"  Values: {input_element['values']}")
-            print(f"  Is Hidden: {input_element['is_hidden']}")
-            print(f"  HTML: {input_element['HTML']}")
-        print("\n")                       #^ HERE-go to input_elements: HTML key and get its value!!!!
-       
+        # print("Form Input Details:")
+        # for index, input_element in enumerate(form_inputs, start=1):
+        #     print(f"Input {index}:")
+        #     print(f"  Label: {input_element['label']}")
+        #     print(f"  Type: {input_element['type']}")
+        #     print(f"  Values: {input_element['values']}")
+        #     print(f"  Is Hidden: {input_element['is_hidden']}")
+        #     print(f"  HTML: {input_element['HTML']}")
+        # print("\n")                       #^ HERE-go to input_elements: HTML key and get its value!!!!
+        
+        #print('\n\n\n')
+        
+        # print("Form Input Details:")
+        # for i, detail in enumerate(form_inputs, start=1):
+        #     print(f"Input {i}:")
+        #     print(f"  Label: {detail['label']}")
+        #     print(f"  Type: {detail['type']}")
+        #     print(f"  Values: {detail['values']}")
+        #     print(f"  Is Hidden: {detail['is_hidden']}")
+        #     print(f"  HTML: {detail['html']}")
+        # print("\n")
+        
+        for i, form in enumerate(form_inputs, 1):
+            print(f"Form {i}:")
+            print(f"  Action: {form['action']}")
+            print(f"  Method: {form['method']}")
+            print("  Fields:")
+            for j, field in enumerate(form['fields'], 1):
+                print(f"    {j}. {field['label']} (Name: {field['name']}, Type: {field['type']})")
+        
         
     # def find_and_organize_inputs(self, applic, soup):
     #     from scraperGoogle import webdriver
