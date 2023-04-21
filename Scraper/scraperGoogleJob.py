@@ -92,19 +92,65 @@ class scraperGoogleJob():
         print('Coolio, waiting...')
         time.sleep(5)
         print("Eff that old website! Out with the old in with the new!!")
-        url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
         self.browser.get(url)
-        time.sleep(5)
-        form_input_details = self.get_form_input_details(url)
-        form_inputs = self.print_form_details(form_input_details)
+        time.sleep(10)
+        jack = self.get_form_input_details(url)
+        self.print_form_details(jack, ".get_form_input_details()")
+        jill = self.get_some_form_input_details(url)
+        self.print_form_details(jill, ".get_some_form_input_details()")
+        
+        matching_indices = self.compare_form_input_details(jack, jill)
+        print(f"Matching input elements: {matching_indices}")
+        print('\n')
+        print(len(matching_indices))
+        print(len(jack))
+        print(len(jill))
+        self.print_pairs(matching_indices, jack, jill)
+        
         print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
         time.sleep(5)
         #form_input_details = get_form_input_details(url)
+        
+    def compare_form_input_details(self, jack, jill):
+        matches = []
+        for i, jack_element in enumerate(jack):
+            for j, jill_element in enumerate(jill):
+                if jack_element['HTML'] == jill_element['html']:
+                    #matches.append((i, j))   # < They are backwards here!!
+                    matches.append((j+1, i+1))
+        matches_length = len(matches)
+        print(matches_length)
+        return matches
+    
+    def print_pairs(self, matches, jack, jill):
+        matches_length = len(matches)
+        print(matches_length)
+        count = 0
+        for x, y in matches:
+            print('\n')
+            print('This is the pair number: ', end="")
+            print(count)
+            print(x)
+            print(y)
+            print(jack[y])
+            print(jill[x])
+            count += 1
+        print("All done!")
     
     def deal_with_links(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None
+        
+        
+        
+        self.eff_that_link()
+        
+        
+        
+        
         
         for job_index in self.list_of_links[::-1]:
             print("D")
@@ -556,8 +602,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -712,76 +758,123 @@ class scraperGoogleJob():
     #     self.print_form_details(form_inputs)
     #     return form_inputs
 
-    # def get_form_input_details(self, url):
-    #     page = requests.get(url)
-    #     soup = BeautifulSoup(page.content, 'html.parser')
+    def get_form_input_detailsssssss(self, url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
 
-    #     form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
-    #     form_input_details = []
+        form_input_details = []
 
-    #     for i, field in enumerate(form_fields, start=1):
-    #         input_type = field.get('type')
-    #         input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
-    #         is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
-    #         input_html = str(field).strip()
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
 
-    #         if field.name == 'button':
-    #             input_type = 'button'
-    #         elif field.name == 'textarea':
-    #             input_type = 'textarea'
-    #         elif field.name == 'select':
-    #             input_type = 'select'
+            if field.name == 'button':
+                input_type = 'button'
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
 
-    #         values = []
-    #         if input_type == 'select':
-    #             options = field.find_all('option')
-    #             for option in options:
-    #                 values.append(option.text.strip())
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
 
-    #         # Skip hidden fields without a label
-    #         if is_hidden and not input_label:
-    #             continue
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
 
-    #         form_input_details.append({
-    #             'label': input_label,
-    #             'type': input_type,
-    #             'values': values,
-    #             'is_hidden': is_hidden,
-    #             'html': input_html,
-    #         })
+            form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+            })
 
-    #     return form_input_details
+        return form_input_details
+    
 
+
+    def get_label(self, input_element):
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+        if label:
+            return label.get_text(strip=True)
+
+        # Case 2: Check if the label is inside a parent container
+        parent = input_element.find_parent()
+        if parent:
+            label = parent.find('label')
+            if label:
+                return label.get_text(strip=True)
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        input_id = input_element.get('id')
+        if input_id:
+            label = input_element.find_previous('label', attrs={'for': input_id})
+            if label:
+                return label.get_text(strip=True)
+
+        return None
 
     def get_form_input_details(self, url):
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
-        
-        forms = soup.find_all('form')
-        extracted_forms = []
+        input_elements = soup.find_all(['input', 'textarea', 'select'])
 
-        for form in forms:
-            form_info = {
-                'action': form.get('action', ''),
-                'method': form.get('method', '').upper(),
-                'fields': []
+        input_details = []
+
+        for i, input_element in enumerate(input_elements):
+            details = {
+                'Label': self.get_label(input_element),
+                'Type': input_element.get('type'),
+                'Values': [],
+                'Is_Hidden': input_element.get('type') == 'hidden',
+                'HTML': str(input_element)
             }
+            if input_element.name == 'select':
+                details['Values'] = [option.get_text(strip=True) for option in input_element.find_all('option')]
+            input_details.append(details)
 
-            for field in form.find_all(['input', 'select', 'textarea']):
-                field_info = {
-                    'name': field.get('name', ''),
-                    'type': field.get('type', ''),
-                    'label': field.find_previous_sibling('label')
-                }
-                if field_info['label']:
-                    field_info['label'] = field_info['label'].text.strip()
+        return input_details
+
+
+
+    # v v v v v v v v v v v v v v v v v v v v v v v v
+    # def get_form_input_details(self, url):
+    #     response = requests.get(url)
+    #     soup = BeautifulSoup(response.content, 'html.parser')
+        
+    #     forms = soup.find_all('form')
+    #     extracted_forms = []
+
+    #     for form in forms:
+    #         form_info = {
+    #             'action': form.get('action', ''),
+    #             'method': form.get('method', '').upper(),
+    #             'fields': []
+    #         }
+
+    #         for field in form.find_all(['input', 'select', 'textarea']):
+    #             field_info = {
+    #                 'name': field.get('name', ''),
+    #                 'type': field.get('type', ''),
+    #                 'label': field.find_previous_sibling('label')
+    #             }
+    #             if field_info['label']:
+    #                 field_info['label'] = field_info['label'].text.strip()
                 
-                form_info['fields'].append(field_info)
+    #             form_info['fields'].append(field_info)
 
-            extracted_forms.append(form_info)
+    #         extracted_forms.append(form_info)
 
-        return extracted_forms
+    #     return extracted_forms
 
 
     # def find_and_organize_inputs(self, applic, soup):
@@ -923,7 +1016,7 @@ class scraperGoogleJob():
     #     self.print_form_details(form_inputs)
     #     return form_inputs
        
-    def print_form_details(self, form_inputs):
+    def print_form_details(self, form_inputs, method_used):
         print('\n\n\n')
         # print("Form Input Details:")
         # for index, input_element in enumerate(form_inputs, start=1):
@@ -936,24 +1029,38 @@ class scraperGoogleJob():
         # print("\n")                       #^ HERE-go to input_elements: HTML key and get its value!!!!
         
         #print('\n\n\n')
+        if method_used == ".get_some_form_input_details()":
+            print("Form Input Details: ", end="")
+            print(method_used)
+            for i, detail in enumerate(form_inputs, start=1):
+                print(f"Input {i}:")
+                print(f"  Label: {detail['label']}")
+                print(f"  Type: {detail['type']}")
+                print(f"  Values: {detail['values']}")
+                print(f"  Is Hidden: {detail['is_hidden']}")
+                print(f"  HTML: {detail['html']}")
+            print("\n")
         
-        # print("Form Input Details:")
-        # for i, detail in enumerate(form_inputs, start=1):
-        #     print(f"Input {i}:")
-        #     print(f"  Label: {detail['label']}")
-        #     print(f"  Type: {detail['type']}")
-        #     print(f"  Values: {detail['values']}")
-        #     print(f"  Is Hidden: {detail['is_hidden']}")
-        #     print(f"  HTML: {detail['html']}")
-        # print("\n")
+        # v v v v v v v v v v v v v v v v v v v v v v v v
+        # for i, form in enumerate(form_inputs, 1):
+        #     print(f"Form {i}:")
+        #     print(f"  Action: {form['action']}")
+        #     print(f"  Method: {form['method']}")
+        #     print("  Fields:")
+        #     for j, field in enumerate(form['fields'], 1):
+        #         print(f"    {j}. {field['label']} (Name: {field['name']}, Type: {field['type']})")
         
-        for i, form in enumerate(form_inputs, 1):
-            print(f"Form {i}:")
-            print(f"  Action: {form['action']}")
-            print(f"  Method: {form['method']}")
-            print("  Fields:")
-            for j, field in enumerate(form['fields'], 1):
-                print(f"    {j}. {field['label']} (Name: {field['name']}, Type: {field['type']})")
+        if method_used == ".get_form_input_details()":
+            print("Form Input Details: ", end="")
+            print(method_used)
+            for i, detail in enumerate(form_inputs, start=1):
+                print(f"Input {i}:")
+                print(f"  Label: {detail['Label']}")
+                print(f"  Type: {detail['Type']}")
+                print(f"  Values: {detail['Values']}")
+                print(f"  Is Hidden: {detail['Is_Hidden']}")
+                print(f"  HTML: {detail['HTML']}")
+            print("\n")
         
         
     # def find_and_organize_inputs(self, applic, soup):
@@ -1984,6 +2091,52 @@ class scraperGoogleJob():
 
 
 
+    # def get_form_input_details(self, url):
+    #     page = requests.get(url)
+    #     soup = BeautifulSoup(page.content, 'html.parser')
+
+    #     form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+
+    #     form_input_details = []
+
+    #     for i, field in enumerate(form_fields, start=1):
+    #         input_type = field.get('type')
+    #         input_label = field.get('aria-label') or field.get('aria-labelledby') or field.get('placeholder') or field.get('title') or ""
+    #         is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+    #         input_html = str(field).strip()
+
+    #         if field.name == 'button':
+    #             input_type = 'button'
+    #         elif field.name == 'textarea':
+    #             input_type = 'textarea'
+    #         elif field.name == 'select':
+    #             input_type = 'select'
+
+    #         values = []
+    #         if input_type == 'select':
+    #             options = field.find_all('option')
+    #             for option in options:
+    #                 values.append(option.text.strip())
+
+    #         # For radio buttons and checkboxes, find the ancestor element with a role of "group" or "radiogroup"
+    #         if input_type in ('radio', 'checkbox') and not input_label:
+    #             group = field.find_parent(attrs={"role": ["group", "radiogroup"]})
+    #             if group:
+    #                 input_label = group.get('aria-label') or group.get('aria-labelledby') or group.get('title') or ""
+
+    #         # Skip hidden fields without a label
+    #         if is_hidden and not input_label:
+    #             continue
+
+    #         form_input_details.append({
+    #             'label': input_label,
+    #             'type': input_type,
+    #             'values': values,
+    #             'is_hidden': is_hidden,
+    #             'html': input_html,
+    #         })
+
+    #     return form_input_details
 
 
 
@@ -1994,3 +2147,517 @@ class scraperGoogleJob():
 
 
 
+
+
+
+
+
+
+
+
+
+
+                                        #This is the one that works
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+    def get_some_form_input_details(self, url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+
+        form_input_details = []
+        processed_radios = set()
+
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_id = field.get('id')
+            input_label = ''
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
+
+            if field.name == 'button':
+                input_type = 'button'
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
+
+            if input_id:
+                label_element = soup.find('label', {'for': input_id})
+                if label_element:
+                    input_label = label_element.text.strip()
+
+            if not input_label:
+                placeholder = field.get('placeholder')
+                if placeholder:
+                    input_label = f"Placeholder ~ {placeholder}"
+
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
+
+            if input_type == 'radio':
+                radio_name = field.get('name')
+                if radio_name in processed_radios:
+                    continue
+                processed_radios.add(radio_name)
+                radio_group = soup.find_all('input', {'name': radio_name})
+                values = [radio.get('value') for radio in radio_group]
+                label_element = field.find_previous_sibling('label')
+                if label_element:
+                    input_label = label_element.text.strip()
+                input_html = ''.join([str(radio).strip() for radio in radio_group])
+
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
+
+            form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+            })
+
+        return form_input_details
+
+
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

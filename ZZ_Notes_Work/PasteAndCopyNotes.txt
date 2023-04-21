@@ -999,6 +999,1783 @@ so the purpose of the details variable is that every key and value is important 
 
 
 
+Input 19:
+  Label: Race
+  Type: radio
+  Values: ['Hispanic or Latino', 'White (Not Hispanic or Latino)', 'Black or African American (Not Hispanic or Latino)', 'Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)', 'Asian (Not Hispanic or Latino)', 'American Indian or Alaska Native (Not Hispanic or Latino)', 'Two or More Races (Not Hispanic or Latino)', 'Decline to self-identify']
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Hispanic or Latino"/><input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Black or African American (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Asian (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="American Indian or Alaska Native (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Two or More Races (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Decline to self-identify"/>
+
+
+That didn't work so this was the terminals output again
+Input 19:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Hispanic or Latino"/>
+Input 20:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/>
+Input 21:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Black or African American (Not Hispanic or Latino)"/>
+Input 22:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)"/>
+Input 23:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Asian (Not Hispanic or Latino)"/>
+Input 24:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="American Indian or Alaska Native (Not Hispanic or Latino)"/>
+Input 25:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Two or More Races (Not Hispanic or Latino)"/>
+Input 26:
+  Label: 
+  Type: radio
+  Values: []
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Decline to self-identify"/>
+but what what I'm looking for it to be is something like this
+Input 19:
+  Label: Race
+  Type: radio
+  Values: ['Hispanic or Latino', 'White (Not Hispanic or Latino)', 'Black or African American (Not Hispanic or Latino)', 'Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)', 'Asian (Not Hispanic or Latino)', 'American Indian or Alaska Native (Not Hispanic or Latino)', 'Two or More Races (Not Hispanic or Latino)', 'Decline to self-identify']
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Hispanic or Latino"/><input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Black or African American (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Asian (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="American Indian or Alaska Native (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Two or More Races (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Decline to self-identify"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+What is your desired pay for this role? *
+
+
+
+
+
+
+
+
+So this was a piece of what the terminal returned from that method
+Input 12:
+  Label: Type your response
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field3]" placeholder="Type your response" required="required" type="text" value=""/>
+
+Input 17:
+  Label: Add a cover letter or anything else you want to share.
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea id="additional-information" name="comments" placeholder="Add a cover letter or anything else you want to share."></textarea>
+and I'll put the code return that I'm looking for at the bottom. So Input 17: doesn't have any text above the box to tell the user what kind of information is needed. In these situations can you instead find the placeholder and retrieve its value and set that equl to the label key but to also signify when you do this add 'Placeholder ~ ' to the front of the value. So to clarify Input 17: in the return above is exactly what I want but I dont believe the method you gave does it in the way I'm looking for. Then a good example of what I'm looking for overall is Input 12:. In the terminal response it returned 'Type your response' for the label key value when it should've been 'What is your desired pay for this role? *'! But if 'What is your desired pay for this role? *' wasn't present then 'Type your response' would've been the value that I wanted. How would you change the method to resolve this issue?
+Input 12:
+  Label: What is your desired pay for this role? *
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field3]" placeholder="Type your response" required="required" type="text" value=""/>
+
+Input 17:
+  Label: Placeholder ~ Add a cover letter or anything else you want to share.
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea id="additional-information" name="comments" placeholder="Add a cover letter or anything else you want to share."></textarea>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Form Input Details:
+Input 1:
+  Label: LinkedIn profile
+  Type: button
+  Values: []
+  Is Hidden: False
+  HTML: <button class="template-btn-utility awli-button state-loading" type="button"><div class="loading"><div class="icon loading-indicator small"></div><span class="awli-button-label">Loading</span></div><div class="ready"><svg class="icon icon-linkedin" enable-background="new 7 -7 30 30" height="16px" viewbox="7 -7 30 30" width="16px"><g><path class="icon-li-background" d="M10-7h24c1.7,0,3,1.3,3,3v24c0,1.7-1.3,3-3,3H10
+c-1.7,0-3-1.3-3-3V-4C7-5.7,8.3-7,10-7z" fill="#0084BF"></path><path class="icon-li-text" d="M31,14.6h-3.8V9.1c0-1.4-0.6-2.4-1.9-2.4c-1,0-1.5,0.7-1.8,1.3
+c-0.1,0.2-0.1,0.5-0.1,0.9v5.7h-3.7c0,0,0-9.7,0-10.6h3.7v1.7c0.2-0.7,1.4-1.8,3.3-1.8c2.4,0,4.2,1.5,4.2,4.8V14.6L31,14.6z
+M16,2.7L16,2.7c-1.2,0-2-0.8-2-1.8c0-1,0.8-1.8,2-1.8c1.2,0,2,0.8,2,1.8C18,1.9,17.2,2.7,16,2.7L16,2.7z M14.4,4h3.3v10.6h-3.3V4z
+" fill="#FFFFFF"></path></g></svg><span class="awli-button-label">Apply with Linkedin</span></div><div class="completed"><svg class="icon icon-check" height="16px" viewbox="0 0 16 16" width="16px"><path d="M6.2,14.4L0,8.2l2.5-2.5l3.5,3.5c0.1,0.1,0.2,0.1,0.2,0L13.5,2L16,4.5L6.2,14.4z"></path></svg><span class="awli-button-label">Profile added</span></div></button>
+Input 2:
+  Label: Resume/CV *
+  Type: file
+  Values: []
+  Is Hidden: False
+  HTML: <input class="application-file-input invisible-resume-upload" data-qa="input-resume" id="resume-upload-input" name="resume" tabindex="-1" type="file"/>
+Input 3:
+  Label: Full name
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input name="name" required="" type="text"/>
+Input 4:
+  Label: Email
+  Type: email
+  Values: []
+  Is Hidden: False
+  HTML: <input name="email" pattern="[a-zA-Z0-9.#$%&amp;'*+\/=?^_`{|}~][a-zA-Z0-9.!#$%&amp;'*+\/=?^_`{|}~-]*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*" required="" type="email"/>
+Input 5:
+  Label: Phone ✱
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input name="phone" required="" type="text"/>
+Input 6:
+  Label: Current company ✱
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input name="org" required="" type="text"/>
+Input 7:
+  Label: LinkedIn URL
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input name="urls[LinkedIn]" type="text"/>
+Input 8:
+  Label: GitHub URL
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input name="urls[GitHub]" type="text"/>
+Input 9:
+  Label: To be considered, you must not require Visa Sponsorship now or in the future. Please confirm your status: *
+  Type: select
+  Values: ['Select...', 'U.S. Citizen', 'Lawful Permanent Resident / Green Card Holder', 'H1B/ Visa / None of the Above']
+  Is Hidden: False
+  HTML: <select name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field0]"><option value="">Select...</option><option>U.S. Citizen</option><option>Lawful Permanent Resident / Green Card Holder</option><option>H1B/ Visa / None of the Above</option></select>
+Input 10:
+  Label: Do you currently have a security clearance or the ability to obtain one? *
+  Type: select
+  Values: ['Select...', 'Currently have clearance', 'Clearance currently in process', 'Does not have a clearance, but eligible and open to obtaining one', 'Does not have a clearance and not interested in obtaining one']
+  Is Hidden: False
+  HTML: <select name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field1]"><option value="">Select...</option><option>Currently have clearance</option><option>Clearance currently in process</option><option>Does not have a clearance, but eligible and open to obtaining one</option><option>Does not have a clearance and not interested in obtaining one</option></select>
+Input 11:
+  Label: Are you fully Vaccinated from Covid-19?
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field2]"></textarea>
+Input 12:
+  Label: What is your desired pay for this role? *
+  Type: text
+  Values: []
+  Is Hidden: False
+  HTML: <input class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field3]" placeholder="Type your response" required="required" type="text" value=""/>
+Input 13:
+  Label: When would you be available to start? *
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field4]" required="required"></textarea>
+Input 14:
+  Label: Have you applied for another role with Govini within the last 6 months? *
+  Type: select
+  Values: ['Select...', 'Yes', 'No']
+  Is Hidden: False
+  HTML: <select name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field5]"><option value="">Select...</option><option>Yes</option><option>No</option></select>
+Input 15:
+  Label: If so, please include role title:
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field6]"></textarea>
+Input 16:
+  Label: Are you fully vaccinated from COVID-19?
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[0d3f1846-4ea3-4cbf-b1eb-aed98ba4c2c1][field0]"></textarea>
+Input 17:
+  Label: Placeholder ~ Add a cover letter or anything else you want to share
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea id="additional-information" name="comments" placeholder="Add a cover letter or anything else you want to share."></textarea>
+Input 18:
+  Label: Gender
+  Type: select
+  Values: ['Select ...', 'Male', 'Female', 'Decline to self-identify']
+  Is Hidden: False
+  HTML: <select name="eeo[gender]"><option value="">Select ...</option><option value="Male">Male</option><option value="Female">Female</option><option value="Decline to self-identify">Decline to self-identify</option></select>
+Input 19:
+  Label: Race
+  Type: radio
+  Values: ['Hispanic or Latino', 'White (Not Hispanic or Latino)', 'Black or African American (Not Hispanic or Latino)', 'Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)', 'Asian (Not Hispanic or Latino)', 'American Indian or Alaska Native (Not Hispanic or Latino)', 'Two or More Races (Not Hispanic or Latino)', 'Decline to self-identify']
+  Is Hidden: False
+  HTML: <input name="eeo[race]" type="radio" value="Hispanic or Latino"/><input name="eeo[race]" type="radio" value="White (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Black or African American (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Asian (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="American Indian or Alaska Native (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Two or More Races (Not Hispanic or Latino)"/><input name="eeo[race]" type="radio" value="Decline to self-identify"/>
+Input 20:
+  Label: Veteran status
+  Type: select
+  Values: ['Select ...', 'I identify as one or more of the classifications of protected veteran listed above', 'I am not a protected veteran', 'I decline to self-identify for protected veteran status']
+  Is Hidden: False
+  HTML: <select name="eeo[veteran]"><option value="">Select ...</option><option value="I am a Protected Veteran">I identify as one or more of the classifications of protected veteran listed above</option><option value="I am not a Protected Veteran">I am not a protected veteran</option><option value="Decline to self-identify">I decline to self-identify for protected veteran status</option></select>
+Input 21:
+  Label: Disability status
+  Type: select
+  Values: ['Select ...', 'Yes, I have a disability, or have a history/record of having a disability', "No, I don't have a disability, or a history/record of having a disability", "I don't wish to answer"]
+  Is Hidden: False
+  HTML: <select id="disabilitySelectElement" name="eeo[disability]"><option value="">Select ...</option><option value="Yes, I have a disability, or have a history/record of having a disability">Yes, I have a disability, or have a history/record of having a disability</option><option value="No, I don't have a disability, or a history/record of having a disability">No, I don't have a disability, or a history/record of having a disability</option><option value="I don't wish to answer">I don't wish to answer</option></select>
+
+Input 24:
+  Label: 
+  Type: button
+  Values: []
+  Is Hidden: False
+  HTML: <button class="hidden" id="hcaptchaSubmitBtn" type="submit"></button>
+Input 25:
+  Label: 
+  Type: button
+  Values: []
+  Is Hidden: False
+  HTML: <button class="postings-btn template-btn-submit golden-poppy" data-qa="btn-submit" href="#" id="btn-submit" type="button">Submit application</button>
+
+
+For Input 17 and 12 I think you what I meant backwards because this is the response I'm looking for
+
+
+
+
+
+
+
+
+
+
+
+def get_form_input_details(url):
+    ...
+    for i, field in enumerate(form_fields, start=1):
+        ...
+        if field.name == 'button':
+            input_type = 'button'
+            # Skip the hidden reCAPTCHA button
+            if field.get('id') == 'hcaptchaSubmitBtn':
+                continue
+        ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ok the return from the terminal didn't really include any label key values. How would I change the method to make it reflect all the below label key values?
+Input 1:
+  Label: LinkedIn profile
+Input 2:
+  Label: Resume/CV *
+Input 3:
+  Label: Full name *
+Input 4:
+  Label: Email *
+Input 5:
+  Label: Phone ✱
+Input 6:
+  Label: Current company ✱
+Input 7:
+  Label: LinkedIn URL
+Input 8:
+  Label: GitHub URL
+Input 9:
+  Label: To be considered, you must not require Visa Sponsorship now or in the future. Please confirm your status: *
+Input 10:
+  Label: Do you currently have a security clearance or the ability to obtain one? *
+Input 11:
+  Label: Are you fully Vaccinated from Covid-19?
+Input 12:
+  Label: What is your desired pay for this role? *
+Input 13:
+  Label: When would you be available to start? *
+Input 14:
+  Label: Have you applied for another role with Govini within the last 6 months? *
+Input 15:
+  Label: If so, please include role title:
+Input 16:
+  Label: Are you fully vaccinated from COVID-19?
+Input 17:
+  Label: Placeholder ~ Add a cover letter or anything else you want to share
+Input 18:
+  Label: Gender
+Input 19:
+  Label: Race
+Input 20:
+  Label: Veteran status
+Input 21:
+  Label: Disability status
+Also remember that this has to work for all different kinds of forms so keeping the code general is better as that can be used universally for all forms!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
