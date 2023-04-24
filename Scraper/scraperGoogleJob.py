@@ -19,6 +19,7 @@ import time
 import re
 from selenium.common.exceptions import NoSuchElementException
 #from scraperGoogle import webdriver
+import bs4
 
 class scraperGoogleJob():
     
@@ -95,19 +96,23 @@ class scraperGoogleJob():
         #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
         url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
         self.browser.get(url)
-        time.sleep(10)
-        jack = self.get_form_input_details(url)
-        self.print_form_details(jack, ".get_form_input_details()")
-        jill = self.get_some_form_input_details(url)
-        self.print_form_details(jill, ".get_some_form_input_details()")
+        time.sleep(4)
+        #form_input_details = self.get_form_input_details_jew(url)
+        form_input_details = self.get_some_form_input_details(url)
+        self.print_form_details(form_input_details, ".get_some_form_input_details()")
+        #self.print_form_details(form_input_details, ".get_form_input_details_jew()")
+        # jack = self.get_form_input_details(url)
+        # self.print_form_details(jack, ".get_form_input_details()")
+        # jill = self.get_some_form_input_details(url)
+        # self.print_form_details(jill, ".get_some_form_input_details()")
         
-        matching_indices = self.compare_form_input_details(jack, jill)
-        print(f"Matching input elements: {matching_indices}")
-        print('\n')
-        print(len(matching_indices))
-        print(len(jack))
-        print(len(jill))
-        self.print_pairs(matching_indices, jack, jill)
+        # matching_indices = self.compare_form_input_details(jack, jill)
+        # print(f"Matching input elements: {matching_indices}")
+        # print('\n')
+        # print(len(matching_indices))
+        # print(len(jack))
+        # print(len(jill))
+        # self.print_pairs(matching_indices, jack, jill)
         
         print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
         time.sleep(5)
@@ -602,8 +607,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -813,6 +818,9 @@ class scraperGoogleJob():
             label = parent.find('label')
             if label:
                 return label.get_text(strip=True)
+            else:
+                label_text = ' '.join(label.stripped_strings)
+                return label_text
 
         # Case 3: Check if the label is associated using the "for" attribute
         input_id = input_element.get('id')
@@ -820,8 +828,166 @@ class scraperGoogleJob():
             label = input_element.find_previous('label', attrs={'for': input_id})
             if label:
                 return label.get_text(strip=True)
+        
+        # Case 4: Check if the input_element has a placeholder attribute
+        if not input_label:
+            placeholder = input_element.get('placeholder')
+            if placeholder:
+                input_label = f"Placeholder ~ {placeholder}"
+
+        return "SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX"
+    
+    
+    def get_labe_HERE_MF(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+        
+        label = None
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+
+        # Case 4: Check if the input element is a child of a label element
+        if not label:
+            parent_label = input_element.find_parent('label')
+            if parent_label:
+                label = parent_label
+
+        if label:
+            label_text = label.text.strip()
+            return label_text
+
+        # Case 5: Check if the input_element has a placeholder attribute
+        placeholder = input_element.get('placeholder')
+        if placeholder:
+            return f"Placeholder ~ {placeholder}"
 
         return None
+
+    def get_labemin(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+
+        label_text = None
+        label = input_element.find_previous_sibling('label')
+
+        if label:
+            # Get the text of the label element
+            label_text = label.get_text(strip=True)
+
+            # Check if there's an asterisk in the label text
+            if '*' in label_text:
+                # Remove everything after the asterisk
+                label_text = label_text.split('*')[0].strip()
+
+        # If the label text is still None, check if there's a placeholder attribute
+        if not label_text:
+            placeholder = input_element.get('placeholder')
+            if placeholder:
+                label_text = f"Placeholder ~ {placeholder}"
+
+        return label_text
+    
+    def get_lab(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+        
+        
+        label = None
+        print('\n')
+        print('-------------------------------------------------------------------')
+        #print(input_element)
+        # print('----------------------------')
+        # print(input_id)
+        # print('-------------------------------------------------------------------')
+        # print('\n')
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+        
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            #print('----------------------------')
+            #print(parent)
+            if parent:
+                label = parent.find('label')
+                
+        print('-------------------------------------------------------------------')
+        
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            print('----------------------------')
+            #print(input_id)
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+        
+        # print('----------------------------')
+        # print(parent)
+        # print('----------------------------')
+        # print(input_id)
+        # print('----------------------------')
+        #print(label)
+        print('-------------------------------------------------------------------')
+        print('\n')
+        
+        
+        if label:
+            #label_text = ' '.join(label.stripped_strings)
+            label_text = label.text.strip()
+            # Extract only the text content of the label, ignoring child tags
+            #label_text = ' '.join(label.stripped_strings)
+            label_text = label_text.split('*')[0].strip()
+            label_text = ' '.join(label_text.split())
+            #label_text = label_text.split('*')[0].split('\n')[0].strip()
+            # Remove everything after the asterisk (*) or newline character (\n)
+            #label_text = re.sub(r'(\*|\n).*', '', label_text).strip()
+            #label_text = ' '.join(label_text.split())
+            #label_text = label_text.split('\n')[0].strip()
+            #return label_text.strip()
+            # if '*' in label_text:
+            #     label_text = label_text[:label_text.index('*')]
+            #     input_sid = label_text[:label_text.index('*')]
+            #     print('----------------------------')
+            #     print(label_text)
+            #     print('----------------------------')
+            #     print(input_sid)
+            # print('-------------------------------------------------------------------')
+            # if '\n' in label_text:
+            #     label_text = label_text[:label_text.index('\n')]
+            #     input_sid = label_text[:label_text.index('\n')]
+            #     print('----------------------------')
+            #     print(label_text)
+            #     print('----------------------------')
+            #     print(input_sid)
+            return label_text
+        else:
+            # Case 4: Check if the input_element has a placeholder attribute
+            placeholder = input_element.get('placeholder')
+            if placeholder:
+                return f"Placeholder ~ {placeholder}"
+
+        return None
+
 
     def get_form_input_details(self, url):
         response = requests.get(url)
@@ -1039,9 +1205,23 @@ class scraperGoogleJob():
                 print(f"  Values: {detail['values']}")
                 print(f"  Is Hidden: {detail['is_hidden']}")
                 print(f"  HTML: {detail['html']}")
+                print(f"  Dynamic: {detail['dynamic']}")
+                print(f"  Related Elements: {detail['related_elements']}")
+            print("\n")
+            
+        if method_used == ".get_form_input_details_jew()":
+            print("Form Input Details: ", end="")
+            print(method_used)
+            for i, detail in enumerate(form_inputs, start=1):
+                print(f"Input {i}:")
+                print(f"  Label: {detail['label']}")
+                print(f"  Type: {detail['type']}")
+                print(f"  Values: {detail['values']}")
+                print(f"  Is Hidden: {detail['is_hidden']}")
+                print(f"  HTML: {detail['html']}")
             print("\n")
         
-        # v v v v v v v v v v v v v v v v v v v v v v v v
+        # v v v v v v v v v v v v v v v v v v v v v v v v   ".get_form_input_details_jew()"
         # for i, form in enumerate(form_inputs, 1):
         #     print(f"Form {i}:")
         #     print(f"  Action: {form['action']}")
@@ -2151,6 +2331,312 @@ class scraperGoogleJob():
 
 
 
+    def get_labe_ballsack(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+
+        label = None
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+
+        # Case 4: Check if the input element is a child of a label element
+        if not label:
+            parent_label = input_element.find_parent('label')
+            if parent_label:
+                label = parent_label
+                
+        # Case 5: Check if a label is inside a parent container of the input element
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        if label:
+            label_text = label.text.strip()
+
+            # If the asterisk (*) is present, remove everything after it
+            if '*' in label_text:
+                label_text = label_text.split('*')[0].strip() + '*'
+            elif '✱' in label_text:
+                label_text = label_text.split('✱')[0].strip() + '✱'
+            else:
+                # If the newline character (\n) is present, remove it and everything after it
+                label_text = label_text.split('\n')[0].strip()
+
+            return label_text
+
+        # Case 5: Check if the input_element has a placeholder attribute
+        placeholder = input_element.get('placeholder')
+        if placeholder:
+            return f"Placeholder ~ {placeholder}"
+
+        return None
+    
+    
+    
+    
+        
+    def get_labia(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+        
+        if input_element.get('type') == 'radio':
+            label = self.print_parent_hierarchy(input_element)
+            return label
+
+        label = None
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+
+        # Case 4: Check if the input element is a child of a label element
+        if not label:
+            parent_label = input_element.find_parent('label')
+            if parent_label:
+                label = parent_label
+
+        # Case 5: Check if a label is inside a parent container of the input element
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+                
+        # Case X: Check if the input element is a radio button inside a label element, and the desired label is the parent of all radio buttons
+        # if not label:
+        #     if input_element.get('type') == 'radio':
+        #         radio_buttons_container = input_element.find_parent('ul')
+        #         if radio_buttons_container:
+        #             parent_label = radio_buttons_container.find_parent('label')
+        #             if parent_label:
+        #                 label_with_app_label = parent_label.find(lambda tag: 'class' in tag.attrs and 'application-label' in tag['class'])
+        #                 if label_with_app_label:
+        #                     label = label_with_app_label.text.strip()
+        #                 else:
+        #                     label = parent_label
+
+        # Check if the label contains a nested div element with the class "application-label" (case for Input 18)
+        if label:
+            app_label = label.find(lambda tag: 'class' in tag.attrs and 'application-label' in tag['class'])
+            if app_label:
+                label = app_label
+
+        if label:
+            label_text = label.text.strip()
+
+            # If the standard asterisk (*) or fullwidth asterisk (✱) is present, remove everything after it
+            if '*' in label_text:
+                label_text = label_text.split('*')[0].strip() + ' *'
+            elif '✱' in label_text:
+                label_text = label_text.split('✱')[0].strip() + ' ✱'
+            else:
+                # If the newline character (\n) is present, remove it and everything after it
+                label_text = label_text.split('\n')[0].strip()
+
+            return label_text
+
+        # Case 6: Check if the input_element has a placeholder attribute
+        placeholder = input_element.get('placeholder')
+        if placeholder:
+            return f"Placeholder ~ {placeholder}"
+
+        return None
+    
+    def get_labe_tests(self, input_element, soup):
+        label = ''
+        
+        print("Finding label for:", input_element)  # Debugging line
+        
+        # 1. Check if the input element is wrapped within a label element
+        parent_label = input_element.find_parent('label')
+        if parent_label:
+            label = parent_label.text.strip()
+            print("Found label in parent:", label)  # Debugging line
+
+        # 2. Check if there's a label element with a 'for' attribute that matches the input element's 'id'
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                matching_label = soup.find('label', attrs={'for': input_id})
+                if matching_label:
+                    label = matching_label.text.strip()
+                    print("Found label by 'for' attribute:", label)  # Debugging line
+        return None
+    
+    def get_labe(self, input_element, soup):
+        parent_label = input_element.find_parent('label')
+        if parent_label:
+            label = ' '.join(parent_label.stripped_strings)
+            return label
+
+        if 'id' in input_element.attrs:
+            label_element = soup.find('label', attrs={'for': input_element['id']})
+            if label_element:
+                return label_element.text.strip()
+
+        return None
+
+    
+    # def print_parent_hierarchy(self, element, level=0):
+    #     parent = element.parent
+    #     if parent is None:
+    #         return
+
+    #     print(f"Level {level}: {parent.prettify()}")
+    #     self.print_parent_hierarchy(parent, level + 1)
+    
+    def print_parent_hierarchy(self, element, stop_level=5):
+        current_level = 0
+        while (current_level <= stop_level):
+            print(f"Level {current_level}:")
+            if current_level == 0 or current_level == 5:
+                if current_level == 0:
+                    print(element.prettify())
+                if current_level == 5:
+                    sauce = element.next_element.get_text(strip=True)
+                    print("EFF CHATGPT THAT THING IS GAY AND SUCKS BALLS: ", end='')
+                    print(sauce)
+                    return sauce
+            element = element.parent
+            current_level += 1
+
+    
+    def get_HERE_penis(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+        
+        # Check if the input_element is a radio button
+        if input_element.get('type') == 'radio':
+            # If the label is not found using the 'for' attribute, climb up the hierarchy
+            element = input_element
+            stop_level = 5
+            current_level = 0
+            top_label = None
+            print('MADE IT HERE TWAT')
+            print(input_element)
+            while current_level <= stop_level:
+                print("Current Level:")
+                print(current_level)
+                print("Top label found: " if element.name == 'label' else "Top label not found")
+                if element.name == 'label' and not element.find('input', type='radio'):
+                    top_label = element
+                    print("HOMO dis da element")
+                    #print(element)
+                    #print(top_label)
+                    multiple_choice_div = top_label.find('div', class_='application-label multiple-choice')
+                    print("HOMO dis da multiple_choice_div")
+                    print(multiple_choice_div)
+                    child_text = multiple_choice_div.get_text(strip=True)
+                    print("HOMO dis da child_text")
+                    print(child_text)
+                    return child_text
+
+                    break
+                print("------Element:")
+                print(element)
+                element = element.parent
+                current_level += 1
+            print("HOMO dis...")
+            print("Top label found: " + top_label if top_label else "Top label not found")
+            if top_label:
+                print("HOMO dis da motha suckin hookers nuts")
+                # Find the text inside the "application-label multiple-choice" div
+                multiple_choice_div = top_label.find('div', class_='application-label multiple-choice')
+                print("HOMO dis da multiple_choice_div")
+                print(multiple_choice_div)
+                if multiple_choice_div:
+                    child_text = multiple_choice_div.get_text(strip=True)
+                    print("HOMO dis da child_text")
+                    print(child_text)
+                    return child_text
+
+        label = None
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+
+        # Case 4: Check if the input element is a child of a label element
+        if not label:
+            parent_label = input_element.find_parent('label')
+            if parent_label:
+                label = parent_label
+
+        # Case 5: Check if a label is inside a parent container of the input element
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        #print(f"Label for input_element: {label}")  # Debugging line
+
+        if label:
+            label_text = label.text.strip()
+
+            # If the standard asterisk (*) or fullwidth asterisk (✱) is present, remove everything after it
+            if '*' in label_text:
+                label_text = label_text.split('*')[0].strip() + ' *'
+            elif '✱' in label_text:
+                label_text = label_text.split('✱')[0].strip() + ' ✱'
+            else:
+                # If the newline character (\n) is present, remove it and everything after it
+                label_text = label_text.split('\n')[0].strip()
+
+            return label_text
+
+        # Case 6: Check if the input_element has a placeholder attribute
+        placeholder = input_element.get('placeholder')
+        if placeholder:
+            return f"Placeholder ~ {placeholder}"
+
+        return None
+
+
+
+
+
+
 
 
 
@@ -2160,11 +2646,108 @@ class scraperGoogleJob():
                                         #This is the one that works
 #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-
+    #! Include checkboxes!!!!
     def get_some_form_input_details(self, url):
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+
+        form_input_details = []
+        processed_radios = set()
+
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_id = field.get('id')
+            input_label = ''
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
+
+            if field.name == 'button':
+                input_type = 'button'
+                # Skip captcha buttons
+                if 'h-captcha' in field.get('class', []) or 'g-recaptcha' in field.get('class', []):
+                    continue
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
+
+            # Add a check for the input types you want to keep
+            if input_type not in ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button'] and input_id != 'education_school_name':
+                continue
+
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
+
+            if input_type == 'radio':
+                #print("Radio button in get_some_form_input_details:", field)  # Debugging line
+                radio_name = field.get('name')
+                if radio_name in processed_radios:
+                    continue
+                processed_radios.add(radio_name)
+                radio_group = soup.find_all('input', {'name': radio_name})
+                values = [radio.get('value') for radio in radio_group]
+                input_html = ''.join([str(radio).strip() for radio in radio_group])
+                
+                #radio_button = soup.find('input', attrs={'name': 'eeo[race]', 'type': 'radio'})
+                #self.print_parent_hierarchy(radio_button)
+                
+                # Call get_label for the entire radio button group
+                input_label = self.get_labia(field)
+            else:
+                # Call get_label for other input types
+                input_label = self.get_labia(field)
+
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
+
+            is_dynamic = False
+            related_elements = []
+
+            # Check the field's ancestors for the 'data-show-if' attribute and 'display: none;' style
+            current_element = field
+            while current_element:
+                if current_element.has_attr('data-show-if'):
+                    is_dynamic = True
+                    related_elements = [
+                        {
+                            'related_field_id': current_element['data-show-if'].split('==')[0],
+                            'trigger_value': current_element['data-show-if'].split('==')[1],
+                        }
+                    ]
+                if current_element.get('style', '') == 'display: none;':
+                    is_hidden = True
+                current_element = current_element.find_parent()
+
+            form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+                'dynamic': is_dynamic,
+                'related_elements': related_elements,
+            })
+
+        return form_input_details
+
+
+
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$        
+        
+        
+        
+        
+        
+        
+    def get_form_input_details_jew(self, url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
         form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
         form_input_details = []
@@ -2212,7 +2795,6 @@ class scraperGoogleJob():
                     input_label = label_element.text.strip()
                 input_html = ''.join([str(radio).strip() for radio in radio_group])
 
-            # Skip hidden fields without a label
             if is_hidden and not input_label:
                 continue
 
@@ -2226,17 +2808,6 @@ class scraperGoogleJob():
 
         return form_input_details
 
-
-
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -2270,7 +2841,36 @@ class scraperGoogleJob():
         
         
         
-        
+# Input 25:
+#   Label:
+#   Type: button
+#   Values: []
+#   Is Hidden: False
+#   HTML: <input class="button" id="submit_app" type="button" value="Submit Application"/>
+# Input 26:
+#   Label: School
+#   Type: hidden
+#   Values: []
+#   Is Hidden: True
+#   HTML: <input aria-required="false" class="school-name background-field" data-url="https://boards-api.greenhouse.io/v1/boards/doubleverify/education/schools" data-validators='[{"type":"notBlank","key":"SchoolNameRequired"}]' id="education_school_name" name="job_application[educations][][school_name_id]" placeholder="Select a School" type="hidden">
+# <a class="remove-background-field" href="#"><img alt="Remove Education" src="https://boards.cdn.greenhouse.io/assets/svg/close-2388e0f798509ffdefd9fe48321955a399f62a302d4f33f96e798f2272a7b52d.svg"/></a>  
+# </input>
+# Input 27:
+#   Label: Degree
+#   Type: select
+#   Values: ['', 'High School', "Associate's Degree", "Bachelor's Degree", "Master's Degree", 'Master of Business Administration (M.B.A.)', 'Juris Doctor (J.D.)', 'Doctor of Medicine (M.D.)', 'Doctor of Philosophy (Ph.D.)', "Engineer's Degree", 'Other']
+#   Is Hidden: False
+#   HTML: <select aria-required="false" class="degree background-field" data-placeholder="Select a Degree" data-validators='[{"type":"notBlank","key":"DegreeRequired"}]' id="education_degree" name="job_application[educations][][degree_id]"><option value=""></option>
+# <option value="5387323002">High School</option>
+# <option value="5387324002">Associate's Degree</option>
+# <option value="5387325002">Bachelor's Degree</option>
+# <option value="5387326002">Master's Degree</option>
+# <option value="5387327002">Master of Business Administration (M.B.A.)</option>
+# <option value="5387328002">Juris Doctor (J.D.)</option>
+# <option value="5387329002">Doctor of Medicine (M.D.)</option>
+# <option value="5387330002">Doctor of Philosophy (Ph.D.)</option>
+# <option value="5387331002">Engineer's Degree</option>
+# <option value="5387332002">Other</option></select>        
         
         
         
