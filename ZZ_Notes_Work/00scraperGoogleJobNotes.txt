@@ -1259,7 +1259,7 @@ class scraperGoogleJob:
     
     
     #@classmethod
-    def get_job_info(var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+    def get_job_info(var_job_link, browser, more_results_button):   #param == cls, job_link  |  self, var_search_results
         search_results = var_job_link
         #job_link = ["https://jobs.lever.co/rover/0a6bcb57-bc8b-4826-b98c-7a17cbb4a911/apply", "https://jobs.lever.co/palantir/e82b696e-a085-4bbf-8bcb-6d2c4f8cf2f7"]
         print(search_results)
@@ -1274,12 +1274,12 @@ class scraperGoogleJob:
             # else:
             #     job_url = job
             # a_tag = browser.find_element(By.XPATH, "//a")
-            print(google_search_button)
-            #click_job_link = job.find_element(By.CSS_SELECTOR, google_search_button)
+            print(more_results_button)
+            #click_job_link = job.find_element(By.CSS_SELECTOR, more_results_button)
             #parent = job.find_element(By.XPATH, "./ancestor::h3")
             #linky3 = parent.find_element(By.XPATH, ".//a")
             #linky3.click()
-            link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{google_search_button}"]')
+            link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{more_results_button}"]')
             print(link_elemen)
             link_elemen.click()
             print("Waiting for link to load...")
@@ -1458,9 +1458,9 @@ class scraperGoogleJob():
     
     
     #@classmethod
-    def get_job_info(self, var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+    def get_job_info(self, var_job_link, browser, more_results_button):   #param == cls, job_link  |  self, var_search_results
         search_results = var_job_link
-        name_of_job = google_search_button
+        name_of_job = more_results_button
         
         print("Search results = ")
         print(search_results)
@@ -1469,7 +1469,7 @@ class scraperGoogleJob():
         
         for job_index in search_results[::-1]:
             print("===Ballsack = name_of_job = ", end="")
-            print(name_of_job)      #! ===Ballsack = google_search_button = Senior Software Developer - Tanda
+            print(name_of_job)      #! ===Ballsack = more_results_button = Senior Software Developer - Tanda
             selenium_link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{name_of_job}"]')
             print("===Ballsack = selenium_link_element = ", end="")
             print(selenium_link_elemen)      #! ===Ballsack = link_element = <selenium.webdriver.remote.webelement.WebElement (session="8f0df2b5-f4d9-4d59-b7a0-f33cf55ee1e0", element="9f6f64fe-c0f4-41b8-8591-3e4e1ed09f05")>
@@ -2096,7 +2096,7 @@ class scraperGoogleJob():
         return "All done!"
     
     
-    def deal_with_links(self, google_search_name):
+    def click_last_result(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None
@@ -2954,9 +2954,9 @@ class scraperGoogleJob():
     
     
     #@classmethod
-    def get_job_inf(self, var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+    def get_job_inf(self, var_job_link, browser, more_results_button):   #param == cls, job_link  |  self, var_search_results
         search_results = var_job_link
-        name_of_job = google_search_button
+        name_of_job = more_results_button
         
         print("Search results = ")
         print(search_results)
@@ -2965,7 +2965,7 @@ class scraperGoogleJob():
         
         for job_index in search_results[::-1]:
             print("===Ballsack = name_of_job = ", end="")
-            print(name_of_job)      #! ===Ballsack = google_search_button = Senior Software Developer - Tanda
+            print(name_of_job)      #! ===Ballsack = more_results_button = Senior Software Developer - Tanda
             selenium_link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{name_of_job}"]')
             print("===Ballsack = selenium_link_element = ", end="")
             print(selenium_link_elemen)      #! ===Ballsack = link_element = <selenium.webdriver.remote.webelement.WebElement (session="8f0df2b5-f4d9-4d59-b7a0-f33cf55ee1e0", element="9f6f64fe-c0f4-41b8-8591-3e4e1ed09f05")>

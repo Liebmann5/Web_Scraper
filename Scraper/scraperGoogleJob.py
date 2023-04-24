@@ -144,7 +144,7 @@ class scraperGoogleJob():
             count += 1
         print("All done!")
     
-    def deal_with_links(self, google_search_name):
+    def click_last_result(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None
@@ -607,8 +607,8 @@ class scraperGoogleJob():
         print("1")
         
         #resume_path = "get from .env file"
-        resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
-        #resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
+        #resume_path = r"C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf"
+        resume_path = r"/Users/nliebmann/Downloads/Nicholas_Liebmann_Resume_23.pdf"
         #for *lever.co* I believe
         resume_file_input = self.browser.find_elements(By.XPATH, '//input[data-qa="input-resume"]')
         print("2")
@@ -1608,9 +1608,9 @@ class scraperGoogleJob():
     
     
     #@classmethod
-    def get_job_inf(self, var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
+    def get_job_inf(self, var_job_link, browser, more_results_button):   #param == cls, job_link  |  self, var_search_results
         search_results = var_job_link
-        name_of_job = google_search_button
+        name_of_job = more_results_button
         
         print("Search results = ")
         print(search_results)
@@ -1619,7 +1619,7 @@ class scraperGoogleJob():
         
         for job_index in search_results[::-1]:
             print("===Ballsack = name_of_job = ", end="")
-            print(name_of_job)      #! ===Ballsack = google_search_button = Senior Software Developer - Tanda
+            print(name_of_job)      #! ===Ballsack = more_results_button = Senior Software Developer - Tanda
             selenium_link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{name_of_job}"]')
             print("===Ballsack = selenium_link_element = ", end="")
             print(selenium_link_elemen)      #! ===Ballsack = link_element = <selenium.webdriver.remote.webelement.WebElement (session="8f0df2b5-f4d9-4d59-b7a0-f33cf55ee1e0", element="9f6f64fe-c0f4-41b8-8591-3e4e1ed09f05")>

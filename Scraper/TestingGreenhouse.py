@@ -30,7 +30,7 @@ class greehouse_io():
         job_application = self.greenhouse_io[2]
         company_job_openings = self.greenhouse_io[3]
         
-    def deal_with_links(self, google_search_name):
+    def click_last_result(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None

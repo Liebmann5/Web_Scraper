@@ -19,6 +19,7 @@ import time
 import re
 from selenium.common.exceptions import NoSuchElementException
 #from scraperGoogle import webdriver
+import bs4
 
 class scraperGoogleJob():
     
@@ -33,25 +34,17 @@ class scraperGoogleJob():
         #self.a_fragment_identifier = None
         
         self.app_comp = None
+    
+    def company_workflow(self, url):
+        self.page_decider()
         
     
-    def convert_csv_data(self):
-        #job_data = '../job_data.csv'
-        with open ('job_data.csv', mode='r') as file:
-            reader = csv.reader(file)
-            csv_data = []
-            for row in file:
-                csv_data.append(row)
-                #print(csv_data)
-        return csv_data
-    
-    def write_to_csv(self, job_data):
-        with open ('job_data.csv', mode='a', newline='') as file:
-            writer = csv.writer(file)
-            #for row in writer:
-            writer.writerow(job_data)
-        return "All done!"
-    
+    def beautifulsoup_this(self, url):
+        result = requests.get(url)
+        content = result.text
+        soup = BeautifulSoup(content, 'lxml')
+        return soup
+        
     #TODO: This goes to all the links!!
     # def troubleshoot_xpath(self):
     #     for link in self.list_of_links:
@@ -88,79 +81,61 @@ class scraperGoogleJob():
     #             print(f"No search result found for: {google_search_name}")
     #             continue
     
-    def deal_with_links(self, google_search_name):
+    def eff_that_link(self):
+        print('Coolio, waiting...')
+        time.sleep(5)
+        print("Eff that old website! Out with the old in with the new!!")
+        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
+        self.browser.get(url)
+        time.sleep(4)
+        form_input_details = self.get_some_form_input_details(url)
+        self.print_form_details(form_input_details)
+
+        
+        print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
+        time.sleep(5)
+        #form_input_details = get_form_input_details(url)
+        
+    def click_last_result(self):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None
         
-        for job_index in self.list_of_links[::-1]:
-            print("D")
-            d = "h"
-            if d == "d":
-                h3_element = self.browser.find_element(By.XPATH, '//h3')
-                ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
-                print(ancestor_element.get_attribute('outerHTML'))
-                #linky = self.browser.get(job_index)
-                #print(linky)
-                print("\D/")
-                selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_name}"]')
-                parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
-                print(parent_a_tag_xpath)
-                print("Defence")
-            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
-            selenium_google_link.click()
-            self.browser.implicitly_wait(5)
-            time.sleep(3)
-            
-            result = requests.get(job_index)
-            content = result.text
-            soup = BeautifulSoup(content, 'lxml')
         
-            if "jobs.lever.co" in job_index:
-                application_company = "lever"
-                self.app_comp = application_company
-                
-                #self.link_to_other_company_openings(soup, application_company)
-                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
-                if apply_to_job:
-                    self.fill_out_application(applic)
-                self.lever_io_data(job_index, soup)
-                self.find_and_organize_inputs(applic, soup)
-                
-            elif "boards.greenhouse.io" in job_index:
-                application_company = "greenhouse"
-                self.app_comp = application_company
-                
-                #self.link_to_other_company_openings(soup, application_company)
-                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
-                if apply_to_job:
-                    self.fill_out_application(applic, soup)
-                    #self.other_job_openings(self.link_to_other_jobs)
-                #applic = self.greenhouse_io_start_page_decider(soup)
-                applic = soup.find('div', id="application")
-                self.find_and_organize_inputs(applic)
-    #! div_main ==> lever.co = job_description
-    #This checks the header for other company links and then buttons to apply as well?           
-    # def link_to_other_company_openings(self, soup, application_company):
-    #     plethora_of_jobs = None
-    #     if application_company == "lever":
-    #         other_company_jobs = soup.find('div', {"class": 'page show'})
-    #         company_open_positions = other_company_jobs.find('a', {"class": "main-header-logo"})
-    #         if company_open_positions['href']:
-    #             plethora_of_jobs = company_open_positions['href']
+        
+        self.eff_that_link()
 
-    #         print("Couldn't find the logo with the lick to plethora_of_jobs")
-    #     elif application_company == "greenhouse":
-    #         div_main = soup.find("div", id="main")
-    #         a_tag = soup.find('a', text='View all jobs')
-    #         if a_tag:
-    #             a_tag_inner_html = a_tag.decode_contents()
-    #             plethora_of_jobs = a_tag_inner_html['href']
-    #     print("Here1")
-    #     print(plethora_of_jobs)
-    #     print("Here2")
-    #     return plethora_of_jobs
-    
+            
+            
+
+        
+        if "jobs.lever.co" in job_index:
+            application_company = "lever"
+            self.app_comp = application_company
+            
+            #self.link_to_other_company_openings(soup, application_company)
+            apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+            if apply_to_job:
+                self.fill_out_application(applic)
+            self.lever_io_data(job_index, soup)
+            self.find_and_organize_inputs(applic, soup)
+            
+        elif "boards.greenhouse.io" in job_index:
+            application_company = "greenhouse"
+            self.app_comp = application_company
+            
+            #self.link_to_other_company_openings(soup, application_company)
+            apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+            if apply_to_job:
+                self.fill_out_application(applic, soup)
+                #self.other_job_openings(self.link_to_other_jobs)
+            #applic = self.greenhouse_io_start_page_decider(soup)
+            applic = soup.find('div', id="application")
+            self.find_and_organize_inputs(applic)
+        #! div_main ==> lever.co = job_description
+ 
+ 
     def convert_to_bs(self, job_index, soup, application_company):
         #! For lever.co there is no set div_main... it depends on what the opening_page is!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if application_company == "lever":
@@ -304,10 +279,8 @@ class scraperGoogleJob():
             return apply_to_job, application
             #return
     
-    
-    
-        #everything_about_job = app_body.get_text()
-        #apply_yes_or_no(everything_about_job)
+    #everything_about_job = app_body.get_text()
+    #apply_yes_or_no(everything_about_job)
     #greenhouse(job_description) => app_body
     def apply_yes_or_no(self, job_description):
         everything_about_job = job_description.get_text()
@@ -327,7 +300,7 @@ class scraperGoogleJob():
         #job_exp_needed = everything_about_job.find()
     
     def company_job_openings(self, soup, div_main, application_company):
-        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'page-centered'
+        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
         #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
         #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
         print("Application Company = " + application_company)
@@ -400,6 +373,8 @@ class scraperGoogleJob():
     
     def lever_co_header(self, soup):
         app_body = soup.find("div", id=["app_body", "app-body"])
+        
+        #other_company_openings = soup.find('div', {"class": 'page show'})
         other_company_openings = app_body.find('div', {"class": 'page show'})
         company_open_positions = other_company_openings.find('a', {"class": "main-header-logo"})
         try:
@@ -412,6 +387,9 @@ class scraperGoogleJob():
             other_company_jobs_url = "This company has no ALL job openings page!"
         return other_company_jobs_url
     
+    
+    #line 570 #elif child.name == "a"
+    #if ("button" in child.get("class")) => remember !BUTTON! to click
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!!!!!!!!!!!!!!!!!         greenhouse_io_BANNER  [not header]           !!!!!!!!!!!!!!!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -430,6 +408,18 @@ class scraperGoogleJob():
             elif child.name == "span" and  "company-name" in child.get("class"):
                 self.company_name = child.get_text().strip()    #"at Braintrust" => maybe look for 1st capital letter
             elif child.name == "a" and not searched_all_a:  #TODO: v only captured the 1st <a>
+                # has_hash = header.find_all('a', href=(lambda value: value and '#' in value))
+                # for a_tag in has_hash:
+                #     if '/' in a_tag['href']:
+                #         self.a_href = a_tag
+                #     #! HTML <a href='#ANYTHINGH'> -> REMEMBER *#* means redirect to that part of the webpage
+                #     elif '#' in a_tag['href']:
+                #         self.a_fragment_identifier = a_tag
+                # if self.company_other_openings_href == None:
+                #     logo_container = app_body.find('div', class_="logo-container")
+                #     company_openings_a = logo_container.find('a')
+                #     self.company_other_openings_href = company_openings_a['href']
+                # searched_all_a = True
                 header_a_tags = header.find_all('a')
                 for head_a_tag in header_a_tags:
                     if '/' in head_a_tag['href']:
@@ -441,16 +431,57 @@ class scraperGoogleJob():
                         company_openings_a = logo_container.find('a')
                         self.company_other_openings_href = company_openings_a['href']
                         searched_all_a = True
+                #all_jobs_available_a_href = child['href']  #! ^ ^ ^ ^ ^ ^ ^ ^ ^
+                #print("all_jobs_available_a_href 1 = ")
+                #print(all_jobs_available_a_href)
+                #! If it opens on job_description see the bottom is 'apply_button' or 'job_application'
+                # print("all_jobs_available_a_href 2 = ")
+                # all_jobs_available_a_href = child.decode_contents()
+                #print(all_jobs_available_a_href)
+                #!since child is the <a> remember to click it!!!
+                #companies_jobs_link_a = child
             elif child.name == "div" and "location" in child.get("class"):
                 self.company_job_location = child.get_text().strip()
             else:
                 print("child = ")
                 print(child)
+            #self.company_openings_test_link = 
         if self.company_other_openings_href == None:
             self.print_to_console("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplicationOnPageID=self.a_fragment_identifier)
         else:
             self.print_to_console("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplicationOnPageID=self.a_fragment_identifier)
         return
+        #self.greenhouse_io_content(app_body, content)
+        # if self.a_fragment_identifier == None:
+        #     return self.company_job_title, self.company_name, self.company_job_location, self.company_other_openings_href
+        # else:
+        #     return self.company_job_title, self.company_name, self.company_job_location, self.company_other_openings_href, self.a_fragment_identifier
+    
+    
+            #         position_title = soup.find('h2')
+            #         job_title = position_title.get_text().split()
+            #         job_info = soup.find('div', {"class": "posting-categories"})
+            #         job_location = job_info.find('div', {"class": 'location'}).get_text().strip()
+            #         job_department = job_info.find('div', {"class": 'department'}).get_text().strip()
+            #         job_commitment = job_info.find('div', {"class": 'commitment'}).get_text().strip()
+            #         job_style = job_info.find('div', {"class": 'workplaceTypes'}).get_text().strip()
+            #         print("HERE------------------------------------")
+                    
+            #         a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+            #         div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+            #         job_apply_butt = None
+            #         link_to_apply = None
+            #         #job_apply_butt = soup.select_one('a.btn-apply-bottom, div.btn-apply-bottom')
+            #         #if job_apply_butt.name == 'div':
+            #         if div_tag_butt:
+            #             job_apply_butt = job_apply_butt.find('a')
+            #             link_to_apply = job_apply_butt['href']
+            #         elif a_tag_butt:
+            #             link_to__apply = a_tag_butt['href']
+            #     except:
+            #         #TODO: Change this Error type!
+            #         raise ConnectionError("ERROR: Companies other open positions are not present")
+            # return
     
     def fill_out_application(self, applic, soup):
         self.insert_resume()
@@ -494,13 +525,18 @@ class scraperGoogleJob():
             print("4")
         else:
             print("5")
+            #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button.visible-resume-upload')
             resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
             print("--------------------------------------------------------")
             print(resume_upload_button)
             print("--------------------------------------------------------")
-
+            #print()
             print("6")
             if resume_upload_button:
+                print("7")
+                #resume_upload_button[0].click()
+                #resume_upload_button.click()
+                #file_popup_window = self.browser.window_handles[1]
                 time.sleep(1)
                 print("8")
                 input_elements = self.get_input_tag_elements()
@@ -511,10 +547,32 @@ class scraperGoogleJob():
                 print("Bargain-Mart")
                 print((input_element, is_visible))
                 
+                #input_elements = self.get_input_elements()
+                
                 upload_input = self.browser.find_element(By.CSS_SELECTOR, 'input[type="file"]')
                 upload_input.send_keys(resume_path)
                 print("8.1")
                 time.sleep(2)
+                              
+                # self.browser.switch_to.window(file_popup_window)
+                # self.browser.close()
+                # self.browser.switch_to.window(self.browser.window_handles[0])
+                
+                # print("SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX")
+                # # upload_frame = self.browser.find_element(By.CSS_SELECTOR, 'iframe[src*="greenhouse.io/applications/upload"]')
+                # upload_frame = self.browser.find_element(By.XPATH, 'iframe[source="attach"]')
+                # print("9")
+                # self.browser.switch_to.frame(upload_frame)
+                # print("10")
+                
+                # upload_input = self.browser.find_element(By.CSS_SELECTOR, 'input[type="file"]')
+                # print("11")
+                # upload_input.send_keys(resume_path)
+                # print("12")
+                # time.sleep(5)
+                
+                # self.browser.switch_to.default_content()
+                print("13")
             else:
                 raise Exception('Could not find resume upload element')
         print("14 Holy Crap")
@@ -528,125 +586,61 @@ class scraperGoogleJob():
             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
         return input_element, not is_hidden
     
-    def get_input_tag_elements(self):
-        """
-        Returns a list of tuples with input element ID, type and visibility status
-        """
-        input_elements = self.browser.find_elements(By.TAG_NAME, 'input')
-        inputs_info = []
-        for input_element in input_elements:
-            input_id = input_element.get_attribute('id')
-            input_type = input_element.get_attribute('type')
-            is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-            inputs_info.append((input_id, input_type, is_hidden))
-        return inputs_info
+    def get_form_input_details(self, url):
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        input_elements = soup.find_all(['input', 'textarea', 'select'])
 
- 
-    def find_and_organize_inputs(self, applic, soup):
-        """
-        Finds all the input elements in a form and returns a list of dictionaries
-        containing information about each input.
-        """
-        form_inputs = []
-        input_types = ["text", "email", "password", "number", "checkbox", "radio", "date"]
-        select_types = ["select"]
-        textarea_types = ["textarea"]
-        file_types = ["file"]
-        input_elements = self.browser.find_elements(By.XPATH, "//form//input | //form//select | //form//textarea")
-        html_element = None
+        input_details = []
 
-        for input_element in input_elements:
-            html_element = input_element.get_attribute('outerHTML')
-            
-            #print(input_element.get_attribute('outerHTML'))  # Printing the HTML element
-            print(html_element)
-            input_type = input_element.get_attribute('type') or input_element.tag_name.lower()
-            if input_type in input_types or input_type in select_types or input_type in textarea_types:
-                input_label = ""
-                input_values = []
+        for i, input_element in enumerate(input_elements):
+            details = {
+                'Label': self.get_label(input_element),
+                'Type': input_element.get('type'),
+                'Values': [],
+                'Is_Hidden': input_element.get('type') == 'hidden',
+                'HTML': str(input_element)
+            }
+            if input_element.name == 'select':
+                details['Values'] = [option.get_text(strip=True) for option in input_element.find_all('option')]
+            input_details.append(details)
 
-                input_id = input_element.get_attribute('id')
-                if input_id:
-                    try:
-                        input_label_element = self.browser.find_element(By.XPATH, f"//label[@for='{input_id}']")
-                        input_label = input_label_element.text.strip()
-                    except NoSuchElementException:
-                        input_label = ""
-                else:
-                    parent_element = input_element.find_element(By.XPATH, '..')
-                    while parent_element is not None:
-                        try:
-                            input_label_element = parent_element.find_element(By.XPATH, ".//label")
-                            input_label = input_label_element.text.strip()
-                            break
-                        except NoSuchElementException:
-                            parent_element = parent_element.find_element(By.XPATH, '..')
+        return input_details
 
-                if input_type in input_types:
-                    if input_type == "checkbox":
-                        if input_element.is_selected():
-                            input_values.append(input_element.get_attribute('value'))
-                    elif input_type == "radio":
-                        radio_inputs = self.browser.find_elements(By.XPATH, "//form//input[@name='" + input_element.get_attribute('name') + "']")
-                        radio_values = [radio.get_attribute('value') for radio in radio_inputs if radio.is_displayed()]
-                        if radio_values:
-                            input_values = radio_values
-                    else:
-                        input_values.append(input_element.get_attribute('value'))
-                elif input_type in select_types:
-                    select_options = input_element.find_elements(By.XPATH, ".//option")
-                    input_values = [option.text.strip() for option in select_options]
-                elif input_type in textarea_types:
-                    input_values.append(input_element.get_attribute('value'))
-
-                is_hidden = (input_type == 'hidden' or not input_element.is_displayed()) and input_type not in file_types
-                if is_hidden:
-                    self.browser.execute_script("arguments[0].setAttribute('type', 'text');", input_element)
-                    self.browser.execute_script("arguments[0].removeAttribute('style');", input_element)
-
-                form_inputs.append({
-                    "label": input_label,
-                    "type": input_type,
-                    "values": input_values,
-                    "is_hidden": is_hidden,
-                    "HTML": html_element
-                })
-        self.print_form_details(form_inputs)
-        return form_inputs
-
-       
     def print_form_details(self, form_inputs):
         print('\n\n\n')
-        print("Form Input Details:")
-        for index, input_element in enumerate(form_inputs, start=1):
-            print(f"Input {index}:")
-            print(f"  Label: {input_element['label']}")
-            print(f"  Type: {input_element['type']}")
-            print(f"  Values: {input_element['values']}")
-            print(f"  Is Hidden: {input_element['is_hidden']}")
-            print(f"  HTML: {input_element['HTML']}")
-        print("\n")       
-
-    def print_form_inputs(self, form_inputs):
-        for input in form_inputs:
-            print("Label: " + input["label"])
-            print("Type: " + input["type"])
-            print("Values: " + str(input["values"]))
-            print("Is Hidden: " + str(input["is_hidden"]))
-            print("--------------------")
-    
-    def print_input_element(self, selenium_to_html, input_element):
-        if input_element == "ready to party":
-            count = 0
-            for html_element in selenium_to_html:
-                print((str(count)) + ": ", end="")
-                print(html_element)
-                count += 1
+        jam = "10"
+            
+        if jam == "1":
+            print('--------------------------------------------')
+            print("Form Input Details: ", end="")
+            for i, detail in enumerate(form_inputs, start=1):
+                print(f"Input {i}:")
+                print(f"  Label: {detail['label']}")
+                print(f"  Type: {detail['type']}")
+                print(f"  Values: {detail['values']}")
+                print(f"  Is Hidden: {detail['is_hidden']}")
+                print(f"  HTML: {detail['html']}")
+                print('--------------------------------------------')
+            print("\n")
+            
         else:
-            selenium_to_html.append(input_element)
+            print('--------------------------------------------')
+            print("Form Input Details: ", end="")
+            for i, detail in enumerate(form_inputs, start=1):
+                print(f"Input {i}:")
+                print(f"  Label: {detail['label']}")
+                print(f"  Type: {detail['type']}")
+                print(f"  Values: {detail['values']}")
+                print(f"  Is Hidden: {detail['is_hidden']}")
+                print(f"  HTML: {detail['html']}")
+                print(f"  Dynamic: {detail['dynamic']}")
+                print(f"  Related Elements: {detail['related_elements']}")
+                print('--------------------------------------------')
+            print("\n")
 
     def is_input_invisible(self, input_element):
-        #from scraperGoogle import webdriver
+        from scraperGoogle import webdriver
         """
         Checks if an input element is invisible to the user
         Returns True if the input is invisible, False otherwise
@@ -687,131 +681,6 @@ class scraperGoogleJob():
                 method_name = arg
         print('----------------------------------------------------------------------------------------------------')
         print('\n\n\n')
-    
-    
-    
-    
-    
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-    
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ 
-    
-#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   
-    
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    #@classmethod
-    def get_job_inf(self, var_job_link, browser, google_search_button):   #param == cls, job_link  |  self, var_search_results
-        search_results = var_job_link
-        name_of_job = google_search_button
-        
-        print("Search results = ")
-        print(search_results)
-        print("Length of search_results is ", end="")
-        print(len(search_results))
-        
-        for job_index in search_results[::-1]:
-            print("===Ballsack = name_of_job = ", end="")
-            print(name_of_job)      #! ===Ballsack = google_search_button = Senior Software Developer - Tanda
-            selenium_link_elemen = browser.find_element(By.XPATH, f'//ancestor::a/h3[text()="{name_of_job}"]')
-            print("===Ballsack = selenium_link_element = ", end="")
-            print(selenium_link_elemen)      #! ===Ballsack = link_element = <selenium.webdriver.remote.webelement.WebElement (session="8f0df2b5-f4d9-4d59-b7a0-f33cf55ee1e0", element="9f6f64fe-c0f4-41b8-8591-3e4e1ed09f05")>
-            selenium_link_elemen.click()
-            print("Waiting for link to load...")
-            print("===Ballsack = job_index = ", end="")
-            print(job_index)          #! ===Ballsack = _index = https://jobs.lever.co/Tanda/11d4cf5d-51d6-4219-89b0-a611300855ef
-            browser.implicitly_wait(5)
-            time.sleep(7)
-            
-            #get HTML from clicked webpage
-            #try:
-            result = requests.get(job_index)
-            content = result.text
-            print("1")
-            soup = BeautifulSoup(content, 'lxml')
-            print("2 - Extracting HTML was a success")
-            #print(soup.prettify())       #! Prints the HTML -------->>>>>>> DOUBLE CHECK IT'S THE JOB_URL'S HTML!?!?!?
-            
-            if "jobs.lever.co" in job_index:
-                print("===Ballsack = jobs.lever.co = 1")
-                self.general_bs(soup)
-                applic = self.lever_io_data(job_index, soup)
-                self.find_and_organize_inputs(applic)
-                print("===Ballsack = jobs.lever.co = 2")
-            
-            elif "boards.greenhouse.io" in job_index:
-                print("===Ballsack = boards.greenhouse.io = 1")
-                self.general_bs(soup)
-                applic = self.greenhouse_io_start_page_decider(soup)
-                applic = soup.find('div', id="application")
-                self.find_and_organize_inputs(applic)
-                print("===Ballsack = boards.greenhouse.io = 2")
-    #--------------------------------------------------------------------------------------------------
-            elif "workday" in job_index:
-                print("===Ballsack = workday = 1")
-                self.workday_data(soup)
-                print("===Ballsack = workday = 2")
-            else:
-                print("get_job_info() method else statement")
-            print("Well that crap didn't work out!!")
-        print("Well sue me silly!")
-        self.lever_io_application(self, "application_link", "application_webpage_html")
-        return "ok"
-
-
-
-
-
-
-
-
-
-
-    
     
     #filter out already applied jobs
     #traverse job webpage
@@ -892,23 +761,13 @@ class scraperGoogleJob():
         #print("===Ballsack = leaving the lever.co")
         return soup
 
-
-
-#plethora_of_jobs (outter) = <meta property="og:url" content="https://jobs.lever.co/anduril/51af4cee-1380-439c-86c2-510863722099/apply">
-#plethora_of_jobs (inner)  = 
-    
-    
-
-    
-
+    #if id="app_body" and [check which page you are on]
     
     def greenhouse_io_start_page_decide(self, soup): #if (child of main is one of these)
-        print("Welcome fair maiden we have gathered to make decisions based on your skin color... please after you!")
+        print("Welcome fair maiden this company has gathered to make decisions based on your skin color... please after you!")
         div_main = soup.find("div", id="main")
-        #print(div_main)
         next_elem = div_main.find_next()
         while next_elem:
-            #print(next_elem)
             if next_elem.name == "div" and next_elem.get("id") == "flash-wrapper":
                 print('-Job Page')
                 return soup.find("div", id="flash-wrapper")
@@ -948,177 +807,235 @@ class scraperGoogleJob():
                 next_elem = next_elem.find_next()
         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
 
+    #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
+    def attach_resum(self, application):
+        resume_element = application.find_element(By.XPATH, "//*[@id[contains(@id, 'resume')]]")
+        resume_path = "get from .env file"
         
-    def greenhouse_io_conten(self, app_body, content):
-        for child in content.children:
-            for childrens_child in child.children:
-                strong_elem = childrens_child.find_next()
-                while strong_elem:
-                    if strong_elem.name == "stong":
-                        description_title = strong_elem.get_text()
-                        if description_title in "Requirements":
-                            print("This is the very specific BS4 way to organize and look through job description!")
-                    
-        application = div_main.find("div", id="application")
-        #TODO
-        apply_button = div_main.find("button", text="Apply Here")
-        if application:
-            self.greenhouse_io_application(application)
-        elif apply_button:
-            apply_button.click()
-            time.sleep(5)
-            self.greenhouse_io_application(application)
-
-
- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- 
-    
-    
-    
-    
-
-    def get_application_value():
-        if "phone" in label.lower():
-            if "mobile" in label.lower() or "personal" in label.lower():
-                #cell_phone_number = .env.get("PHONE_NUMBER")
-                return cell_phone_number
-            elif "home" in label.lower():
-                #home_phone_number = .env.get("HOME_PHONE")
-                return home_phone_number
-            else:
-                #cell_phone_number = .env.get("PHONE_NUMBER")
-                return cell_phone_number
-
-
-
-
-
-
+        #How does the form want us to upload our resume? Button click...
+        while True:
+            upload_by_button = application.find_element(By.TAG_NAME, "//fieldset[@aria-describedby='resume-allowable-file-types']")
+            if upload_by_button:
+                ActionChains(self.browser).move_to_element(upload_by_button).click().perform()
+                upload_by_button.send_keys(resume_path)
+                break
+        try:
+            ActionChains(self.browser).send_keys(Keys.ENTER).perform()
+        except:
+            raise "Something went wrong meanie! Help me :("
 
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!       REMEMBER TO COUNT THE NUMBER OF OPEN SENIOR > ROLES AVAILABLE           !
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+    def get_labia(self, input_element):
+        # Check for the special case: 'button' and 'submit application' in input_element
+        input_element_str = str(input_element).lower()
+        if 'button' in input_element_str and 'submit application' in input_element_str:
+            return 'Submit Application'
+        
+        if input_element.get('type') == 'radio':
+            label = self.print_parent_hierarchy(input_element)
+            return label
+
+        label = None
+
+        # Case 1: Check if the label is a direct previous sibling of the input element
+        label = input_element.find_previous_sibling('label')
+
+        # Case 2: Check if the label is inside a parent container
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Case 3: Check if the label is associated using the "for" attribute
+        if not label:
+            input_id = input_element.get('id')
+            if input_id:
+                label = input_element.find_previous('label', attrs={'for': input_id})
+
+        # Case 4: Check if the input element is a child of a label element
+        if not label:
+            parent_label = input_element.find_parent('label')
+            if parent_label:
+                label = parent_label
+
+        # Case 5: Check if a label is inside a parent container of the input element
+        if not label:
+            parent = input_element.find_parent()
+            if parent:
+                label = parent.find('label')
+
+        # Check if the label contains a nested div element with the class "application-label" (case for Input 18)
+        if label:
+            app_label = label.find(lambda tag: 'class' in tag.attrs and 'application-label' in tag['class'])
+            if app_label:
+                label = app_label
+
+        if label:
+            label_text = label.text.strip()
+
+            # If the standard asterisk (*) or fullwidth asterisk (✱) is present, remove everything after it
+            if '*' in label_text:
+                label_text = label_text.split('*')[0].strip() + ' *'
+            elif '✱' in label_text:
+                label_text = label_text.split('✱')[0].strip() + ' ✱'
+            else:
+                # If the newline character (\n) is present, remove it and everything after it
+                label_text = label_text.split('\n')[0].strip()
+
+            return label_text
+
+        # Case 6: Check if the input_element has a placeholder attribute
+        placeholder = input_element.get('placeholder')
+        if placeholder:
+            return f"Placeholder ~ {placeholder}"
+
+        return None
+    
+    def print_parent_hierarchy(self, element, stop_level=5):
+        current_level = 0
+        while (current_level <= stop_level):
+            print(f"Level {current_level}:")
+            if current_level == 0 or current_level == 5:
+                if current_level == 0:
+                    print(element.prettify())
+                if current_level == 5:
+                    sauce = element.next_element.get_text(strip=True)
+                    print("EFF CHATGPT THAT THING IS GAY AND SUCKS BALLS: ", end='')
+                    print(sauce)
+                    return sauce
+            element = element.parent
+            current_level += 1
+
+    #! Include checkboxes!!!!
+    def get_some_form_input_details(self, url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
+
+        form_input_details = []
+        processed_radios = set()
+
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_id = field.get('id')
+            input_label = ''
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
+
+            if field.name == 'button':
+                input_type = 'button'
+                # Skip captcha buttons
+                if 'h-captcha' in field.get('class', []) or 'g-recaptcha' in field.get('class', []):
+                    continue
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
+
+            # Add a check for the input types you want to keep
+            if input_type not in ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button'] and input_id != 'education_school_name':
+                continue
+
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
+
+            if input_type == 'radio':
+                #print("Radio button in get_some_form_input_details:", field)  # Debugging line
+                radio_name = field.get('name')
+                if radio_name in processed_radios:
+                    continue
+                processed_radios.add(radio_name)
+                radio_group = soup.find_all('input', {'name': radio_name})
+                values = [radio.get('value') for radio in radio_group]
+                input_html = ''.join([str(radio).strip() for radio in radio_group])
+                
+                #radio_button = soup.find('input', attrs={'name': 'eeo[race]', 'type': 'radio'})
+                #self.print_parent_hierarchy(radio_button)
+                
+                # Call get_label for the entire radio button group
+                input_label = self.get_labia(field)
+            else:
+                # Call get_label for other input types
+                input_label = self.get_labia(field)
+
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
+
+            is_dynamic = False
+            related_elements = []
+
+            # Check the field's ancestors for the 'data-show-if' attribute and 'display: none;' style
+            current_element = field
+            while current_element:
+                if current_element.has_attr('data-show-if'):
+                    is_dynamic = True
+                    related_elements = [
+                        {
+                            'related_field_id': current_element['data-show-if'].split('==')[0],
+                            'trigger_value': current_element['data-show-if'].split('==')[1],
+                        }
+                    ]
+                if current_element.get('style', '') == 'display: none;':
+                    is_hidden = True
+                current_element = current_element.find_parent()
+
+            form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+                'dynamic': is_dynamic,
+                'related_elements': related_elements,
+            })
+
+        return form_input_details
 
 
 
-#<cite class="qLRx3b tjvcx GvPZzd cHaqb" role="text" style="max-width:315px">https://jobs.lever.co<span class="dyjrff qzEoUe" role="text"> › ltaresearch</span></cite>
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ChatGPT:
-# This accidentally might be a better option b/c all I care about is the department and then the job! So if they do have a bunch of sub-'levels'
-# it's probably just like office names and then managers so not stuff we really care about!?!?!?
-# from bs4 import BeautifulSoup
-
-# html = '''
-# <div id="main">
-# <section class="level-0"></section>
-# <section class="level-0"></section>
-# <section class="level-0"></section>
-#   <h3 id="4051531004">Research, Engineering, Product</h3>
-#   <section class="child level-1">
-#   <h4 id="4013603004">All teams (roles across multiple teams)</h4>
-#   <div class="opening" department_id="4013603004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4013603004="true" data-department-4051531004="true">
-#       <a data-mapped="true" href="/openai/jobs/4050126004">Research Engineer</a>
-#       <br>
-#       <span class="location">San Francisco, California, United States</span>
-#   </div>
-#   <div class="opening" department_id="4013603004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4013603004="true" data-department-4051531004="true">
-#       <a data-mapped="true" href="/openai/jobs/4229594004">Research Scientist</a>
-#       <br>
-#       <span class="location">San Francisco, California, United States</span>
-#   </div>
-#  </section>
-
-# <section class="child level-1">
-#   <h4 id="4049554004">Applied AI Engineering</h4>
-
-#   <div class="opening" department_id="4049554004,4051531004" office_id="4006308004" data-office-4006308004="true" data-department-4049554004="true" data-department-4051531004="true">
-#   <a data-mapped="true" href="/openai/jobs/4857084004">Mobile Engineering Manager, ChatGPT</a>
-#   <br>
-#  </section>
-#  <section class="child level-1"></section>
-#  <section class="child level-1"></section>
-#  <section class="child level-1"></section>
-#  <section class="child level-1"></section>
-#  </div>
-# '''
-
-# soup = BeautifulSoup(html, 'html.parser')
-# main_div = soup.find('div', {'id': 'main'})
-
-# sections = main_div.find_all('section', class_=lambda x: x and 'level' in x)
-
-# for section in sections:
-#     opening_div = section.find('div', {'class': 'opening'})
-#     if opening_div:
-#         a_tag = opening_div.find('a')
-#         if a_tag:
-#             job_title = a_tag.text
-#             job_link = a_tag.get('href')
-#             span_tag = opening_div.find('span', {'class': 'location'})
-#             if span_tag:
-#                 job_location = span_tag.text
-#                 print(f'Title: {job_title}\nLink: {job_link}\nLocation: {job_location}\n')
-#             else:
-#                 print(f'Title: {job_title}\nLink: {job_link}\nLocation: N/A\n')
-#             a_tag.click()
-#         else:
-#             print('No <a> tag found in the opening div')
-#     else:
-#         print('No opening div found in the section')
-
-
-
-
-
-
-
+        
+        
+        
+        
+        
 
 
 

@@ -1,13 +1,15 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.safari.options import Options as SafariOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+import os
+import csv
 
 import time
 
@@ -21,12 +23,36 @@ class Workflow():
         self.browser = None
         self.google_search_results_links = None
         
+        #TODO: Change this name... it's all the job info a user has previously applied to!!
+        self.csv_data = []
+          
+        print('--------USERS .ENV INFO--------')
+        env_path = "../.env"
+        load_dotenv(dotenv_path=env_path)
+        self.users_information = {k: v for k, v in os.environ.items()}
+        print(self.users_information)
+        RESUME_PATH = self.users_information.get('WORK_RESUME_PATH')    #=> .get() returns None if no value!
+        print(RESUME_PATH)
+        print('-------------------------------')
+     
+       
+    def job_search_workflow(self):
+        self.user_browser_choice()
+        self.google_search_results_links = scraperGoogle(self.browser).search_for_jobs()
+        self.get_jobs_users_applied_to()
+        
+        
+        self.close_browser()
+        
+        
+        
+        
           
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def user_browser_choice(self):
-        user_browser_choice, browser_name = 1, " Firefox "
-        #user_browser_choice, browser_name = 2, " Safari "
+        #user_browser_choice, browser_name = 1, " Firefox "
+        user_browser_choice, browser_name = 2, " Safari "
         self.browser_setup(user_browser_choice, browser_name)
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
@@ -36,20 +62,25 @@ class Workflow():
         while True:
             user_jobs = input()
             user_jobs.strip()
-            #if user_jobs == 1:   #! ERROR: comparing a string to an int!!!!
+            
             if user_jobs == "1":
                 return 1, " FireFox "
+                break
             elif user_jobs == "2":
                 return 2, " Safari "
+                break
             elif user_jobs == "3":
                 return 3, " Chrome "
+                break
             elif user_jobs == "4":
                 return 4, " Edge "
+                break
             else:
                 print("That's kinda messed up dog... I give you an opportunity to pick and you pick some dumb crap.")
                 print("You've squandered any further opportunities to decide stuff. I hope you are happy with yourself.")
                 print("Don't worry clown I'll pick for you!")
                 #TODO: Make else just check OS and return number of that OS's web browser!!!
+                #! THIS IS A while loop.... so it runs until false
     
     def browser_setup(self, user_browser_choice, browser_name):
         print('Execution Started -- Opening' + browser_name + 'Browser')
@@ -88,196 +119,240 @@ class Workflow():
             browser.set_page_load_timeout(30)
         
         #TODO:   if (browser is open == True && browser is ready == True)
-        if(True):
+        #assert 'Yahoo' in browser.title
+        try:
             browser.get('https://www.google.com')
-            links_to_jobs = scraperGoogle().search_for_jobs(browser)
-            self.google_search_results_links = links_to_jobs
-        else:
+            # links_to_jobs = scraperGoogle(browser).search_for_jobs()
+            # self.google_search_results_links = links_to_jobs
+        except:
             raise ConnectionError('ERROR: Check Internet Connection')
-        
-        browser.quit()
+        return
+    
+    def close_browser(self):
+        self.browser.quit()
         print('Execution Ending -- Webdriver session is Closing')
         
-    def search_for_jobs(self, browser):
-        job_titles = self.job_titles
-        
-        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
-        search_bar = browser.find_element(By.NAME, "q")
-        search_bar.clear()
-        search_bar.send_keys('site:lever.co | site:greenhouse.io | site:workday.com')
-        print('1/2')
-        time.sleep(1)
-        job_titles_string = ' ("'
-        for i, job in enumerate(job_titles):
-            if i == len(job_titles)-1 or len(job_titles) == 0:
-                job_titles_string += (job + '")')
-            else:
-                job_titles_string += (job + '" | "')
-        search_bar.send_keys(job_titles_string)
-        print('2/2')
-        print("Searching google for...       adult films?")
-        time.sleep(1)
-        #TODO: Uncomment below and erease    .search_time_frame() !!!!
-        #self.search_locations(self, browser, search_bar)
-        self.search_time_frame(browser, search_bar)
-        return
+    def apply_to_jobs(self):
+        for link in self.google_search_results_links:
+            self.CompanyOpeningsAndApplications().start_page_decider(link)
     
-    #TODO
-    def search_locations(self, browser, search_bar):
-        global good_locations
-        global bad_locations
-        
-        #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
-        if not good_locations and not bad_locations:
-            self.search_time_frame(self, browser)
-        
-        #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
-        search_location = " & "
-        for count, add_location in enumerate(good_locations):
-            if count == len(good_locations):
-                search_location += (" near=" + add_location + " ")
-                #! ADD: Find out how to add more location!!!!!                
-        for count, exclude_location in bad_locations:
-            if count == len(bad_locations):
-                search_location += ("!(near=" + exclude_location + ")")
-        
-        search_bar.send_keys(search_location)
-        self.search_time_frame(self, browser, search_bar)
-        return
-    
-    def search_time_frame(self, browser, search_bar):
-        search_bar.send_keys(Keys.RETURN)
-        print("TAAAADDDAAAAAA")
-        time.sleep(1)
-        
-        tools_butt = browser.find_element(By.XPATH, "//div[text()='Tools']")
-        tools_butt.click()
-        
-        any_time_butt = browser.find_element(By.XPATH, "//div[text()='Any time']")
-        any_time_butt.click()
-        decisi = "24"
-        
-        if decisi == "24":
-            past_24 = browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
-            past_24.click()
-        elif decisi == "7":
-            past_week = browser.find_element(By.XPATH, "//a[text()='Past week']")
-            past_week.click()
-        else:
-            raise TypeError('ERROR: Didnt pick a registered time!')
-        print("Filtering by past " + decisi)
-        time.sleep(1)
-        self.search_results(browser, self.list_first_index, self.list_last_index)
-        return
-        
-    def search_results(self, browser, list_first_index, list_last_index):
-        if list_first_index == 0:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-            
-        if list_first_index == 0:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-        else:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
-        
-        for count, results_link in enumerate(search_results, list_first_index):
-            print('--------------------------------')
-            print(str(count+1) + "/" + str(list_last_index))
-            print(results_link)
-            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
-            print(f"Here is link #{count+1}: ", end="")
-            job_link = link.get_attribute("href")
-            self.links_to_jobs.append(job_link)
-            #print(link.get_attribute("href"))
-            print(job_link)
-            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            # scraperGoogleJob(job_link)
-            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            google_search_buttony = link.find_element(By.TAG_NAME, "h3")
-            google_search_button = google_search_buttony.get_attribute('innerHTML')
-            #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
-            if count == list_last_index:
-                list_first_index = list_last_index
-                break
-        print("All done loser!")
-        time.sleep(1)
-        #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
-        return list_first_index, list_last_index
-    
-    def increment_search_results(self, browser, list_first_index, list_last_index, google_search_button):
-        current_height = browser.execute_script("return document.body.scrollHeight")
-        print('\n\n\n')
-        print("increment_search_results")
-        print("****************************************************************")
-        print("Current Height == " + str(current_height))
-        
-        while True:
-            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(1)
-            print("Scrolled...")
-           
-            current_list_length = list_last_index-list_first_index
-            #**************************************************************************************************************
-            if (current_list_length%100) == 1:
-                print("Length of the current list == " + str(current_list_length))
-        #--------------------------------------------------------------------
-            search_results = browser.find_elements(By.XPATH, "//div[@class='g']")
-            if len(search_results) < list_last_index:
-                print("No more search results")
-                break
-            # try:
-            #     no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-            #     print("No more search results")
-            #     break
-            # except NoSuchElementException:
-            #     pass
-            #**************************************************************************************************************
-            # new_height = browser.execute_script("return document.body.scrollHeight")
-            # print("New Height == " + str(new_height))
-            
-            #if new_height == current_height:
-            try:
-                more_results = browser.find_element(By.XPATH, "//span[text()='More results']")
-                if more_results:
-                    print("Found the more_results == ", end="")
-                    print(more_results)
-                    more_results.click()
-                    print("Clicked 'More results' button")
-                    time.sleep(1)
-                elif not more_results:
-                    print("NOTHING == more_results")
-            except NoSuchElementException:
-                return  ("ERROR: Didn't work I guess idk??")
-            new_height = browser.execute_script("return document.body.scrollHeight")
-            print("New Height == " + str(new_height))
-            if new_height == current_height:
-                print("No more search results")
-                break
-        #--------------------------------------------------------------------   
-            current_height = new_height
-            list_first_index, list_last_index = self.search_results(browser, list_first_index, list_last_index)
-            print("Current height == " + str(current_height))
-        print("****************************************************************")
-        print('\n\n\n')
-        
-        print("Scrolled to the end of search results, GOOBER!")
-        time.sleep(2.5)
-        print("++++++++++++++++++++++++++++++++++++++++++++++")
 
-        scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
-        print("++++++++++++++++++++++++++++++++++++++++++++++")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # def convert_csv_data(self):
+    #     #job_data = '../job_data.csv'
+    #     with open ('job_data.csv', mode='r') as file:
+    #         reader = csv.reader(file)
+    #         csv_data = []
+    #         for row in file:
+    #             csv_data.append(row)
+    #             #print(csv_data)
+    #     return csv_data
+    
+    
+    
+    
+    #TODO: Keep job url's
+    def get_jobs_users_applied_to(self):
+        job_data = '../Scraper/JobData.csv'
+        with open (job_data, mode='r') as file:
+            reader = csv.reader(file)
+            csv_data = []
+            for row in file:
+                csv_data.append(row)
+                print(csv_data)
+            # for row in reader:
+            #     csv_data.append(row)
+            #     print(csv_data)
+        file.close()
+        print(csv_data)
+        self.filter_out_jobs_user_previously_applied_to()
+
+    
+
+    
+    def filter_out_jobs_user_previously_applied_to(self):
+        csv_data = self.get_jobs_user_applied_to()
+        previously_applied_to_job_links = []
+        for i, google_search_result_URL in enumerate(self.google_search_results_links):
+            for j, previously_applied_URL in enumerate(csv_data):
+                if (google_search_result_URL[i] == previously_applied_URL[j]):
+                    #remove the link from google_search_results_links
+                    self.google_search_results_links[i].remove()
+                    print("Match google_search_result_URL: ", end='')
+                    print(google_search_result_URL[i])
+                    print("Match previously_applied_URL: ", end='')
+                    print(previously_applied_URL[j])
+                    previously_applied_to_job_links.append(previously_applied_URL[j])
+                    #Breaks out of inner for loop!
+                    break
+        print("These are all the links you already applied to... ")
+        print(previously_applied_to_job_links)
         return
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def write_to_csv(self, job_data):
+        with open ('job_data.csv', mode='a', newline='') as file:
+            writer = csv.writer(file)
+            #for row in writer:
+            writer.writerow(job_data)
+        return "All done!"
+    
+   
+   
+   
+   
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    def click_last_result(self, google_search_name):
+        #self.list_of_links = var_job_link
+        google_link_title = google_search_name
+        application_company = None
+        
+        
+        
+        self.eff_that_link()
+        
+        
+        
+        
+        # def apply_to_jo(job_data: list):
+        # if (len(job_data)-1):
+        #     return "ok"
+        for job_index in self.list_of_links[::-1]:
+            print("D")
+            d = "h"
+            if d == "d":
+                h3_element = self.browser.find_element(By.XPATH, '//h3')
+                ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
+                print(ancestor_element.get_attribute('outerHTML'))
+                #linky = self.browser.get(job_index)
+                #print(linky)
+                print("\D/")
+                selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_name}"]')
+                parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
+                print(parent_a_tag_xpath)
+                print("Defence")
+            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
+            selenium_google_link.click()
+            self.browser.implicitly_wait(5)
+            time.sleep(3)
+            
+            
+            self.eff_that_link()
+            
+            
+            result = requests.get(job_index)
+            content = result.text
+            soup = BeautifulSoup(content, 'lxml')
+        
+            if "jobs.lever.co" in job_index:
+                application_company = "lever"
+                self.app_comp = application_company
+                
+                #self.link_to_other_company_openings(soup, application_company)
+                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+                if apply_to_job:
+                    self.fill_out_application(applic)
+                self.lever_io_data(job_index, soup)
+                self.find_and_organize_inputs(applic, soup)
+                
+            elif "boards.greenhouse.io" in job_index:
+                application_company = "greenhouse"
+                self.app_comp = application_company
+                
+                #self.link_to_other_company_openings(soup, application_company)
+                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+                if apply_to_job:
+                    self.fill_out_application(applic, soup)
+                    #self.other_job_openings(self.link_to_other_jobs)
+                #applic = self.greenhouse_io_start_page_decider(soup)
+                applic = soup.find('div', id="application")
+                self.find_and_organize_inputs(applic)
+    #! div_main ==> lever.co = job_description
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    
+    
+    
         
 
 if __name__ == '__main__':
     workflow = Workflow()
-    workflow.user_browser_choice()
+    workflow.job_search_workflow()
 
 
 
@@ -286,3 +361,36 @@ if __name__ == '__main__':
 
 
 #site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
+
+
+
+
+
+
+# Web_Scraper/
+# ├── config.py
+# ├── Legit
+# │   ├── JobSearchWorkflow.py
+# │   ├── GoogleSearch.py
+# │   └── CompanyOpeningsAndApplications.py
+# ├── .env
+# ├── README.md
+# └── Scraper
+#     ├── scraperGoogle.py
+#     ├── scraperGoogleJob.py
+#     ├── TestingSelenium.py
+#     └── EXAMPLE.env
+
+
+
+
+
+
+
+
+
+
+
+
+
+

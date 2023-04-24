@@ -325,10 +325,10 @@ Traceback (most recent call last):
   File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 194, in search_time_frame
     self.search_results(browser, self.list_first_index, self.list_last_index)
   File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 234, in search_results
-    self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
+    self.increment_search_results(browser, list_first_index, list_last_index, more_results_button)
   File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogle.py", line 297, in increment_search_results
-    scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogleJob.py", line 135, in deal_with_links
+    scraperGoogleJob(self.links_to_jobs, browser).click_last_result(more_results_button)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogleJob.py", line 135, in click_last_result
     apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Scraper\scraperGoogleJob.py", line 302, in convert_to_bs

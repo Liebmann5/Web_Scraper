@@ -75,8 +75,8 @@ class scraperGoogle():
     
     def browser_setup(self, test):
         #user_browser_choice, browser_name = self.user_requirements()
-        user_browser_choice, browser_name = 1, " Firefox "
-        #user_browser_choice, browser_name = 2, " Safari "
+        #user_browser_choice, browser_name = 1, " Firefox "
+        user_browser_choice, browser_name = 2, " Safari "
         self.job_titles.append("software engineer")
         self.job_titles.append("backend engineer")
         print('Execution Started -- Opening' + browser_name + 'Browser')
@@ -222,8 +222,8 @@ class scraperGoogle():
             # scraperGoogleJob(job_link)
             #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
             #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            google_search_buttony = link.find_element(By.TAG_NAME, "h3")
-            google_search_button = google_search_buttony.get_attribute('innerHTML')
+            more_results_buttony = link.find_element(By.TAG_NAME, "h3")
+            more_results_button = more_results_buttony.get_attribute('innerHTML')
             #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
             if count == list_last_index:
@@ -232,10 +232,10 @@ class scraperGoogle():
         print("All done loser!")
         time.sleep(1)
         #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
+        self.increment_search_results(browser, list_first_index, list_last_index, more_results_button)
         return list_first_index, list_last_index
     
-    def increment_search_results(self, browser, list_first_index, list_last_index, google_search_button):
+    def increment_search_results(self, browser, list_first_index, list_last_index, more_results_button):
         current_height = browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
         print("increment_search_results")
@@ -295,7 +295,7 @@ class scraperGoogle():
         time.sleep(2.5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
 
-        scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
+        scraperGoogleJob(self.links_to_jobs, browser).click_last_result(more_results_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         

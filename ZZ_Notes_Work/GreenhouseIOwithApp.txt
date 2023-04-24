@@ -485,9 +485,9 @@ Traceback (most recent call last):
   File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/scraperGoogle.py", line 197, in search_time_frame
     self.search_results(browser, self.list_first_index, self.list_last_index)
   File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/scraperGoogle.py", line 237, in search_results
-    self.increment_search_results(browser, list_first_index, list_last_index, google_search_button)
+    self.increment_search_results(browser, list_first_index, list_last_index, more_results_button)
   File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/scraperGoogle.py", line 300, in increment_search_results
-    scraperGoogleJob(browser).get_job_info(self.links_to_jobs, browser, google_search_button)
+    scraperGoogleJob(browser).get_job_info(self.links_to_jobs, browser, more_results_button)
   File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/scraperGoogleJob.py", line 88, in get_job_info
     self.find_and_organize_inputs(applic)
   File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Scraper/scraperGoogleJob.py", line 376, in find_and_organize_inputs

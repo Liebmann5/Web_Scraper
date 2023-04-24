@@ -29,33 +29,7 @@ class scraperGoogle():
     
     def user_requirements(self):
         self.ludacris_speed()
-        
-        print("Well well well. Somebody needs a job... figures someone like you"
-              + " is wanting more money! What a weiner your parents raised. You weiner!")
-        #time.sleep(1)
-        print("Any who just go ahead and type out the job title you want. "
-              + " each job title press ENTER! (When you press ENTER it will probably take "
-              + "you to the next line, this is normal... illiterately speaking of course)")
-        #time.sleep(1)
-        print("Try and keep it to around 3-4 you eager eagle. Exceling past these "
-              + "numbers will yield less results, so thats why.")
-        #time.sleep(1)
-        print("Fianlly for the love of the Hoover Dam please spell the everything correctly! "
-              + "If you're not confident then highlight the name with your mouse and click\n"
-              + " COPY. When you come back here just right click. If you don't have a right"
-              + " click well then huh. Life is tough but get your crap together cause idk")
-        #time.sleep(1)
-        #TODO       
-        # print("Ok now yrs of exp?")
-        # user_exp = input()
-        # yrs_of_exp.append(user_exp)
-        #     -> Add as global like this =>   yrs_of_exp = None  =>  b/c it's an empty string
-        # print("Ok and which locations?")
-        # location = input()
-        # (.env).add(location)    #so it's saved on their system
-        # user_location.appemd(location)
-        #     ==> When printed in search do   ==>   " & near=" + user_location
-        #self.search_for_jobs(self)
+
         return self.links_to_jobs
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
@@ -153,8 +127,8 @@ class scraperGoogle():
             #print(link.get_attribute("href"))
             print(job_link)
 
-            google_search_buttony = link.find_element(By.TAG_NAME, "h3")
-            google_search_button = google_search_buttony.get_attribute('innerHTML')
+            more_results_buttony = link.find_element(By.TAG_NAME, "h3")
+            more_results_button = more_results_buttony.get_attribute('innerHTML')
             
             if count == list_last_index:
                 list_first_index = list_last_index
@@ -162,10 +136,10 @@ class scraperGoogle():
         print("All done loser!")
         time.sleep(1)
         #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(list_first_index, list_last_index, google_search_button)
+        self.increment_search_results(list_first_index, list_last_index, more_results_button)
         return list_first_index, list_last_index
     
-    def increment_search_results(self, list_first_index, list_last_index, google_search_button):
+    def increment_search_results(self, list_first_index, list_last_index, more_results_button):
         current_height = self.browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
         print("increment_search_results")
@@ -222,12 +196,12 @@ class scraperGoogle():
         time.sleep(2.5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
 
-        # scraperGoogleJob(self.links_to_jobs, browser).deal_with_links(google_search_button)
-        self.click_this_thing(google_search_button)
+        # scraperGoogleJob(self.links_to_jobs, browser).click_last_result(more_results_button)
+        self.click_this_thing(more_results_button)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
-    def click_this_thing(self, google_search_button):
+    def click_this_thing(self, more_results_button):
         application_company = None
         
         for job_index in self.links_to_jobs[::-1]:
@@ -240,11 +214,11 @@ class scraperGoogle():
             #     #linky = self.browser.get(job_index)
             #     #print(linky)
             #     print("\D/")
-            #     selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_button}"]')
+            #     selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{more_results_button}"]')
             #     parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
             #     print(parent_a_tag_xpath)
             #     print("Defence")
-            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_button}")]')
+            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{more_results_button}")]')
             selenium_google_link.click()
             self.browser.implicitly_wait(5)
             time.sleep(3)

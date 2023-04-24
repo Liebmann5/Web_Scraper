@@ -40,3 +40,80 @@ nliebmann@dhcp017104094139 ~ %
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+nliebmann@dhcp017104094139 ~ % pip install python-dotenv
+zsh: command not found: pip
+nliebmann@dhcp017104094139 ~ % pip3 install python-dotenv
+Defaulting to user installation because normal site-packages is not writeable
+Collecting python-dotenv
+  Downloading python_dotenv-1.0.0-py3-none-any.whl (19 kB)
+Installing collected packages: python-dotenv
+  WARNING: The script dotenv is installed in '/Users/nliebmann/Library/Python/3.9/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed python-dotenv-1.0.0
+
+[notice] A new release of pip is available: 23.0.1 -> 23.1
+[notice] To update, run: /Library/Developer/CommandLineTools/usr/bin/python3 -m pip install --upgrade pip
+nliebmann@dhcp017104094139 ~ % python3 -m pip install --upgrade pip
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: pip in ./Library/Python/3.9/lib/python/site-packages (23.0.1)
+Collecting pip
+  Downloading pip-23.1.1-py3-none-any.whl (2.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 21.2 MB/s eta 0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 23.0.1
+    Uninstalling pip-23.0.1:
+      Successfully uninstalled pip-23.0.1
+  WARNING: The scripts pip, pip3 and pip3.9 are installed in '/Users/nliebmann/Library/Python/3.9/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed pip-23.1.1
+nliebmann@dhcp017104094139 ~ % pip install python-dotenv          
+zsh: command not found: pip
+nliebmann@dhcp017104094139 ~ % pip3 install python-dotenv          
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: python-dotenv in ./Library/Python/3.9/lib/python/site-packages (1.0.0)
+nliebmann@dhcp017104094139 ~ % 
+
+
+
+
+
+
+
+
+
+
