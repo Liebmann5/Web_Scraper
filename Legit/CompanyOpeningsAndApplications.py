@@ -21,29 +21,74 @@ from selenium.common.exceptions import NoSuchElementException
 #from scraperGoogle import webdriver
 import bs4
 
-class scraperGoogleJob():
+class CompanyWorkflow():
     
-    def __init__(self, list_of_links, browser):
-        self.list_of_links = list_of_links
+    def __init__(self, browser, users_information):
+        #self.list_of_links = list_of_links
         self.browser = browser
         self.company_job_title = None
         self.company_name = None
         self.company_job_location = None
-        self.company_other_openings_href = None
+        self.company_open_positions_url = None
         #This and apply can be temporary/method variables
         #self.a_fragment_identifier = None
         
         self.app_comp = None
+        
+        self.users_information = users_information
+        #self.application_company_name = None
+        self.company_open_positions_link = None
     
-    def company_workflow(self, url):
-        self.page_decider()
+    def company_workflow(self, job_link):
+        #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
+        #self.lets_run_some_tests()
+
+
+        
+        if "jobs.lever.co" in job_link:
+            application_company_name = "lever"
+            self.determine_current_page(job_link, application_company_name)
+
+            
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
+            if apply_to_job:
+                self.fill_out_application(applic)
+            self.lever_io_data(job_link, soup)
+            self.find_and_organize_inputs(applic, soup)
+            
+        elif "boards.greenhouse.io" in job_link:
+            application_company_name = "greenhouse"
+            self.determine_current_page(job_link, application_company_name)
+            
+            
+            self.app_comp = application_company_name
+            
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
+            if apply_to_job:
+                self.fill_out_application(applic, soup)
+                #self.other_job_openings(self.link_to_other_jobs)
+            #applic = self.greenhouse_io_start_page_decider(soup)
+            applic = soup.find('div', id="application")
+            self.find_and_organize_inputs(applic)
+        #! div_main ==> lever.co = job_description
+
         
     
-    def beautifulsoup_this(self, url):
-        result = requests.get(url)
-        content = result.text
-        soup = BeautifulSoup(content, 'lxml')
+    def apply_beautifulsoup(self, job_link, parser):
+        #the way I learned how to do it
+        if parser == "lxml":
+            result = requests.get(job_link)
+            content = result.text
+            soup = BeautifulSoup(content, 'lxml')
+        #used for form_input_details()
+        if parser == "html":
+            page = requests.get(job_link)
+            result = page.content
+            soup = BeautifulSoup(result, 'html.parser')           
         return soup
+    
         
     #TODO: This goes to all the links!!
     # def troubleshoot_xpath(self):
@@ -81,52 +126,56 @@ class scraperGoogleJob():
     #             print(f"No search result found for: {google_search_name}")
     #             continue
     
-    def eff_that_link(self):
+    def lets_run_some_tests(self):
         print('Coolio, waiting...')
         time.sleep(5)
-        print("Eff that old website! Out with the old in with the new!!")
-        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        print("Eff that old website! Let's test new one heard J.Cole said he heard Jonah Hill said it was tight! Out with the old in with the new!!")
+        url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        self.browser.get(url)
+        time.sleep(4)
+        #Run any tests you want here!
+        form_input_details = self.get_some_form_input_details(url)
+        self.print_form_details(form_input_details)
+        time.sleep(20)
         url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
         self.browser.get(url)
         time.sleep(4)
+        #Run any tests you want here!
         form_input_details = self.get_some_form_input_details(url)
         self.print_form_details(form_input_details)
-
+        time.sleep(20)
         
         print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
         time.sleep(5)
-        #form_input_details = get_form_input_details(url)
+        return
         
-    def click_last_result(self):
-        #self.list_of_links = var_job_link
-        google_link_title = google_search_name
-        application_company = None
+    def delete_maybe(self, job_link):
+        application_company_name = None
         
         
         
-        self.eff_that_link()
+        #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
+        self.lets_run_some_tests()
 
-            
-            
 
         
-        if "jobs.lever.co" in job_index:
-            application_company = "lever"
-            self.app_comp = application_company
+        if "jobs.lever.co" in job_link:
+            application_company_name = "lever"
+            self.app_comp = application_company_name
             
-            #self.link_to_other_company_openings(soup, application_company)
-            apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
             if apply_to_job:
                 self.fill_out_application(applic)
-            self.lever_io_data(job_index, soup)
+            self.lever_io_data(job_link, soup)
             self.find_and_organize_inputs(applic, soup)
             
-        elif "boards.greenhouse.io" in job_index:
-            application_company = "greenhouse"
-            self.app_comp = application_company
+        elif "boards.greenhouse.io" in job_link:
+            application_company_name = "greenhouse"
+            self.app_comp = application_company_name
             
-            #self.link_to_other_company_openings(soup, application_company)
-            apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
             if apply_to_job:
                 self.fill_out_application(applic, soup)
                 #self.other_job_openings(self.link_to_other_jobs)
@@ -136,16 +185,19 @@ class scraperGoogleJob():
         #! div_main ==> lever.co = job_description
  
  
-    def convert_to_bs(self, job_index, soup, application_company):
-        #! For lever.co there is no set div_main... it depends on what the opening_page is!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if application_company == "lever":
+    def determine_current_page(self, job_link, application_company_name):
+        soup = self.apply_beautifulsoup(job_link, "lxml")
+        
+        if application_company_name == "lever":
             #! I think this code goes in lever_header
             #other_company_jobs_url = self.lever_co_header(soup)
+            webpage_body = soup.find('body')
             
             #! div_main ==> lever.co = job_application
             opening_link_application = soup.find('div', {"class": 'application-page'})
             opening_link_description = soup.find('div', {"class": 'posting-page'})
             #! if it opens here IMMEDIATELY get the current url from the top!!!!!!!
+            
             #! div_main ==> lever.co = company_job_openings
             opening_link_company_jobs = soup.find('div', {"class": "list-page"})
             
@@ -153,7 +205,7 @@ class scraperGoogleJob():
             if opening_link_application:
                 
                 #!!!!!!!!!!!!!!! TAKE AWAY ONLY FOR TESTS !!!!!!!!!!!!!!!!!!!!!!
-                self.fill_out_application(opening_link_application, soup)
+                #self.fill_out_application(opening_link_application, soup)
                 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 
                 div_main = opening_link_application
@@ -162,8 +214,8 @@ class scraperGoogleJob():
                     application_webpage_html = soup.find("div", {"class": "application-page"})
                     #Can't fill out the application without filtering through the job description 1st!!!
                     #! v this needs to go through the header 1st and get the link
-                    #self.lever_co_header(soup, application_webpage_html, application_company)   #! Find div_main!!!!!
-                    self.lever_co_header(soup)
+                    #self.lever_co_header(soup, application_webpage_html, application_company_name)   #! Find div_main!!!!!
+                    self.company_open_positions_url = self.lever_co_header(soup)
                     if self.company_other_openings_href:
                         company_open_positions.click()
                         self.company_job_openings(soup)
@@ -192,15 +244,15 @@ class scraperGoogleJob():
                     elif not apply_to_job:
                         #TODO:
                         self.company_other_openings_href.click()
-                        self.company_job_openings(soup, div_main, application_company)
+                        self.company_job_openings(soup, div_main, application_company_name)
                 except:
                     raise "Something went wrong with the the greenhouse.io job_description page"
             elif opening_link_company_jobs:
                 #TODO: parse through other_company_jobs for "lever"
-                self.company_job_openings(soup, None, application_company)
+                self.company_job_openings(soup, None, application_company_name)
             application = opening_link_application
                 
-        elif application_company == "greenhouse":
+        elif application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
             #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
             next_elem = div_main.find_next()
@@ -214,19 +266,19 @@ class scraperGoogleJob():
                     print("******* Flash_Wrapper = ")
                     print(flash_wrapper)
                     print("*******")
-                    self.company_job_openings(soup, div_main, application_company)
+                    self.company_job_openings(soup, div_main, application_company_name)
                     return
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
                     print('-Job Listings Page')
                     #return soup.find("div", id="embedded_job_board_wrapper")
                     embedded_job_board = soup.find("div", id="embedded_job_board_wrapper")
-                    self.company_job_openings(soup, div_main, application_company)
+                    self.company_job_openings(soup, div_main, application_company_name)
                     return
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
                     print("-Company Job Openings Page")
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
-                    self.company_job_openings(soup, div_main, application_company)
+                    self.company_job_openings(soup, div_main, application_company_name)
                     return soup.find("section", {"class": "level-0"})
                 elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
                     app_body = next_elem
@@ -235,8 +287,8 @@ class scraperGoogleJob():
                     application = soup.find("div", id="application")
                     if header and content:
                         print("Job Description Page")
-                        #self.link_to_other_company_openings(soup, application_company)
-                        #self.company_job_openings(self, soup, div_main, application_company)
+                        #self.link_to_other_company_openings(soup, application_company_name)
+                        #self.company_job_openings(self, soup, div_main, application_company_name)
                         self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
                     #else:
                         print("Application at bottom or <button>")
@@ -269,7 +321,7 @@ class scraperGoogleJob():
                         elif apply_to_job == False:
                             self.a_href.click()
                             time.sleep(4)
-                            self.company_job_openings(soup, div_main, application_company)
+                            self.company_job_openings(soup, div_main, application_company_name)
                             return
                     break
                 else:
@@ -283,6 +335,7 @@ class scraperGoogleJob():
     #apply_yes_or_no(everything_about_job)
     #greenhouse(job_description) => app_body
     def apply_yes_or_no(self, job_description):
+        #FILTER: keywords (industry experience//////)
         everything_about_job = job_description.get_text()
         #semen = everything_about_job.prettify()
         #print(everything_about_job)
@@ -299,12 +352,12 @@ class scraperGoogleJob():
         #csv_data = self.convert_csv_data()
         #job_exp_needed = everything_about_job.find()
     
-    def company_job_openings(self, soup, div_main, application_company):
+    def company_job_openings(self, soup, div_main, application_company_name):
         #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
         #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
         #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
-        print("Application Company = " + application_company)
-        if application_company == 'lever':
+        print("Application Company = " + application_company_name)
+        if application_company_name == 'lever':
             #just getting a better(more narrowed result) filter
             postings_wrapper = soup.find('div', class_="postings-wrapper")
             postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
@@ -337,10 +390,10 @@ class scraperGoogleJob():
                         if span_tag:
                             job_opening_location = span_tag.text
                         #job_opening_href.click()
-            self.print_to_console("company_job_openings", application_company, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
+            self.print_to_console("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
             return
         
-        if application_company == 'greenhouse':
+        if application_company_name == 'greenhouse':
             sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
             #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
             count = 0
@@ -368,25 +421,52 @@ class scraperGoogleJob():
                 if count == 20:
                     break
                 print("-------")
-            self.print_to_console("company_job_openings", application_company, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_link)
+            self.print_to_console("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_link)
         return
     
-    def lever_co_header(self, soup):
-        app_body = soup.find("div", id=["app_body", "app-body"])
-        
-        #other_company_openings = soup.find('div', {"class": 'page show'})
-        other_company_openings = app_body.find('div', {"class": 'page show'})
-        company_open_positions = other_company_openings.find('a', {"class": "main-header-logo"})
+    #The purpose of this method is pretty much only finding and retrieving the companies other open positions url!!!
+    def lever_co_header(self, webpage_body):
+        links_in_header = []
+        print("\nThese are the links/elements that lead to this companies other available Job Openings:")
+        current_url = self.browser.current_url
+        print("Current URL: " + current_url)
+        links_in_header.append(current_url)
+        webpage_header = webpage_body.find('div', {"class": 'main-header-content'})
+        company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
+        print("Selenium Click => Companies other Job Openings: " + company_open_positions_a)
+        links_in_header.append(company_open_positions_a)
         try:
-            if company_open_positions['href']:
-                plethora_of_jobs = company_open_positions['href']
-                print(plethora_of_jobs)
-                other_company_jobs_url = plethora_of_jobs
+            if self.company_open_positions_a['href']:
+                company_open_positions_href = company_open_positions_a['href']
+                print("Webpage's Header link: " + company_open_positions_href)
+                company_open_positions_url = company_open_positions_href
+                links_in_header.append(company_open_positions_url)
         except:
-            print("This company has no ALL job openings page!")
-            other_company_jobs_url = "This company has no ALL job openings page!"
-        return other_company_jobs_url
+            print("This company's webpage is dumb anyways! Trust me they would've probably overworked you anyways.")
+        self.check_header_links(links_in_header)
+        return
     
+    def check_header_links(self, links_in_header):
+        #! CANT SET VALUES TO LOCAL VARIABLES  REMEMBER!!!!!...  except for booleans I guess?
+        first_link = True
+        list_of_other_jobs_keyword
+        for header_link in links_in_header:
+            if first_link == True and "lever" == self.application_company_name:
+                adjusting_link = header_link.find('jobs.lever.co/') + len('jobs.lever.co/')
+                still_adjusting = header_link.find('/', adjusting_link) + 1
+                link_adjusted = header_link[:still_adjusting]
+                print(link_adjusted)
+                header_link = link_adjusted
+                print(header_link)
+                list_of_other_jobs_keyword = 'list-page'
+                first_link = False
+            self.browser.execute_script("window.open('{}', '_blank');".format(header_link))
+            for handle in self.browser.window_handles:
+                self.browser.switch_to.window(handle)
+                if list_of_other_jobs_keyword in self.browser.page_source:
+                    self.company_open_positions_link = header_link
+                    return
+        print("Hmmmm this is unexpected. I must be dumb...")
     
     #line 570 #elif child.name == "a"
     #if ("button" in child.get("class")) => remember !BUTTON! to click
@@ -489,7 +569,7 @@ class scraperGoogleJob():
     
     #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
-        print("=== .insert_resume()")
+        print(">>>>>>   .insert_resume()")
         
         if self.app_comp == 'greenhouse':
             element = self.browser.find_element(By.XPATH, "//button[text()='Attach']")
@@ -553,25 +633,7 @@ class scraperGoogleJob():
                 upload_input.send_keys(resume_path)
                 print("8.1")
                 time.sleep(2)
-                              
-                # self.browser.switch_to.window(file_popup_window)
-                # self.browser.close()
-                # self.browser.switch_to.window(self.browser.window_handles[0])
-                
-                # print("SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX SEX")
-                # # upload_frame = self.browser.find_element(By.CSS_SELECTOR, 'iframe[src*="greenhouse.io/applications/upload"]')
-                # upload_frame = self.browser.find_element(By.XPATH, 'iframe[source="attach"]')
-                # print("9")
-                # self.browser.switch_to.frame(upload_frame)
-                # print("10")
-                
-                # upload_input = self.browser.find_element(By.CSS_SELECTOR, 'input[type="file"]')
-                # print("11")
-                # upload_input.send_keys(resume_path)
-                # print("12")
-                # time.sleep(5)
-                
-                # self.browser.switch_to.default_content()
+
                 print("13")
             else:
                 raise Exception('Could not find resume upload element')
@@ -621,7 +683,7 @@ class scraperGoogleJob():
                 print(f"  Values: {detail['values']}")
                 print(f"  Is Hidden: {detail['is_hidden']}")
                 print(f"  HTML: {detail['html']}")
-                print('--------------------------------------------')
+            print('--------------------------------------------')
             print("\n")
             
         else:
@@ -636,7 +698,7 @@ class scraperGoogleJob():
                 print(f"  HTML: {detail['html']}")
                 print(f"  Dynamic: {detail['dynamic']}")
                 print(f"  Related Elements: {detail['related_elements']}")
-                print('--------------------------------------------')
+            print('--------------------------------------------')
             print("\n")
 
     def is_input_invisible(self, input_element):
@@ -1033,7 +1095,37 @@ class scraperGoogleJob():
 
         
         
-        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#! Important Notes
+
+#app_body = soup.find("div", id=["app_body", "app-body"])   <---greenhouse.io
+
+
+
+
+
+
+
+
+
+    
         
         
 

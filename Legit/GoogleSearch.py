@@ -30,6 +30,7 @@ class scraperGoogle():
     def user_requirements(self):
         self.ludacris_speed()
 
+        self.print_google_search_results()
         return self.links_to_jobs
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
@@ -38,7 +39,7 @@ class scraperGoogle():
         print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
         search_bar = self.browser.find_element(By.NAME, "q")
         search_bar.clear()
-        search_bar.send_keys('site:lever.co | site:greenhouse.io | site:workday.com')
+        search_bar.send_keys('site:lever.co | site:greenhouse.io')     #('site:lever.co | site:greenhouse.io | site:workday.com')
         print('1/2')
         time.sleep(1)
         job_titles_string = ' ("'
@@ -224,7 +225,16 @@ class scraperGoogle():
             time.sleep(3)
         return
 
-
+    def print_google_search_results(self):
+        print('--------------------------------------------')
+        for i, job in enumerate(self.job_titles):
+            print("Results from this Google Search: ")
+            print("Job Title: ", end="")
+            print(job)
+            print("Link to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        time.sleep(30)
 
 
 

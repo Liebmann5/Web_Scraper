@@ -13,8 +13,14 @@ import csv
 
 import time
 
-#from fileName import className
+#! from fileName import className
 from GoogleSearch import scraperGoogle
+from CompanyOpeningsAndApplications import CompanyWorkflow
+
+
+                #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
+                #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
+                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 class Workflow():
@@ -39,8 +45,8 @@ class Workflow():
     def job_search_workflow(self):
         self.user_browser_choice()
         self.google_search_results_links = scraperGoogle(self.browser).search_for_jobs()
-        self.get_jobs_users_applied_to()
-        
+        self.get_jobs_users_applied_to()  #and filter them out!
+        self.apply_to_jobs()
         
         self.close_browser()
         
@@ -51,8 +57,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def user_browser_choice(self):
-        #user_browser_choice, browser_name = 1, " Firefox "
-        user_browser_choice, browser_name = 2, " Safari "
+        user_browser_choice, browser_name = 1, " Firefox "
+        #user_browser_choice, browser_name = 2, " Safari "
         self.browser_setup(user_browser_choice, browser_name)
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
@@ -122,8 +128,6 @@ class Workflow():
         #assert 'Yahoo' in browser.title
         try:
             browser.get('https://www.google.com')
-            # links_to_jobs = scraperGoogle(browser).search_for_jobs()
-            # self.google_search_results_links = links_to_jobs
         except:
             raise ConnectionError('ERROR: Check Internet Connection')
         return
@@ -133,8 +137,9 @@ class Workflow():
         print('Execution Ending -- Webdriver session is Closing')
         
     def apply_to_jobs(self):
-        for link in self.google_search_results_links:
-            self.CompanyOpeningsAndApplications().start_page_decider(link)
+        # for job_link in self.google_search_results_links:
+        for job_link in self.google_search_results_links[::1]:   #? I think this goes last to first???
+            CompanyWorkflow(self.browser, self.users_information).company_workflow(job_link)
     
 
     
