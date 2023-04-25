@@ -16,6 +16,7 @@ import time
 #! from fileName import className
 from GoogleSearch import scraperGoogle
 from CompanyOpeningsAndApplications import CompanyWorkflow
+from datetime import datetime
 
 
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,6 +29,8 @@ class Workflow():
     def __init__(self):
         self.browser = None
         self.google_search_results_links = None
+        self.time_program_ran = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print("This program began running at " + self.time_program_ran)
         
         #TODO: Change this name... it's all the job info a user has previously applied to!!
         self.csv_data = []
@@ -40,7 +43,9 @@ class Workflow():
         RESUME_PATH = self.users_information.get('WORK_RESUME_PATH')    #=> .get() returns None if no value!
         print(RESUME_PATH)
         print('-------------------------------')
-     
+        
+        self.total_jobs_applied_to_count = 0
+        self.total_jobs_applied_to_info = {} 
        
     def job_search_workflow(self):
         self.user_browser_choice()
@@ -137,8 +142,8 @@ class Workflow():
         print('Execution Ending -- Webdriver session is Closing')
         
     def apply_to_jobs(self):
-        # for job_link in self.google_search_results_links:
-        for job_link in self.google_search_results_links[::1]:   #? I think this goes last to first???
+        # for job_link in self.google_search_results_links[::1]:
+        for job_link in self.google_search_results_links:   #? I think this goes last to first???
             CompanyWorkflow(self.browser, self.users_information).company_workflow(job_link)
     
 

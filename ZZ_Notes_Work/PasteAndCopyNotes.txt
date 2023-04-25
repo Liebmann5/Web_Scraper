@@ -1444,6 +1444,82 @@ Also remember that this has to work for all different kinds of forms so keeping 
 
 
 
+So I have these values in a .env file
+UNTOUCHED_USER='False'
+LAST_APPLIED=''
+LINKEDIN_USERNAME=''
+LINKEDIN_PASSWORD=''
+HOME_RESUME_PATH='C:\Users\user\OneDrive\Desktop\Resume_23.pdf'
+WORK_RESUME_PATH='/Users/nliebmann/Downloads/Resume_23.pdf'
+FIRST_NAME='Dr. Oliver'
+MIDDLE_INITIAL=''
+LAST_NAME='Clothesoff'
+EMAIL=''
+PHONE_NUMBER='6669116969'
+HOME_PHONE=''
+LOCATION_CITY=''
+ZIP_CODE=''
+SCHOOL='University of Missouri'
+DEGREE='B.S.'
+DISCIPLINE='Gynecology'
+SCHOOL_START_DATE_MONTH='08'
+SCHOOL_START_DATE_YEAR='1969'
+SCHOOL_END_DATE_MONTH='05'
+SCHOOL_END_DATE_YEAR='1970'
+GPA='12.0'
+CURRENT_COMPANY='Koles Kaligraphy Kinc'
+CURRENT_TITLE='Prevert'
+COMPANY_START_DATE='01/02/2020'
+CURRENT_EMPLOYEE='False'
+COMPANY_END_DATE=''
+LINKEDIN_URL=''
+GITHUB_URL=''
+PERSONAL_URL=''
+US_CITIZEN='True'
+GENDER='Male'
+PRONOUNS=''
+SEXUAL_ORIENTATION='Yes please'
+RACE='GO'
+and a dictionary variable with this key value setup
+form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+                'dynamic': is_dynamic,
+                'related_elements': related_elements,
+            })
+so I need to write a method that fills in a form field. In my form_input_details this is what every key value represents
+                'label'=the string from the form that tells us what needs to be inserted into a specific form field
+                'type'=the way we will input our info(Ex. dropdown selection, radio buttons, textarea, etc.)
+                'values'=If the input only allows for a select list of responses then their listed here(Ex. For Gender values would be [Male, Female, Other])
+                'is_hidden'=whether the element where we will have Selenium insert our values is hidden or not
+                'html'=the element where we insert our information(that way Selenium can quickly insert our values)
+now the method should use the label key to find its corresponding value from the .env file which I read and inserted into my program like this.
+        env_path = "../.env"
+        load_dotenv(dotenv_path=env_path)
+        self.users_information = {k: v for k, v in os.environ.items()}
+        print(self.users_information)
+also here are some example form_input_details values  from this website [https://boards.greenhouse.io/doubleverify/jobs/6622484002]
+Input 13:
+  Label: When would you be available to start? *
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field4]" required="required"></textarea>
+Input 14:
+  Label: Have you applied for another role with Govini within the last 6 months? *
+  Type: select
+  Values: ['Select...', 'Yes', 'No']
+  Is Hidden: False
+  HTML: <select name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field5]"><option value="">Select...</option><option>Yes</option><option>No</option></select>
+Input 15:
+  Label: If so, please include role title:
+  Type: textarea
+  Values: []
+  Is Hidden: False
+  HTML: <textarea class="card-field-input" name="cards[9756f0c0-a0e2-4757-b029-85f781432dba][field6]"></textarea>
 
 
 
@@ -1488,12 +1564,100 @@ Also remember that this has to work for all different kinds of forms so keeping 
 
 
 
+can you think of a better more clever way to write it? If you look at this website [https://jobs.lever.co/clubhouse/e1faf52e-a35f-41f2-b2e5-250d5f1777be/apply] it asks for a full name instead of First and Last name which means from the .env file we'd have to do something like
+full_name = FIRST_NAME + ' ' + MIDDLE_INITIAL + ' ' + LAST_NAME. So in special cases like that what do you suggest I do? Also I didn't know how but if we come across a completely new question(label) that isn't in the .env can you stop the program and show user the question, and answers if available, to have them answer it and save their response into a variable so we can insert it into the .env later. 
 
 
+can you think of a better more clever way to write it? If you look at this website [https://jobs.lever.co/clubhouse/e1faf52e-a35f-41f2-b2e5-250d5f1777be/apply] it asks for a full name instead of First and Last name which means from the .env file we'd have to do something like
+full_name = FIRST_NAME + ' ' + MIDDLE_INITIAL + ' ' + LAST_NAME. So in special cases like that what do you suggest I do? Also I didn't know how but if we come across a completely new question(label) that isn't in the .env can you stop the program and show user the question, and answers if available, to have them answer it and save their response into a variable so we can insert it into the .env later. Also can you finish writing the method I'll provide my method that creates my form_input_details in case it helps
+    def get_form_input_details(self, url):
+        page = requests.get(url)
+        soup = BeautifulSoup(page.content, 'html.parser')
 
+        form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
+        form_input_details = []
+        processed_radios = set()
 
+        for i, field in enumerate(form_fields, start=1):
+            input_type = field.get('type')
+            input_id = field.get('id')
+            input_label = ''
+            is_hidden = field.get('style') == 'display: none;' or input_type == 'hidden'
+            input_html = str(field).strip()
 
+            if field.name == 'button':
+                input_type = 'button'
+                # Skip captcha buttons
+                if 'h-captcha' in field.get('class', []) or 'g-recaptcha' in field.get('class', []):
+                    continue
+            elif field.name == 'textarea':
+                input_type = 'textarea'
+            elif field.name == 'select':
+                input_type = 'select'
+
+            # Add a check for the input types you want to keep
+            if input_type not in ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button'] and input_id != 'education_school_name':
+                continue
+
+            values = []
+            if input_type == 'select':
+                options = field.find_all('option')
+                for option in options:
+                    values.append(option.text.strip())
+
+            if input_type == 'radio':
+                #print("Radio button in get_form_input_details:", field)  # Debugging line
+                radio_name = field.get('name')
+                if radio_name in processed_radios:
+                    continue
+                processed_radios.add(radio_name)
+                radio_group = soup.find_all('input', {'name': radio_name})
+                values = [radio.get('value') for radio in radio_group]
+                input_html = ''.join([str(radio).strip() for radio in radio_group])
+                
+                #radio_button = soup.find('input', attrs={'name': 'eeo[race]', 'type': 'radio'})
+                #self.print_parent_hierarchy(radio_button)
+                
+                # Call get_label for the entire radio button group
+                input_label = self.get_labia(field)
+            else:
+                # Call get_label for other input types
+                input_label = self.get_labia(field)
+
+            # Skip hidden fields without a label
+            if is_hidden and not input_label:
+                continue
+
+            is_dynamic = False
+            related_elements = []
+
+            # Check the field's ancestors for the 'data-show-if' attribute and 'display: none;' style
+            current_element = field
+            while current_element:
+                if current_element.has_attr('data-show-if'):
+                    is_dynamic = True
+                    related_elements = [
+                        {
+                            'related_field_id': current_element['data-show-if'].split('==')[0],
+                            'trigger_value': current_element['data-show-if'].split('==')[1],
+                        }
+                    ]
+                if current_element.get('style', '') == 'display: none;':
+                    is_hidden = True
+                current_element = current_element.find_parent()
+
+            form_input_details.append({
+                'label': input_label,
+                'type': input_type,
+                'values': values,
+                'is_hidden': is_hidden,
+                'html': input_html,
+                'dynamic': is_dynamic,
+                'related_elements': related_elements,
+            })
+
+        return form_input_details
 
 
 

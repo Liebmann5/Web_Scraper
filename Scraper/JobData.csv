@@ -1,8 +1,8 @@
-Company_Job_URL,Company_Name,Company_Job_Title,Company_Job_Location,Date_Applied
+Job_URL,Company_Name,Job_Title,Company_Job_Location,Company_Department,Job_ID_Number,Date_Applied
 
 
 
-
+for loop through all of these except for the last!!!          ssooo  (len(JobData)-1)
 
 
 
