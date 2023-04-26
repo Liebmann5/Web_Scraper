@@ -44,7 +44,9 @@ class Workflow():
         self.browser_setup()
         self.google_search_results_links = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
-        time.sleep(30)
+        print(self.google_search_results_links)
+        print("DOPER")
+        time.sleep(3)
         self.get_jobs_users_applied_to()  #and filter them out!
         self.load_users_information()
         self.apply_to_jobs()
@@ -59,8 +61,8 @@ class Workflow():
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
         #users_browser_choice, browser_name = 1, " Firefox "
-        #users_browser_choice, browser_name = 2, " Safari "
-        users_browser_choice, browser_name = 3, " Chrome "
+        users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
@@ -179,23 +181,58 @@ class Workflow():
     
     #TODO: Keep job url's
     def get_jobs_users_applied_to(self):
+        
+        
         job_data = '../Scraper/JobData.csv'
-        with open (job_data, mode='r') as file:
-            reader = csv.reader(file)
-            csv_data = []
-            for row in file:
-                csv_data.append(row)
-                print(csv_data)
-            # for row in reader:
-            #     csv_data.append(row)
-            #     print(csv_data)
-        file.close()
-        print(csv_data)
+        job_data_absolute_path = os.path.abspath(job_data)
+        print(f"Absolute path to JobData.csv: {job_data_absolute_path}")
+
+        with open(job_data_absolute_path, mode='r') as file:
+            print(file)
+        
+        
+        
+        
+        
+        current_script_path = os.path.dirname(os.path.abspath(__file__))
+        job_data = os.path.join(current_script_path, '..', 'Scraper', 'JobData.csv')
+
+        with open(job_data, mode='r') as file:
+            print(file)
+        
+        
+        
+        
+        
+        print(f"Current working directory: {os.getcwd()}")
+        
+        
+        
+        
+        
+        
+        # job_data = r'../Scraper/JobData.csv'
+        # with open (job_data, mode='r') as file:
+        #     reader = csv.reader(file)
+        #     csv_data = []
+        #     next(reader) # skip the header row
+        #     for i, row in enumerate(reader):
+        #         csv_data.append(row[:-1]) # exclude the last column
+        #         if i%10 == 1:
+        #             print(f"{i}st order of business: " + row)
+        #         elif i%10 == 2:
+        #             print(f"{i}nd order of business: " + row)
+        #         elif i%10 == 3:
+        #             print(f"{i}rd order of business: " + row)
+        #         else:
+        #             print(f"{i}th order of business: " + row)
+        # print('\nThis is the data as data: ')
+        # print(csv_data)
         self.filter_out_jobs_user_previously_applied_to()
 
     
 
-    
+    #Use Quick Sort to sort jobs_previously_applied_to
     def filter_out_jobs_user_previously_applied_to(self):
         csv_data = self.get_jobs_user_applied_to()
         previously_applied_to_job_links = []

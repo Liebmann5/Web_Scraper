@@ -26,6 +26,7 @@ class scraperGoogle():
         self.job_titles.append("software engineer")
         self.job_titles.append("backend engineer")
         self.search_for_jobs()
+        return
     
     def user_requirements(self):
         self.ludacris_speed()
@@ -61,8 +62,8 @@ class scraperGoogle():
         
         #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
         if not self.good_locations and not self.bad_locations:
-            #self.filter_search_time_frame(self, browser)
             self.filter_search_time_frame(search_bar)
+            return 
         
         #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
         search_location = " & "
@@ -104,11 +105,6 @@ class scraperGoogle():
         return
         
     def search_results(self, list_first_index, list_last_index):
-        if list_first_index == 0:
-            search_results = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-            
         if list_first_index == 0:
             search_results = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
             print(f"Number of search results: {len(search_results)}")
@@ -157,17 +153,6 @@ class scraperGoogle():
             if len(search_results) < list_last_index:
                 print("No more search results")
                 break
-            # try:
-            #     no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-            #     print("No more search results")
-            #     break
-            # except NoSuchElementException:
-            #     pass
-            #**************************************************************************************************************
-            # new_height = browser.execute_script("return document.body.scrollHeight")
-            # print("New Height == " + str(new_height))
-            
-            #if new_height == current_height:
             try:
                 more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
                 if more_results:
@@ -220,14 +205,19 @@ class scraperGoogle():
             #     print("Defence")
             selenium_google_link = self.browser.find_element(By.XPATH, f"//ancestor::a/h3[not(descendant::br)][contains(text(), '{more_results_button}')]")
             selenium_google_link.click()
-            self.browser.implicitly_wait(5)
+            self.browser.implicitly_wait(2)
             time.sleep(3)
+            return
+        selenium_google_link.click()
+        self.browser.implicitly_wait(2)
+        time.sleep(3)
         return
 
     def print_google_search_results(self):
         print('--------------------------------------------')
+        print("Results from this Google Search: ")
         for i, job in enumerate(self.job_titles):
-            print("Results from this Google Search: ")
+            
             print("Job Title: ", end="")
             print(job)
             print("Link to Job: ", end="")
