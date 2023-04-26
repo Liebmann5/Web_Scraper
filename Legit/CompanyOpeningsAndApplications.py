@@ -22,8 +22,8 @@ from selenium.common.exceptions import NoSuchElementException
 import bs4
 
 class CompanyWorkflow():
-    
-    def __init__(self, browser, users_information):
+                                                #TODO: v INCLUDE THIS EVERYWHERE!!!!!
+    def __init__(self, browser, users_information, senior_experience):
         #self.list_of_links = list_of_links
         self.browser = browser
         self.company_job_title = None
@@ -40,7 +40,8 @@ class CompanyWorkflow():
         self.users_information = users_information
         self.application_company_name = None
         self.company_open_positions_link = None
-        self.avoid_these_job_titles = ["senior", "sr", "principal"]
+        if senior_experience == False:
+            self.avoid_these_job_titles = ["senior", "sr", "principal"]
         self.soup = None
         self.company_open_positions_a = None    #For selenium to click
         self.application_company_name = None

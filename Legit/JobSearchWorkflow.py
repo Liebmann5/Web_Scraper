@@ -34,23 +34,19 @@ class Workflow():
         
         #TODO: Change this name... it's all the job info a user has previously applied to!!
         self.csv_data = []
-          
-        print('--------USERS .ENV INFO--------')
-        env_path = "../.env"
-        load_dotenv(dotenv_path=env_path)
-        self.users_information = {k: v for k, v in os.environ.items()}
-        print(self.users_information)
-        RESUME_PATH = self.users_information.get('WORK_RESUME_PATH')    #=> .get() returns None if no value!
-        print(RESUME_PATH)
-        print('-------------------------------')
-        
+ 
+        self.env_path = '../.env'
+        self.users_information = {}
         self.total_jobs_applied_to_count = 0
         self.total_jobs_applied_to_info = {} 
        
     def job_search_workflow(self):
-        self.user_browser_choice()
-        self.google_search_results_links = scraperGoogle(self.browser).search_for_jobs()
+        self.browser_setup()
+        self.google_search_results_links = scraperGoogle(self.browser).user_requirements()
+        print("DOPE")
+        time.sleep(30)
         self.get_jobs_users_applied_to()  #and filter them out!
+        self.load_users_information()
         self.apply_to_jobs()
         
         self.close_browser()
@@ -61,10 +57,11 @@ class Workflow():
           
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
-    def user_browser_choice(self):
-        user_browser_choice, browser_name = 1, " Firefox "
-        #user_browser_choice, browser_name = 2, " Safari "
-        self.browser_setup(user_browser_choice, browser_name)
+    def users_browser_choice(self):
+        #users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 3, " Chrome "
+        return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
         print(f"\t1) FireFox")
         print(f"\t2) Safari")
@@ -75,16 +72,16 @@ class Workflow():
             user_jobs.strip()
             
             if user_jobs == "1":
-                return 1, " FireFox "
+                users_browser_choice = " FireFox "
                 break
             elif user_jobs == "2":
-                return 2, " Safari "
+                users_browser_choice = " Safari "
                 break
             elif user_jobs == "3":
-                return 3, " Chrome "
+                users_browser_choice = " Chrome "
                 break
             elif user_jobs == "4":
-                return 4, " Edge "
+                users_browser_choice = " Edge "
                 break
             else:
                 print("That's kinda messed up dog... I give you an opportunity to pick and you pick some dumb crap.")
@@ -92,13 +89,13 @@ class Workflow():
                 print("Don't worry clown I'll pick for you!")
                 #TODO: Make else just check OS and return number of that OS's web browser!!!
                 #! THIS IS A while loop.... so it runs until false
+        return users_browser_choice, browser_name
     
-    def browser_setup(self, user_browser_choice, browser_name):
+    def browser_setup(self):
+        users_browser_choice, browser_name = self.users_browser_choice()
         print('Execution Started -- Opening' + browser_name + 'Browser')
         
-        if user_browser_choice == 1:
-            browser = self.browser
-            
+        if users_browser_choice == 1:
             options = FirefoxOptions()
             options.set_preference("dom.webnotifications.enabled", False)
             options.set_preference("extensions.enabledScopes", 0)
@@ -106,33 +103,29 @@ class Workflow():
             options.set_preference("signon.rememberSignons", False)
             options.set_preference("places.history.enabled", False)
             
-            browser = webdriver.Firefox(options=options)
-            browser.set_page_load_timeout(30)
-        elif user_browser_choice == 2:
-            browser = self.browser
-            
+            self.browser = webdriver.Firefox(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 2:
             options = SafariOptions()
             options.add_argument("--disable-notifications")
             options.add_argument("--disable-extensions")
             options.add_argument("--disable-infobars")
                 
-            browser = webdriver.Safari(options=options)
-            browser.set_page_load_timeout(30)
-        elif user_browser_choice == 3:
-            browser = self.browser
-            
+            self.browser = webdriver.Safari(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 3:
             options = ChromeOptions()
             options.add_argument("--disable-notifications")
             options.add_argument("--disable-extensions")
             options.add_argument("--disable-infobars")
             
-            browser = webdriver.Chrome(options=options)
-            browser.set_page_load_timeout(30)
+            self.browser = webdriver.Chrome(options=options)
+            self.browser.set_page_load_timeout(30)
         
         #TODO:   if (browser is open == True && browser is ready == True)
         #assert 'Yahoo' in browser.title
         try:
-            browser.get('https://www.google.com')
+            self.browser.get('https://www.google.com')
         except:
             raise ConnectionError('ERROR: Check Internet Connection')
         return
@@ -144,16 +137,28 @@ class Workflow():
     def apply_to_jobs(self):
         # for job_link in self.google_search_results_links[::1]:
         for job_link in self.google_search_results_links:   #? I think this goes last to first???
-            CompanyWorkflow(self.browser, self.users_information).company_workflow(job_link)
+            CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
     
 
     
     
     
     
+    def load_users_information(self):
+        self.users_information = {}
+        with open(self.env_path) as file:
+            for line in file:
+                if line.strip() and not line.startswith("#"):
+                    key, value = line.strip().split('=', 1)
+                    value = value.strip("'")  # Remove quotes around the value
+                    self.users_information[key] = value
+        self.print_users_information()
     
-    
-    
+    def print_users_information(self):
+        print('--------USERS .ENV INFO--------')
+        for key, value in self.users_information.items():
+            print(f"{key}: {value}")
+        print('-------------------------------')
     
     
     
@@ -259,7 +264,7 @@ class Workflow():
    
    
    
-    def click_last_result(self, google_search_name):
+    def click_last_result_DONTuseTHIS(self, google_search_name):
         #self.list_of_links = var_job_link
         google_link_title = google_search_name
         application_company = None

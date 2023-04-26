@@ -53,12 +53,11 @@ class scraperGoogle():
         print("Searching google for...       adult films?")
         time.sleep(1)
 
-        self.search_locations(self, search_bar)
+        self.search_locations(search_bar)
         return
     
     #TODO
     def search_locations(self, search_bar):
-        self.filter_search_time_frame(search_bar)
         
         #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
         if not self.good_locations and not self.bad_locations:
@@ -79,29 +78,29 @@ class scraperGoogle():
         self.filter_search_time_frame(self, search_bar)
         return
     
-    def filter_search_time_frame(self, browser, search_bar):
+    def filter_search_time_frame(self, search_bar):
         search_bar.send_keys(Keys.RETURN)
         print("TAAAA DDDAAAAAA")
         time.sleep(1)
         
-        tools_butt = browser.find_element(By.XPATH, "//div[text()='Tools']")
+        tools_butt = self.browser.find_element(By.XPATH, "//div[text()='Tools']")
         tools_butt.click()
         
-        any_time_butt = browser.find_element(By.XPATH, "//div[text()='Any time']")
+        any_time_butt = self.browser.find_element(By.XPATH, "//div[text()='Any time']")
         any_time_butt.click()
         decisi = "24"
         
         if decisi == "24":
-            past_24 = browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
+            past_24 = self.browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
             past_24.click()
         elif decisi == "7":
-            past_week = browser.find_element(By.XPATH, "//a[text()='Past week']")
+            past_week = self.browser.find_element(By.XPATH, "//a[text()='Past week']")
             past_week.click()
         else:
             raise TypeError('ERROR: Didnt pick a registered time!')
         print("Filtering by past " + decisi)
         time.sleep(1)
-        self.search_results(browser, self.list_first_index, self.list_last_index)
+        self.search_results(self.list_first_index, self.list_last_index)
         return
         
     def search_results(self, list_first_index, list_last_index):
@@ -219,7 +218,7 @@ class scraperGoogle():
             #     parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
             #     print(parent_a_tag_xpath)
             #     print("Defence")
-            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{more_results_button}")]')
+            selenium_google_link = self.browser.find_element(By.XPATH, f"//ancestor::a/h3[not(descendant::br)][contains(text(), '{more_results_button}')]")
             selenium_google_link.click()
             self.browser.implicitly_wait(5)
             time.sleep(3)
