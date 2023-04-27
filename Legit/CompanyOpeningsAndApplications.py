@@ -46,6 +46,7 @@ class CompanyWorkflow():
         self.company_open_positions_a = None    #For selenium to click
         self.application_company_name = None
         self.jobs_applied_to = {}
+        self.job_link_url = None
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
@@ -55,6 +56,7 @@ class CompanyWorkflow():
     def company_workflow(self, job_link):
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
+        self.job_link_url = job_link
 
 
         if "jobs.lever.co" in job_link:
@@ -316,8 +318,9 @@ class CompanyWorkflow():
                             print("Hmmm that's weird ? it's neither button nor application")
                             
                         if apply_to_job == True:
-                            self.fill_out_application(application, soup)
-                            #self.insert_resume(application)
+                            #self.fill_out_application(application, soup)
+                            self.get_form_input_details(self.job_link_url)
+                            self.insert_resume()
                             #self.find_and_organize_inputs(application) #! <-- Change application to application_form!!!!
                         elif apply_to_job == False:
                             self.a_href.click()
@@ -849,7 +852,7 @@ class CompanyWorkflow():
         print("14 Holy Crap")
         return
     
-    def get_labia(self, input_element):
+    def get_label(self, input_element):
         # Check for the special case: 'button' and 'submit application' in input_element
         input_element_str = str(input_element).lower()
         if 'button' in input_element_str and 'submit application' in input_element_str:
@@ -932,6 +935,7 @@ class CompanyWorkflow():
 
     #! Include checkboxes!!!!
     def get_form_input_details(self, url):
+        print("Midget")
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -1017,7 +1021,9 @@ class CompanyWorkflow():
                 'dynamic': is_dynamic,
                 'related_elements': related_elements,
             })
-
+        print("Tyrants")
+        self.print_form_details(form_input_details)
+        print(form_input_details)
         return form_input_details
       
     def print_form_details(self, form_inputs):

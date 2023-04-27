@@ -35,7 +35,8 @@ class Workflow():
         #TODO: Change this name... it's all the job info a user has previously applied to!!
         self.csv_data = []
  
-        self.env_path = '../.env'
+        self.env_path = '.env'
+        self.env_other_path = '../.env'
         self.users_information = {}
         self.total_jobs_applied_to_count = 0
         self.total_jobs_applied_to_info = {} 
@@ -47,7 +48,7 @@ class Workflow():
         print(self.google_search_results_links)
         print("DOPER")
         time.sleep(3)
-        self.get_jobs_users_applied_to()  #and filter them out!
+        #self.get_jobs_users_applied_to()  #and filter them out!
         self.load_users_information()
         self.apply_to_jobs()
         
@@ -139,6 +140,7 @@ class Workflow():
     def apply_to_jobs(self):
         # for job_link in self.google_search_results_links[::1]:
         for job_link in self.google_search_results_links:   #? I think this goes last to first???
+            print(job_link)
             CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
     
 
@@ -181,60 +183,29 @@ class Workflow():
     
     #TODO: Keep job url's
     def get_jobs_users_applied_to(self):
-        
-        
-        job_data = '../Scraper/JobData.csv'
-        job_data_absolute_path = os.path.abspath(job_data)
-        print(f"Absolute path to JobData.csv: {job_data_absolute_path}")
+        job_data_absolute_path = r'../Scraper/JobData.csv'
+        previously_applied_to_job_links = []
 
-        with open(job_data_absolute_path, mode='r') as file:
-            print(file)
-        
-        
-        
-        
-        
-        current_script_path = os.path.dirname(os.path.abspath(__file__))
-        job_data = os.path.join(current_script_path, '..', 'Scraper', 'JobData.csv')
+        with open(job_data_absolute_path, 'r') as file:
+            csv_reader = csv.reader(file)
+            
+            # Skip the header row
+            next(csv_reader)
 
-        with open(job_data, mode='r') as file:
-            print(file)
-        
-        
-        
-        
-        
-        print(f"Current working directory: {os.getcwd()}")
-        
-        
-        
-        
-        
-        
-        # job_data = r'../Scraper/JobData.csv'
-        # with open (job_data, mode='r') as file:
-        #     reader = csv.reader(file)
-        #     csv_data = []
-        #     next(reader) # skip the header row
-        #     for i, row in enumerate(reader):
-        #         csv_data.append(row[:-1]) # exclude the last column
-        #         if i%10 == 1:
-        #             print(f"{i}st order of business: " + row)
-        #         elif i%10 == 2:
-        #             print(f"{i}nd order of business: " + row)
-        #         elif i%10 == 3:
-        #             print(f"{i}rd order of business: " + row)
-        #         else:
-        #             print(f"{i}th order of business: " + row)
-        # print('\nThis is the data as data: ')
-        # print(csv_data)
+            for row in csv_reader:
+                row_without_last_column = row[:-1]
+                updated_row = [cell.replace('=>', ',') for cell in row_without_last_column]
+                print(updated_row)
+                previously_applied_to_job_links.append(updated_row)
+        print("These are all the links you already applied to... Tom")
+        print(previously_applied_to_job_links)
         self.filter_out_jobs_user_previously_applied_to()
 
     
-
+    #TODO: FINISH BOTH OF THESE!!
     #Use Quick Sort to sort jobs_previously_applied_to
-    def filter_out_jobs_user_previously_applied_to(self):
-        csv_data = self.get_jobs_user_applied_to()
+    def filter_out_jobs_user_previously_applied_to(self, filter_from_list):
+        csv_data = filter_from_list
         previously_applied_to_job_links = []
         for i, google_search_result_URL in enumerate(self.google_search_results_links):
             for j, previously_applied_URL in enumerate(csv_data):
@@ -431,7 +402,7 @@ if __name__ == '__main__':
 #     ├── scraperGoogle.py
 #     ├── scraperGoogleJob.py
 #     ├── TestingSelenium.py
-#     └── EXAMPLE.env
+#     └── JobData.csv
 
 
 
