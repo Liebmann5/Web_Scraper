@@ -204,8 +204,10 @@ class scraperGoogle():
             #     print(parent_a_tag_xpath)
             #     print("Defence")
             selenium_google_link = self.browser.find_element(By.XPATH, f"//ancestor::a/h3[not(descendant::br)][contains(text(), '{more_results_button}')]")
+            print("\nselenium_google_link ", end="")
+            print(selenium_google_link)
             selenium_google_link.click()
-            self.browser.implicitly_wait(2)
+            #self.browser.implicitly_wait(2)
             time.sleep(3)
             return
         selenium_google_link.click()

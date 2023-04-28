@@ -227,62 +227,52 @@ class CompanyWorkflow():
                     raise ConnectionError("ERROR: Companies other open positions are not present")
                 
             elif opening_link_description:
-                try:
-                    a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-                    div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-                    application_at_bottom = soup.find("div", id="application")
-                    print("Application at bottom or <button>")
-                    if a_tag_butt:
-                        #print("== Application at bottom of page")
-                        print("== Press button to go to application")
-                        has_apply_button = a_tag_butt
-                        apply_to_job = self.should_user_apply(opening_link_description)
-                    elif div_tag_butt:
-                        print("== Press button to go to application")
-                        has_apply_button = div_tag_butt
-                        apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
-                    if apply_to_job == True:
-                        self.insert_resume()
-                        self.find_and_organize_inputs(application_at_bottom)
-                    elif not apply_to_job:
-                        #TODO:
-                        self.company_other_openings_href.click()
-                        self.company_job_openings(soup, div_main, application_company_name)
-                except:
-                    raise "Something went wrong with the the greenhouse.io job_description page"
+                #try:
+                a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+                div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+                application_at_bottom = soup.find("div", id="application")
+                print("Application at bottom or <button>")
+                if a_tag_butt:
+                    #print("== Application at bottom of page")
+                    print("== Press button to go to application")
+                    has_apply_button = a_tag_butt
+                    apply_to_job = self.should_user_apply(opening_link_description)
+                elif div_tag_butt:
+                    print("== Press button to go to application")
+                    has_apply_button = div_tag_butt
+                    apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
+                if apply_to_job == True:
+                    self.insert_resume()
+                    self.find_and_organize_inputs(application_at_bottom)
+                elif not apply_to_job:
+                    #TODO:
+                    self.company_other_openings_href.click()
+                    return
+                # except:
+                #     raise ("Something went wrong with the the greenhouse.io job_description page")
             elif opening_link_company_jobs:
                 #TODO: parse through other_company_jobs for "lever"
                 self.company_job_openings(soup, None, application_company_name)
             application = opening_link_application
-                
+        
+               
         elif application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
+            
             #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
             next_elem = div_main.find_next()
             while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
                 if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
-                    print('-Job Page')
-                    #return soup.find("div", id="flash-wrapper")
-                    #break
-                    flash_wrapper = soup.find("div", id=["flash-wrapper", "flash_wrapper"])
-                    #Ex)https://boards.greenhouse.io/luminar
-                    print("******* Flash_Wrapper = ")
-                    print(flash_wrapper)
-                    print("*******")
-                    self.company_job_openings(soup, div_main, application_company_name)
+                    print('-Job Listings Page')
                     return
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
                     print('-Job Listings Page')
-                    #return soup.find("div", id="embedded_job_board_wrapper")
-                    embedded_job_board = soup.find("div", id="embedded_job_board_wrapper")
-                    self.company_job_openings(soup, div_main, application_company_name)
                     return
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
                     print("-Company Job Openings Page")
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
-                    self.company_job_openings(soup, div_main, application_company_name)
-                    return soup.find("section", {"class": "level-0"})
+                    return
                 elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
                     app_body = next_elem
                     header = next_elem.find("div", id="header")
@@ -290,21 +280,23 @@ class CompanyWorkflow():
                     application = soup.find("div", id="application")
                     if header and content:
                         print("Job Description Page")
-                        #self.link_to_other_company_openings(soup, application_company_name)
-                        #self.company_job_openings(self, soup, div_main, application_company_name)
                         self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
-                    #else:
+
                         print("Application at bottom or <button>")
-                        apply_button = div_main.find("button", text="Apply Here")
+                        apply_button = div_main.find("button", text=["Apply Here", "Apply Now", "Apply for this job"])
                         #TODO
  #! ^ MOVE UP 198 ^ ^ ^ ^ ^ ^ ^                       apply_button = div_main.find("button", text=["Apply Here", "Apply Now"])  #NOTE: !!!!! Maybe greenhouse doesn't have <button> ...    maybe it only has <a class="button">!?!?!?
                         #application_below_description = div_main.find("div", id="application")
                         #NOTE: I don't think greenhouse.io house <... target="_blank">
                         if apply_button:
                             print("== Press button to go to application")
-                            apply_button.click()
-                            time.sleep(5)
-                            #self.greenhouse_io_application(application)
+                            should_apply = self.should_user_apply()
+                            print("Apply button: ", end="")
+                            print(apply_button)
+                            if should_apply == True:
+                                apply_button.click()
+                                time.sleep(5)
+                                self.greenhouse_io_application(application)
                             print("Application = ", end="")
                             print(application)
                             apply_to_job = self.should_user_apply(application)
@@ -318,22 +310,19 @@ class CompanyWorkflow():
                             print("Hmmm that's weird ? it's neither button nor application")
                             
                         if apply_to_job == True:
-                            #self.fill_out_application(application, soup)
-                            self.get_form_input_details(self.job_link_url)
+                            self.get_form_input_details()
                             self.insert_resume()
-                            #self.find_and_organize_inputs(application) #! <-- Change application to application_form!!!!
+                            self.fill_out_application()
+                            self.keep_jobs_applied_to_info(job_link)
                         elif apply_to_job == False:
                             self.a_href.click()
                             time.sleep(4)
-                            self.company_job_openings(soup, div_main, application_company_name)
                             return
                     break
                 else:
                     next_elem = next_elem.find_next()
-            self.company_other_openings_href.click()
-            time.sleep(7)
-            return apply_to_job, application
-            #return
+            print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
+            return
     
     #everything_about_job = app_body.get_text()
     #should_user_apply(everything_about_job)
@@ -628,7 +617,18 @@ class CompanyWorkflow():
 
     
 
-
+    def get_input_tag_elements(self):
+        """
+        Returns a list of tuples with input element ID, type and visibility status
+        """
+        input_elements = self.browser.find_elements(By.TAG_NAME, 'input')
+        inputs_info = []
+        for input_element in input_elements:
+            input_id = input_element.get_attribute('id')
+            input_type = input_element.get_attribute('type')
+            is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+            inputs_info.append((input_id, input_type, is_hidden))
+        return inputs_info
 
 
 
@@ -936,6 +936,7 @@ class CompanyWorkflow():
     #! Include checkboxes!!!!
     def get_form_input_details(self, url):
         print("Midget")
+        print("URL = " + url)
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -985,10 +986,10 @@ class CompanyWorkflow():
                 #self.print_parent_hierarchy(radio_button)
                 
                 # Call get_label for the entire radio button group
-                input_label = self.get_labia(field)
+                input_label = self.get_label(field)
             else:
                 # Call get_label for other input types
-                input_label = self.get_labia(field)
+                input_label = self.get_label(field)
 
             # Skip hidden fields without a label
             if is_hidden and not input_label:
@@ -1023,7 +1024,9 @@ class CompanyWorkflow():
             })
         print("Tyrants")
         self.print_form_details(form_input_details)
+        print("Seperations of graphical colonies: ")
         print(form_input_details)
+        time.sleep(60)
         return form_input_details
       
     def print_form_details(self, form_inputs):
@@ -1233,26 +1236,6 @@ class CompanyWorkflow():
             parent_element = parent_element.find_element(By.XPATH, '..')
         return False
 
-    def get_form_input_details(self, url):
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
-        input_elements = soup.find_all(['input', 'textarea', 'select'])
-
-        input_details = []
-
-        for i, input_element in enumerate(input_elements):
-            details = {
-                'Label': self.get_label(input_element),
-                'Type': input_element.get('type'),
-                'Values': [],
-                'Is_Hidden': input_element.get('type') == 'hidden',
-                'HTML': str(input_element)
-            }
-            if input_element.name == 'select':
-                details['Values'] = [option.get_text(strip=True) for option in input_element.find_all('option')]
-            input_details.append(details)
-
-        return input_details
 
 
 

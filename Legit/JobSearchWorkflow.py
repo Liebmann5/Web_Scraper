@@ -139,7 +139,8 @@ class Workflow():
         
     def apply_to_jobs(self):
         # for job_link in self.google_search_results_links[::1]:
-        for job_link in self.google_search_results_links:   #? I think this goes last to first???
+        for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
+            job_link = self.google_search_results_links[i]
             print(job_link)
             CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
     
