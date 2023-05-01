@@ -48,7 +48,7 @@ class Workflow():
        
     def job_search_workflow(self):
         self.browser_setup()
-        self.google_search_results_links = scraperGoogle(self.browser).user_requirements()
+        self.google_search_results_links, last_link_from_google_search = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
@@ -58,7 +58,7 @@ class Workflow():
         previously_applied_to_job_links = self.get_job_links_users_applied_to()  #and filter them out!
         self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
         self.load_users_information()
-        self.apply_to_jobs()
+        self.apply_to_jobs(last_link_from_google_search)
         
         self.close_browser()
         
@@ -148,9 +148,18 @@ class Workflow():
     
     
     
-    def apply_to_jobs(self):
+    def apply_to_jobs(self, last_link_from_google_search):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
         # for job_link in self.google_search_results_links[::1]:
         for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
+            if not clicked_link_from_google_search:
+                print(last_link_from_google_search)
+                #self.browser.find_element(By.X_PATH, )
+                last_link_from_google_search.click()
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                time.sleep(5)
             job_link = self.google_search_results_links[i]
             print(job_link)
             CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)

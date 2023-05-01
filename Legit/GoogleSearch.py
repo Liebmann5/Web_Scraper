@@ -28,6 +28,7 @@ class scraperGoogle():
         self.job_links_counter = 0
         self.results_from_search = []
         self.google_search_results_links = []
+        self.last_link_from_google_search = None
         
     def ludacris_speed(self):
         self.job_titles.append("software engineer")
@@ -46,7 +47,7 @@ class scraperGoogle():
         self.new_new_print_google_search_results()
         print("Returning back to JobSearchWorkflow")
         time.sleep(2)
-        return self.google_search_results_links
+        return self.google_search_results_links, self.last_link_from_google_search
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
         job_titles = self.job_titles  #TODO: < Ummmm does that work
@@ -135,6 +136,7 @@ class scraperGoogle():
         self.browser.execute_script("document.documentElement.style.setProperty('overflow', 'hidden');")
     
 
+
     def scroll_to_bottom(self):
         prev_height = self.browser.execute_script("return document.body.scrollHeight")
         print('\n\n\n')
@@ -193,7 +195,6 @@ class scraperGoogle():
             self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
             #list_last_index = list_first_index + len(self.results_from_search)
 
-        #for count, results_link in enumerate(self.results_from_search, list_first_index):
         for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
             print('--------------------------------')
             print(str(count+1) + "/" + str(list_last_index))
@@ -204,6 +205,13 @@ class scraperGoogle():
             print(job_link)
             self.google_search_results_links.append(job_link)
             
+            if (count+1) == list_last_index:
+                self.last_link_from_google_search = results_link
+                print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+                print(self.last_link_from_google_search)
+                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+            
+            #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
             if count == list_last_index:
                 list_first_index = list_last_index
                 break

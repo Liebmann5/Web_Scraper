@@ -20,6 +20,7 @@ import re
 from selenium.common.exceptions import NoSuchElementException
 #from scraperGoogle import webdriver
 import bs4
+from bs4 import Tag
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
@@ -65,14 +66,14 @@ class CompanyWorkflow():
             self.company_job_openings(soup)
             
             for job_opening in self.company_job_openings:
-                soup = self.apply_beautifulsoup(job_opening, "html")
+                soup = self.apply_beautifulsoup(job_opening, "lxml")
                 webpage_body = soup.find('body')
                 if self.should_user_apply(webpage_body) == True:
                     self.lever_io_dat(job_opening, webpage_body)
-                    soup = self.apply_beautifulsoup(job_link, "lxml")
-                    self.get_form_input_details()
+                    soup = self.apply_beautifulsoup(job_link, "html")
+                    form_input_details = self.get_form_input_details()
                     self.insert_resume()
-                    self.fill_out_application()
+                    self.fill_out_application(form_input_details)
                     self.keep_jobs_applied_to_info(job_link)
                 self.reset_job_variables()
             
@@ -228,22 +229,37 @@ class CompanyWorkflow():
                 
             elif opening_link_description:
                 #try:
+                apply_button = None
+                
                 a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
                 div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
                 application_at_bottom = soup.find("div", id="application")
                 print("Application at bottom or <button>")
                 if a_tag_butt:
                     #print("== Application at bottom of page")
-                    print("== Press button to go to application")
-                    has_apply_button = a_tag_butt
+                    print("\tPress button to go to application")
+                    apply_button = a_tag_butt
                     apply_to_job = self.should_user_apply(opening_link_description)
                 elif div_tag_butt:
-                    print("== Press button to go to application")
-                    has_apply_button = div_tag_butt
+                    print("\tPress button to go to application")
+                    apply_button = div_tag_butt
                     apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
                 if apply_to_job == True:
+                    print("1st lever application locked and loaded")
+                    apply_button.click()
+                    time.sleep(5)
+                    current_url = self.browser.current_url
+                    soup = self.apply_beautifulsoup(current_url, "html.parser")
+                    form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
-                    self.find_and_organize_inputs(application_at_bottom)
+                    self.fill_out_application(form_input_details)
+                    self.keep_jobs_applied_to_info()
+                    #TODO: If the button is present click OTHERWISE just insert the link
+                    if self.company_other_openings_href:
+                        self.company_other_openings_href.click()
+                    else:
+                        self.browser.get(self.company_other_openings_href)
+                    return
                 elif not apply_to_job:
                     #TODO:
                     self.company_other_openings_href.click()
@@ -258,6 +274,7 @@ class CompanyWorkflow():
                
         elif application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
+            job_description_element = self.browser.find_element(By.ID, "content")
             
             #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
             next_elem = div_main.find_next()
@@ -289,30 +306,36 @@ class CompanyWorkflow():
                         #application_below_description = div_main.find("div", id="application")
                         #NOTE: I don't think greenhouse.io house <... target="_blank">
                         if apply_button:
-                            print("== Press button to go to application")
+                            print("\tPress button to go to application")
                             should_apply = self.should_user_apply()
-                            print("Apply button: ", end="")
+                            print("\t\tApply button: ", end="")
                             print(apply_button)
                             if should_apply == True:
                                 apply_button.click()
                                 time.sleep(5)
                                 self.greenhouse_io_application(application)
-                            print("Application = ", end="")
+                            print("\t\tApplication = ", end="")
                             print(application)
                             apply_to_job = self.should_user_apply(application)
                             #return application
                         elif application:
                             #self.should_user_apply(application)
-                            print("== Application at bottom of page")
+                            print("\tApplication at bottom of page")
                             
                             apply_to_job = self.should_user_apply(content)
                         else:
-                            print("Hmmm that's weird ? it's neither button nor application")
-                            
+                            print("\tHmmm that's weird ? it's neither button nor application")
+                        
+                        self.scroll_to_element(job_description_element)
                         if apply_to_job == True:
-                            self.get_form_input_details()
+                            print("1st greenhouse application locked and loaded")
+                            form_input_details = self.get_form_input_details(job_link)
+                            print("Meet")
+                            time.sleep(8)
                             self.insert_resume()
-                            self.fill_out_application()
+                            print("me")
+                            time.sleep(8)
+                            self.fill_out_application(form_input_details)
                             self.keep_jobs_applied_to_info(job_link)
                         elif apply_to_job == False:
                             self.a_href.click()
@@ -493,6 +516,11 @@ class CompanyWorkflow():
                     self.company_open_positions_link = header_link
                     return
         print("Hmmmm this is unexpected. I must be dumb...")
+        time.sleep(1)
+        print("Not you the user; I mean me the programmer...      hmmmm...")
+        time.sleep(2)
+        print("You probably suck too though, don't think you dont't :)")
+        time.sleep(1)
         if (self.company_open_positions_link == None):
             self.company_open_positions_a.click()
             time.sleep(5)
@@ -574,9 +602,9 @@ class CompanyWorkflow():
                 print(child)
             #self.company_openings_test_link = 
         if self.company_other_openings_href == None:
-            self.print_company_job_openings("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplicationOnPageID=self.a_fragment_identifier)
+            self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=self.a_fragment_identifier)
         else:
-            self.print_company_job_openings("greenhous_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplicationOnPageID=self.a_fragment_identifier)
+            self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplication_OnPageID=self.a_fragment_identifier)
         return
         #self.greenhouse_io_content(app_body, content)
         # if self.a_fragment_identifier == None:
@@ -934,6 +962,7 @@ class CompanyWorkflow():
             current_level += 1
 
     #! Include checkboxes!!!!
+    #! Maybe include 2 parameters and check if url = None then skip beautifulsoup part!!
     def get_form_input_details(self, url):
         print("Midget")
         print("URL = " + url)
@@ -1100,7 +1129,7 @@ class CompanyWorkflow():
         
         
         
-        
+    
         
     def fill_form_fields(self, form_input_details):
         # Start the Selenium browser
@@ -1154,8 +1183,31 @@ class CompanyWorkflow():
         submit_button = browser.find_element_by_css_selector("input[type='submit'], button[type='submit']")
         submit_button.click()
     
-    
-    
+    def scroll_to_element(self, element):
+        # Check if the input element is a BeautifulSoup element
+        if isinstance(element, Tag):
+            # Extract the tag name
+            tag_name = element.name
+            
+            # Extract the attributes
+            attrs = element.attrs
+            css_selectors = [f"{tag_name}"]
+            
+            # Convert attributes to CSS selectors
+            for attr, value in attrs.items():
+                if isinstance(value, list):
+                    value = " ".join(value)
+                    css_selectors.append(f"[{attr}='{value}']")
+                    
+                css_selector = "".join(css_selectors)
+                
+                # Find the same element using Selenium
+                element = self.browser.find_element(By.CSS_SELECTOR, css_selector)
+                
+        self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        print("Scrolled to this place...")
+        time.sleep(1)
+        return
     
     
     
@@ -1201,9 +1253,18 @@ class CompanyWorkflow():
         
         
     #TODO: v turn all the calls to this application_process() 
-    #def fill_out_application(self, applic, soup):
-        self.insert_resume()
-        form_data = self.find_and_organize_inputs(applic, soup)       
+    def fill_out_application(self, job_link, form_input_details):
+        #self.insert_resume()
+        form_data = self.get_form_input_details(job_link)
+        for form_input in form_data:
+            question = form_input['label'].lower()
+            input_type = form_input['type']
+            predefined_values = form_input['values'].lower
+            input_element_location = form_input['html']
+            
+        #Final step
+        self.scroll_to_element()
+        form_data[:-1].click()
 
     def find_visible_input(self, selector):
         input_element = self.browser.find_element(By.CSS_SELECTOR, selector)
