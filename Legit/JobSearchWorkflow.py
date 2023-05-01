@@ -48,7 +48,7 @@ class Workflow():
        
     def job_search_workflow(self):
         self.browser_setup()
-        self.google_search_results_links, last_link_from_google_search = scraperGoogle(self.browser).user_requirements()
+        self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
@@ -58,7 +58,7 @@ class Workflow():
         previously_applied_to_job_links = self.get_job_links_users_applied_to()  #and filter them out!
         self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
         self.load_users_information()
-        self.apply_to_jobs(last_link_from_google_search)
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
         
         self.close_browser()
         
@@ -69,8 +69,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        users_browser_choice, browser_name = 1, " Firefox "
-        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 1, " Firefox "
+        users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -148,7 +148,7 @@ class Workflow():
     
     
     
-    def apply_to_jobs(self, last_link_from_google_search):
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         # for job_link in self.google_search_results_links[::1]:
@@ -162,7 +162,7 @@ class Workflow():
                 time.sleep(5)
             job_link = self.google_search_results_links[i]
             print(job_link)
-            CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self.browser, self.users_information, user_desired_jobs, senior_experience=False).company_workflow(job_link)
     
 
 
@@ -315,14 +315,12 @@ class Workflow():
    
    
    
+
    
    
    
    
-   
-   
-   
-   
+
    
    
    

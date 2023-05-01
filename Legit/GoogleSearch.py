@@ -18,7 +18,7 @@ class scraperGoogle():
     
     def __init__(self, browser):
         self.browser = browser
-        self.job_titles = []
+        self.user_desired_jobs = []
         self.good_locations = None
         self.bad_locations = None
         self.list_first_index = 0
@@ -31,11 +31,11 @@ class scraperGoogle():
         self.last_link_from_google_search = None
         
     def ludacris_speed(self):
-        self.job_titles.append("software engineer")
-        self.job_titles.append("backend engineer")
-        self.job_titles.append("full-stack engineer")
-        self.job_titles.append("frontend engineer")
-        self.job_titles.append("engineer")
+        self.user_desired_jobs.append("software engineer")
+        self.user_desired_jobs.append("backend engineer")
+        self.user_desired_jobs.append("full-stack engineer")
+        self.user_desired_jobs.append("frontend engineer")
+        self.user_desired_jobs.append("engineer")
         self.search_for_jobs()
         return
     
@@ -47,10 +47,10 @@ class scraperGoogle():
         self.new_new_print_google_search_results()
         print("Returning back to JobSearchWorkflow")
         time.sleep(2)
-        return self.google_search_results_links, self.last_link_from_google_search
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
-        job_titles = self.job_titles  #TODO: < Ummmm does that work
+        job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
         
         print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
         search_bar = self.browser.find_element(By.NAME, "q")
