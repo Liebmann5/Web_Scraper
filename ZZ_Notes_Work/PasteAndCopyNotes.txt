@@ -1701,6 +1701,45 @@ full_name = FIRST_NAME + ' ' + MIDDLE_INITIAL + ' ' + LAST_NAME. So in special c
 
 
 
+So my method
+    def search_results(self, list_first_index, list_last_index):
+        # Wait for the last result from the previous search to appear on the page
+        # if self.results_from_search:
+        #     last_result = self.results_from_search[-1]
+        #     WebDriverWait(self.browser, 10).until(
+        #         EC.visibility_of(last_result)
+        #     )
+        
+        if list_first_index == 0:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
+            list_last_index = len(self.results_from_search)
+        else:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+            list_last_index = list_first_index + len(self.results_from_search)
+        print("\nI am in search_results() below if-else...")
+        print("results_from_search = ", end="")
+        print(self.results_from_search)
+        print("\nI am in search_results() below if-else...")
+        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        for count, results_link in enumerate(self.results_from_search, list_first_index):
+            print('--------------------------------')
+            print(str(count+1) + "/" + str(list_last_index))
+            # Process and print results_link here
+            print(results_link)
+            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
+            print(f"Here is link #{count+1}: ", end="")
+            job_link = link.get_attribute("href")
+            print(job_link)
+            
+            if count == list_last_index:
+                list_first_index = list_last_index
+                break
+        print("\nI am at end of search_results()...")
+        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        return list_last_index
+here, in the for loop prints all the previous results but I want it to only print out the ones it added to self.results_from_search during this call. The purpose of this line of code
+print(str(count+1) + "/" + str(list_last_index))
+is that str(list_last_index) tells me how many results have been found till now and then str(count+1) tells me which specific indices were added during this call. Is there a clever way we can keep the code the same and make list_first_index in the for loop equal to the length of self.results_from_search when we first started the method that way the for loop enumerates up to the current length?
 
 
 
@@ -1746,7 +1785,45 @@ full_name = FIRST_NAME + ' ' + MIDDLE_INITIAL + ' ' + LAST_NAME. So in special c
 
 
 
+def get_jobs_users_applied_to(self):
+    job_data_absolute_path = r'../Scraper/JobData.csv'
+    previously_applied_to_job_links = []
 
+    with open(job_data_absolute_path, 'r') as file:
+        csv_reader = csv.reader(file)
+        
+        # Skip the header row
+        next(csv_reader)
+
+        for row in csv_reader:
+            row_without_last_column = row[:-1]
+            updated_row = [cell.replace('=>', ',') for cell in row_without_last_column]
+            print(updated_row)
+            previously_applied_to_job_links.append(updated_row)
+    print("These are all the links you already applied to... Tom")
+    print(previously_applied_to_job_links)
+    self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)  # Pass the list as an argument
+
+def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_links):
+    new_search_results = []  # Use a new list to store filtered results
+
+    for google_search_result_URL in self.google_search_results_links:
+        found = False
+        for previously_applied_URL in previously_applied_to_job_links:
+            if google_search_result_URL == previously_applied_URL:
+                print("Match google_search_result_URL: ", end='')
+                print(google_search_result_URL)
+                print("Match previously_applied_URL: ", end='')
+                print(previously_applied_URL)
+                found = True
+                break
+        if not found:
+            new_search_results.append(google_search_result_URL)
+
+    print("These are all the links you already applied to... ")
+    print(previously_applied_to_job_links)
+    self.google_search_results_links = new_search_results  # Update the original list with filtered results
+    return
 
 
 

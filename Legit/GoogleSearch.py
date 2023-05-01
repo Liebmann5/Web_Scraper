@@ -1,15 +1,18 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
-#from dotenv import load_dotenv
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.safari.options import Options as SafariOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 
+from selenium.common.exceptions import NoSuchElementException
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import ElementNotInteractableException
 
 class scraperGoogle():
     
@@ -21,18 +24,29 @@ class scraperGoogle():
         self.list_first_index = 0
         self.list_last_index = 0
         self.links_to_jobs = []
+        self.previous_results_count = 0
+        self.job_links_counter = 0
+        self.results_from_search = []
+        self.google_search_results_links = []
         
     def ludacris_speed(self):
         self.job_titles.append("software engineer")
         self.job_titles.append("backend engineer")
+        self.job_titles.append("full-stack engineer")
+        self.job_titles.append("frontend engineer")
+        self.job_titles.append("engineer")
         self.search_for_jobs()
         return
     
     def user_requirements(self):
         self.ludacris_speed()
 
-        self.print_google_search_results()
-        return self.links_to_jobs
+        #self.print_google_search_results()
+        #self.new_print_google_search_results()
+        self.new_new_print_google_search_results()
+        print("Returning back to JobSearchWorkflow")
+        time.sleep(2)
+        return self.google_search_results_links
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
         job_titles = self.job_titles  #TODO: < Ummmm does that work
@@ -83,6 +97,9 @@ class scraperGoogle():
         search_bar.send_keys(Keys.RETURN)
         print("TAAAA DDDAAAAAA")
         time.sleep(1)
+        self.adjust_viewport()
+        print("GET SUCKED WIZARD!")
+        time.sleep(1)
         
         tools_butt = self.browser.find_element(By.XPATH, "//div[text()='Tools']")
         tools_butt.click()
@@ -101,150 +118,183 @@ class scraperGoogle():
             raise TypeError('ERROR: Didnt pick a registered time!')
         print("Filtering by past " + decisi)
         time.sleep(1)
-        self.search_results(self.list_first_index, self.list_last_index)
+        #self.search_results(self.list_first_index, self.list_last_index)
+        #self.job_search_workflow()
+        #self.search_results(self.list_first_index)
+        self.process_search_results()
         return
+    
+    def adjust_viewport(self):   
+        # Get the current window size
+        window_width = self.browser.execute_script("return window.innerWidth;")
+        window_height = self.browser.execute_script("return window.innerHeight;")
+
+        # Set the viewport to match the window size
+        self.browser.execute_script(f"document.documentElement.style.setProperty('width', '{window_width}px');")
+        self.browser.execute_script(f"document.documentElement.style.setProperty('height', '{window_height}px');")
+        self.browser.execute_script("document.documentElement.style.setProperty('overflow', 'hidden');")
+    
+
+    def scroll_to_bottom(self):
+        prev_height = self.browser.execute_script("return document.body.scrollHeight")
+        print('\n\n\n')
+        print("increment_search_results")
+        print("****************************************************************")
+        print("Current Height == " + str(prev_height))
         
+        #! This is what does the actual scrolling!!!
+        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        #------------------------------------------------------------------------------------------------------
+        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # ============
+        #     # Scroll down in smaller increments
+        #     scroll_increment = current_height // 5
+        #     for _ in range(5):
+        #         self.browser.execute_script(f"window.scrollBy(0, {scroll_increment});")
+        #         time.sleep(1)
+        time.sleep(1)
+        print("Scrolled...")
+        
+        new_height = self.browser.execute_script("return document.body.scrollHeight")
+        print("New Height == " + str(new_height))
+        return new_height != prev_height
+
+    def process_search_results(self):
+        list_first_index = 0
+        list_last_index = 0
+        while True:
+            list_last_index = self.search_results(list_first_index, list_last_index)
+            
+            if not self.scroll_to_bottom():
+                if self.end_of_search():
+                    print("I'm the issue 2")
+                    break
+                
+                if not self.get_more_results():
+                    print("I'm the issue 3")
+                    break
+            # else:
+            #     list_first_index = list_last_index
+        print("I'm the issue 4")
+            
     def search_results(self, list_first_index, list_last_index):
-        if list_first_index == 0:
-            search_results = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-        else:
-            search_results = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+        # Wait for the last result from the previous search to appear on the page
+        # if self.results_from_search:
+        #     last_result = self.results_from_search[-1]
+        #     WebDriverWait(self.browser, 10).until(
+        #         EC.visibility_of(last_result)
+        #     )
+        initial_length = len(self.results_from_search)
         
-        for count, results_link in enumerate(search_results, list_first_index):
+        if list_first_index == 0:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
+            list_last_index = len(self.results_from_search)
+        else:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+            #list_last_index = list_first_index + len(self.results_from_search)
+
+        #for count, results_link in enumerate(self.results_from_search, list_first_index):
+        for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
             print('--------------------------------')
             print(str(count+1) + "/" + str(list_last_index))
             print(results_link)
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
             job_link = link.get_attribute("href")
-            self.links_to_jobs.append(job_link)
-            #print(link.get_attribute("href"))
             print(job_link)
-
-            more_results_buttony = link.find_element(By.TAG_NAME, "h3")
-            more_results_button = more_results_buttony.get_attribute('innerHTML')
+            self.google_search_results_links.append(job_link)
             
             if count == list_last_index:
                 list_first_index = list_last_index
                 break
-        print("All done loser!")
-        time.sleep(1)
-        #TODO: Write a condition that calls increment_search when no more links and the call adds 'search_results'
-        self.increment_search_results(list_first_index, list_last_index, more_results_button)
-        return list_first_index, list_last_index
-    
-    def increment_search_results(self, list_first_index, list_last_index, more_results_button):
-        current_height = self.browser.execute_script("return document.body.scrollHeight")
-        print('\n\n\n')
-        print("increment_search_results")
-        print("****************************************************************")
-        print("Current Height == " + str(current_height))
-        
-        while True:
-            self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(1)
-            print("Scrolled...")          
-            current_list_length = list_last_index-list_first_index
-            if (current_list_length%100) == 1:
-                print("Length of the current list == " + str(current_list_length))
-            search_results = self.browser.find_elements(By.XPATH, "//div[@class='g']")
-            if len(search_results) < list_last_index:
-                print("No more search results")
-                break
-            try:
-                more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
-                if more_results:
-                    print("Found the more_results == ", end="")
-                    print(more_results)
-                    more_results.click()
-                    print("Clicked 'More results' button")
-                    time.sleep(1)
-                elif not more_results:
-                    print("NOTHING == more_results")
-            except NoSuchElementException:
-                return  ("ERROR: Didn't work I guess idk??")
-            new_height = self.browser.execute_script("return document.body.scrollHeight")
-            print("New Height == " + str(new_height))
-            if new_height == current_height:
-                print("No more search results")
-                break
-        #--------------------------------------------------------------------   
-            current_height = new_height
-            list_first_index, list_last_index = self.search_results(list_first_index, list_last_index)
-            print("Current height == " + str(current_height))
-        print("****************************************************************")
-        print('\n\n\n')
-        
-        print("Scrolled to the end of search results, GOOBER!")
-        time.sleep(2.5)
-        print("++++++++++++++++++++++++++++++++++++++++++++++")
+        print("\nI am at end of search_results()...")
+        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        return list_last_index
 
-        # scraperGoogleJob(self.links_to_jobs, browser).click_last_result(more_results_button)
-        self.click_this_thing(more_results_button)
-        print("++++++++++++++++++++++++++++++++++++++++++++++")
-        return
-        
-    def click_this_thing(self, more_results_button):
-        application_company = None
-        
-        for job_index in self.links_to_jobs[::-1]:
-            # print("D")
-            # d = "h"
-            # if d == "d":
-            #     h3_element = self.browser.find_element(By.XPATH, '//h3')
-            #     ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
-            #     print(ancestor_element.get_attribute('outerHTML'))
-            #     #linky = self.browser.get(job_index)
-            #     #print(linky)
-            #     print("\D/")
-            #     selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{more_results_button}"]')
-            #     parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
-            #     print(parent_a_tag_xpath)
-            #     print("Defence")
-            selenium_google_link = self.browser.find_element(By.XPATH, f"//ancestor::a/h3[not(descendant::br)][contains(text(), '{more_results_button}')]")
-            print("\nselenium_google_link ", end="")
-            print(selenium_google_link)
-            selenium_google_link.click()
-            #self.browser.implicitly_wait(2)
-            time.sleep(3)
-            return
-        selenium_google_link.click()
-        self.browser.implicitly_wait(2)
-        time.sleep(3)
-        return
+    def get_more_results(self):
+        try:
+            more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
+            if more_results:
+                print("Found the more_results button")
+                more_results.click()
+                print("Clicked 'More results' button")
+                time.sleep(2)
+                return True
+            else:
+                print("No 'More results' button found")
+                print("THIS COULD BE THE REASON FOR ERRORS!! idk though dog... soundproof spectacles")
+                return False
+        except NoSuchElementException:
+            print("No 'More results' button found")
+            return False
+
+    def end_of_search(self):
+            try:
+                no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+                if no_more_results:
+                    print("No more search results")
+                    time.sleep(2)
+                    return True
+            except NoSuchElementException:
+                pass
+            return False 
+    
+    
+    
 
     def print_google_search_results(self):
         print('--------------------------------------------')
         print("Results from this Google Search: ")
-        for i, job in enumerate(self.job_titles):
-            
-            print("Job Title: ", end="")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(self.job_links_counter) + " from Google Seaech")
+            print("\tJob Title: ", end="")
             print(job)
-            print("Link to Job: ", end="")
+            print("\tLink to Job: ", end="")
             print(self.links_to_jobs[i])
         print('--------------------------------------------')
-        time.sleep(30)
+        #time.sleep(30)
+        return
+    
+    def new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+    
+    def new_new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.google_search_results_links):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.google_search_results_links[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+
+
+
+
+
+
+
 
 
 
 
 #site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

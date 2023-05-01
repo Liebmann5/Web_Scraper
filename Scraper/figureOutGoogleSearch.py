@@ -186,66 +186,68 @@ class scrapeGoogle():
             raise TypeError('ERROR: Didnt pick a registered time!')
         print("Filtering by past " + decisi)
         time.sleep(1)
-        self.search_results(browser, self.list_first_index, self.list_last_index)
+        self.search_results(browser, self.list_first_index, self.list_last_index)   #I only send self.list_first_index && self.list_last_index to fulfill the parameter!!!
         return
+    
+    
+    
+    
+    #! last index is the one you dont change its value
         
     def search_results(self, browser, list_first_index, list_last_index):
-        if list_first_index == 0:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-            
-        if list_first_index == 0:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
-            print(f"Number of search results: {len(search_results)}")
-            list_last_index = len(search_results)
-        else:
-            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+        # if list_first_index == 0:
+        #     search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")   #search_results = all the link ELEMENTS for Selenium
+        #     print(f"Number of search results: {len(search_results)}")
+        #     list_last_index = len(search_results)
+        # else:
+        #     search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
         
-        for count, results_link in enumerate(search_results, list_first_index):
-            print('--------------------------------')
-            print(str(count+1) + "/" + str(list_last_index))
-            print(results_link)
-            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
-            print(f"Here is link #{count+1}: ", end="")
-            job_link = link.get_attribute("href")
+        # for count, results_link in enumerate(search_results, list_first_index):
+        #     print('--------------------------------')
+        #     print(str(count+1) + "/" + str(list_last_index))
+            # print(results_link)
+            # link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
+            # print(f"Here is link #{count+1}: ", end="")
+            # job_link = link.get_attribute("href")
             #print(link.get_attribute("href"))
-            print(job_link)
-            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            # scraperGoogleJob(job_link)
-            #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-            
-            if count == list_last_index:
-                list_first_index = list_last_index
-                break
+            # print(job_link)
+        
+            # if count == list_last_index:
+            #     list_first_index = list_last_index
+            #     break
         print("All done loser!")
         time.sleep(1)
         self.increment_search_results(browser, list_first_index, list_last_index)
         return list_first_index, list_last_index
     
+    
+    
+    
+    
+    
     def increment_search_results(self, browser, list_first_index, list_last_index):
-        current_height = browser.execute_script("return document.body.scrollHeight")
-        print('\n\n\n')
-        print("increment_search_results")
-        print("****************************************************************")
-        print("Current Height == " + str(current_height))
+        # current_height = browser.execute_script("return document.body.scrollHeight")
+        # print('\n\n\n')
+        # print("increment_search_results")
+        # print("****************************************************************")
+        # print("Current Height == " + str(current_height))
         
         while True:
-            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(1)
-            print("Scrolled...")
+            # browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            # time.sleep(1)
+            # print("Scrolled...")
             
             #search_results = browser.find_elements(By.CSS_SELECTOR, "div.g")
             current_list_length = list_last_index-list_first_index
             #**************************************************************************************************************
             if (current_list_length%100) == 1:
                 print("Length of the current list == " + str(current_list_length))
-            try:
-                no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-                print("No more search results")
-                break
-            except NoSuchElementException:
-                pass
+            # try:
+            #     no_more_results = browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+            #     print("No more search results")
+            #     break
+            # except NoSuchElementException:
+            #     pass
             #**************************************************************************************************************
             new_height = browser.execute_script("return document.body.scrollHeight")
             print("New Height == " + str(new_height))
@@ -274,7 +276,7 @@ class scrapeGoogle():
         time.sleep(5)
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         job_link = "https://www.google.com"
-        scraperGoogleJob.get_job_info(job_link)
+        print("THIS IS THE GOAL GET HERE PONY BOY!!!!")
         print("++++++++++++++++++++++++++++++++++++++++++++++")
         return
         
@@ -282,6 +284,8 @@ class scrapeGoogle():
 if __name__ == '__main__':
     scraper = scrapeGoogle()
     scraper.browser_setup(0)
+    
+    
 
 
 
@@ -289,16 +293,6 @@ if __name__ == '__main__':
 
 
 
-#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
-
-
-
-
-
-
-# In order to show you the most relevant results, we have omitted some entries very similar to
-# the 225 already displayed.
-# If you like, you can "repeat the search with the omitted results included."
 
 
 
@@ -306,14 +300,52 @@ if __name__ == '__main__':
 
 
 
-# HOW TO SET UP SAFARI !!!!!
-#    1) Open Safari.
-#    2) Click on Safari in the top menu bar.
-#    3) Click on Preferences.
-#    4) Click on Advanced.
-#    5) At the bottom, check the box next to "Show Develop menu in menu bar".
-#    6) Click on Develop in the top menu bar.
-#    7) Click on Allow Remote Automation.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+    #for count, results_link in enumerate(search_results, list_first_index):
+        #! results_link = search_results  &&  list_first_index IS THE STARTING VALUE FOR "count"
+                                                #this is how we are able to continue our count from our last starting point!!!!!
+    def search_results(self, browser, list_first_index, list_last_index):
+        if list_first_index == 0:
+            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")   #search_results = all the link ELEMENTS for Selenium
+            print(f"Number of search results: {len(search_results)}")
+            list_last_index = len(search_results)
+        else:
+            search_results = browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+        
+        for count, results_link in enumerate(search_results, list_first_index):   #! list_first_index = keeps track of the current # of results found!!
+            print('--------------------------------')
+            print(str(count+1) + "/" + str(list_last_index))
+            print(results_link)
+            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"    #! link = a link element found from a google search
+            print(f"Here is link #{count+1}: ", end="")     #! count = thing that counts the individual links after every every incremental scroll (just for print)
+            job_link = link.get_attribute("href")   #! job_link = a link found from a google search
+            print(job_link)
+            
+            if count == list_last_index:
+                list_first_index = list_last_index
+                break
+        print("All done loser!")
+        time.sleep(1)
+        self.increment_search_results(browser, list_first_index, list_last_index)
+        return list_first_index, list_last_index
+
+
+
+
+
+
+
+    

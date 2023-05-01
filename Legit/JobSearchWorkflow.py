@@ -18,7 +18,7 @@ from GoogleSearch import scraperGoogle
 from CompanyOpeningsAndApplications import CompanyWorkflow
 from datetime import datetime
 
-
+                #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
                 #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
                 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,7 +28,8 @@ class Workflow():
        
     def __init__(self):
         self.browser = None
-        self.google_search_results_links = None
+        #self.google_search_results_links = None
+        self.google_search_results_links = []
         self.time_program_ran = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print("This program began running at " + self.time_program_ran)
         
@@ -37,9 +38,13 @@ class Workflow():
  
         self.env_path = '.env'
         self.env_other_path = '../.env'
+        #self.previous_job_data_csv_relative_path = r'../Scraper/JobsThatUserHasAppliedTo.csv'
+        self.previous_job_data_csv_relative_path = r'Scraper/JobsThatUserHasAppliedTo.csv'
         self.users_information = {}
         self.total_jobs_applied_to_count = 0
         self.total_jobs_applied_to_info = {} 
+        self.previous_job_applications_data = []
+        self.last_time_user_applied = None
        
     def job_search_workflow(self):
         self.browser_setup()
@@ -48,7 +53,10 @@ class Workflow():
         print(self.google_search_results_links)
         print("DOPER")
         time.sleep(3)
-        #self.get_jobs_users_applied_to()  #and filter them out!
+        self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+        self.ensure_no_duplicates()
+        previously_applied_to_job_links = self.get_job_links_users_applied_to()  #and filter them out!
+        self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
         self.load_users_information()
         self.apply_to_jobs()
         
@@ -61,8 +69,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -137,6 +145,9 @@ class Workflow():
         self.browser.quit()
         print('Execution Ending -- Webdriver session is Closing')
         
+    
+    
+    
     def apply_to_jobs(self):
         # for job_link in self.google_search_results_links[::1]:
         for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
@@ -145,10 +156,11 @@ class Workflow():
             CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
     
 
+
     
     
     
-    
+    #!------------- .env --------------------
     def load_users_information(self):
         self.users_information = {}
         with open(self.env_path) as file:
@@ -164,67 +176,100 @@ class Workflow():
         for key, value in self.users_information.items():
             print(f"{key}: {value}")
         print('-------------------------------')
+    #!---------------------------------------
     
     
     
     
     
-    # def convert_csv_data(self):
-    #     #job_data = '../job_data.csv'
-    #     with open ('job_data.csv', mode='r') as file:
-    #         reader = csv.reader(file)
-    #         csv_data = []
-    #         for row in file:
-    #             csv_data.append(row)
-    #             #print(csv_data)
-    #     return csv_data
     
     
-    
-    
-    #TODO: Keep job url's
-    def get_jobs_users_applied_to(self):
-        job_data_absolute_path = r'../Scraper/JobData.csv'
-        previously_applied_to_job_links = []
 
-        with open(job_data_absolute_path, 'r') as file:
+    
+    def convert_csv_data(self, csv_relative_path):
+        print("\nconvert_csv_data() =")
+        
+        csv_to_list = []
+        
+        with open(csv_relative_path, 'r') as file:
             csv_reader = csv.reader(file)
             
             # Skip the header row
             next(csv_reader)
-
+            
             for row in csv_reader:
-                row_without_last_column = row[:-1]
-                updated_row = [cell.replace('=>', ',') for cell in row_without_last_column]
-                print(updated_row)
-                previously_applied_to_job_links.append(updated_row)
+                updated_row = [cell.replace('=>', ',') for cell in row]
+                csv_to_list.append(updated_row)
+        print(csv_to_list)
+        return csv_to_list
+    
+    #TODO: Keep job url's
+    #! Pretty sure this is this is the only time I use JobsThatUserHasAppliedTo.csv so it doesn't matter
+    def get_job_links_users_applied_to(self):
+        print("\nget_job_links_users_applied_to() =")
+        
+        previously_applied_to_job_links = []
+        
+        for row in self.previous_job_applications_data:
+            links_row = row[0]
+            print("If my calculations are correct this should print a link MUAH HA HA... ", end="")
+            print(links_row)
+            previously_applied_to_job_links.append(links_row)
+            
+        self.last_time_user_applied = self.previous_job_applications_data[-1][-1]
         print("These are all the links you already applied to... Tom")
         print(previously_applied_to_job_links)
-        self.filter_out_jobs_user_previously_applied_to()
-
+        print("And this is when you last applied... Tom")
+        print(self.last_time_user_applied)
+        #self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
+        return previously_applied_to_job_links
     
     #TODO: FINISH BOTH OF THESE!!
     #Use Quick Sort to sort jobs_previously_applied_to
-    def filter_out_jobs_user_previously_applied_to(self, filter_from_list):
-        csv_data = filter_from_list
-        previously_applied_to_job_links = []
-        for i, google_search_result_URL in enumerate(self.google_search_results_links):
-            for j, previously_applied_URL in enumerate(csv_data):
-                if (google_search_result_URL[i] == previously_applied_URL[j]):
-                    #remove the link from google_search_results_links
-                    self.google_search_results_links[i].remove()
+    #! We run this when we finish running other_company_openings()!!!!
+        #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
+    def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_links):
+        print("\nfilter_out_jobs_user_previously_applied_to()")
+        
+        Lake_Minnetonka_Purified_list = []
+        
+        for google_search_result_URL in self.google_search_results_links:
+            found = False
+            for previously_applied_URL in previously_applied_to_job_links:
+                if google_search_result_URL == previously_applied_URL:
                     print("Match google_search_result_URL: ", end='')
-                    print(google_search_result_URL[i])
+                    print(google_search_result_URL)
                     print("Match previously_applied_URL: ", end='')
-                    print(previously_applied_URL[j])
-                    previously_applied_to_job_links.append(previously_applied_URL[j])
-                    #Breaks out of inner for loop!
+                    print(previously_applied_URL)
+                    previously_applied_to_job_links.append(previously_applied_URL)
+                    found = True
                     break
+            if not found:
+                Lake_Minnetonka_Purified_list.append(google_search_result_URL)
+        
         print("These are all the links you already applied to... ")
         print(previously_applied_to_job_links)
+        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.")
+        print(Lake_Minnetonka_Purified_list)
+        self.google_search_results_links = Lake_Minnetonka_Purified_list
         return
     
+    def ensure_no_duplicates(self):
+        print("\nensure_no_duplicates() = ")
+        
+        unique_results = []
+        for google_search_result_URL in self.google_search_results_links:
+                if google_search_result_URL not in unique_results:
+                    unique_results.append(google_search_result_URL)
+                else:   #THIS ELSE AND 2 PRINT STATEMENTS ARE PURELY FOR TESTING!!!
+                    print("Repeated Link Found: ", end="")
+                    print(google_search_result_URL)
+        self.google_search_results_links = unique_results
+        return
     
+        
+        
+        
     
     
     
