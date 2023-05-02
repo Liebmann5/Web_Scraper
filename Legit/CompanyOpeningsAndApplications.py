@@ -81,18 +81,21 @@ class CompanyWorkflow():
         elif "boards.greenhouse.io" in job_link:
             self.application_company_name = "greenhouse"
             self.determine_current_page(job_link, self.application_company_name)
+            self.company_job_openings(soup)
             
-            
-            #self.link_to_other_company_openings(soup, application_company_name)
-            apply_to_job, applic = self.convert_to_bs(job_link, soup, self.application_company_name)
-            if apply_to_job:
-                self.fill_out_application(applic, soup)
-                #self.other_job_openings(self.link_to_other_jobs)
-            #applic = self.greenhouse_io_start_page_decider(soup)
-            applic = soup.find('div', id="application")
-            self.find_and_organize_inputs(applic)
+            for job_opening in self.company_job_openings:
+                soup = self.apply_beautifulsoup(job_opening, "lxml")
+                webpage_body = soup.find('body')
+                if self.should_user_apply(webpage_body) == True:
+                    self.lever_io_data(job_opening, webpage_body)
+                    soup = self.apply_beautifulsoup(job_link, "html")
+                    form_input_details = self.get_form_input_details()
+                    self.insert_resume()
+                    self.fill_out_application(form_input_details)
+                    self.keep_jobs_applied_to_info(job_link)
+                self.reset_job_variables()
         #! div_main ==> lever.co = job_description
-
+        return
         
     
     def apply_beautifulsoup(self, job_link, parser):
@@ -187,6 +190,7 @@ class CompanyWorkflow():
             opening_link_company_jobs = soup.find('div', {"class": "list-page"})
 
             if opening_link_application:
+                print('-Application Page')
                 try:
                     #TODO: This is v what we want to avoid!!!
                     company_open_positions = soup.find('a', {"class": "main-header-logo"})
@@ -206,54 +210,36 @@ class CompanyWorkflow():
                     raise ConnectionError("ERROR: Companies other open positions are not present")
                 
             elif opening_link_description:
-                #try:
-                #apply_button = None
-                
-                #a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-                #div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-                #application_at_bottom = soup.find("div", id="application")
-                #print("Application at bottom or <button>")
+                print("-Job Description Page")
                 self.scroll_to_element(opening_link_description)
                 apply_to_job = self.should_user_apply(opening_link_description)
-                #if a_tag_butt:
-                    #print(" == Application at bottom of page")
-                    #print("\tPress button to go to application")
-                    #apply_button = a_tag_butt
-                    #apply_to_job = self.should_user_apply(opening_link_description)
-                #elif div_tag_butt:
-                    print("\tPress button to go to application")
-                    apply_button = div_tag_butt
-                    apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
+
                 if apply_to_job == True:
                     print("lever application locked and loaded")
                     self.bottom_has_application_or_button(application_company_name)
-                    apply_button.click()
-                    time.sleep(5)
+                    time.sleep(3)
                     current_url = self.browser.current_url
                     soup = self.apply_beautifulsoup(current_url, "html")
                     form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
                     self.fill_out_application(form_input_details)
                     self.keep_jobs_applied_to_info()
-                    #TODO: If the button is present click OTHERWISE just insert the link
-                    if self.company_other_openings_href:
-                        self.company_other_openings_href.click()
-                    else:
-                        self.browser.get(self.company_other_openings_href)
-                    return
                 elif not apply_to_job:
                     #TODO:
                     self.company_other_openings_href.click()
-                    return
-                # except:
-                #     raise ("Something went wrong with the the greenhouse.io job_description page")
+                    
+                #TODO: If the button is present click OTHERWISE just insert the link
+                if self.company_other_openings_href:
+                    self.company_other_openings_href.click()
+                else:
+                    self.browser.get(self.company_other_openings_href)
+
             elif opening_link_company_jobs:
-                #TODO: parse through other_company_jobs for "lever"
-                #self.company_job_openings(soup, None, application_company_name)
-                return
-            application = opening_link_application
+                print('-Job Listings Page')
+                pass
+            return
         
-               
+            
         elif application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
             job_description_element = self.browser.find_element(By.ID, "content")
@@ -278,13 +264,14 @@ class CompanyWorkflow():
                     content = next_elem.find("div", id="content")
                     
                     if header and content:
-                        print("Job Description Page")
+                        print("-Job Description Page")
                         #TODO: Fix this!!! I need the header link!
                         self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
-                        should_apply = self.should_user_apply()
+                        current_url = self.browser.current_url
+                        should_apply = self.should_user_apply(app_body)
                         if should_apply == True:
                             #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
-                            self.bottom_has_application_or_button()
+                            self.bottom_has_application_or_button(application_company_name)
                             print("greenhouse application locked and loaded")
                             form_input_details = self.get_form_input_details(job_link)
                             print("Meet")
@@ -319,8 +306,8 @@ class CompanyWorkflow():
         everything_about_job = job_description.get_text()
 
         #print(everything_about_job)
-        experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
-        #experience_needed = "You must be a diety; being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
+        #experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
+        experience_needed = "You must be a diety; being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
         if re.search(experience_needed, everything_about_job):
             print("Experience requirement found!")
             print(re.search(experience_needed, everything_about_job))
@@ -336,14 +323,18 @@ class CompanyWorkflow():
             a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
             div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
             application_at_bottom = soup.find("div", id="application")
-            print("Application at bottom or <button>")
+            print("\nLever: Application at bottom or <button>")
             if a_tag_butt:
                 print("\tPress button to go to application")
                 apply_button = a_tag_butt
+                self.scroll_to_element(apply_button)
+                time.sleep(1)
                 apply_button.click()
             elif div_tag_butt:
-                print("\tPress button to go to application")
+                print("\tgreenhouse: Press button to go to application")
                 apply_button = div_tag_butt
+                self.scroll_to_element(apply_button)
+                time.sleep(1)
                 apply_button.click()
             elif application_at_bottom:
                 self.scroll_to_element(application_at_bottom)
@@ -351,20 +342,29 @@ class CompanyWorkflow():
             
         elif application_company_name == "greenhouse":
             application = soup.find("div", id="application")
-            apply_button = self.browser.find_element(By.XPATH, "button[text()=['Apply Here', 'Apply Now', 'Apply for this job']]")
-            print("Application at bottom or <button>")
+            apply_button_list = None
+            try:
+                apply_button_list = self.browser.find_element(By.XPATH, "//button[text()='Apply Here' or text()='Apply Now' or text()='Apply for this job']")
+            except NoSuchElementException:
+                pass
+            print("\nGreenhouse: Application at bottom or <button>")
             if application:
                 self.scroll_to_element(application)
                 print("\tApplication at bottom of page")
                 time.sleep(1)
-                return
             elif apply_button:
+                #print("apply_button options:", ", ".join(str(button) for button in apply_button_list))
+                #apply_button = apply_button_list[0]
+                apply_button = apply_button_list
+                print("apply_button options:", end="") 
+                print(apply_button)
+
                 self.scroll_to_element(apply_button)
                 print("\tPress button to go to application")
                 time.sleep(1)
                 apply_button.click()
                 time.sleep(3)
-                return
+            return
     
     def company_job_openings(self, soup, div_main, application_company_name):
         #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
@@ -559,7 +559,8 @@ class CompanyWorkflow():
                 first_child = False
                 continue
             elif child == string_tab:
-                continue
+                #? continue
+                pass
             if child.name == "h1" and "app-title" in child.get("class"):
                 self.company_job_title = child.get_text().strip()
             elif child.name == "span" and  "company-name" in child.get("class"):
@@ -599,9 +600,9 @@ class CompanyWorkflow():
                 #companies_jobs_link_a = child
             elif child.name == "div" and "location" in child.get("class"):
                 self.company_job_location = child.get_text().strip()
-            else:
-                print("child = ")
-                print(child)
+            #? else:
+            #?     print("child = ")
+            #?     print(child)
             #self.company_openings_test_link = 
         if self.company_other_openings_href == None:
             self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=self.a_fragment_identifier)
@@ -1069,8 +1070,8 @@ class CompanyWorkflow():
             })
         print("Tyrants")
         self.print_form_details(form_input_details)
-        print("Seperations of graphical colonies: ")
-        print(form_input_details)
+        #print("Seperations of graphical colonies: ")
+        #print(form_input_details)
         time.sleep(60)
         return form_input_details
       

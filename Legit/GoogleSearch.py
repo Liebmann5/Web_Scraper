@@ -32,10 +32,10 @@ class scraperGoogle():
         
     def ludacris_speed(self):
         self.user_desired_jobs.append("software engineer")
-        self.user_desired_jobs.append("backend engineer")
-        self.user_desired_jobs.append("full-stack engineer")
-        self.user_desired_jobs.append("frontend engineer")
-        self.user_desired_jobs.append("engineer")
+        #self.user_desired_jobs.append("backend engineer")
+        #self.user_desired_jobs.append("full-stack engineer")
+        #self.user_desired_jobs.append("frontend engineer")
+        #self.user_desired_jobs.append("engineer")
         self.search_for_jobs()
         return
     
@@ -193,7 +193,8 @@ class scraperGoogle():
             list_last_index = len(self.results_from_search)
         else:
             self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
-            #list_last_index = list_first_index + len(self.results_from_search)
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! vvvvvvvvvvvvvvvvvvvvvvv  IF THERE ARE ANY ISSUES ITS B/C OF THIS !!!!!!!!!!!!!
+            list_last_index = list_first_index + len(self.results_from_search)
 
         for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
             print('--------------------------------')

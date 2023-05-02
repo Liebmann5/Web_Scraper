@@ -162,6 +162,7 @@ class Workflow():
                 time.sleep(5)
             job_link = self.google_search_results_links[i]
             print(job_link)
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             CompanyWorkflow(self.browser, self.users_information, user_desired_jobs, senior_experience=False).company_workflow(job_link)
     
 
@@ -258,8 +259,8 @@ class Workflow():
         
         print("These are all the links you already applied to... ")
         print(previously_applied_to_job_links)
-        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.")
-        print(Lake_Minnetonka_Purified_list)
+        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
+        #print(Lake_Minnetonka_Purified_list)
         self.google_search_results_links = Lake_Minnetonka_Purified_list
         return
     
