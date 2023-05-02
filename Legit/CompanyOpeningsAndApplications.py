@@ -1367,6 +1367,30 @@ class CompanyWorkflow():
 
 
 
+import os
+
+class JobApplication:
+    def __init__(self):
+        # Load environment variables into a dictionary
+        self.env_variables = {
+            key: os.environ[key]
+            for key in os.environ
+            if key.startswith("WORK_") or key in ["FIRST_NAME", "LAST_NAME", "EMAIL", "PHONE_NUMBER", "HOME_PHONE", "LOCATION_CITY", "ZIP_CODE", "SCHOOL", "DEGREE", "DISCIPLINE", "SCHOOL_START_DATE_MONTH", "SCHOOL_START_DATE_YEAR", "SCHOOL_END_DATE_MONTH", "SCHOOL_END_DATE_YEAR", "GPA", "CURRENT_COMPANY", "CURRENT_TITLE", "COMPANY_START_DATE"]
+        }
+
+    def process_form_input_details(self, form_input_details):
+        input_values = {}
+        for input_detail in form_input_details:
+            label = input_detail["Label"]
+            if label in self.env_variables:
+                input_values[label] = self.env_variables[label]
+            else:
+                user_input = input(f"Please enter the value for '{label}': ")
+                input_values[label] = user_input
+                # Optionally, save the new question and answer to the .env file
+                with open(".env", "a") as env_file:
+                    env_file.write(f"{label}={user_input}\n")
+        return input_values
 
 
 
