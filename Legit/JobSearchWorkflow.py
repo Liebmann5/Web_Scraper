@@ -278,18 +278,7 @@ class Workflow():
     
         
         
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+      
     
     
     
@@ -310,116 +299,9 @@ class Workflow():
    
    
    
-   
-   
-   
-   
-   
 
-   
-   
-   
-   
 
-   
-   
-   
-   
-    def click_last_result_DONTuseTHIS(self, google_search_name):
-        #self.list_of_links = var_job_link
-        google_link_title = google_search_name
-        application_company = None
-        
-        
-        
-        self.eff_that_link()
-        
-        
-        
-        
-        # def apply_to_jo(job_data: list):
-        # if (len(job_data)-1):
-        #     return "ok"
-        for job_index in self.list_of_links[::-1]:
-            print("D")
-            d = "h"
-            if d == "d":
-                h3_element = self.browser.find_element(By.XPATH, '//h3')
-                ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
-                print(ancestor_element.get_attribute('outerHTML'))
-                #linky = self.browser.get(job_index)
-                #print(linky)
-                print("\D/")
-                selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_name}"]')
-                parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
-                print(parent_a_tag_xpath)
-                print("Defence")
-            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
-            selenium_google_link.click()
-            self.browser.implicitly_wait(5)
-            time.sleep(3)
-            
-            
-            self.eff_that_link()
-            
-            
-            result = requests.get(job_index)
-            content = result.text
-            soup = BeautifulSoup(content, 'lxml')
-        
-            if "jobs.lever.co" in job_index:
-                application_company = "lever"
-                self.app_comp = application_company
-                
-                #self.link_to_other_company_openings(soup, application_company)
-                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
-                if apply_to_job:
-                    self.fill_out_application(applic)
-                self.lever_io_data(job_index, soup)
-                self.find_and_organize_inputs(applic, soup)
-                
-            elif "boards.greenhouse.io" in job_index:
-                application_company = "greenhouse"
-                self.app_comp = application_company
-                
-                #self.link_to_other_company_openings(soup, application_company)
-                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
-                if apply_to_job:
-                    self.fill_out_application(applic, soup)
-                    #self.other_job_openings(self.link_to_other_jobs)
-                #applic = self.greenhouse_io_start_page_decider(soup)
-                applic = soup.find('div', id="application")
-                self.find_and_organize_inputs(applic)
-    #! div_main ==> lever.co = job_description
 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    
     
     

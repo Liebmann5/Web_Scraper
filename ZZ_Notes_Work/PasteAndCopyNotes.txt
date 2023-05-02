@@ -1875,7 +1875,173 @@ def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_l
 
 
 
+    def determine_current_page(self, job_link, application_company_name):
+        soup = self.apply_beautifulsoup(job_link, "lxml")
+        
+        if application_company_name == "lever":
+            webpage_body = soup.find('body')
 
+            opening_link_application = soup.find('div', {"class": 'application-page'})
+            opening_link_description = soup.find('div', {"class": 'posting-page'})
+            opening_link_company_jobs = soup.find('div', {"class": "list-page"})
+
+            #opening_link_application = soup.find('div', {"class": 'application-page'})
+            if opening_link_application:
+                try:
+                    self.lever_co_header(webpage_body, soup)
+
+                    try:
+                        self.company_open_positions_a.click()
+                    except:
+                        raw_link = company_open_positions['href']
+                        self.browser.get(raw_link)
+                    time.sleep(2)
+                    return
+                except:
+                    #TODO: Change this Error type!
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+                
+            elif opening_link_description:
+                #try:
+                apply_button = None
+                
+                a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+                div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+                application_at_bottom = soup.find("div", id="application")
+                print("Application at bottom or <button>")
+                if a_tag_butt:
+                    #print("== Application at bottom of page")
+                    print("\tPress button to go to application")
+                    apply_button = a_tag_butt
+                    apply_to_job = self.should_user_apply(opening_link_description)
+                elif div_tag_butt:
+                    print("\tPress button to go to application")
+                    apply_button = div_tag_butt
+                    apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
+                if apply_to_job == True:
+                    print("1st lever application locked and loaded")
+                    apply_button.click()
+                    time.sleep(5)
+                    current_url = self.browser.current_url
+                    soup = self.apply_beautifulsoup(current_url, "html")
+                    form_input_details = self.get_form_input_details(current_url)
+                    self.insert_resume()
+                    self.fill_out_application(form_input_details)
+                    self.keep_jobs_applied_to_info()
+                    #TODO: If the button is present click OTHERWISE just insert the link
+                    if self.company_other_openings_href:
+                        self.company_other_openings_href.click()
+                    else:
+                        self.browser.get(self.company_other_openings_href)
+                    return
+                elif not apply_to_job:
+                    #TODO:
+                    self.company_other_openings_href.click()
+                    return
+                # except:
+                #     raise ("Something went wrong with the the greenhouse.io job_description page")
+            elif opening_link_company_jobs:
+                #TODO: parse through other_company_jobs for "lever"
+                #self.company_job_openings(soup, None, application_company_name)
+                return
+            application = opening_link_application
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        elif application_company_name == "greenhouse":
+            div_main = soup.find("div", id="main")
+            job_description_element = self.browser.find_element(By.ID, "content")
+            
+            #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
+            next_elem = div_main.find_next()
+            while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
+                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
+                    print('-Job Listings Page')
+                    return
+                elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
+                    print('-Job Listings Page')
+                    return
+                elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
+                    print("-Company Job Openings Page")
+                    print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
+                    #TODO: for this one in the elif you have to look through all "level-0" sections!!
+                    return
+                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
+                    app_body = next_elem
+                    header = next_elem.find("div", id="header")
+                    content = next_elem.find("div", id="content")
+                    
+                    if header and content:
+                        print("Job Description Page")
+                        #TODO: Fix this!!! I need the header link!
+                        self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
+                        should_apply = self.should_user_apply()
+                        if should_apply == True:
+                            #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
+                            self.bottom_has_application_or_button()
+                        elif should_apply == False:
+                            try:
+                                self.company_other_openings_href.click()
+                            except:
+                                self.browser.get(self.company_other_openings_href)
+                            time.sleep(2)
+                            return
+                            
+                        #TODO
+ #! ^ MOVE UP 198 ^ ^ ^ ^ ^ ^ ^                       apply_button = div_main.find("button", text=["Apply Here", "Apply Now"])  #NOTE: !!!!! Maybe greenhouse doesn't have <button> ...    maybe it only has <a class="button">!?!?!?
+                        #application_below_description = div_main.find("div", id="application")
+                        #NOTE: I don't think greenhouse.io house <... target="_blank">
+                        #if apply_button:
+                            #print("\tPress button to go to application")
+                            #should_apply = self.should_user_apply()
+                            #print("\t\tApply button: ", end="")
+                            #print(apply_button)
+                            #if should_apply == True:
+                                #apply_button.click()
+                                #time.sleep(5)
+                                #self.greenhouse_io_application(application)
+                            #print("\t\tApplication = ", end="")
+                            #print(application)
+                            #apply_to_job = self.should_user_apply(application)
+                            #return application
+                        #elif application:
+                            #self.should_user_apply(application)
+                            #print("\tApplication at bottom of page")
+                            
+                        else:
+                            print("\tHmmm that's weird ? it's neither button nor application")
+                        
+                        # self.scroll_to_element(job_description_element)
+                        # if apply_to_job == True:
+                        print("1st greenhouse application locked and loaded")
+                        form_input_details = self.get_form_input_details(job_link)
+                        print("Meet")
+                        time.sleep(8)
+                        self.insert_resume()
+                        print("me")
+                        time.sleep(8)
+                        self.fill_out_application(form_input_details)
+                        self.keep_jobs_applied_to_info(job_link)
+                        # elif apply_to_job == False:
+                        #     self.a_href.click()
+                        #     time.sleep(4)
+                        #     return
+                    break
+                else:
+                    next_elem = next_elem.find_next()
+            print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
+            return
 
 
 

@@ -1,3 +1,826 @@
+from bs4 import BeautifulSoup
+from selenium import webdriver
+
+from dotenv import load_dotenv
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+import os
+import csv
+
+import time
+
+#! from fileName import className
+from GoogleSearch import scraperGoogle
+from CompanyOpeningsAndApplications import CompanyWorkflow
+from datetime import datetime
+
+                #Run "python|python3 -u Legit/JobSearchWorkflow.py"
+                #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
+                #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
+                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+class Workflow():
+       
+    def __init__(self):
+        self.browser = None
+        #self.google_search_results_links = None
+        self.google_search_results_links = []
+        self.time_program_ran = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print("This program began running at " + self.time_program_ran)
+        
+        #TODO: Change this name... it's all the job info a user has previously applied to!!
+        self.csv_data = []
+ 
+        self.env_path = '.env'
+        self.env_other_path = '../.env'
+        #self.previous_job_data_csv_relative_path = r'../Scraper/JobsThatUserHasAppliedTo.csv'
+        self.previous_job_data_csv_relative_path = r'Scraper/JobsThatUserHasAppliedTo.csv'
+        self.users_information = {}
+        self.total_jobs_applied_to_count = 0
+        self.total_jobs_applied_to_info = {} 
+        self.previous_job_applications_data = []
+        self.last_time_user_applied = None
+       
+    def job_search_workflow(self):
+        self.browser_setup()
+        self.google_search_results_links, last_link_from_google_search = scraperGoogle(self.browser).user_requirements()
+        print("DOPE")
+        print(self.google_search_results_links)
+        print("DOPER")
+        time.sleep(3)
+        self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+        self.ensure_no_duplicates()
+        previously_applied_to_job_links = self.get_job_links_users_applied_to()  #and filter them out!
+        self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
+        self.load_users_information()
+        self.apply_to_jobs(last_link_from_google_search)
+        
+        self.close_browser()
+        
+        
+        
+        
+          
+    #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
+    #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
+    def users_browser_choice(self):
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 3, " Chrome "
+        return users_browser_choice, browser_name
+        print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
+        print(f"\t1) FireFox")
+        print(f"\t2) Safari")
+        print(f"\t3) Chrome")
+        print(f"\t4) Edge")
+        while True:
+            user_jobs = input()
+            user_jobs.strip()
+            
+            if user_jobs == "1":
+                users_browser_choice = " FireFox "
+                break
+            elif user_jobs == "2":
+                users_browser_choice = " Safari "
+                break
+            elif user_jobs == "3":
+                users_browser_choice = " Chrome "
+                break
+            elif user_jobs == "4":
+                users_browser_choice = " Edge "
+                break
+            else:
+                print("That's kinda messed up dog... I give you an opportunity to pick and you pick some dumb crap.")
+                print("You've squandered any further opportunities to decide stuff. I hope you are happy with yourself.")
+                print("Don't worry clown I'll pick for you!")
+                #TODO: Make else just check OS and return number of that OS's web browser!!!
+                #! THIS IS A while loop.... so it runs until false
+        return users_browser_choice, browser_name
+    
+    def browser_setup(self):
+        users_browser_choice, browser_name = self.users_browser_choice()
+        print('Execution Started -- Opening' + browser_name + 'Browser')
+        
+        if users_browser_choice == 1:
+            options = FirefoxOptions()
+            options.set_preference("dom.webnotifications.enabled", False)
+            options.set_preference("extensions.enabledScopes", 0)
+            options.set_preference("browser.toolbars.bookmarks.visibilty", "never")
+            options.set_preference("signon.rememberSignons", False)
+            options.set_preference("places.history.enabled", False)
+            
+            self.browser = webdriver.Firefox(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 2:
+            options = SafariOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+                
+            self.browser = webdriver.Safari(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 3:
+            options = ChromeOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+            
+            self.browser = webdriver.Chrome(options=options)
+            self.browser.set_page_load_timeout(30)
+        
+        #TODO:   if (browser is open == True && browser is ready == True)
+        #assert 'Yahoo' in browser.title
+        try:
+            self.browser.get('https://www.google.com')
+        except:
+            raise ConnectionError('ERROR: Check Internet Connection')
+        return
+    
+    def close_browser(self):
+        self.browser.quit()
+        print('Execution Ending -- Webdriver session is Closing')
+        
+    
+    
+    
+    def apply_to_jobs(self, last_link_from_google_search):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
+        # for job_link in self.google_search_results_links[::1]:
+        for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
+            if not clicked_link_from_google_search:
+                print(last_link_from_google_search)
+                #self.browser.find_element(By.X_PATH, )
+                last_link_from_google_search.click()
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                time.sleep(5)
+            job_link = self.google_search_results_links[i]
+            print(job_link)
+            CompanyWorkflow(self.browser, self.users_information, senior_experience=False).company_workflow(job_link)
+    
+
+
+    
+    
+    
+    #!------------- .env --------------------
+    def load_users_information(self):
+        self.users_information = {}
+        with open(self.env_path) as file:
+            for line in file:
+                if line.strip() and not line.startswith("#"):
+                    key, value = line.strip().split('=', 1)
+                    value = value.strip("'")  # Remove quotes around the value
+                    self.users_information[key] = value
+        self.print_users_information()
+    
+    def print_users_information(self):
+        print('--------USERS .ENV INFO--------')
+        for key, value in self.users_information.items():
+            print(f"{key}: {value}")
+        print('-------------------------------')
+    #!---------------------------------------
+    
+    
+    
+    
+    
+    
+    
+
+    
+    def convert_csv_data(self, csv_relative_path):
+        print("\nconvert_csv_data() =")
+        
+        csv_to_list = []
+        
+        with open(csv_relative_path, 'r') as file:
+            csv_reader = csv.reader(file)
+            
+            # Skip the header row
+            next(csv_reader)
+            
+            for row in csv_reader:
+                updated_row = [cell.replace('=>', ',') for cell in row]
+                csv_to_list.append(updated_row)
+        print(csv_to_list)
+        return csv_to_list
+    
+    #TODO: Keep job url's
+    #! Pretty sure this is this is the only time I use JobsThatUserHasAppliedTo.csv so it doesn't matter
+    def get_job_links_users_applied_to(self):
+        print("\nget_job_links_users_applied_to() =")
+        
+        previously_applied_to_job_links = []
+        
+        for row in self.previous_job_applications_data:
+            links_row = row[0]
+            print("If my calculations are correct this should print a link MUAH HA HA... ", end="")
+            print(links_row)
+            previously_applied_to_job_links.append(links_row)
+            
+        self.last_time_user_applied = self.previous_job_applications_data[-1][-1]
+        print("These are all the links you already applied to... Tom")
+        print(previously_applied_to_job_links)
+        print("And this is when you last applied... Tom")
+        print(self.last_time_user_applied)
+        #self.filter_out_jobs_user_previously_applied_to(previously_applied_to_job_links)
+        return previously_applied_to_job_links
+    
+    #TODO: FINISH BOTH OF THESE!!
+    #Use Quick Sort to sort jobs_previously_applied_to
+    #! We run this when we finish running other_company_openings()!!!!
+        #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
+    def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_links):
+        print("\nfilter_out_jobs_user_previously_applied_to()")
+        
+        Lake_Minnetonka_Purified_list = []
+        
+        for google_search_result_URL in self.google_search_results_links:
+            found = False
+            for previously_applied_URL in previously_applied_to_job_links:
+                if google_search_result_URL == previously_applied_URL:
+                    print("Match google_search_result_URL: ", end='')
+                    print(google_search_result_URL)
+                    print("Match previously_applied_URL: ", end='')
+                    print(previously_applied_URL)
+                    previously_applied_to_job_links.append(previously_applied_URL)
+                    found = True
+                    break
+            if not found:
+                Lake_Minnetonka_Purified_list.append(google_search_result_URL)
+        
+        print("These are all the links you already applied to... ")
+        print(previously_applied_to_job_links)
+        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.")
+        print(Lake_Minnetonka_Purified_list)
+        self.google_search_results_links = Lake_Minnetonka_Purified_list
+        return
+    
+    def ensure_no_duplicates(self):
+        print("\nensure_no_duplicates() = ")
+        
+        unique_results = []
+        for google_search_result_URL in self.google_search_results_links:
+                if google_search_result_URL not in unique_results:
+                    unique_results.append(google_search_result_URL)
+                else:   #THIS ELSE AND 2 PRINT STATEMENTS ARE PURELY FOR TESTING!!!
+                    print("Repeated Link Found: ", end="")
+                    print(google_search_result_URL)
+        self.google_search_results_links = unique_results
+        return
+    
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def write_to_csv(self, job_data):
+        with open ('job_data.csv', mode='a', newline='') as file:
+            writer = csv.writer(file)
+            #for row in writer:
+            writer.writerow(job_data)
+        return "All done!"
+    
+   
+   
+   
+   
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    def click_last_result_DONTuseTHIS(self, google_search_name):
+        #self.list_of_links = var_job_link
+        google_link_title = google_search_name
+        application_company = None
+        
+        
+        
+        self.eff_that_link()
+        
+        
+        
+        
+        # def apply_to_jo(job_data: list):
+        # if (len(job_data)-1):
+        #     return "ok"
+        for job_index in self.list_of_links[::-1]:
+            print("D")
+            d = "h"
+            if d == "d":
+                h3_element = self.browser.find_element(By.XPATH, '//h3')
+                ancestor_element = h3_element.find_element(By.XPATH, './ancestor::*')
+                print(ancestor_element.get_attribute('outerHTML'))
+                #linky = self.browser.get(job_index)
+                #print(linky)
+                print("\D/")
+                selenium_google_link = self.browser.find_element(By.XPATH, f'//a/h3[text()="{google_search_name}"]')
+                parent_a_tag_xpath = selenium_google_link.find_element(By.XPATH, '..').get_attribute('outerHTML')
+                print(parent_a_tag_xpath)
+                print("Defence")
+            selenium_google_link = self.browser.find_element(By.XPATH, f'//ancestor::a/h3[not(descendant::br)][contains(text(), "{google_search_name}")]')
+            selenium_google_link.click()
+            self.browser.implicitly_wait(5)
+            time.sleep(3)
+            
+            
+            self.eff_that_link()
+            
+            
+            result = requests.get(job_index)
+            content = result.text
+            soup = BeautifulSoup(content, 'lxml')
+        
+            if "jobs.lever.co" in job_index:
+                application_company = "lever"
+                self.app_comp = application_company
+                
+                #self.link_to_other_company_openings(soup, application_company)
+                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+                if apply_to_job:
+                    self.fill_out_application(applic)
+                self.lever_io_data(job_index, soup)
+                self.find_and_organize_inputs(applic, soup)
+                
+            elif "boards.greenhouse.io" in job_index:
+                application_company = "greenhouse"
+                self.app_comp = application_company
+                
+                #self.link_to_other_company_openings(soup, application_company)
+                apply_to_job, applic = self.convert_to_bs(job_index, soup, application_company)
+                if apply_to_job:
+                    self.fill_out_application(applic, soup)
+                    #self.other_job_openings(self.link_to_other_jobs)
+                #applic = self.greenhouse_io_start_page_decider(soup)
+                applic = soup.find('div', id="application")
+                self.find_and_organize_inputs(applic)
+    #! div_main ==> lever.co = job_description
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    
+    
+    
+        
+
+if __name__ == '__main__':
+    workflow = Workflow()
+    workflow.job_search_workflow()
+
+
+
+
+
+
+
+#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
+
+
+
+
+
+
+# Web_Scraper/
+# ├── config.py
+# ├── Legit
+# │   ├── JobSearchWorkflow.py
+# │   ├── GoogleSearch.py
+# │   └── CompanyOpeningsAndApplications.py
+# ├── .env
+# ├── README.md
+# └── Scraper
+#     ├── scraperGoogle.py
+#     ├── scraperGoogleJob.py
+#     ├── TestingSelenium.py
+#     └── JobData.csv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#--------------------00----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+from selenium.common.exceptions import NoSuchElementException
+import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import ElementNotInteractableException
+
+class scraperGoogle():
+    
+    def __init__(self, browser):
+        self.browser = browser
+        self.job_titles = []
+        self.good_locations = None
+        self.bad_locations = None
+        self.list_first_index = 0
+        self.list_last_index = 0
+        self.links_to_jobs = []
+        self.previous_results_count = 0
+        self.job_links_counter = 0
+        self.results_from_search = []
+        self.google_search_results_links = []
+        self.last_link_from_google_search = None
+        
+    def ludacris_speed(self):
+        self.job_titles.append("software engineer")
+        self.job_titles.append("backend engineer")
+        self.job_titles.append("full-stack engineer")
+        self.job_titles.append("frontend engineer")
+        self.job_titles.append("engineer")
+        self.search_for_jobs()
+        return
+    
+    def user_requirements(self):
+        self.ludacris_speed()
+
+        #self.print_google_search_results()
+        #self.new_print_google_search_results()
+        self.new_new_print_google_search_results()
+        print("Returning back to JobSearchWorkflow")
+        time.sleep(2)
+        return self.google_search_results_links, self.last_link_from_google_search
+
+    def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
+        job_titles = self.job_titles  #TODO: < Ummmm does that work
+        
+        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
+        search_bar = self.browser.find_element(By.NAME, "q")
+        search_bar.clear()
+        search_bar.send_keys('site:lever.co | site:greenhouse.io')     #('site:lever.co | site:greenhouse.io | site:workday.com')
+        print('1/2')
+        time.sleep(1)
+        job_titles_string = ' ("'
+        for i, job in enumerate(job_titles):
+            if i == len(job_titles)-1 or len(job_titles) == 0:
+                job_titles_string += (job + '")')
+            else:
+                job_titles_string += (job + '" | "')
+        search_bar.send_keys(job_titles_string)
+        print('2/2')
+        print("Searching google for...       adult films?")
+        time.sleep(1)
+
+        self.search_locations(search_bar)
+        return
+    
+    #TODO
+    def search_locations(self, search_bar):
+        
+        #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
+        if not self.good_locations and not self.bad_locations:
+            self.filter_search_time_frame(search_bar)
+            return 
+        
+        #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
+        search_location = " & "
+        for count, add_location in enumerate(self.good_locations):
+            if count == len(self.good_locations):
+                search_location += (" near=" + add_location + " ")
+                #! ADD: Find out how to add more location!!!!!                
+        for count, exclude_location in self.bad_locations:
+            if count == len(self.bad_locations):
+                search_location += ("!(near=" + exclude_location + ")")
+        
+        search_bar.send_keys(search_location)
+        self.filter_search_time_frame(self, search_bar)
+        return
+    
+    def filter_search_time_frame(self, search_bar):
+        search_bar.send_keys(Keys.RETURN)
+        print("TAAAA DDDAAAAAA")
+        time.sleep(1)
+        self.adjust_viewport()
+        print("GET SUCKED WIZARD!")
+        time.sleep(1)
+        
+        tools_butt = self.browser.find_element(By.XPATH, "//div[text()='Tools']")
+        tools_butt.click()
+        
+        any_time_butt = self.browser.find_element(By.XPATH, "//div[text()='Any time']")
+        any_time_butt.click()
+        decisi = "24"
+        
+        if decisi == "24":
+            past_24 = self.browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
+            past_24.click()
+        elif decisi == "7":
+            past_week = self.browser.find_element(By.XPATH, "//a[text()='Past week']")
+            past_week.click()
+        else:
+            raise TypeError('ERROR: Didnt pick a registered time!')
+        print("Filtering by past " + decisi)
+        time.sleep(1)
+        #self.search_results(self.list_first_index, self.list_last_index)
+        #self.job_search_workflow()
+        #self.search_results(self.list_first_index)
+        self.process_search_results()
+        return
+    
+    def adjust_viewport(self):   
+        # Get the current window size
+        window_width = self.browser.execute_script("return window.innerWidth;")
+        window_height = self.browser.execute_script("return window.innerHeight;")
+
+        # Set the viewport to match the window size
+        self.browser.execute_script(f"document.documentElement.style.setProperty('width', '{window_width}px');")
+        self.browser.execute_script(f"document.documentElement.style.setProperty('height', '{window_height}px');")
+        self.browser.execute_script("document.documentElement.style.setProperty('overflow', 'hidden');")
+    
+
+
+    def scroll_to_bottom(self):
+        prev_height = self.browser.execute_script("return document.body.scrollHeight")
+        print('\n\n\n')
+        print("increment_search_results")
+        print("****************************************************************")
+        print("Current Height == " + str(prev_height))
+        
+        #! This is what does the actual scrolling!!!
+        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        #------------------------------------------------------------------------------------------------------
+        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # ============
+        #     # Scroll down in smaller increments
+        #     scroll_increment = current_height // 5
+        #     for _ in range(5):
+        #         self.browser.execute_script(f"window.scrollBy(0, {scroll_increment});")
+        #         time.sleep(1)
+        time.sleep(1)
+        print("Scrolled...")
+        
+        new_height = self.browser.execute_script("return document.body.scrollHeight")
+        print("New Height == " + str(new_height))
+        return new_height != prev_height
+
+    def process_search_results(self):
+        list_first_index = 0
+        list_last_index = 0
+        while True:
+            list_last_index = self.search_results(list_first_index, list_last_index)
+            
+            if not self.scroll_to_bottom():
+                if self.end_of_search():
+                    print("I'm the issue 2")
+                    break
+                
+                if not self.get_more_results():
+                    print("I'm the issue 3")
+                    break
+            # else:
+            #     list_first_index = list_last_index
+        print("I'm the issue 4")
+            
+    def search_results(self, list_first_index, list_last_index):
+        # Wait for the last result from the previous search to appear on the page
+        # if self.results_from_search:
+        #     last_result = self.results_from_search[-1]
+        #     WebDriverWait(self.browser, 10).until(
+        #         EC.visibility_of(last_result)
+        #     )
+        initial_length = len(self.results_from_search)
+        
+        if list_first_index == 0:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
+            list_last_index = len(self.results_from_search)
+        else:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+            #list_last_index = list_first_index + len(self.results_from_search)
+
+        for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
+            print('--------------------------------')
+            print(str(count+1) + "/" + str(list_last_index))
+            print(results_link)
+            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
+            print(f"Here is link #{count+1}: ", end="")
+            job_link = link.get_attribute("href")
+            print(job_link)
+            self.google_search_results_links.append(job_link)
+            
+            if (count+1) == list_last_index:
+                self.last_link_from_google_search = results_link
+                print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+                print(self.last_link_from_google_search)
+                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+            
+            #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
+            if count == list_last_index:
+                list_first_index = list_last_index
+                break
+        print("\nI am at end of search_results()...")
+        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        return list_last_index
+
+    def get_more_results(self):
+        try:
+            more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
+            if more_results:
+                print("Found the more_results button")
+                more_results.click()
+                print("Clicked 'More results' button")
+                time.sleep(2)
+                return True
+            else:
+                print("No 'More results' button found")
+                print("THIS COULD BE THE REASON FOR ERRORS!! idk though dog... soundproof spectacles")
+                return False
+        except NoSuchElementException:
+            print("No 'More results' button found")
+            return False
+
+    def end_of_search(self):
+            try:
+                no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+                if no_more_results:
+                    print("No more search results")
+                    time.sleep(2)
+                    return True
+            except NoSuchElementException:
+                pass
+            return False 
+    
+    
+    
+
+    def print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(self.job_links_counter) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+    
+    def new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+    
+    def new_new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.google_search_results_links):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.google_search_results_links[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+
+
+
+
+
+
+
+
+
+
+
+#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#--------------------00----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 from urllib import request
 import requests
 from urllib.parse import urlparse, parse_qs
@@ -24,13 +847,13 @@ from bs4 import Tag
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, browser, users_information, user_desired_jobs, senior_experience):
+    def __init__(self, browser, users_information, senior_experience):
         #self.list_of_links = list_of_links
         self.browser = browser
         self.company_job_title = None
         self.company_name = None
         self.company_job_location = None
-        self.company_open_positions_urls = []
+        self.company_open_positions_url = []
         #This and apply can be temporary/method variables
         #self.a_fragment_identifier = None
         self.company_job_department = None
@@ -46,13 +869,12 @@ class CompanyWorkflow():
         self.soup = None
         self.company_open_positions_a = None    #For selenium to click
         self.application_company_name = None
-        self.jobs_applied_to_info = {}
+        self.jobs_applied_to = {}
         self.job_link_url = None
-        self.user_desired_jobs = user_desired_jobs
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
-    #! Run a loop here .job_description => .should_apply() => .apply(.get_form_input_details(), .insert_resume(), .fill_in_form(), captcha_stuff()) 
+    #! Run a loop here .job_description => .should_apply() => .apply(.get_form_input_details(), .insert_resume(), .fill_in_form(), captcha_bullcrap()) 
     #!                                                  ^.get_job_data()
     #NOTE: For the 1st iteration let .determine_current_page() do all the work
     def company_workflow(self, job_link):
@@ -70,7 +892,7 @@ class CompanyWorkflow():
                 soup = self.apply_beautifulsoup(job_opening, "lxml")
                 webpage_body = soup.find('body')
                 if self.should_user_apply(webpage_body) == True:
-                    self.lever_io_data(job_opening, webpage_body)
+                    self.lever_io_dat(job_opening, webpage_body)
                     soup = self.apply_beautifulsoup(job_link, "html")
                     form_input_details = self.get_form_input_details()
                     self.insert_resume()
@@ -171,9 +993,37 @@ class CompanyWorkflow():
     def delete_maybe(self, job_link):
         application_company_name = None
         
+        
+        
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         self.lets_run_some_tests()
 
+
+        
+        if "jobs.lever.co" in job_link:
+            application_company_name = "lever"
+            self.app_comp = application_company_name
+            
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
+            if apply_to_job:
+                self.fill_out_application(applic)
+            self.lever_io_data(job_link, soup)
+            self.find_and_organize_inputs(applic, soup)
+            
+        elif "boards.greenhouse.io" in job_link:
+            application_company_name = "greenhouse"
+            self.app_comp = application_company_name
+            
+            #self.link_to_other_company_openings(soup, application_company_name)
+            apply_to_job, applic = self.convert_to_bs(job_link, soup, application_company_name)
+            if apply_to_job:
+                self.fill_out_application(applic, soup)
+                #self.other_job_openings(self.link_to_other_jobs)
+            #applic = self.greenhouse_io_start_page_decider(soup)
+            applic = soup.find('div', id="application")
+            self.find_and_organize_inputs(applic)
+        #! div_main ==> lever.co = job_description
  
  
     def determine_current_page(self, job_link, application_company_name):
@@ -194,12 +1044,7 @@ class CompanyWorkflow():
                     
                     self.lever_co_header(webpage_body, soup)
 
-                    try:
-                        self.company_open_positions_a.click()
-                    except:
-                        raw_link = company_open_positions['href']
-                        self.browser.get(raw_link)
-                    time.sleep(2)
+                    self.company_open_positions_a.click()
                     return
                 except:
                     #TODO: Change this Error type!
@@ -207,30 +1052,27 @@ class CompanyWorkflow():
                 
             elif opening_link_description:
                 #try:
-                #apply_button = None
+                apply_button = None
                 
-                #a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-                #div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-                #application_at_bottom = soup.find("div", id="application")
-                #print("Application at bottom or <button>")
-                self.scroll_to_element(opening_link_description)
-                apply_to_job = self.should_user_apply(opening_link_description)
-                #if a_tag_butt:
-                    #print(" == Application at bottom of page")
-                    #print("\tPress button to go to application")
-                    #apply_button = a_tag_butt
-                    #apply_to_job = self.should_user_apply(opening_link_description)
-                #elif div_tag_butt:
+                a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
+                div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+                application_at_bottom = soup.find("div", id="application")
+                print("Application at bottom or <button>")
+                if a_tag_butt:
+                    #print("== Application at bottom of page")
+                    print("\tPress button to go to application")
+                    apply_button = a_tag_butt
+                    apply_to_job = self.should_user_apply(opening_link_description)
+                elif div_tag_butt:
                     print("\tPress button to go to application")
                     apply_button = div_tag_butt
                     apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
                 if apply_to_job == True:
-                    print("lever application locked and loaded")
-                    self.bottom_has_application_or_button(application_company_name)
+                    print("1st lever application locked and loaded")
                     apply_button.click()
                     time.sleep(5)
                     current_url = self.browser.current_url
-                    soup = self.apply_beautifulsoup(current_url, "html")
+                    soup = self.apply_beautifulsoup(current_url, "html.parser")
                     form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
                     self.fill_out_application(form_input_details)
@@ -249,8 +1091,7 @@ class CompanyWorkflow():
                 #     raise ("Something went wrong with the the greenhouse.io job_description page")
             elif opening_link_company_jobs:
                 #TODO: parse through other_company_jobs for "lever"
-                #self.company_job_openings(soup, None, application_company_name)
-                return
+                self.company_job_openings(soup, None, application_company_name)
             application = opening_link_application
         
                
@@ -263,10 +1104,10 @@ class CompanyWorkflow():
             while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
                 if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
                     print('-Job Listings Page')
-                    pass
+                    return
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
                     print('-Job Listings Page')
-                    pass
+                    return
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
                     print("-Company Job Openings Page")
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
@@ -276,16 +1117,41 @@ class CompanyWorkflow():
                     app_body = next_elem
                     header = next_elem.find("div", id="header")
                     content = next_elem.find("div", id="content")
-                    
+                    application = soup.find("div", id="application")
                     if header and content:
                         print("Job Description Page")
-                        #TODO: Fix this!!! I need the header link!
                         self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
-                        should_apply = self.should_user_apply()
-                        if should_apply == True:
-                            #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
-                            self.bottom_has_application_or_button()
-                            print("greenhouse application locked and loaded")
+
+                        print("Application at bottom or <button>")
+                        apply_button = div_main.find("button", text=["Apply Here", "Apply Now", "Apply for this job"])
+                        #TODO
+ #! ^ MOVE UP 198 ^ ^ ^ ^ ^ ^ ^                       apply_button = div_main.find("button", text=["Apply Here", "Apply Now"])  #NOTE: !!!!! Maybe greenhouse doesn't have <button> ...    maybe it only has <a class="button">!?!?!?
+                        #application_below_description = div_main.find("div", id="application")
+                        #NOTE: I don't think greenhouse.io house <... target="_blank">
+                        if apply_button:
+                            print("\tPress button to go to application")
+                            should_apply = self.should_user_apply()
+                            print("\t\tApply button: ", end="")
+                            print(apply_button)
+                            if should_apply == True:
+                                apply_button.click()
+                                time.sleep(5)
+                                self.greenhouse_io_application(application)
+                            print("\t\tApplication = ", end="")
+                            print(application)
+                            apply_to_job = self.should_user_apply(application)
+                            #return application
+                        elif application:
+                            #self.should_user_apply(application)
+                            print("\tApplication at bottom of page")
+                            
+                            apply_to_job = self.should_user_apply(content)
+                        else:
+                            print("\tHmmm that's weird ? it's neither button nor application")
+                        
+                        self.scroll_to_element(job_description_element)
+                        if apply_to_job == True:
+                            print("1st greenhouse application locked and loaded")
                             form_input_details = self.get_form_input_details(job_link)
                             print("Meet")
                             time.sleep(8)
@@ -294,17 +1160,10 @@ class CompanyWorkflow():
                             time.sleep(8)
                             self.fill_out_application(form_input_details)
                             self.keep_jobs_applied_to_info(job_link)
-                        elif should_apply == False:
-                            pass 
-                        else:
-                            print("\tHmmm that's weird ? it's neither button nor application")
-                        
-                        try:
-                            self.company_other_openings_href.click()
-                        except:
-                            self.browser.get(self.company_other_openings_href)
-                        time.sleep(2)
-                        pass
+                        elif apply_to_job == False:
+                            self.a_href.click()
+                            time.sleep(4)
+                            return
                     break
                 else:
                     next_elem = next_elem.find_next()
@@ -329,42 +1188,6 @@ class CompanyWorkflow():
             print("No experience requirement found!")
             print(re.search(experience_needed, everything_about_job))
             return True
-        
-    def bottom_has_application_or_button(self, application_company_name):
-        soup = self.apply_beautifulsoup(self.browser.current_url, "html")
-        if application_company_name == "lever":
-            a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-            div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-            application_at_bottom = soup.find("div", id="application")
-            print("Application at bottom or <button>")
-            if a_tag_butt:
-                print("\tPress button to go to application")
-                apply_button = a_tag_butt
-                apply_button.click()
-            elif div_tag_butt:
-                print("\tPress button to go to application")
-                apply_button = div_tag_butt
-                apply_button.click()
-            elif application_at_bottom:
-                self.scroll_to_element(application_at_bottom)
-            return
-            
-        elif application_company_name == "greenhouse":
-            application = soup.find("div", id="application")
-            apply_button = self.browser.find_element(By.XPATH, "button[text()=['Apply Here', 'Apply Now', 'Apply for this job']]")
-            print("Application at bottom or <button>")
-            if application:
-                self.scroll_to_element(application)
-                print("\tApplication at bottom of page")
-                time.sleep(1)
-                return
-            elif apply_button:
-                self.scroll_to_element(apply_button)
-                print("\tPress button to go to application")
-                time.sleep(1)
-                apply_button.click()
-                time.sleep(3)
-                return
     
     def company_job_openings(self, soup, div_main, application_company_name):
         #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
@@ -413,9 +1236,7 @@ class CompanyWorkflow():
                         span_tag_workplaceTypes = job_opening_href.find('span', {'class': 'workplaceTypes'})
                         if span_tag:
                             job_opening_location = span_tag.text
-                        #job_opening_href.click()$%$%$%$%$%$%$%$%$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%
-                if self.fits_users_criteria():
-                    self.company_open_positions_url.append(job_link)
+                        #job_opening_href.click()
             self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
             return
         
@@ -640,27 +1461,12 @@ class CompanyWorkflow():
             #         raise ConnectionError("ERROR: Companies other open positions are not present")
             # return
     
-    
-    
-    
-    
-    
-    
-    def is_absolute_path(href):
-        parsed_url = urlparse(href)
-        print("The href value is: ", end="")
-        print(parsed_url)
-        return bool(parsed_url.netloc)
 
-    #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
-    def fits_users_criteria(test_elements_uniqueness, *args):
-        ultimate_lists_checker = []
-        for arg in args:
-            ultimate_lists_checker.extend(arg)                      #WORKS for job_title && links
-        for unacceptable_element in ultimate_lists_checker:
-            if unacceptable_element in test_elements_uniqueness:
-                return False
-        return True
+    
+
+    
+
+    
 
     def get_input_tag_elements(self):
         """
@@ -683,17 +1489,17 @@ class CompanyWorkflow():
     #filter out already applied jobs
     #traverse job webpage
     #?????
-    def lever_io_data(self, joby_link, soup):
+    def lever_io_dat(self, joby_link, soup):
         self.joby_link = joby_link
-        print("===Ball = inside the lever.co")
+        print("===Ballsack = inside the lever.co")
         #opening_link_application = soup.find('div', class_='page-application')      #application immediate
         opening_link_application = soup.find('div', {"class": 'application-page'})
         #opening_link_description = soup.find('div', class_='page-show')             #regular description start
         opening_link_description = soup.find('div', {"class": 'posting-page'})          #NOTE: In HTML class='one two' needs 2 class calls I think!?!?!?
-        print("===Ball = opening_link_application = ", end="")
+        print("===Ballsack = opening_link_application = ", end="")
         #print(opening_link_application)
         print("You are on the Job Application webpage")
-        print("===Ball = opening_link_description = ", end="")
+        print("===Ballsack = opening_link_description = ", end="")
         #print(opening_link_description)
         print("You are on the Job Description webpage")
         try:
@@ -711,7 +1517,7 @@ class CompanyWorkflow():
                 company_open_positions = soup.find('a', {"class": "main-header-logo"})
                 #company_open_positions = soup.find('a', class_=['main-header-logo', 'main-header'])
                 plethora_of_jobs = company_open_positions['href']
-                print("===Ball = plethora_of_jobs = ", end="")
+                print("===Ballsack = plethora_of_jobs = ", end="")
                 print(plethora_of_jobs)
                 application_webpage_html = soup.find("div", {"class": "application-page"})
                 self.lever_io_application(joby_link, application_webpage_html)
@@ -720,12 +1526,12 @@ class CompanyWorkflow():
                 #TODO: Change this Error type!
                 raise ConnectionError("ERROR: Companies other open positions are not present")
         elif opening_link_description:
-            print("===Ball = lever.co is working")
+            print("===Ballsack = lever.co is working")
             try:
-                print("===Ball = inside the try lever.co")
+                print("===Ballsack = inside the try lever.co")
                 position_title = soup.find('h2')
                 job_title = position_title.get_text().split()
-                print("===Ball = job_title = ", end="")
+                print("===Ballsack = job_title = ", end="")
                 #print(job_title.get_text())
                 print(job_title)
                 #? .position_title.find() doesn't work b/c the <h2> and <div> are siblings!!
@@ -748,15 +1554,15 @@ class CompanyWorkflow():
                     job_apply_butt = job_apply_butt.find('a')
                     link_to_apply = job_apply_butt['href']
                 elif a_tag_butt:
-                    link_to_apply = a_tag_butt['href']
+                    link_to__apply = a_tag_butt['href']
                 
-                print("===Ball = link_to_apply = ", end="")
+                print("===Ballsack = link_to_apply = ", end="")
                 print(link_to_apply)
 
             except:
                 #TODO: Change this Error type!
                 raise ConnectionError("ERROR: Companies other open positions are not present")
-        #print("===Ball = leaving the lever.co")
+        #print("===Ballsack = leaving the lever.co")
         return soup
 
     #if id="app_body" and [check which page you are on]
@@ -851,7 +1657,7 @@ class CompanyWorkflow():
                 print("0.3 = ", end="")
                 print(element)
             if not element:
-                print("That's so silly! Can't scroll")
+                print("That's some bull crap! Can't scroll")
             self.browser.execute_script("arguments[0].scrollIntoView();", element)
             time.sleep(2)
         print("1")
@@ -894,7 +1700,7 @@ class CompanyWorkflow():
                 print("13")
             else:
                 raise Exception('Could not find resume upload element')
-        print("14 Holy Hole")
+        print("14 Holy Crap")
         return
     
     def get_label(self, input_element):
@@ -972,6 +1778,7 @@ class CompanyWorkflow():
                     print(element.prettify())
                 if current_level == 5:
                     sauce = element.next_element.get_text(strip=True)
+                    print("EFF CHATGPT THAT THING IS GAY AND SUCKS BALLS: ", end='')
                     print(sauce)
                     return sauce
             element = element.parent
@@ -980,10 +1787,10 @@ class CompanyWorkflow():
     #! Include checkboxes!!!!
     #! Maybe include 2 parameters and check if url = None then skip beautifulsoup part!!
     def get_form_input_details(self, url):
-        print("Midg")
+        print("Midget")
         print("URL = " + url)
         page = requests.get(url)
-        soup = BeautifulSoup(page.content, 'html')
+        soup = BeautifulSoup(page.content, 'html.parser')
 
         form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
@@ -1267,8 +2074,7 @@ class CompanyWorkflow():
         
         
         
-        #TODO: .clear() ALL input tags before sending keys
-    
+        
     #TODO: v turn all the calls to this application_process() 
     def fill_out_application(self, job_link, form_input_details):
         #self.insert_resume()
@@ -1282,12 +2088,6 @@ class CompanyWorkflow():
         #Final step
         self.scroll_to_element()
         form_data[:-1].click()
-
-
-
-
-
-
 
     def find_visible_input(self, selector):
         input_element = self.browser.find_element(By.CSS_SELECTOR, selector)
@@ -1329,265 +2129,5 @@ class CompanyWorkflow():
 #! Important Notes
 
 #app_body = soup.find("div", id=["app_body", "app-body"])   <---greenhouse.io
-
-
-
-
-
-
-
-
-
-    
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#     def determine_current_page(self, job_link, application_company_name):
-#         soup = self.apply_beautifulsoup(job_link, "lxml")
-        
-#         if application_company_name == "lever":
-#             webpage_body = soup.find('body')
-
-#             opening_link_application = soup.find('div', {"class": 'application-page'})
-#             opening_link_description = soup.find('div', {"class": 'posting-page'})
-#             opening_link_company_jobs = soup.find('div', {"class": "list-page"})
-
-#             #opening_link_application = soup.find('div', {"class": 'application-page'})
-#             if opening_link_application:
-#                 try:
-#                     self.lever_co_header(webpage_body, soup)
-
-#                     try:
-#                         self.company_open_positions_a.click()
-#                     except:
-#                         raw_link = company_open_positions['href']
-#                         self.browser.get(raw_link)
-#                     time.sleep(2)
-#                     return
-#                 except:
-#                     #TODO: Change this Error type!
-#                     raise ConnectionError("ERROR: Companies other open positions are not present")
-                
-#             elif opening_link_description:
-#                 #try:
-#                 apply_button = None
-                
-#                 a_tag_butt = soup.find('a', {'data-qa': 'btn-apply-bottom'})
-#                 div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-#                 application_at_bottom = soup.find("div", id="application")
-#                 print("Application at bottom or <button>")
-#                 if a_tag_butt:
-#                     #print("== Application at bottom of page")
-#                     print("\tPress button to go to application")
-#                     apply_button = a_tag_butt
-#                     apply_to_job = self.should_user_apply(opening_link_description)
-#                 elif div_tag_butt:
-#                     print("\tPress button to go to application")
-#                     apply_button = div_tag_butt
-#                     apply_to_job = self.should_user_apply(opening_link_description)    #apply_to_job = boolean | T=.click() && F=.lever_header() -> .company_job_openings()
-#                 if apply_to_job == True:
-#                     print("1st lever application locked and loaded")
-#                     apply_button.click()
-#                     time.sleep(5)
-#                     current_url = self.browser.current_url
-#                     soup = self.apply_beautifulsoup(current_url, "html")
-#                     form_input_details = self.get_form_input_details(current_url)
-#                     self.insert_resume()
-#                     self.fill_out_application(form_input_details)
-#                     self.keep_jobs_applied_to_info()
-#                     #TODO: If the button is present click OTHERWISE just insert the link
-#                     if self.company_other_openings_href:
-#                         self.company_other_openings_href.click()
-#                     else:
-#                         self.browser.get(self.company_other_openings_href)
-#                     return
-#                 elif not apply_to_job:
-#                     #TODO:
-#                     self.company_other_openings_href.click()
-#                     return
-#                 # except:
-#                 #     raise ("Something went wrong with the the greenhouse.io job_description page")
-#             elif opening_link_company_jobs:
-#                 #TODO: parse through other_company_jobs for "lever"
-#                 #self.company_job_openings(soup, None, application_company_name)
-#                 return
-#             application = opening_link_application
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-#         elif application_company_name == "greenhouse":
-#             div_main = soup.find("div", id="main")
-#             job_description_element = self.browser.find_element(By.ID, "content")
-            
-#             #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
-#             next_elem = div_main.find_next()
-#             while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
-#                 if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
-#                     print('-Job Listings Page')
-#                     return
-#                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
-#                     print('-Job Listings Page')
-#                     return
-#                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
-#                     print("-Company Job Openings Page")
-#                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
-#                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
-#                     return
-#                 elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
-#                     app_body = next_elem
-#                     header = next_elem.find("div", id="header")
-#                     content = next_elem.find("div", id="content")
-                    
-#                     if header and content:
-#                         print("Job Description Page")
-#                         #TODO: Fix this!!! I need the header link!
-#                         self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
-#                         should_apply = self.should_user_apply()
-#                         if should_apply == True:
-#                             #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
-#                             self.bottom_has_application_or_button()
-#                         elif should_apply == False:
-#                             try:
-#                                 self.company_other_openings_href.click()
-#                             except:
-#                                 self.browser.get(self.company_other_openings_href)
-#                             time.sleep(2)
-#                             return
-                            
-#                         #TODO
-#  #! ^ MOVE UP 198 ^ ^ ^ ^ ^ ^ ^                       apply_button = div_main.find("button", text=["Apply Here", "Apply Now"])  #NOTE: !!!!! Maybe greenhouse doesn't have <button> ...    maybe it only has <a class="button">!?!?!?
-#                         #application_below_description = div_main.find("div", id="application")
-#                         #NOTE: I don't think greenhouse.io house <... target="_blank">
-#                         #if apply_button:
-#                             #print("\tPress button to go to application")
-#                             #should_apply = self.should_user_apply()
-#                             #print("\t\tApply button: ", end="")
-#                             #print(apply_button)
-#                             #if should_apply == True:
-#                                 #apply_button.click()
-#                                 #time.sleep(5)
-#                                 #self.greenhouse_io_application(application)
-#                             #print("\t\tApplication = ", end="")
-#                             #print(application)
-#                             #apply_to_job = self.should_user_apply(application)
-#                             #return application
-#                         #elif application:
-#                             #self.should_user_apply(application)
-#                             #print("\tApplication at bottom of page")
-                            
-#                         else:
-#                             print("\tHmmm that's weird ? it's neither button nor application")
-                        
-#                         # self.scroll_to_element(job_description_element)
-#                         # if apply_to_job == True:
-#                         print("1st greenhouse application locked and loaded")
-#                         form_input_details = self.get_form_input_details(job_link)
-#                         print("Meet")
-#                         time.sleep(8)
-#                         self.insert_resume()
-#                         print("me")
-#                         time.sleep(8)
-#                         self.fill_out_application(form_input_details)
-#                         self.keep_jobs_applied_to_info(job_link)
-#                         # elif apply_to_job == False:
-#                         #     self.a_href.click()
-#                         #     time.sleep(4)
-#                         #     return
-#                     break
-#                 else:
-#                     next_elem = next_elem.find_next()
-#             print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
-#             return
-
-
-
 
 
