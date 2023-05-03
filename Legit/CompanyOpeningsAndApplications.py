@@ -60,8 +60,8 @@ class CompanyWorkflow():
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
         self.job_link_url = job_link
-
-
+        self.lets_run_some_tests()
+        
         if "jobs.lever.co" in job_link:
             self.application_company_name = "lever"
             self.determine_current_page(job_link, self.application_company_name)
@@ -104,12 +104,12 @@ class CompanyWorkflow():
         if parser == "lxml":
             result = requests.get(job_link)
             content = result.text
-            soup = BeautifulSoup(content, 'lxml')
+            soup = BeautifulSoup(content, "lxml")
         #used for form_input_details()
         if parser == "html":
             page = requests.get(job_link)
             result = page.content
-            soup = BeautifulSoup(result, 'html.parser')           
+            soup = BeautifulSoup(result, "html.parser")           
         return soup
     
         
@@ -152,8 +152,9 @@ class CompanyWorkflow():
     def lets_run_some_tests(self):
         print('Coolio, waiting...')
         time.sleep(5)
-        print("Eff that old website! Let's test new one heard J.Cole said he heard Jonah Hill said it was tight! Out with the old in with the new!!")
-        url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        print("Eff that old website! Let's test this new one heard J.Cole said he heard Jonah Hill said it was tight! Out with the old in with the new!!")
+        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        url = "https://boards.greenhouse.io/zealcareers/jobs/4873035004"
         self.browser.get(url)
         time.sleep(4)
         #Run any tests you want here!
@@ -831,8 +832,8 @@ class CompanyWorkflow():
         #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
         print(">>>>>>   .insert_resume()")
-        #resume_path = self.users_information.get('WORK_RESUME_PATH')
-        resume_path = self.users_information.get('RESUME_PATH')
+        resume_path = self.users_information.get('WORK_RESUME_PATH')
+        #resume_path = self.users_information.get('RESUME_PATH')
         print(resume_path)
         
         if self.app_comp == 'greenhouse':
@@ -902,9 +903,13 @@ class CompanyWorkflow():
         if 'button' in input_element_str and 'submit application' in input_element_str:
             return 'Submit Application'
         
-        if input_element.get('type') == 'radio' or input_element.get('type') == 'checkbox':
-            label = self.find_label_attempt_two(input_element)
+        if input_element.get('type') == 'radio':
+            label = self.find_radio_label(input_element)
             return label
+        
+        if input_element.get('type') == 'checkbox':
+            main_label = self.get_main_label(input_element)
+            return main_label
 
         label = None
 
@@ -963,31 +968,29 @@ class CompanyWorkflow():
         return None
     
     #OG: print_form_heirarchy()
-    def find_label_attempt_two(self, element, stop_level=5):
-        # current_level = 0
-        # while (current_level <= stop_level):
-        #     print(f"Level {current_level}:")
-        #     if current_level == 0 or current_level == 5:
-        #         if current_level == 0:
-        #             print(element.prettify())
-        #         if current_level == 5:
-        #             sauce = element.next_element.get_text(strip=True)
-        #             print(sauce)
-        #             return sauce
-        #     element = element.parent
-        #     current_level += 1
+    def find_radio_label(self, element, stop_level=5):
         current_level = 0
-        input_type = element.get('type')
-        while current_level <= stop_level:
-            if current_level == 0:
-                # If the input element is a direct child of a label element
-                parent_label = element.find_parent('label')
-                if parent_label:
-                    return parent_label.text.strip()
-
+        while (current_level <= stop_level):
+            print(f"Level {current_level}:")
+            if current_level == 0 or current_level == 5:
+                if current_level == 0:
+                    print(element.prettify())
+                if current_level == 5:
+                    sauce = element.next_element.get_text(strip=True)
+                    print(sauce)
+                    return sauce
             element = element.parent
             current_level += 1
 
+    def get_main_label(self, input_element):
+        parent_element = input_element.parent
+        while parent_element and parent_element.name != 'label':
+            parent_element = parent_element.parent
+        if parent_element:
+            main_label = parent_element.find_previous_sibling('label')
+            if main_label:
+                return main_label.text.strip()
+        print(main_label)
         return None
 
     #! Include checkboxes!!!!
@@ -996,12 +999,27 @@ class CompanyWorkflow():
         print("\nget_form_input_details()")
         print("URL = " + url)
         page = requests.get(url)
-        soup = BeautifulSoup(page.content, 'html')
+        soup = BeautifulSoup(page.content, 'lxml')
 
         form_fields = soup.find_all(['input', 'textarea', 'button', 'select'])
 
         form_input_details = []
         processed_radios = set()
+        #-----------------------------------------------------------------------
+        # checkbox_groups = {}
+        # processed_checkboxes = set()
+        # for field in form_fields:
+        #     input_type = field.get('type')
+        #     if input_type == 'checkbox':
+        #         checkbox_name = field.get('name')
+        #         if checkbox_name not in checkbox_groups:
+        #             checkbox_groups[checkbox_name] = []
+
+        #         label = field.find_next_sibling('label')
+        #         if label:
+        #             label_text = label.text.strip()
+        #             checkbox_groups[checkbox_name].append(label_text)
+        #-----------------------------------------------------------------------
 
         for i, field in enumerate(form_fields, start=1):
             input_type = field.get('type')
@@ -1030,7 +1048,7 @@ class CompanyWorkflow():
                 for option in options:
                     values.append(option.text.strip())
 
-            if input_type == 'radio' or input_type == 'checkbox':
+            if input_type == 'radio':
                 #print("Radio button in get_form_input_details:", field)  # Debugging line
                 radio_name = field.get('name')
                 if radio_name in processed_radios:
@@ -1040,8 +1058,18 @@ class CompanyWorkflow():
                 values = [radio.get('value') for radio in radio_group]
                 input_html = ''.join([str(radio).strip() for radio in radio_group])
                 
-                #radio_button = soup.find('input', attrs={'name': 'eeo[race]', 'type': 'radio'})
-                #self.find_label_attempt_two(radio_button)
+            elif input_type == 'checkbox':
+                checkbox_name = field.get('name')
+                if checkbox_name in processed_radios:
+                    continue
+                processed_radios.add(checkbox_name)
+                
+                # Call get_main_label for the entire checkbox group
+                #input_label = self.get_main_label(field)
+                
+                checkbox_group = soup.find_all('input', {'name': checkbox_name})
+                values = [checkbox.get('value') for checkbox in checkbox_group]
+                input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
                 
                 # Call get_label for the entire radio button group
                 input_label = self.get_label(field)
@@ -1125,6 +1153,7 @@ class CompanyWorkflow():
     #https://boards.greenhouse.io/dice/jobs/6594742002
     #https://jobs.lever.co/atlassian/013b099b-85b2-4527-a2d4-18179b0a1247/apply
     #https://jobs.lever.co/gametime/58aef93e-7799-4ba0-bea9-e848520db151/apply
+    #https://boards.greenhouse.io/zealcareers/jobs/4873035004
     
     
     
@@ -1432,13 +1461,14 @@ class CompanyWorkflow():
 
 
 
-
-
-
-
-
-
-
+# Input 18:
+#   Label: What gender pronoun(s) do you identify with?
+#   Type: checkbox
+#   Values: ['He / Him / His', 'She / Her / Hers', 'They / Them / Theirs', 'Decline To Self Identify']
+#   Is Hidden: False
+#   HTML: <label>What gender pronoun(s) do you identify with?<br><input type="hidden" name="job_application[answers_attributes][4][question_id]" id="job_application_answers_attributes_4_question_id" value="23367632002"><input type="hidden" name="job_application[answers_attributes][4][priority]" id="job_application_answers_attributes_4_priority" value="4"><div><div class="msg-container" set="23367632002"></div></div><label><input type="checkbox" name="job_application[answers_attributes][4][answer_selected_options_attributes][0][question_option_id]" id="job_application_answers_attributes_4_answer_selected_options_attributes_0_question_option_id" value="110843031002" set="23367632002" aria-required="false">&nbsp;&nbsp;He / Him / His</label><br><label><input type="checkbox" name="job_application[answers_attributes][4][answer_selected_options_attributes][1][question_option_id]" id="job_application_answers_attributes_4_answer_selected_options_attributes_1_question_option_id" value="110843032002" set="23367632002" aria-required="false">&nbsp;&nbsp;She / Her / Hers</label><br><label><input type="checkbox" name="job_application[answers_attributes][4][answer_selected_options_attributes][2][question_option_id]" id="job_application_answers_attributes_4_answer_selected_options_attributes_2_question_option_id" value="110843033002" set="23367632002" aria-required="false">&nbsp;&nbsp;They / Them / Theirs</label><br><label><input type="checkbox" name="job_application[answers_attributes][4][answer_selected_options_attributes][3][question_option_id]" id="job_application_answers_attributes_4_answer_selected_options_attributes_3_question_option_id" value="110843034002" set="23367632002" aria-required="false">&nbsp;&nbsp;Decline To Self Identify</label><br></label>
+#   Dynamic: False
+#   Related Elements: []
 
 
 
