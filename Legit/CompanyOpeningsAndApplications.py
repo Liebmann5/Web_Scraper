@@ -47,6 +47,7 @@ class CompanyWorkflow():
         self.company_open_positions_a = None    #For selenium to click
         self.application_company_name = None
         self.jobs_applied_to_info = {}
+        self.company_other_openings_href = None
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs
     
@@ -181,23 +182,18 @@ class CompanyWorkflow():
  
     def determine_current_page(self, job_link, application_company_name):
         soup = self.apply_beautifulsoup(job_link, "lxml")
-        
         if application_company_name == "lever":
             webpage_body = soup.find('body')
-
             opening_link_application = soup.find('div', {"class": 'application-page'})
             opening_link_description = soup.find('div', {"class": 'posting-page'})
             opening_link_company_jobs = soup.find('div', {"class": "list-page"})
-
             if opening_link_application:
                 print('-Application Page')
                 try:
                     #TODO: This is v what we want to avoid!!!
                     company_open_positions = soup.find('a', {"class": "main-header-logo"})
                     application_webpage_html = soup.find("div", {"class": "application-page"})
-                    
                     self.lever_co_header(webpage_body, soup)
-
                     try:
                         self.company_open_positions_a.click()
                     except:
@@ -208,12 +204,10 @@ class CompanyWorkflow():
                 except:
                     #TODO: Change this Error type!
                     raise ConnectionError("ERROR: Companies other open positions are not present")
-                
             elif opening_link_description:
                 print("-Job Description Page")
                 self.scroll_to_element(opening_link_description)
                 apply_to_job = self.should_user_apply(opening_link_description)
-
                 if apply_to_job == True:
                     print("lever application locked and loaded")
                     self.bottom_has_application_or_button(application_company_name)
@@ -286,10 +280,13 @@ class CompanyWorkflow():
                         else:
                             print("\tHmmm that's weird ? it's neither button nor application")
                         
+                        
                         try:
                             self.company_other_openings_href.click()
                         except:
                             self.browser.get(self.company_other_openings_href)
+                            
+                            
                         time.sleep(2)
                         pass
                     break
@@ -834,7 +831,8 @@ class CompanyWorkflow():
         #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
         print(">>>>>>   .insert_resume()")
-        resume_path = self.users_information.get('WORK_RESUME_PATH')
+        #resume_path = self.users_information.get('WORK_RESUME_PATH')
+        resume_path = self.users_information.get('RESUME_PATH')
         print(resume_path)
         
         if self.app_comp == 'greenhouse':
@@ -904,8 +902,8 @@ class CompanyWorkflow():
         if 'button' in input_element_str and 'submit application' in input_element_str:
             return 'Submit Application'
         
-        if input_element.get('type') == 'radio':
-            label = self.print_parent_hierarchy(input_element)
+        if input_element.get('type') == 'radio' or input_element.get('type') == 'checkbox':
+            label = self.find_label_attempt_two(input_element)
             return label
 
         label = None
@@ -964,24 +962,38 @@ class CompanyWorkflow():
 
         return None
     
-    def print_parent_hierarchy(self, element, stop_level=5):
+    #OG: print_form_heirarchy()
+    def find_label_attempt_two(self, element, stop_level=5):
+        # current_level = 0
+        # while (current_level <= stop_level):
+        #     print(f"Level {current_level}:")
+        #     if current_level == 0 or current_level == 5:
+        #         if current_level == 0:
+        #             print(element.prettify())
+        #         if current_level == 5:
+        #             sauce = element.next_element.get_text(strip=True)
+        #             print(sauce)
+        #             return sauce
+        #     element = element.parent
+        #     current_level += 1
         current_level = 0
-        while (current_level <= stop_level):
-            print(f"Level {current_level}:")
-            if current_level == 0 or current_level == 5:
-                if current_level == 0:
-                    print(element.prettify())
-                if current_level == 5:
-                    sauce = element.next_element.get_text(strip=True)
-                    print(sauce)
-                    return sauce
+        input_type = element.get('type')
+        while current_level <= stop_level:
+            if current_level == 0:
+                # If the input element is a direct child of a label element
+                parent_label = element.find_parent('label')
+                if parent_label:
+                    return parent_label.text.strip()
+
             element = element.parent
             current_level += 1
+
+        return None
 
     #! Include checkboxes!!!!
     #! Maybe include 2 parameters and check if url = None then skip beautifulsoup part!!
     def get_form_input_details(self, url):
-        print("Midg")
+        print("\nget_form_input_details()")
         print("URL = " + url)
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'html')
@@ -1018,7 +1030,7 @@ class CompanyWorkflow():
                 for option in options:
                     values.append(option.text.strip())
 
-            if input_type == 'radio':
+            if input_type == 'radio' or input_type == 'checkbox':
                 #print("Radio button in get_form_input_details:", field)  # Debugging line
                 radio_name = field.get('name')
                 if radio_name in processed_radios:
@@ -1029,7 +1041,7 @@ class CompanyWorkflow():
                 input_html = ''.join([str(radio).strip() for radio in radio_group])
                 
                 #radio_button = soup.find('input', attrs={'name': 'eeo[race]', 'type': 'radio'})
-                #self.print_parent_hierarchy(radio_button)
+                #self.find_label_attempt_two(radio_button)
                 
                 # Call get_label for the entire radio button group
                 input_label = self.get_label(field)
@@ -1109,8 +1121,10 @@ class CompanyWorkflow():
         
 
     
-    
-    
+    #https://boards.greenhouse.io/blend/jobs/4870154004
+    #https://boards.greenhouse.io/dice/jobs/6594742002
+    #https://jobs.lever.co/atlassian/013b099b-85b2-4527-a2d4-18179b0a1247/apply
+    #https://jobs.lever.co/gametime/58aef93e-7799-4ba0-bea9-e848520db151/apply
     
     
     
@@ -1256,33 +1270,88 @@ class CompanyWorkflow():
     
     
     
-    
-    
-    
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        #TODO: .clear() ALL input tags before sending keys
-    
+    #TODO: .clear() ALL input tags before sending keys
     #TODO: v turn all the calls to this application_process() 
     def fill_out_application(self, job_link, form_input_details):
         #self.insert_resume()
-        form_data = self.get_form_input_details(job_link)
-        for form_input in form_data:
-            question = form_input['label'].lower()
-            input_type = form_input['type']
-            predefined_values = form_input['values'].lower
-            input_element_location = form_input['html']
+        # form_data = self.get_form_input_details(job_link)
+        # for form_input in form_data:
+        #     question = form_input['label'].lower()
+        #     input_type = form_input['type']
+        #     predefined_values = form_input['values'].lower
+        #     input_element_location = form_input['html']
             
-        #Final step
-        self.scroll_to_element()
-        form_data[:-1].click()
+        # #Final step
+        # self.scroll_to_element()
+        # form_data[:-1].click()
+        self.process_form_input_details(form_input_details)
+
+
+    def process_form_input_details(self, form_input_details):
+        for input_detail in form_input_details:
+            if not input_detail["is_hidden"] and input_detail["type"] != "submit":
+                value = self.match_env_value(input_detail)
+
+                if value is None:
+                    value = self.handle_special_cases(input_detail)
+
+                if value is None:
+                    value = input(f"Please enter a value for '{input_detail['label']}': ")
+                    # Save the new value in the users_information dictionary
+                    key = input_detail["label"].upper().replace(" ", "_")
+                    self.users_information[key] = value
+                    # Save the new value to the .env file
+                    with open(self.env_path, "a") as file:
+                        file.write(f"\n{key}='{value}'")
+
+                # Input the value into the form (example with Selenium)
+                field_name = input_detail["name"]
+                field_element = self.driver.find_element_by_name(field_name)
+                field_element.send_keys(value)
+
+    def match_env_value(self, input_detail):
+        label = input_detail["label"].upper().replace(" ", "_")
+        for key, value in self.users_information.items():
+            if key == label:
+                return value
+        return None
+
+    def handle_special_cases(self, input_detail):
+        standardized_label = self.standardize_string(input_detail["label"])
+
+        # Add more special cases here as needed
+        if self.is_yes_no_case(input_detail):
+            env_value = self.find_matching_env_value(standardized_label)
+            return self.handle_yes_no_case(input_detail, env_value)
+
+        return None
+    
+    def is_yes_no_case(self, input_detail):
+        standardized_label = self.standardize_string(input_detail["label"])
+        yes_no_keywords = ["neurodiversity", "another_example"]  # Add more keywords as needed
+
+        for keyword in yes_no_keywords:
+            if keyword in standardized_label:
+                return True
+
+        return False
+
+    def standardize_string(self, s):
+        return s.lower().replace(" ", "_").replace("*", "").replace(".", "").replace("(", "").replace(")", "").replace("?", "")
+
+    def handle_full_name(self):
+        first_name = self.env_variables.get("FIRST_NAME", "")
+        middle_initial = self.env_variables.get("MIDDLE_INITIAL", "")
+        last_name = self.env_variables.get("LAST_NAME", "")
+
+        return f"{first_name} {middle_initial} {last_name}".strip()
+
+
+
+
+
+
+
 
 
 
@@ -1365,32 +1434,6 @@ class CompanyWorkflow():
 
 
 
-
-
-import os
-
-class JobApplication:
-    def __init__(self):
-        # Load environment variables into a dictionary
-        self.env_variables = {
-            key: os.environ[key]
-            for key in os.environ
-            if key.startswith("WORK_") or key in ["FIRST_NAME", "LAST_NAME", "EMAIL", "PHONE_NUMBER", "HOME_PHONE", "LOCATION_CITY", "ZIP_CODE", "SCHOOL", "DEGREE", "DISCIPLINE", "SCHOOL_START_DATE_MONTH", "SCHOOL_START_DATE_YEAR", "SCHOOL_END_DATE_MONTH", "SCHOOL_END_DATE_YEAR", "GPA", "CURRENT_COMPANY", "CURRENT_TITLE", "COMPANY_START_DATE"]
-        }
-
-    def process_form_input_details(self, form_input_details):
-        input_values = {}
-        for input_detail in form_input_details:
-            label = input_detail["Label"]
-            if label in self.env_variables:
-                input_values[label] = self.env_variables[label]
-            else:
-                user_input = input(f"Please enter the value for '{label}': ")
-                input_values[label] = user_input
-                # Optionally, save the new question and answer to the .env file
-                with open(".env", "a") as env_file:
-                    env_file.write(f"{label}={user_input}\n")
-        return input_values
 
 
 
