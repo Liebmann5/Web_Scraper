@@ -982,16 +982,32 @@ class CompanyWorkflow():
             element = element.parent
             current_level += 1
 
-    def get_main_label(self, input_element):
-        parent_element = input_element.parent
-        while parent_element and parent_element.name != 'label':
-            parent_element = parent_element.parent
-        if parent_element:
-            main_label = parent_element.find_previous_sibling('label')
-            if main_label:
-                return main_label.text.strip()
-        print(main_label)
+    def get_main_label(self, field):    #input_element
+        print(f"Field: {field}")
+        # parent_element = input_element.parent
+        # while parent_element and parent_element.name != 'label':
+        #     parent_element = parent_element.parent
+        # if parent_element:
+        #     main_label = parent_element.find_previous_sibling('label')
+        #     if main_label:
+        #         return main_label.text.strip()
+        # print(main_label)
+        # return None
+        label = field.find_previous_sibling('label')
+        if label:
+            print(f"Main label: {label.text.strip()}")
+            return label.get_text(strip=True)
         return None
+
+    def get_checkbox_options(self, checkbox_group):
+        print(f"Checkbox group: {checkbox_group}")
+        options = []
+        for checkbox in checkbox_group:
+            option_label = checkbox.find_next_sibling('label')
+            if option_label:
+                options.append(option_label.get_text(strip=True))
+        print(f"Checkbox options: {options}")
+        return options
 
     #! Include checkboxes!!!!
     #! Maybe include 2 parameters and check if url = None then skip beautifulsoup part!!
@@ -1005,21 +1021,6 @@ class CompanyWorkflow():
 
         form_input_details = []
         processed_radios = set()
-        #-----------------------------------------------------------------------
-        # checkbox_groups = {}
-        # processed_checkboxes = set()
-        # for field in form_fields:
-        #     input_type = field.get('type')
-        #     if input_type == 'checkbox':
-        #         checkbox_name = field.get('name')
-        #         if checkbox_name not in checkbox_groups:
-        #             checkbox_groups[checkbox_name] = []
-
-        #         label = field.find_next_sibling('label')
-        #         if label:
-        #             label_text = label.text.strip()
-        #             checkbox_groups[checkbox_name].append(label_text)
-        #-----------------------------------------------------------------------
 
         for i, field in enumerate(form_fields, start=1):
             input_type = field.get('type')
@@ -1058,7 +1059,11 @@ class CompanyWorkflow():
                 values = [radio.get('value') for radio in radio_group]
                 input_html = ''.join([str(radio).strip() for radio in radio_group])
                 
+                # Call get_label for the entire radio button group
+                input_label = self.get_label(field)
+                
             elif input_type == 'checkbox':
+                print("\n-----------Radio button in get_form_input_details:", field)
                 checkbox_name = field.get('name')
                 if checkbox_name in processed_radios:
                     continue
@@ -1069,7 +1074,18 @@ class CompanyWorkflow():
                 
                 checkbox_group = soup.find_all('input', {'name': checkbox_name})
                 values = [checkbox.get('value') for checkbox in checkbox_group]
+                #values = self.get_checkbox_options(checkbox_group)
                 input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
+                
+                
+                text_value = [checkbox.text for checkbox in checkbox_group]
+                #input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
+                print('text_value ----------------->', end="")
+                print(text_value)
+                print('text_value ----------------->' + str(text_value))
+                print('text_value ----------------->' + str(checkbox_group))
+                
+                
                 
                 # Call get_label for the entire radio button group
                 input_label = self.get_label(field)
@@ -1109,10 +1125,11 @@ class CompanyWorkflow():
                 'related_elements': related_elements,
             })
         print("Tyrants")
-        self.print_form_details(form_input_details)
+        #self.print_form_details(form_input_details)
+        
         #print("Seperations of graphical colonies: ")
         #print(form_input_details)
-        time.sleep(60)
+        time.sleep(6)
         return form_input_details
       
     def print_form_details(self, form_inputs):
@@ -1474,8 +1491,66 @@ class CompanyWorkflow():
 
 
 
+  
+# Input 18:
+#   Label: How would you describe your gender identity? (mark all that apply)
+#   Type: checkbox
+#   Values: ["Man", "Non-binary", "Woman", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
 
+  
 
+  
+
+  
+
+  
+
+  
+
+# Input 16:
+#   Label: How would you describe your racial/ethnic background? (mark all that apply)
+#   Type: checkbox
+#   Values: ["Black or of African descent", "East Asian", "Hispanic, Latinx or of Spanish Origin", "Indigenous, American Indian or Alaska Native", "Middle Eastern or North African", "Native Hawaiian or Pacific Islander", "South Asian", "Southeast Asian", "White or European", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
+# Input 17:
+#   Label: How would you describe your sexual orientation? (mark all that apply)
+#   Type: checkbox
+#   Values: ["Asexual", "Bisexual and/or pansexual", "Gay", "Heterosexual", "Lesbian", "Queer", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
+# Input 18:
+#   Label: Do you identify as transgender? (Select one)
+#   Type: checkbox
+#   Values: ["Yes", "No", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
+# Input 19:
+#   Label: Do you have a disability or chronic condition (physical, visual, auditory, cognitive, mental, emotional, or other) that substantially limits one or more of your major life activities, including mobility, communication (seeing, hearing, speaking), and learning? (Select one)
+#   Type: checkbox
+#   Values: ["Yes", "No", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
+# Input 20:
+#   Label: Are you a veteran or active member of the United States Armed Forces? (Select one)
+#   Type: checkbox
+#   Values: ["Yes, I am a veteran or active member", "No, I am not a veteran or active member", "I prefer to self-describe", "I don't wish to answer"]
+#   Is Hidden: False
+#   HTML: 
+#   Dynamic: False
+#   Related Elements: []
 
 
 

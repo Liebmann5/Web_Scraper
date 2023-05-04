@@ -20928,3 +20928,4 @@ JavaScript error: resource://gre/modules/AsyncShutdown.sys.mjs, line 576: NotFou
 JavaScript warning: https://www.youtube-nocookie.com/embed/7BRKA4U1hO4?controls=0&modestbranding=1&rel=0&showinfo=0&loop=0&fs=0&hl=en&enablejsapi=1&origin=https%3A%2F%2Fcareers.toasttab.com&widgetid=1 line 801 > injectedScript line 2 > eval line 4479 > eval line 1 > eval line 1 > eval, line 1: WEBGL_debug_renderer_info is deprecated in Firefox and will be removed. Please use RENDERER.
 1683115188858	Marionette	INFO	Stopped listening on port 60333
 Dynamically enable window occlusion 1
+1683118772599	geckodriver	INFO	Listening on 127.0.0.1:55379
