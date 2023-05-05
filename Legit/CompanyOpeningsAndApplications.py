@@ -908,8 +908,8 @@ class CompanyWorkflow():
             return label
         
         if input_element.get('type') == 'checkbox':
-            main_label = self.get_main_label(input_element)
-            return main_label
+            div_parent, parents_text = self.get_div_parent(input_element)
+            return div_parent, parents_text
 
         label = None
 
@@ -982,22 +982,33 @@ class CompanyWorkflow():
             element = element.parent
             current_level += 1
 
-    def get_main_label(self, field):    #input_element
-        print(f"Field: {field}")
-        # parent_element = input_element.parent
-        # while parent_element and parent_element.name != 'label':
+    def get_div_parent(self, input_element):    #input_element | field
+        #print(f"input_element: {input_element}")
+        #parent_element = input_element.parent
+        #print("Parent Element ========>>>>> ", end="")
+        # print(parent_element)
+        # while parent_element and parent_element.name != 'div':
         #     parent_element = parent_element.parent
         # if parent_element:
-        #     main_label = parent_element.find_previous_sibling('label')
-        #     if main_label:
-        #         return main_label.text.strip()
-        # print(main_label)
-        # return None
-        label = field.find_previous_sibling('label')
-        if label:
-            print(f"Main label: {label.text.strip()}")
-            return label.get_text(strip=True)
-        return None
+        #     text_value = parent_element.find_previous_sibling('label')
+        #     if text_value:
+        #         return text_value.text.strip()
+        # print(text_value)
+        # return parent_element, text_value
+        #-------------------------------------------------------------------
+        # parent_element = input_element.parent
+        # while parent_element and parent_element.name != 'div':
+        #     parent_element = parent_element.parent
+        # if parent_element:
+        #     text_value = parent_element.find_previous_sibling('label')
+        #     if text_value:
+        #         return text_value.text.strip()
+        # return parent_element, text_value
+        parent_element = input_element.parent
+        while parent_element and parent_element.name != 'div':
+            parent_element = parent_element.parent
+        return parent_element
+
 
     def get_checkbox_options(self, checkbox_group):
         print(f"Checkbox group: {checkbox_group}")
@@ -1063,32 +1074,53 @@ class CompanyWorkflow():
                 input_label = self.get_label(field)
                 
             elif input_type == 'checkbox':
-                print("\n-----------Radio button in get_form_input_details:", field)
+                # checkbox_value = field.get('value')
+                # if checkbox_value in processed_radios:
+                #     continue
+                
+                # div_parent, parents_text = self.get_label(field)
+                # values = []
+                # values.append(str(parents_text).strip())
+                # checkbox_group = div_parent.find_all('input', {'type': input_type})
+                # for index, input_element in enumerate(checkbox_group):
+                #     if 'aria-label' in input_element.attrs:
+                #         print(f'Element with aria-label: {input_element}')
+                #         print(f'aria-label value: {input_element["aria-label"]}')
+                #         aria_label_value = input_element["aria-label"]
+                #         aria_label_match = div_parent.find('input', value=aria_label_value)
+                #         if aria_label_match:
+                #             values.insert(index+1, input_element)
+                #         #?When this one is reached since its <div has attribute style="display: block;" it will be skipped but idk
+                #         #processed_radios.add(checkbox_value)
+                #     else:
+                #         processed_radios.add(checkbox_value)
+                #         values.append(str(input_element).strip())
                 checkbox_name = field.get('name')
                 if checkbox_name in processed_radios:
                     continue
                 processed_radios.add(checkbox_name)
+
+                div_parent = self.get_div_parent(field)
+                parent_label = div_parent.find_previous('label')
+                input_label = parent_label.text.strip() if parent_label else ''
+
+                checkbox_group = div_parent.find_all('input', {'type': input_type})
+                values = []
+                for checkbox in checkbox_group:
+                    checkbox_label = checkbox.find_next_sibling('label')
+                    if checkbox_label:
+                        values.append(checkbox_label.text.strip())
+
                 
-                # Call get_main_label for the entire checkbox group
-                #input_label = self.get_main_label(field)
-                
-                checkbox_group = soup.find_all('input', {'name': checkbox_name})
-                values = [checkbox.get('value') for checkbox in checkbox_group]
-                #values = self.get_checkbox_options(checkbox_group)
-                input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
                 
                 
-                text_value = [checkbox.text for checkbox in checkbox_group]
-                #input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
-                print('text_value ----------------->', end="")
-                print(text_value)
-                print('text_value ----------------->' + str(text_value))
-                print('text_value ----------------->' + str(checkbox_group))
+                
+                
                 
                 
                 
                 # Call get_label for the entire radio button group
-                input_label = self.get_label(field)
+                #input_label = self.get_label(field)
             else:
                 # Call get_label for other input types
                 input_label = self.get_label(field)
