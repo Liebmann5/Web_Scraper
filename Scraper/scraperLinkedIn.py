@@ -52,14 +52,14 @@ class scrapeLinkedIn():
     
     
     
-    def linkedin_login(browser):
-        if:
-            username = browser.find_element_by_id("username")
-        elif:
-            va=2
+    # def linkedin_login(browser):
+    #     if:
+    #         username = browser.find_element_by_id("username")
+    #     elif:
+    #         va=2
             
-        username.send_keys(os.getenv('LINKEDIN_USERNAME'))
-        password.send_keys(os.getenv('LINKEDIN_PASSWORD'))
+    #     username.send_keys(os.getenv('LINKEDIN_USERNAME'))
+    #     password.send_keys(os.getenv('LINKEDIN_PASSWORD'))
         
         browser.find_element_by_xpath("//button[@type='submit']").click()
 

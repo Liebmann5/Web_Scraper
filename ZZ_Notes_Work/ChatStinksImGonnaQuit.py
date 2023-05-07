@@ -337,7 +337,7 @@ html_doc = '''
 
 
 
-
+'''
 
 soup = BeautifulSoup(html_doc, 'html.parser')
 
@@ -661,6 +661,7 @@ def get_label(self, input_element):
         self.print_form_details(form_input_details)
         time.sleep(6)
         return form_input_details
+'''
 
 
 
@@ -668,13 +669,11 @@ def get_label(self, input_element):
 
 
 
-----------------------------------------
 
 
 
 
-
-
+'''
 
 ok I made my code cleaner
 but unfortunately I still didn't get my desired output. This was the output that the terminal just returned
@@ -754,3 +753,5 @@ Input 23:
   Related Elements: []
 --------------------------------------------
 so what do I need to change to get my desired output
+
+'''

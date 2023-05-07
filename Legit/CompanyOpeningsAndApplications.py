@@ -21,6 +21,7 @@ from selenium.common.exceptions import NoSuchElementException
 #from scraperGoogle import webdriver
 import bs4
 from bs4 import Tag
+from bs4.element import NavigableString
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
@@ -50,6 +51,7 @@ class CompanyWorkflow():
         self.company_other_openings_href = None
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs
+        self.one_resume_label = False
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
@@ -60,7 +62,7 @@ class CompanyWorkflow():
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
         self.job_link_url = job_link
-        self.lets_run_some_tests()
+        #self.lets_run_some_tests()
         
         if "jobs.lever.co" in job_link:
             self.application_company_name = "lever"
@@ -161,7 +163,8 @@ class CompanyWorkflow():
         form_input_details = self.get_form_input_details(url)
         self.print_form_details(form_input_details)
         time.sleep(20)
-        url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
+        #url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
+        url="https://jobs.lever.co/mainstreet/c09d4403-97be-4ffd-b886-e5df9b6e1f88/apply"
         self.browser.get(url)
         time.sleep(4)
         #Run any tests you want here!
@@ -305,7 +308,7 @@ class CompanyWorkflow():
 
         #print(everything_about_job)
         #experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
-        experience_needed = "You must be a diety; being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
+        experience_needed = "You must be a diety! Being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
         if re.search(experience_needed, everything_about_job):
             print("Experience requirement found!")
             print(re.search(experience_needed, everything_about_job))
@@ -832,8 +835,8 @@ class CompanyWorkflow():
         #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
         print(">>>>>>   .insert_resume()")
-        resume_path = self.users_information.get('WORK_RESUME_PATH')
-        #resume_path = self.users_information.get('RESUME_PATH')
+        #resume_path = self.users_information.get('WORK_RESUME_PATH')
+        resume_path = self.users_information.get('RESUME_PATH')
         print(resume_path)
         
         if self.app_comp == 'greenhouse':
@@ -939,6 +942,67 @@ class CompanyWorkflow():
             parent = input_element.find_parent()
             if parent:
                 label = parent.find('label')
+                
+        # Case 6: Checks if the input element has an 'aria-label' meaning it's dynamic so goes & searches
+        # all previous label containers to see if any have text values that are equal to the aria-label' 
+        if not label:
+            if 'aria-label' in input_element.attrs:
+                aria_label_match = None
+                parent_label = input_element.find_previous('label')
+                aria_label_value = input_element["aria-label"]
+                if parent_label.text.strip() == aria_label_value:
+                    aria_label_match = True
+                if aria_label_match:
+                    dynamic_label = aria_label_value + " (dynamic " + input_element.get('type') + ")"
+                    if dynamic_label:
+                        return dynamic_label
+                elif aria_label_match == None:
+                    return aria_label_value
+                        
+        # Case 7: Checks if the input element's style attribute is equal to 'display: none;' meaning it's
+        # dynamic so goes & searches for the most previous label container to specify its text value is dynamic
+        if not label:
+            if input_element.get('style') == 'display: none;':
+                previous_input = input_element.find_previous('input')
+                if previous_input:
+                    parent_label = previous_input.find_previous('label')
+                    dynamic_label = parent_label.text.strip() + " (dynamic " + input_element.get('type') + ")"
+                    if dynamic_label:
+                        return dynamic_label
+                    
+         # Case 8: Special case for Resume/CV
+        if not label and self.one_resume_label == False:
+            found_attach = False
+            parent_label = input_element.find_previous('label')
+            #print(f"----parent_label ========>>>>> {parent_label}")
+            label = parent_label
+            self.one_resume_label = True
+            #TODO: This whole thing is pee pee poo poo
+            current_element = input_element
+            while current_element:
+                if isinstance(current_element, NavigableString) and 'attach' in str(current_element).lower():
+                    found_attach = True
+                    break
+                current_element = current_element.next_sibling
+            # Traverse up from the specific_element and find the label tag
+            if found_attach:
+                label_tag = input_element.find_previous('label')
+                if label_tag:
+                    # Check if the immediate child is a text value
+                    first_child = label_tag.contents[0]
+                    if isinstance(first_child, NavigableString) and first_child.strip():
+                        holey_holes = first_child.strip()
+                    else:
+                        # Check if it has a child element and if it does, save that child's text value
+                        for child in label_tag.children:
+                            if not isinstance(child, NavigableString):
+                                holey_holes = child.get_text(strip=True)
+                                break
+                    #print(f"Text value of the label: {holey_holes}")
+                    label = holey_holes
+            else:
+                print("No sibling found with the 'attach' keyword.")
+                
 
         # Check if the label contains a nested div element with the class "application-label" (case for Input 18)
         if label:
@@ -982,47 +1046,39 @@ class CompanyWorkflow():
             element = element.parent
             current_level += 1
 
-    def get_div_parent(self, input_element):    #input_element | field
-        #print(f"input_element: {input_element}")
-        #parent_element = input_element.parent
-        #print("Parent Element ========>>>>> ", end="")
-        # print(parent_element)
-        # while parent_element and parent_element.name != 'div':
-        #     parent_element = parent_element.parent
-        # if parent_element:
-        #     text_value = parent_element.find_previous_sibling('label')
-        #     if text_value:
-        #         return text_value.text.strip()
-        # print(text_value)
-        # return parent_element, text_value
-        #-------------------------------------------------------------------
-        # parent_element = input_element.parent
-        # while parent_element and parent_element.name != 'div':
-        #     parent_element = parent_element.parent
-        # if parent_element:
-        #     text_value = parent_element.find_previous_sibling('label')
-        #     if text_value:
-        #         return text_value.text.strip()
-        # return parent_element, text_value
-        parent_element = input_element.parent
-        while parent_element and parent_element.name != 'div':
-            parent_element = parent_element.parent
-        return parent_element
-
-
-    def get_checkbox_options(self, checkbox_group):
-        print(f"Checkbox group: {checkbox_group}")
-        options = []
-        for checkbox in checkbox_group:
-            option_label = checkbox.find_next_sibling('label')
-            if option_label:
-                options.append(option_label.get_text(strip=True))
-        print(f"Checkbox options: {options}")
-        return options
+    def get_div_parent(self, input_element):
+        parent_element = input_element.find_previous(lambda tag: any('question' in class_name for class_name in tag.get('class', [])))
+        if parent_element:
+            current_element = parent_element.next_element
+            while current_element:
+                if isinstance(current_element, NavigableString) and current_element.strip():
+                    parents_text = current_element.strip()
+                    break
+                current_element = current_element.next_element
+        else:
+            print("Craig would be dissapointed in you...    you maget!")
+            
+        input_tags = input_element.name
+        correct_parent = None
+        count = 0
+        while correct_parent:
+            correct_parent = parent_element.find_all(input_tags)     #[, {'type': }]
+            if correct_parent:
+                parent_element = correct_parent
+                break
+            parent_element = parent_element.next_sibling
+            if count > 4:
+                break
+            print(count)
+            count =+ 1
+        return parent_element, parents_text
 
     #! Include checkboxes!!!!
     #! Maybe include 2 parameters and check if url = None then skip beautifulsoup part!!
     def get_form_input_details(self, url):
+        #TODO: GET RID OF THIS AS SOON AS POSSIBLE!!!!
+        self.one_resume_label = False
+        
         print("\nget_form_input_details()")
         print("URL = " + url)
         page = requests.get(url)
@@ -1074,53 +1130,23 @@ class CompanyWorkflow():
                 input_label = self.get_label(field)
                 
             elif input_type == 'checkbox':
-                # checkbox_value = field.get('value')
-                # if checkbox_value in processed_radios:
-                #     continue
-                
-                # div_parent, parents_text = self.get_label(field)
-                # values = []
-                # values.append(str(parents_text).strip())
-                # checkbox_group = div_parent.find_all('input', {'type': input_type})
-                # for index, input_element in enumerate(checkbox_group):
-                #     if 'aria-label' in input_element.attrs:
-                #         print(f'Element with aria-label: {input_element}')
-                #         print(f'aria-label value: {input_element["aria-label"]}')
-                #         aria_label_value = input_element["aria-label"]
-                #         aria_label_match = div_parent.find('input', value=aria_label_value)
-                #         if aria_label_match:
-                #             values.insert(index+1, input_element)
-                #         #?When this one is reached since its <div has attribute style="display: block;" it will be skipped but idk
-                #         #processed_radios.add(checkbox_value)
-                #     else:
-                #         processed_radios.add(checkbox_value)
-                #         values.append(str(input_element).strip())
-                checkbox_name = field.get('name')
-                if checkbox_name in processed_radios:
+                if field in processed_radios:
                     continue
-                processed_radios.add(checkbox_name)
-
-                div_parent = self.get_div_parent(field)
-                parent_label = div_parent.find_previous('label')
-                input_label = parent_label.text.strip() if parent_label else ''
-
-                checkbox_group = div_parent.find_all('input', {'type': input_type})
+                
+                #! values - different -> sometimes value attr or in search next element for text_value!!
+                div_parent, parents_text = self.get_label(field)
                 values = []
-                for checkbox in checkbox_group:
-                    checkbox_label = checkbox.find_next_sibling('label')
-                    if checkbox_label:
-                        values.append(checkbox_label.text.strip())
+                input_label = parents_text
+                checkbox_group = div_parent.find_all('input', {'type': [input_type, "text", "textarea"]})
+                input_html = ''.join([str(checkbox).strip() for checkbox in checkbox_group])
+                for index, input_element in enumerate(checkbox_group):
+                    parent_label = input_element.find_previous('label')
+                    if input_element.get('type') == 'text':
+                        values.append(parent_label.text.strip() + "(dynamic)")
+                        continue
+                    values.append(parent_label.text.strip())
+                    processed_radios.add(input_element)
 
-                
-                
-                
-                
-                
-                
-                
-                
-                # Call get_label for the entire radio button group
-                #input_label = self.get_label(field)
             else:
                 # Call get_label for other input types
                 input_label = self.get_label(field)
@@ -1157,10 +1183,6 @@ class CompanyWorkflow():
                 'related_elements': related_elements,
             })
         print("Tyrants")
-        #self.print_form_details(form_input_details)
-        
-        #print("Seperations of graphical colonies: ")
-        #print(form_input_details)
         time.sleep(6)
         return form_input_details
       
