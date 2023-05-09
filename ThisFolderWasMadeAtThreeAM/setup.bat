@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 REM Create a virtual environment
 python -m venv awesome_i_can_name_this_anything_i_told_google_my_organizations_name_was_Nicks_Private_Parts_and_that_i_sell_computer_parts
@@ -10,7 +10,7 @@ REM Install dependencies
 pip install -r requirements.txt
 
 REM Run your Python script
-python ..\Legit\JobSearchWorkflow.py
+python Legit\JobSearchWorkflow.py
 
 REM Deactivate the virtual environment
 deactivate

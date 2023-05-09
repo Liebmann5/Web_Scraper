@@ -25,6 +25,7 @@ from bs4 import Tag
 from bs4.element import NavigableString
 import spacy
 from fuzzywuzzy import fuzz
+import config
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
@@ -157,19 +158,19 @@ class CompanyWorkflow():
         return True
     
     #TODO
-    def users_basic_requirements_job_location(self):
-        if company_job_workplaceType == None:
-            for desired_location in self.user_desired_location:
-                if desired_location not in company_job_location:
-                    if 'hybrid' in company_job_location:
-                        if user_desired_state not in self.get_state(company_job_location):
-                            return False
-                    if 'remote' in company_job_location:
+    # def users_basic_requirements_job_location(self):
+    #     if company_job_workplaceType == None:
+    #         for desired_location in self.user_desired_location:
+    #             if desired_location not in company_job_location:
+    #                 if 'hybrid' in company_job_location:
+    #                     if user_desired_state not in self.get_state(company_job_location):
+    #                         return False
+    #                 if 'remote' in company_job_location:
                         
-        elif company_job_workplaceType == 'hybrid':
-            if self.user_desired_location is not None:
-                for desired_location in self.user_desired_location:
-                    if desired_location not in company_job_location:
+    #     elif company_job_workplaceType == 'hybrid':
+    #         if self.user_desired_location is not None:
+    #             for desired_location in self.user_desired_location:
+    #                 if desired_location not in company_job_location:
     
     
     
@@ -1457,8 +1458,30 @@ class CompanyWorkflow():
                 dependants.append(token.text)
         return headword, dependants
     
-    def get_matching_key(label):
-        exact_match = process.extractOne(headword,)
+    def handle_custom_rules(self, label):
+        for rule, keys in config.CUSTOM_RULES.items():
+            if fuzz.partial_ratio(label.lower(), rule.lower()) > 80:
+                return keys
+        return None
+    
+    def get_matching_key(self,label):
+        custom_rule = self.handle_custom_rules(label)
+        if custom_rule:
+            return custom_rule
+        
+        max_similarity = 0
+        best_match = None
+        
+        for key in self.users_information.keys():
+            similarity = fuzz.partial_ratio(label.lower(), key.lower())
+            if similarity > max_similarity:
+                max_similarity = similarity
+                best_match = key
+                
+        if max_similarity > 80:
+            return [best_match]
+        
+        return None
     
     
     
@@ -1520,7 +1543,13 @@ class CompanyWorkflow():
         #----------------------------------------------------------
         #self.process_form_input_details(form_input_details)
         #----------------------------------------------------------
-        self.process_labels()
+        for input_data in form_input_details:
+            label = input_data['label']
+            matching_keys = self.get_matching_key(label)
+            if matching_keys:
+                answer = " ".join([self.users_information[key] for key in matching_keys])
+            else:
+                pass
 
     def process_form_input_details(self, form_input_details):
         nlp = spacy.load("en_core_web_sm")
@@ -1529,10 +1558,14 @@ class CompanyWorkflow():
                 label = re.sub(r'/W+', ' ', input_detail['label'])
                 doc = nlp(label.lower())
                 headword, dependants = self.extract_headword_and_dependants(doc)
+                matching_keys = self.get_matching_key(label)
                 #value = self.match_env_value(input_detail)
 
                 if value is None:
                     value = self.handle_special_cases(input_detail)
+                    
+                if matching_keys:
+                    answer = " ".join([self.users_information[key] for key in matching_keys])
 
                 if value is None:
                     value = input(f"Please enter a value for '{input_detail['label']}': ")
@@ -1578,12 +1611,7 @@ class CompanyWorkflow():
     def standardize_string(self, s):
         return s.lower().replace(" ", "_").replace("*", "").replace(".", "").replace("(", "").replace(")", "").replace("?", "")
 
-    def handle_full_name(self):
-        first_name = self.env_variables.get("FIRST_NAME", "")
-        middle_initial = self.env_variables.get("MIDDLE_INITIAL", "")
-        last_name = self.env_variables.get("LAST_NAME", "")
 
-        return f"{first_name} {middle_initial} {last_name}".strip()
 
 
 
