@@ -179,6 +179,11 @@ class Workflow():
             if not clicked_link_from_google_search:
                 print(last_link_from_google_search)
                 #self.browser.find_element(By.X_PATH, )
+                
+                self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                print("Scrolled to this place...")
+                time.sleep(5)
+                
                 last_link_from_google_search.click()
                 clicked_link_from_google_search = True
                 print("Accidently clamped my testicles b/c I needed to be punished")

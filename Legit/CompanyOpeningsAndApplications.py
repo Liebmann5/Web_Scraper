@@ -92,6 +92,7 @@ class CompanyWorkflow():
         # elif "boards.greenhouse.io" in job_link:
         #     self.application_company_name = "greenhouse"
         self.determine_current_page(job_link, self.application_company_name)
+        soup = self.apply_beautifulsoup(job_link, "lxml")
         self.company_job_openings(soup)
         
         for job_opening in self.company_job_openings:

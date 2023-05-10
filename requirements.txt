@@ -8,3 +8,8 @@ google-auth
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
+spacy==3.5.2
+fuzzywuzzy==0.18.0
+config
+csv
+dotenv
