@@ -2132,6 +2132,8 @@ def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_l
 
 
 
+<selenium.webdriver.remote.webelement.WebElement (session="4f1effbf-5809-47b1-a222-454e9ce4e82b", element="5b41eb0a-4462-484f-93b6-72b73aeb9768")>
+<selenium.webdriver.remote.webelement.WebElement (session="4f1effbf-5809-47b1-a222-454e9ce4e82b", element="5b41eb0a-4462-484f-93b6-72b73aeb9768")>
 
 
 
@@ -2177,12 +2179,18 @@ def filter_out_jobs_user_previously_applied_to(self, previously_applied_to_job_l
 
 
 
+<label>
+  <input type="checkbox" name="job_application[answers_attributes][11][answer_selected_options_attributes][0][question_option_id]" id="job_application_answers_attributes_11_answer_selected_options_attributes_0_question_option_id" value="129947029" set="39705180" aria-required="false">
+    &nbsp;&nbsp;Alaskan Native / American Indian / Indigenous American / Native American
+</label>
 
 
-
-
-
-
+This is a checkbox input
+<label>
+  <input type="checkbox" name="job_application[answers_attributes][11][answer_selected_options_attributes][0][question_option_id]" id="job_application_answers_attributes_11_answer_selected_options_attributes_0_question_option_id" value="129947029" set="39705180" aria-required="false">
+    &nbsp;&nbsp;Alaskan Native / American Indian / Indigenous American / Native American
+</label>
+and it has many more options but I'm just using this one as an example, since they are all pretty much the same. Now, the label to this checkbox along with its siblings is the string 'I identify my ethnicity as (mark all that apply)'. So as the user I can see that I am allowed to click as many of these checkboxes as I want 
 
 
 

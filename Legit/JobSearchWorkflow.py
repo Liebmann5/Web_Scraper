@@ -19,6 +19,9 @@ from GoogleSearch import scraperGoogle
 from CompanyOpeningsAndApplications import CompanyWorkflow
 from datetime import datetime
 import openpyxl
+import requests
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -43,7 +46,7 @@ class Workflow():
         self.env_path = '.env'
         self.env_other_path = '../.env'
         #self.previous_job_data_csv_relative_path = r'../Scraper/JobsThatUserHasAppliedTo.csv'
-        self.previous_job_data_csv_relative_path = r'Scraper/JobsThatUserHasAppliedTo.csv'
+        self.previous_job_data_csv_relative_path = r'DataOutput/JobsThatUserHasAppliedTo.csv'
         self.users_information = {}
         self.total_jobs_applied_to_count = 0
         self.total_jobs_applied_to_info = {} 
@@ -74,12 +77,12 @@ class Workflow():
         
         
         
-          
+    #TODO: change variable name => users_browser_choice   ->   users_browser_choice_name??
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -111,6 +114,8 @@ class Workflow():
                 #! THIS IS A while loop.... so it runs until false
         return users_browser_choice, browser_name
     
+    #! I have browser setup called 1st and then users_browser_choice b/c if the user uses the same browser over & over this will remember it!!!
+    #? ALSO!!!... setting code up this way might lead to very good, safe, and secure code because in no way can an outside person send in any code right from the get go!!! Meaning if they can't use the browser to begin with then the rest of the code is rendered useless...  right?!?!?!?
     def browser_setup(self):
         users_browser_choice, browser_name = self.users_browser_choice()
         print('Execution Started -- Opening' + browser_name + 'Browser')
@@ -184,10 +189,42 @@ class Workflow():
                 print("Scrolled to this place...")
                 time.sleep(5)
                 
-                last_link_from_google_search.click()
+                
+                
+                
+                
+                # element_code_outer = last_link_from_google_search.get_attribute('outerHTML')
+                # element_code_inner = last_link_from_google_search.get_attribute('innerHTML')
+                # soup_outer = BeautifulSoup(element_code_outer, 'html.parser')
+                # soup_inner = BeautifulSoup(element_code_inner, 'html.parser')
+                # print("------------------------------------------------------")
+                # print("This is the dumb selenium element outerHTML: ")
+                # print(soup_outer.prettify())
+                # print("------------------------------------------------------")
+                # print("This is the dumb selenium element innerHTML: ")
+                # print(soup_inner.prettify())
+                # print("------------------------------------------------------")
+                # time.sleep(15)
+                    
+                
+                
+                 
+                
+                last_a_tag = last_link_from_google_search.find_element(By.TAG_NAME, 'a')
+                last_a_tag.click()
                 clicked_link_from_google_search = True
                 print("Accidently clamped my testicles b/c I needed to be punished")
-                time.sleep(5)
+                wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+
+
+
+                #print("\n\n\n???????????????????????????????????????????????????")
+                #self.cookie_information()
+                #self.website_modified_cookie_info()
+                #print("???????????????????????????????????????????????????\n\n\n")
+
+
+
             else:
                 print(job_link)
                 self.browser.get(job_link)
@@ -329,6 +366,49 @@ class Workflow():
    
    
    
+
+
+
+
+
+
+
+
+
+
+    def wait_for_element_explicitly(self, browser, timeout, locator_tuple, condition):
+        wait = WebDriverWait(browser, timeout)
+        
+        if condition == 'presence':
+            return wait.until(EC.presence_of_element_located(locator_tuple))
+        elif condition == 'visibility':
+            return wait.until(EC.visibility_of_element_located(locator_tuple))
+        elif condition == 'clickable':
+            return wait.until(EC.element_to_be_clickable(locator_tuple))
+        else:
+            raise ValueError(f"Invalid condition: {condition}")
+
+
+    def cookie_information(self):
+        print("cookie_information()")
+        current_url = self.browser.current_url
+        parameters = {'Name':'Nick Liebmann', 'Email-id':'Liebmann.nicholas1@gmail.com','Message':'Hello cookies'}
+        r = requests.post(f"{current_url}", data = parameters)
+        print('The cookie is:')
+        print(r.cookies.get_dict())
+        print(r.text)
+
+    def website_modified_cookie_info(self):
+        print("website_modified_cookie_info()")
+        current_url = self.browser.current_url
+        session = requests.Session()
+        parameters = {'Name':'Nick Liebmann', 'Email-id':'Liebmann.nicholas1@gmail.com','Message':'Hello cookies'}
+        r = session.post(f"{current_url}", data=parameters)
+        print('The cookie is:')
+        print(r.cookies.get_dict())
+        print(r.text)
+
+
 
    
    
