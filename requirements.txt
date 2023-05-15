@@ -10,6 +10,8 @@ google-auth-httplib2
 google-api-python-client
 spacy==3.5.2
 fuzzywuzzy==0.18.0
+wordnet==2.1
+nltk==3.8.1
 #config
 #csv
 #dotenv

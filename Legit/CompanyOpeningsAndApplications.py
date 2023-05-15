@@ -28,6 +28,9 @@ from fuzzywuzzy import fuzz
 import Legit.config as config
 # ^ handle_custom_rules()
 
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, senior_experience):
@@ -58,6 +61,8 @@ class CompanyWorkflow():
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs  #[]
         self.one_resume_label = False
+        
+        self.lemmatizer = WordNetLemmatizer()
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
@@ -1491,12 +1496,227 @@ class CompanyWorkflow():
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+# print("\n\n--------------------------------------------------------")
+# print("My Way")
+# print("spacy_extract_headword_and_dependants()")
+# headword = ""
+# dependants = []
+# for token in doc:
+#     print(f"""
+#           TOKEN: {token.text}
+#           ====
+#           {token.tag_ = }
+#           {token.head.text = }
+#           {token.dep_ = }
+#           """)
+    
+    
+    
+#     if token.head == "ROOT":
+#         headword = token.head.text
+#     elif token.dep_ in {"compund", "amoud", "attr"}:
+#         dependants.append(token.lemma_)
+#         #dependants.append(token.text)
+# print(f"headword = {headword}")
+# print(f"dependants = {dependants}")
+# #return headword, dependants
+# print("--------------------------------------------------------")
+    
+    
+    
+    
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    def process_form_inputs(self):
+        for input_data in self.form_input_details:
+            if input_data['is_hidden']:
+                continue
+            
+            label = input_data['label']
+            input_type = input_data['type']
+            predefined_options = input_data.get('values', None)
+            
+            # If the input type in select, radio, or checkbox, handle it as a !special case!
+            if input_type in ['select', 'radio', 'checkbox']:
+                matching_keys = self.get_matching_keys(label)
+                if matching_keys:
+                    for key in matching_keys:
+                        answer = self.users_information[key]
+                        if answer in predefined_options:
+                            # Input the answer into the form
+                            print(f"Entering '{answer}' for '{label}'")
+                        else:
+                            print(f"Stored answer '{answer}' is not a valid option for '{label}'")
+                else:
+                    print(f"No stored answers found for '{label}'")
+                    
+            else:
+                matching_keys = self.get_matching_keys(label)
+                if matching_keys:
+                    for key in matching_keys:
+                        answer = self.users_information[key]
+                        # Input the answer into the form
+                        print(f"Entering '{answer}' for '{label}'")
+                else:
+                    print(f"No stored answers found for '{label}'")
     
+    def process_text(self, text):
+        return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
     
+    def bool_to_str(self, value):
+        return "Yes" if value.lower() == "true" else "No"
+    
+    def spacy_extract_key_info(self, doc):
+        print("\n\n--------------------------------------------------------")
+        print("My Way")
+        print("spacy_extract_headword_and_dependants()")
+        headword = ""
+        dependants = []
+        for token in doc:
+            print(f"""
+                  TOKEN: {token.text}
+                  ====
+                  {token.tag_ = }
+                  {token.head.text = }
+                  {token.dep_ = }
+                  """)
+            
+            
+            
+            if token.head == "ROOT":
+                headword = token.head.text
+            elif token.dep_ in {"compund", "amoud", "attr"}:
+                dependants.append(token.lemma_)
+                #dependants.append(token.text)
+        print(f"headword = {headword}")
+        print(f"dependants = {dependants}")
+        #return headword, dependants
+        print("--------------------------------------------------------")
+        
+        print("\n\n--------------------------------------------------------")
+        print("Their Dumb Way")
+        named_entities = [ent.text for ent in doc.ents]
+        headword = ""
+        dependants = []
+        for token in doc:
+            if token.dep_ == "ROOT":
+                headword = token.lemma_
+            elif token.dep_ in {"compound", "amod", "attr"}:
+                dependants.append(token.lemma_)
+        print(f"named_entities = {named_entities}")
+        print(f"headword = {headword}")
+        print(f"dependants = {dependants}")
+        #return named_entities, headword, dependants
+        print("--------------------------------------------------------")
+        return named_entities, headword, dependants
+    
+    def generate_key(self, named_entities, headword, dependants):
+        print("generate_key()")
+        # Using set automatically eliminates duplicates for us!!
+        tokens = set(named_entities + [headword] + dependants)
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #TODO: Make sure key isn't = to an already set key!!!
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        key = "_".join(tokens).upper()
+        print(f"key = {key}")
+        return key
+    
+    def store_new_answer(self, question, answer):
+        print("store_new_answer()")
+        nlp = spacy.load("en_core_web_md")
+        doc = nlp(question.lower())
+        named_entities, headword, dependants = self.spacy_extract_key_info(doc)
+        key = self.generate_key(named_entities, headword, dependants)
+        #key = self.verify_key(key, question)
+        
+        # If key is unique, add it to the .env file
+        if key not in self.users_information:
+            self.users_information[key] = answer
+            with open(self.env_path, "a") as file:
+                file.write(f"\n{key}='{answer}")
+                
+    def find_best_match(self, label):
+        print("find_best_match()")
+        nlp = spacy.load("en_core_web_md")
+        doc1 = nlp(label.lower())
+        max_similarity = -1
+        best_match = None
+        
+        for key in self.users_information.keys():
+            doc2 = nlp(key.lower().replace("_", " "))
+            similarity = doc1.similarity(doc2)
+            print("similarity = ", similarity)
+            if similarity > max_similarity:
+                max_similarity = similarity
+                best_match = key
+                
+            # Check for synonyms
+            synonyms = self.get_synonyms(key)
+            for synonym in synonyms:
+                doc2 = nlp(synonym.lower().replace("_", " "))
+                similarity = doc1.similarity(doc2)
+                print("similarity = ", similarity)
+                if similarity > max_similarity:
+                    max_similarity = similarity
+                    best_match = key
+                    
+        print("max_similarity = ", max_similarity)
+        print("best_match = ", best_match)
+        print(best_match if max_similarity > 0.75 else None)
+        return best_match if max_similarity > 0.75 else None
+    
+    def get_synonyms(self, word):
+        print("get_synonyms()")
+        print(f"word = {word}")
+        synonyms = []
+        for syn in wordnet.synsets(word):
+            for lemma in syn.lemmas():
+                synonyms.append(lemma.name())
+        print("synonyms = ", end="")
+        print(synonyms)
+        return synonyms
+    
+    def get_input_type(self, input_data):
+        label = input_data['type']
+        if label == 'select':
+            select_element = self.browser.find_element(label)
+            is_multiple_choice = select_element.get_attribute('multiple') is not None
+            return 'is_multiple_choice' if is_multiple_choice else None
+        elif label == 'checkbox':
+            return 'is_multiple_choice'
+        elif label == 'file':
+            return 'is_file'
+        return None
+    
+    def jaccard_similarity(self, sentence1, sentence2):
+        print("jaccard_similarity()")
+        set1 = set(sentence1.lower().split())
+        set2 = set(sentence2.lower().split())
+        intersection = set1.intersection(set2)
+        print(f"intersection = {intersection}")
+        union = set1.union(set2)
+        print(f"union = {union}")
+        jaccard_similarity = (len(intersection) / len(union))
+        print(f"jaccard_similarity = {jaccard_similarity}")
+        return
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1788,9 +2008,6 @@ class CompanyWorkflow():
                 return True
 
         return False
-    
-    def bool_to_str(self, value):
-        return "Yes" if value.lower() == "true" else "No"
 
     def standardize_string(self, s):
         return s.lower().replace(" ", "_").replace("*", "").replace(".", "").replace("(", "").replace(")", "").replace("?", "")
@@ -1806,7 +2023,8 @@ class CompanyWorkflow():
         #
         #BACKWARDS:
             #In my .env => 'ethnicity': 'mexico'  BUT  in form if label is 
-        #
+        #ANSWERS DONT MATCH:
+            #T/F => Y/N
         #
         #
 
