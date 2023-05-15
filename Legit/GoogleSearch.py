@@ -32,18 +32,31 @@ class scraperGoogle():
         
     def ludacris_speed(self):
         self.user_desired_jobs.append("software engineer")
-        #self.user_desired_jobs.append("backend engineer")
-        #self.user_desired_jobs.append("full-stack engineer")
+        return
+    
+    def plaid_speed(self):
+        self.user_desired_jobs.append("software engineer")
+        self.user_desired_jobs.append("backend engineer")
+        self.user_desired_jobs.append("full-stack engineer")
         #self.user_desired_jobs.append("frontend engineer")
         #self.user_desired_jobs.append("engineer")
         self.search_for_jobs()
         return
     
+    def purely_for_testing_and_examples(self, walkthrough_choice):
+        if walkthrough_choice == 'ludacris':
+            self.ludacris_speed()
+        elif walkthrough_choice == 'plaid':
+            self.plaid_speed()
+        self.new_new_print_google_search_results()
+        print("Returning back to JobSearchWorkflow")
+        time.sleep(2)
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
+    
     def user_requirements(self):
         self.ludacris_speed()
-
-        #self.print_google_search_results()
-        #self.new_print_google_search_results()
+        
+        self.search_for_jobs()
         self.new_new_print_google_search_results()
         print("Returning back to JobSearchWorkflow")
         time.sleep(2)

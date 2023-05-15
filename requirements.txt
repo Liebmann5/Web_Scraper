@@ -2,7 +2,7 @@ beautifulsoup4==4.11.2
 python-dotenv==1.0.0
 Requests==2.30.0
 selenium==4.9.0
-lxml==4.6.3
+lxml==4.9.2
 openpyxl==3.1.2
 google-auth
 google-auth-oauthlib
@@ -10,6 +10,7 @@ google-auth-httplib2
 google-api-python-client
 spacy==3.5.2
 fuzzywuzzy==0.18.0
-config
-csv
-dotenv
+#config
+#csv
+#dotenv
+#https://github.com/acheong08/ChatGPT/issues/53
