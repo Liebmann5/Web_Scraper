@@ -22701,23 +22701,17 @@ console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1
 console.error: (new TypeError("lazy.AsyncShutdown.profileBeforeChange is undefined", "resource://services-settings/Database.sys.mjs", 599))
 console.warn: LoginRecipes: "Falling back to a synchronous message for: https://boards.greenhouse.io."
 JavaScript error: , line 0: NS_ERROR_NOT_AVAILABLE
-1:57576
-1684085566737	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "--marionette" "--remote-debugging-port" "57577" "--remote-allow-hosts" "localhost" "-no-remote" "-profile" "C:\\Users\\user\\AppData\\Local\\Temp\\rust_mozprofileX9yh9X"
-console.warn: services.settings: Ignoring preference override of remote settings server
-console.warn: services.settings: Allow by setting MOZ_REMOTE_SETTINGS_DEVTOOLS=1 in the environment
-1684085567025	Marionette	INFO	Marionette enabled
-Dynamically enable window occlusion 0
-1684085567030	Marionette	INFO	Listening on port 57584
-Read port: 57584
-WebDriver BiDi listening on ws://127.0.0.1:57577
-1684085567133	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
-JavaScript error: resource:///modules/BrowserGlue.sys.mjs, line 2049: TypeError: addon is null
-[ERROR glean_core] Error setting metrics feature config: Json(Error("EOF while parsing a value", line: 1, column: 0))
-DevTools listening on ws://127.0.0.1:57577/devtools/browser/780eb7fa-9802-4644-9478-064cb4a7acdb
-console.warn: LoginRecipes: "Falling back to a synchronous message for: https://www.google.com."
-[Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
-[Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
-[Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+1684150374883	Marionette	INFO	Stopped listening on port 57087
+Dynamically enable window occlusion 1
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+[Child 10780, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+ctorChild.cpp:57
 [Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
 [Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
 [Child 2800, Main Thread] WARNING: JSWindowActorChild::SendRawMessage (Conduits, ConduitClosed) not sent: !CanSend() || !mManager || !mManager->CanSend(): file /builds/worker/checkouts/gecko/dom/ipc/jsactor/JSWindowActorChild.cpp:57
