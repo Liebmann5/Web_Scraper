@@ -20,6 +20,9 @@ $PYTHON_CMD -m venv virtual_environments_smell_like_updog
 # Activate the virtual environment
 source virtual_environments_smell_like_updog/bin/activate
 
+# Upgrade pip if need be
+$PYTHON_CMD -m pip install --upgrade pip
+
 # Install dependencies
 pip install -r requirements.txt
 

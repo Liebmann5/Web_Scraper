@@ -28,8 +28,11 @@ from fuzzywuzzy import fuzz
 import Legit.config as config
 # ^ handle_custom_rules()
 
+import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
@@ -63,6 +66,26 @@ class CompanyWorkflow():
         self.one_resume_label = False
         
         self.lemmatizer = WordNetLemmatizer()
+        self.init_gpt_neo("EleutherAI/gpt-neo-1.3B")
+        nltk.download('wordnet')
+        
+    def check_cuda_compatibility():
+        if torch.cuda.is_available():
+            print("CUDA is available!")
+            print(f"CUDA version: {torch.version.cuda}")
+        else:
+            print("CUDA is not available.")
+    
+    def init_gpt_neo(self, model_name):
+        print("init_gpt_neo()")
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        self.check_cuda_compatibility()
+        self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
+        
+    def __del__(self):
+        # Delete the model when the object is destroyed
+        del self.model
+        del self.tokenizer
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
@@ -1541,6 +1564,82 @@ class CompanyWorkflow():
     
     
     
+    
+    
+    
+    
+    
+    def test_this_pile_of_lard(self, job_link):
+        print("()")
+        this_job_sucks = self.get_form_input_details(job_link)
+        print(this_job_sucks)
+        urls = ['https://boards.greenhouse.io/anaconda/jobs/4955125',
+                'https://boards.greenhouse.io/earnin/jobs/5049016',
+                'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
+                'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
+        self.process_urls(urls)
+    
+    def process_urls(self, urls):
+        print("()")
+        for i, url in enumerate(urls):
+            try:
+                print(f"Processing URL {i+1}...")
+                self.browser.get(url)  # assuming self.browser is an instance of a webdriver
+                
+                
+                
+                
+                time.sleep(5)
+                self.scroll_to_element("form")
+
+
+
+
+
+                form_input_details = self.get_form_input_details()  # assuming a function to extract form details
+                self.fill_form(form_input_details)
+
+            except Exception as e:
+                print(f"An error occurred while processing URL {i+1}: {url}")
+                print(str(e))
+
+            finally:
+                print(f"Finished processing URL {i+1}")
+    
+    def fill_form(self, form_input_details):
+        print("()")
+        for i, input_data in enumerate(form_input_details):
+            print(f"Processing Input {i}...")
+
+            # Check if it's a special case
+            special_expected_user_input = self.is_special_case(input_data)
+            if special_expected_user_input:
+                print(f"Input {i} is a special case: {special_expected_user_input}")
+
+            # Extract label from the input_data
+            label = input_data['label']
+
+            # Handle custom rules or get matching key if present
+            key = self.get_matching_key_if_present(label, special_expected_user_input)
+
+            if key:
+                # Get value from the users_information dictionary
+                value = self.users_information[key]
+
+                if special_expected_user_input == 'is_multiple_choice':
+                    # if multiple values are expected, we'll assume value is a list
+                    for v in value:
+                        self.browser.find_element(label).send_keys(v)
+                        # Add additional logic here to handle multiple choice selections
+                elif special_expected_user_input == 'is_file':
+                    # handle file upload
+                    self.browser.find_element(label).send_keys(value)  # assuming value is file path
+                else:
+                    # Fill in the form
+                    self.browser.find_element(label).send_keys(value)
+            else:
+                print(f"No matching key found for label {label}")
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1576,15 +1675,34 @@ class CompanyWorkflow():
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
                 else:
-                    print(f"No stored answers found for '{label}'")
+                    context = self.users_summary + " " + label
+                    answer = self.generate_response(context)
+                    if answer:
+                        # Input the answer into the form
+                        print(f"Entering '{answer}' for '{label}'")
+                    else:
+                        print(f"No stored answers found for '{label}'")
+    
+    def generate_response(self, context):
+        print("generate_response()")
+        input_ids = self.tokenizer.encode(context, return_tensors='pt').to("cuda" if torch.cuda.is_available() else "cpu")
+
+        max_length = len(input_ids[0]) + 100
+        output = self.model.generate(input_ids, max_length=max_length, temperature=0.7)
+        response = self.tokenizer.decode(output[:, input_ids.shape[-1]:][0], skip_special_tokens=True)
+        
+        return response
     
     def process_text(self, text):
+        print("process_text()")
         return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
     
     def bool_to_str(self, value):
+        print("bool_to_str()")
         return "Yes" if value.lower() == "true" else "No"
     
     def spacy_extract_key_info(self, doc):
+        print("spacy_extract_key_info()")
         print("\n\n--------------------------------------------------------")
         print("My Way")
         print("spacy_extract_headword_and_dependants()")
@@ -1717,6 +1835,7 @@ class CompanyWorkflow():
         jaccard_similarity = (len(intersection) / len(union))
         print(f"jaccard_similarity = {jaccard_similarity}")
         return
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
