@@ -1,2 +1,6 @@
 .env
 ZZ_NOTES
+virtual_environments_smell_like_up_dog/
+__pycache__/
+*.pyc
+geckodriver.log
