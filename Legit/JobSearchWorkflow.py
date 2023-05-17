@@ -30,6 +30,7 @@ from selenium.webdriver.support import expected_conditions as EC
                 #ThisFolderWasMadeAtThreeAM/setup.sh
 
 #! EXTRACT JOB_TYPE AS LIST OD len()=3 | {DESIRED_LOCATION, HYBRID, REMOTE}
+#! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
 
 class Workflow():
        

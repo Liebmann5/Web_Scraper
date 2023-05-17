@@ -819,6 +819,7 @@ class CompanyWorkflow():
             print(job_link)
         time.sleep(8)
         return job_link
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   
@@ -1562,7 +1563,21 @@ class CompanyWorkflow():
     
     
     
-    
+    def process_urls(self, urls):
+        for i, url in enumerate(urls):
+            try:
+                print(f"Processing URL {i+1}...")
+                self.browser.get(url)  # assuming self.browser is an instance of a webdriver
+
+                form_input_details = self.get_form_input_details()  # assuming a function to extract form details
+                self.fill_form(form_input_details)
+
+            except Exception as e:
+                print(f"An error occurred while processing URL {i+1}: {url}")
+                print(str(e))
+
+            finally:
+                print(f"Finished processing URL {i+1}")
     
     
     
@@ -1643,6 +1658,39 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    def fill_form(self, form_input_details):
+        for i, input_data in enumerate(form_input_details):
+            print(f"Processing Input {i}...")
+
+            # Check if it's a special case
+            special_expected_user_input = self.is_special_case(input_data)
+            if special_expected_user_input:
+                print(f"Input {i} is a special case: {special_expected_user_input}")
+
+            # Extract label from the input_data
+            label = input_data['label']
+
+            # Handle custom rules or get matching key if present
+            key = self.get_matching_key_if_present(label, special_expected_user_input)
+
+            if key:
+                # Get value from the users_information dictionary
+                value = self.users_information[key]
+
+                if special_expected_user_input == 'is_multiple_choice':
+                    # if multiple values are expected, we'll assume value is a list
+                    for v in value:
+                        self.browser.find_element(label).send_keys(v)
+                        # Add additional logic here to handle multiple choice selections
+                elif special_expected_user_input == 'is_file':
+                    # handle file upload
+                    self.browser.find_element(label).send_keys(value)  # assuming value is file path
+                else:
+                    # Fill in the form
+                    self.browser.find_element(label).send_keys(value)
+            else:
+                print(f"No matching key found for label {label}")
     
     def process_form_inputs(self):
         for input_data in self.form_input_details:
@@ -2139,7 +2187,9 @@ class CompanyWorkflow():
         #NEGATIVES:
             # Only put your last name if you aren't Hispanic?
             # Kindly share your LinkedIn profile with us if you haven't already!
-        #
+        #DIFFERENT
+            #-Describe your experience with Networking?   {Talking with people/Recruiting}
+            #-Describe your experience with Networking?   {Computer Networks}
         #BACKWARDS:
             #In my .env => 'ethnicity': 'mexico'  BUT  in form if label is 
         #ANSWERS DONT MATCH:
