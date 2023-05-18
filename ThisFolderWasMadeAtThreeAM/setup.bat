@@ -15,7 +15,7 @@ exit /b 1
 :FoundPython
 
 REM Create a virtual environment
-%PYTHON_CMD% -m venv virtual_environments_smell_like_updog
+%PYTHON_CMD% -m venv ..\virtual_environments_smell_like_updog
 
 REM Activate the virtual environment
 call virtual_environments_smell_like_updog\Scripts\activate

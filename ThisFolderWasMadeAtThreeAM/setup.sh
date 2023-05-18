@@ -15,7 +15,7 @@ if [ -z "$PYTHON_CMD" ]; then
 fi
 
 # Create a virtual environment
-$PYTHON_CMD -m venv virtual_environments_smell_like_updog
+$PYTHON_CMD -m venv ../virtual_environments_smell_like_updog
 
 # Activate the virtual environment
 source virtual_environments_smell_like_updog/bin/activate

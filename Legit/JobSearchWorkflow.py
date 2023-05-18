@@ -23,6 +23,11 @@ import requests
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
+
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
+
+
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
                 #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
@@ -187,17 +192,21 @@ class Workflow():
                 #self.browser.find_element(By.X_PATH, )
                 
                 self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
-                print("Scrolled to this place...")
+                print("Scrolled to this place...\n")
                 time.sleep(5)
                 
                 
                 
                 
                 
+                diagnostics = self.diagnose_interaction(last_link_from_google_search)
+                for check, result in diagnostics.items():
+                    print(f"{check}: {result}")
                 # element_code_outer = last_link_from_google_search.get_attribute('outerHTML')
                 # element_code_inner = last_link_from_google_search.get_attribute('innerHTML')
                 # soup_outer = BeautifulSoup(element_code_outer, 'html.parser')
                 # soup_inner = BeautifulSoup(element_code_inner, 'html.parser')
+                # dumb_a_tag_link = soup_inner.find('a')
                 # print("------------------------------------------------------")
                 # print("This is the dumb selenium element outerHTML: ")
                 # print(soup_outer.prettify())
@@ -205,17 +214,25 @@ class Workflow():
                 # print("This is the dumb selenium element innerHTML: ")
                 # print(soup_inner.prettify())
                 # print("------------------------------------------------------")
+                # print("This is my attempt to find the <a>: ")
+                # print(dumb_a_tag_link)
+                # print("------------------------------------------------------Kenny Powers")
+                # some_crap = self.test_click_element(dumb_a_tag_link)
+                # print(some_crap)
                 # time.sleep(15)
-                    
+                if not self.safe_click(last_link_from_google_search):
+                    print("Clicking on the element failed.")
                 
                 
                  
                 
-                last_a_tag = last_link_from_google_search.find_element(By.TAG_NAME, 'a')
-                last_a_tag.click()
+                # last_a_tag = last_link_from_google_search.find_element(By.TAG_NAME, 'a')
+                # last_a_tag.click()
                 clicked_link_from_google_search = True
                 print("Accidently clamped my testicles b/c I needed to be punished")
                 wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                print("This time wasn't an accident!")
+                time.sleep(4)
 
 
 
@@ -233,6 +250,137 @@ class Workflow():
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #self.todays_jobs_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).company_workflow(job_link)
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+
+
+
+    def safe_click(self, element):
+        print("safe_click()")
+        
+        # First, try clicking normally
+        print("1) Normal click attempt")
+        try:
+            element.click()
+            return True
+        except Exception as e:
+            print(f"2) Normal click failed: {e}")
+
+        # Next, try waiting for the element to be clickable
+        print("1) Waiting for element to be clickable attempt")
+        try:
+            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+            element.click()
+            return True
+        except TimeoutException as e:
+            print(f"2) Waiting for element to be clickable failed: {e}")
+
+        # Then, try scrolling the element into view and clicking
+        print("1) Waiting for element to be clickable attempt")
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            element.click()
+            return True
+        except Exception as e:
+            print(f"2) Scrolling and clicking failed: {e}")
+
+        # Next, try checking if the element is displayed before clicking
+        print(f"1) Checking visibility and clicking attempt")
+        try:
+            if element.is_displayed():
+                element.click()
+                return True
+            else:
+                print("Element is not visible")
+        except Exception as e:
+            print(f"2) Checking visibility and clicking failed: {e}")
+
+        # Finally, try using JavaScript to perform the click
+        print(f"1) JavaScript click attempt")
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            return True
+        except Exception as e:
+            print(f"2) JavaScript click failed: {e}")
+
+        # If all methods fail, return False
+        return False
+
+    def diagnose_interaction(self, element):
+        diagnostics = {}
+
+        # Check 1: Is the element present in the DOM?
+        try:
+            self.browser.find_element(By.XPATH, element.tag_name)
+            diagnostics["Present in DOM"] = "Yes"
+        except Exception as e:
+            diagnostics["Present in DOM"] = f"No, Error: {e}"
+
+        # Check 2: Is the element displayed?
+        try:
+            if element.is_displayed():
+                diagnostics["Displayed"] = "Yes"
+            else:
+                diagnostics["Displayed"] = "No"
+        except Exception as e:
+            diagnostics["Displayed"] = f"Error: {e}"
+
+        # Check 3: Is the element enabled?
+        try:
+            if element.is_enabled():
+                diagnostics["Enabled"] = "Yes"
+            else:
+                diagnostics["Enabled"] = "No"
+        except Exception as e:
+            diagnostics["Enabled"] = f"Error: {e}"
+
+        # Check 4: Can we scroll to the element?
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            diagnostics["Scroll Into View"] = "Success"
+        except Exception as e:
+            diagnostics["Scroll Into View"] = f"Error: {e}"
+
+        # Check 5: Can we click the element normally?
+        try:
+            element.click()
+            diagnostics["Normal Click"] = "Success"
+        except Exception as e:
+            diagnostics["Normal Click"] = f"Error: {e}"
+
+        # Check 6: Can we click the element using JavaScript?
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            diagnostics["JavaScript Click"] = "Success"
+        except Exception as e:
+            diagnostics["JavaScript Click"] = f"Error: {e}"
+
+        # Check 7: Does the element have any children that could be interfering with the click?
+        try:
+            children = element.find_elements(By.XPATH, ".//*")
+            if children:
+                diagnostics["Has Children"] = f"Yes, count: {len(children)}"
+            else:
+                diagnostics["Has Children"] = "No"
+        except Exception as e:
+            diagnostics["Has Children"] = f"Error: {e}"
+
+        # Check 8: Is the element covered by another element?
+        try:
+            covering_element = self.browser.execute_script(
+                "var elem = arguments[0],"
+                "  box = elem.getBoundingClientRect(),"
+                "  cx = box.left + box.width / 2,"
+                "  cy = box.top + box.height / 2,"
+                "  e = document.elementFromPoint(cx, cy);"
+                "for (; e; e = e.parentElement) {"
+                "  if (e === elem)"
+                "    return true"
+                "}"
+                "return false;", element)
+            diagnostics["Covered by another element"] = "No" if covering_element else "Yes"
+        except Exception as e:
+            diagnostics["Covered by another element"] = f"Error: {e}"
+
+        return diagnostics
 
 
     
