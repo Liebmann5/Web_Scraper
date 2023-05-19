@@ -15,21 +15,11 @@ if [ -z "$PYTHON_CMD" ]; then
 fi
 
 # Create a virtual environment
-<<<<<<< HEAD
-$PYTHON_CMD -m venv virtual_environments_smell_like_updog
-=======
 $PYTHON_CMD -m venv ../virtual_environments_smell_like_updog
->>>>>>> 7f19eeabe478f9f77363d378f5799a2169ae5b2c
 
 # Activate the virtual environment
 source virtual_environments_smell_like_updog/bin/activate
 
-<<<<<<< HEAD
-=======
-# Upgrade pip if need be
-$PYTHON_CMD -m pip install --upgrade pip
-
->>>>>>> 7f19eeabe478f9f77363d378f5799a2169ae5b2c
 # Install dependencies
 pip install -r requirements.txt
 
