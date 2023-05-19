@@ -25,11 +25,19 @@ from bs4 import Tag
 from bs4.element import NavigableString
 import spacy
 from fuzzywuzzy import fuzz
+# import Legit.config as config
+# ^ handle_custom_rules()
 import Legit.config as config
 # ^ handle_custom_rules()
 
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
+
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
@@ -64,6 +72,30 @@ class CompanyWorkflow():
         
         self.lemmatizer = WordNetLemmatizer()
     
+        
+        self.lemmatizer = WordNetLemmatizer()
+        self.init_gpt_neo("EleutherAI/gpt-neo-1.3B")
+        nltk.download('wordnet')
+        
+    def check_cuda_compatibility(self):
+        if torch.cuda.is_available():
+            print("CUDA is available!")
+            print(f"CUDA version: {torch.version.cuda}")
+        else:
+            print("CUDA is not available.")
+    
+    def init_gpt_neo(self, model_name):
+        print("init_gpt_neo()")
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        self.check_cuda_compatibility()
+        self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
+        
+    def __del__(self):
+        # Delete the model when the object is destroyed
+        if hasattr(self, 'model'):
+            del self.model
+        del self.tokenizer
+    
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
     #! Run a loop here .job_description => .should_apply() => .apply(.get_form_input_details(), .insert_resume(), .fill_in_form(), captcha_stuff()) 
@@ -72,7 +104,7 @@ class CompanyWorkflow():
     def company_workflow(self, job_link):
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
-        #self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
+        self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
         #self.lets_run_some_tests()
         self.full_company_test()
         
@@ -98,6 +130,14 @@ class CompanyWorkflow():
         # elif "boards.greenhouse.io" in job_link:
         #     self.application_company_name = "greenhouse"
         self.determine_current_page(job_link, self.application_company_name)
+        #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        print("GOOOOODDDD LORD!!!! Do you know what this means Mr. McCalister...")
+        
+        
+        
+        
+        
+        #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         soup = self.apply_beautifulsoup(job_link, "lxml")
         self.company_job_openings(soup)
         
@@ -116,134 +156,6 @@ class CompanyWorkflow():
         return
         
     
-    def determine_current_page(self, job_link, application_company_name):
-        soup = self.apply_beautifulsoup(job_link, "lxml")
-        if application_company_name == "lever":
-            webpage_body = soup.find('body')
-            opening_link_application = soup.find('div', {"class": 'application-page'})
-            opening_link_description = soup.find('div', {"class": 'posting-page'})
-            opening_link_company_jobs = soup.find('div', {"class": "list-page"})
-            if opening_link_application:
-                print('-Application Page')
-                try:
-                    #TODO: This is v what we want to avoid!!!
-                    company_open_positions = soup.find('a', {"class": "main-header-logo"})
-                    application_webpage_html = soup.find("div", {"class": "application-page"})
-                    self.lever_co_header(webpage_body, soup)
-                    try:
-                        self.company_open_positions_a.click()
-                    except:
-                        raw_link = company_open_positions['href']
-                        self.browser.get(raw_link)
-                    time.sleep(2)
-                    return
-                except:
-                    #TODO: Change this Error type!
-                    raise ConnectionError("ERROR: Companies other open positions are not present")
-            elif opening_link_description:
-                print("-Job Description Page")
-                self.scroll_to_element(opening_link_description)
-                apply_to_job = self.should_user_apply(opening_link_description)
-                if apply_to_job == True:
-                    print("lever application locked and loaded")
-                    self.bottom_has_application_or_button(application_company_name)
-                    time.sleep(3)
-                    current_url = self.browser.current_url
-                    soup = self.apply_beautifulsoup(current_url, "html")
-                    form_input_details = self.get_form_input_details(current_url)
-                    self.insert_resume()
-                    self.fill_out_application(job_link, form_input_details)
-                    self.keep_jobs_applied_to_info()
-                elif not apply_to_job:
-                    #TODO:
-                    self.company_other_openings_href.click()
-                    
-                #TODO: If the button is present click OTHERWISE just insert the link
-                if self.company_other_openings_href:
-                    self.company_other_openings_href.click()
-                else:
-                    self.browser.get(self.company_other_openings_href)
-
-            elif opening_link_company_jobs:
-                print('-Job Listings Page')
-                pass
-            return
-        
-            
-        elif application_company_name == "greenhouse":
-            div_main = soup.find("div", id="main")
-            job_description_element = self.browser.find_element(By.ID, "content")
-            
-            #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
-            next_elem = div_main.find_next()
-            while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
-                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
-                    print('-Job Listings Page')
-                    pass
-                elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
-                    print('-Job Listings Page')
-                    pass
-                elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
-                    print("-Company Job Openings Page")
-                    print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
-                    #TODO: for this one in the elif you have to look through all "level-0" sections!!
-                    return
-                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
-                    app_body = next_elem
-                    header = next_elem.find("div", id="header")
-                    content = next_elem.find("div", id="content")
-                    
-                    if header and content:
-                        print("-Job Description Page")
-                        #TODO: Fix this!!! I need the header link!
-                        self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
-                        current_url = self.browser.current_url
-                        should_apply = self.should_user_apply(app_body)
-                        if should_apply == True:
-                            #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
-                            self.bottom_has_application_or_button(application_company_name)
-                            print("greenhouse application locked and loaded")
-                            form_input_details = self.get_form_input_details(job_link)
-                            print("Meet")
-                            time.sleep(8)
-                            self.insert_resume()
-                            print("me")
-                            time.sleep(8)
-                            self.fill_out_application(job_link, form_input_details)
-                            self.keep_jobs_applied_to_info(job_link)
-                        elif should_apply == False:
-                            pass 
-                        else:
-                            print("\tHmmm that's weird ? it's neither button nor application")
-                        
-                        
-                        try:
-                            self.company_other_openings_href.click()
-                        except:
-                            self.browser.get(self.company_other_openings_href)
-                            
-                            
-                        time.sleep(2)
-                        pass
-                    break
-                else:
-                    next_elem = next_elem.find_next()
-            print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
-            return
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                                TOOLS                                          !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
     def apply_beautifulsoup(self, job_link, parser):
         #the way I learned how to do it
         if parser == "lxml":
@@ -256,6 +168,32 @@ class CompanyWorkflow():
             result = page.content
             soup = BeautifulSoup(result, "html.parser")           
         return soup
+    
+    def scroll_to_element(self, element):
+        # Check if the input element is a BeautifulSoup element
+        if isinstance(element, Tag):
+            # Extract the tag name
+            tag_name = element.name
+            
+            # Extract the attributes
+            attrs = element.attrs
+            css_selectors = [f"{tag_name}"]
+            
+            # Convert attributes to CSS selectors
+            for attr, value in attrs.items():
+                if isinstance(value, list):
+                    value = " ".join(value)
+                    css_selectors.append(f"[{attr}='{value}']")
+                    
+                css_selector = "".join(css_selectors)
+                
+                # Find the same element using Selenium
+                element = self.browser.find_element(By.CSS_SELECTOR, css_selector)
+                
+        self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        print("Scrolled to this place...")
+        time.sleep(1)
+        return
     
     def scroll_to_element(self, element):
         # Check if the input element is a BeautifulSoup element
@@ -336,6 +274,9 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     
     #TODO: This goes to all the links!!
@@ -374,6 +315,11 @@ class CompanyWorkflow():
     #             print(f"No search result found for: {google_search_name}")
     #             continue
     
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                               TESTING                                         !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    #PURPOSE: To test methods
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1538,13 +1484,198 @@ class CompanyWorkflow():
 # #return headword, dependants
 # print("--------------------------------------------------------")
     
+    def process_labels():
+        nlp = spacy.load("en_core_web_sm")
+        label = re.sub(r'/W+', ' ', label)
+        doc = nlp(label.lower())
+        return ' '.join([])
     
+    #TODO: Double check this .head && .head crap!!!
+    def extract_headword_and_dependants(doc):
+        headword = ""
+        dependants = []
+        for token in doc:
+            if token.head == "ROOT":
+                headword = token.head.text
+            elif token.dep_ in {"compund", "amoud", "attr"}:
+                #dependants.append(token.lemma_)
+                dependants.append(token.text)
+        return headword, dependants
+    
+    def handle_custom_rules(self, label):
+        for rule, keys in config.CUSTOM_RULES.items():
+            if fuzz.partial_ratio(label.lower(), rule.lower()) > 80:
+                return keys
+        return None
+    
+    def get_matching_key(self,label):
+        custom_rule = self.handle_custom_rules(label)
+        if custom_rule:
+            return custom_rule
+        
+        max_similarity = 0
+        best_match = None
+        
+        for key in self.users_information.keys():
+            similarity = fuzz.partial_ratio(label.lower(), key.lower())
+            if similarity > max_similarity:
+                max_similarity = similarity
+                best_match = key
+                
+        if max_similarity > 80:
+            return [best_match]
+        
+        return None
+    
+    #MAYBE: from fuzzywuzzy import process
+    def spacy_handle_custom_rules(self, label):
+        print("spacy_handle_custom_rules()")
+        for rules, key in config.CUSTOM_RULES.items():
+            print(f"rules = {rules.lower()}")
+            print(f"key = {key.lower()}")
+            print(f"label = {label.lower()}")
+            print(f"fuzz.token_set_ratio(key.lower(), label.lower()) = {fuzz.token_set_ratio(key.lower(), label.lower())}")
+            if fuzz.token_set_ratio(key.lower(), label.lower()) > 80:
+                return key
+        return None
+    
+    #! If no keys match but 1 was a maybe then get the keys value and compare it to the label && || its predefined values!!!!! 
+    def get_matching_key_if_present(self, label, special_expected_user_input):
+        if special_expected_user_input is not None:
+            if special_expected_user_input == 'is_multiple_choice':
+                best_match = []
+        
+        print("get_matching_key_if_present()")
+        custom_rule = self.spacy_handle_custom_rules(label)
+        if custom_rule:
+            return custom_rule
+        
+        max_similarity = 0
+        best_match = None
+        # def test_this_pile_of_lard(self, job_link):
+    #     print("test_this_pile_of_lard()")
+    #     this_job_sucks = self.get_form_input_details(job_link)
+    #     print(this_job_sucks)
+    #     urls = ['https://boards.greenhouse.io/anaconda/jobs/4955125',
+    #             'https://boards.greenhouse.io/earnin/jobs/5049016',
+    #             'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
+    #             'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
+    #     self.process_urls(urls)
+    
+        for key in self.users_information.keys():
+            similarity = fuzz.token_set_ratio(label.lower(), key.lower())
+            if similarity > max_similarity:
+                max_similarity = similarity
+                best_match = key
+                # def process_urls(self, urls):
+    #     print("process_urls()")
+    #     for i, url in enumerate(urls):
+    #         try:
+    #             print(f"Processing URL {i+1}...")
+    #             self.browser.get(url)  # assuming self.browser is an instance of a webdriver
+                
+        if max_similarity > 80:
+            return [best_match]
+                    
+        return None
+                
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+    # print("Form Input Details: ", end="")
+    # print(f"Input {i}:")
+    # print(f"  Label: {detail['label']}")
+    # print(f"  Type: {detail['type']}")
+    # print(f"  Values: {detail['values']}")
+    # print(f"  Is Hidden: {detail['is_hidden']}")
+    # print(f"  HTML: {detail['html']}")
+    # print(f"  Dynamic: {detail['dynamic']}")
+    # print(f"  Related Elements: {detail['related_elements']}")
+    #------------------------------------------------------------------------------
+    # ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button', 'file']
+    #TODO: Compare label->key/label->value/values->key/values->value
+    def is_special_case(self, input_data):
+        expected_user_input = None
+        label = input_data['type']
+        if label in ['select', 'radio', 'checkbox', 'file']:  #NOT 'button' b/c that's just the Submit
+            if label == 'select':
+                select_element = self.browser.find_element(label)
+                is_multiple_choice = select_element.get_attribute('multiple') is not None
+                if is_multiple_choice is True:
+                    expected_user_input = 'is_multiple_choice'
+                elif is_multiple_choice is False:
+                    pass
+            elif label == 'checkbox':
+                expected_user_input = 'is_multiple_choice'
+            elif label == 'file':
+                expected_user_input = 'is_file'
+        return expected_user_input
+
+    
+    
+    
+    
+    
+    #             time.sleep(5)
+    #             self.scroll_to_element("form")
+
+
+
+
+
+    #             form_input_details = self.get_form_input_details()  # assuming a function to extract form details
+    #             self.fill_form(form_input_details)
+
+    #         except Exception as e:
+    #             print(f"An error occurred while processing URL {i+1}: {url}")
+    #             print(str(e))
+
+    #         finally:
+    #             print(f"Finished processing URL {i+1}")
+    
+    def test_this_pile_of_lard(self, job_link):
+        print("test_this_pile_of_lard()")
+        print(job_link)
+        urls = ['https://boards.greenhouse.io/galileofinancialtechnologies/jobs/5610103003',
+                'https://boards.greenhouse.io/earnin/jobs/5049016',
+                'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
+                'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
+        for i, url in enumerate(urls):
+            try:
+                print(f"Processing URL {i+1}...")
+                self.browser.get(url)
+                time.sleep(4)
+                #Run any tests you want here!
+                #form_input_details = self.get_form_input_details(url)
+                #self.print_form_details(form_input_details)
+                self.company_workflow(url)
+                time.sleep(20)
+            except Exception as e:
+                print(f"An error occurred while processing URL {i+1}: {url}")
+                print(str(e))
+
+            finally:
+                print(f"Finished processing URL {i+1}")
+                
+        self.process_urls(urls)
     
     def process_urls(self, urls):
+        print("process_urls()")
         for i, url in enumerate(urls):
             try:
                 print(f"Processing URL {i+1}...")
                 self.browser.get(url)  # assuming self.browser is an instance of a webdriver
+                
+                
+                
+                
+                time.sleep(5)
+                self.scroll_to_element("form")
+
+
+
+
 
                 form_input_details = self.get_form_input_details()  # assuming a function to extract form details
                 self.fill_form(form_input_details)
@@ -1556,13 +1687,10 @@ class CompanyWorkflow():
             finally:
                 print(f"Finished processing URL {i+1}")
     
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                               TESTING                                         !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
     def fill_form(self, form_input_details):
+        print("fill_form()")
         for i, input_data in enumerate(form_input_details):
-            print(f"Processing Input {i}...")
+            print(f"Processing: Input {i}...")
 
             # Check if it's a special case
             special_expected_user_input = self.is_special_case(input_data)
@@ -1571,6 +1699,36 @@ class CompanyWorkflow():
 
             # Extract label from the input_data
             label = input_data['label']
+            matching_keys = self.get_matching_key(label)
+            if matching_keys:
+                answer = " ".join([self.users_information[key] for key in matching_keys])
+            else:
+                pass
+
+    def process_form_input_details(self, form_input_details):
+        nlp = spacy.load("en_core_web_sm")
+        for input_detail in form_input_details:
+            if not input_detail["is_hidden"] and input_detail["type"] != "submit":
+                label = re.sub(r'/W+', ' ', input_detail['label'])
+                doc = nlp(label.lower())
+                headword, dependants = self.extract_headword_and_dependants(doc)
+                matching_keys = self.get_matching_key(label)
+                #value = self.match_env_value(input_detail)
+
+                if value is None:
+                    value = self.handle_special_cases(input_detail)
+                    
+                if matching_keys:
+                    answer = " ".join([self.users_information[key] for key in matching_keys])
+
+                if value is None:
+                    value = input(f"Please enter a value for '{input_detail['label']}': ")
+                    # Save the new value in the users_information dictionary
+                    key = input_detail["label"].upper().replace(" ", "_")
+                    self.users_information[key] = value
+                    # Save the new value to the .env file
+                    with open(self.env_path, "a") as file:
+                        file.write(f"\n{key}='{value}'")
 
             # Handle custom rules or get matching key if present
             key = self.get_matching_key_if_present(label, special_expected_user_input)
@@ -1624,15 +1782,34 @@ class CompanyWorkflow():
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
                 else:
-                    print(f"No stored answers found for '{label}'")
+                    context = self.users_summary + " " + label
+                    answer = self.generate_response(context)
+                    if answer:
+                        # Input the answer into the form
+                        print(f"Entering '{answer}' for '{label}'")
+                    else:
+                        print(f"No stored answers found for '{label}'")
+    
+    def generate_response(self, context):
+        print("generate_response()")
+        input_ids = self.tokenizer.encode(context, return_tensors='pt').to("cuda" if torch.cuda.is_available() else "cpu")
+
+        max_length = len(input_ids[0]) + 100
+        output = self.model.generate(input_ids, max_length=max_length, temperature=0.7)
+        response = self.tokenizer.decode(output[:, input_ids.shape[-1]:][0], skip_special_tokens=True)
+        
+        return response
     
     def process_text(self, text):
+        print("process_text()")
         return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
     
     def bool_to_str(self, value):
+        print("bool_to_str()")
         return "Yes" if value.lower() == "true" else "No"
     
     def spacy_extract_key_info(self, doc):
+        print("spacy_extract_key_info()")
         print("\n\n--------------------------------------------------------")
         print("My Way")
         print("spacy_extract_headword_and_dependants()")
@@ -1780,351 +1957,6 @@ class CompanyWorkflow():
     
     
     
-    
-    
-    
-    
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                               AI STUFF                                        !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
-    #Use regex
-    def spacy_job_description_filter(self):
-        print("spacy_job_description_filter()")
-        nlp = spacy.load("en_core_web_sm")
-        job_description = re.sub(r'/W+', ' ', job_description)
-        doc = nlp(job_description.lower())
-        return ' '.join([])
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    #TODO: Double check this .head && .head crap!!!
-    def spacy_extract_headword_and_dependants(doc):
-        print("spacy_extract_headword_and_dependants()")
-        headword = ""
-        dependants = []
-        for token in doc:
-            print(f"""
-                  TOKEN: {token.text}
-                  ====
-                  {token.tag_ = }
-                  {token.head.text = }
-                  {token.dep_ = }
-                  """)
-            
-            
-            
-            if token.head == "ROOT":
-                headword = token.head.text
-            elif token.dep_ in {"compund", "amoud", "attr"}:
-                dependants.append(token.lemma_)
-                #dependants.append(token.text)
-        print(f"headword = {headword}")
-        print(f"dependants = {dependants}")
-        return headword, dependants
-    
-    def handle_custom_rules(self, label):
-        for rule, keys in config.CUSTOM_RULES.items():
-            if fuzz.partial_ratio(label.lower(), rule.lower()) > 80:
-                return keys
-        return None
-    
-    def get_matching_key(self, label):
-        custom_rule = self.handle_custom_rules(label)
-        if custom_rule:
-            return custom_rule
-        
-        max_similarity = 0
-        best_match = None
-        
-        for key in self.users_information.keys():
-            similarity = fuzz.partial_ratio(label.lower(), key.lower())
-            if similarity > max_similarity:
-                max_similarity = similarity
-                best_match = key
-                
-        if max_similarity > 80:
-            return [best_match]
-        
-        return None
-    
-    #MAYBE: from fuzzywuzzy import process
-    def spacy_handle_custom_rules(self, label):
-        print("spacy_handle_custom_rules()")
-        for rules, key in config.CUSTOM_RULES.items():
-            print(f"rules = {rules.lower()}")
-            print(f"key = {key.lower()}")
-            print(f"label = {label.lower()}")
-            print(f"fuzz.token_set_ratio(key.lower(), label.lower()) = {fuzz.token_set_ratio(key.lower(), label.lower())}")
-            if fuzz.token_set_ratio(key.lower(), label.lower()) > 80:
-                return key
-        return None
-    
-    #! If no keys match but 1 was a maybe then get the keys value and compare it to the label && || its predefined values!!!!! 
-    def get_matching_key_if_present(self, label, special_expected_user_input):
-        if special_expected_user_input is not None:
-            if special_expected_user_input == 'is_multiple_choice':
-                best_match = []
-        
-        print("get_matching_key_if_present()")
-        custom_rule = self.spacy_handle_custom_rules(label)
-        if custom_rule:
-            return custom_rule
-        
-        max_similarity = 0
-        best_match = None
-        
-        for key in self.users_information.keys():
-            similarity = fuzz.token_set_ratio(label.lower(), key.lower())
-            if similarity > max_similarity:
-                max_similarity = similarity
-                best_match = key
-                
-        if max_similarity > 80:
-            return [best_match]
-        
-        return None
-    
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                                                                               !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
-    # print("Form Input Details: ", end="")
-    # print(f"Input {i}:")
-    # print(f"  Label: {detail['label']}")
-    # print(f"  Type: {detail['type']}")
-    # print(f"  Values: {detail['values']}")
-    # print(f"  Is Hidden: {detail['is_hidden']}")
-    # print(f"  HTML: {detail['html']}")
-    # print(f"  Dynamic: {detail['dynamic']}")
-    # print(f"  Related Elements: {detail['related_elements']}")
-    #------------------------------------------------------------------------------
-    # ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button', 'file']
-    #TODO: Compare label->key/label->value/values->key/values->value
-    def is_special_case(self, input_data):
-        expected_user_input = None
-        label = input_data['type']
-        if label in ['select', 'radio', 'checkbox', 'file']:  #NOT 'button' b/c that's just the Submit
-            if label == 'select':
-                select_element = self.browser.find_element(label)
-                is_multiple_choice = select_element.get_attribute('multiple') is not None
-                if is_multiple_choice is True:
-                    expected_user_input = 'is_multiple_choice'
-                elif is_multiple_choice is False:
-                    pass
-            elif label == 'checkbox':
-                expected_user_input = 'is_multiple_choice'
-            elif label == 'file':
-                expected_user_input = 'is_file'
-        return expected_user_input
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    def ninety_percent_correct(self, form_question):
-        stripper_string = form_question.strip()
-        total_value = len(stripper_string)
-        add_percent = 1 / total_value
-        percent_correct = 0
-        for word in form_question:
-            for key_value in self.env_key_values:
-                stripper_env = self.env_key_values.strip()
-                for env_words in stripper_env:
-                    percent_correct += add_percent
-        if (.9 <= (percent_correct/total_value)):
-            return True
-        return False
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                            FILLING IN FORM                                    !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
-    #TODO: .clear() ALL input tags before sending keys
-    #TODO: v turn all the calls to this application_process() 
-    def fill_out_application(self, job_link, form_input_details):
-        #self.insert_resume()
-        # form_data = self.get_form_input_details(job_link)
-        # for form_input in form_data:
-        #     question = form_input['label'].lower()
-        #     input_type = form_input['type']
-        #     predefined_values = form_input['values'].lower
-        #     input_element_location = form_input['html']
-            
-        # #Final step
-        # self.scroll_to_element()
-        # form_data[:-1].click()
-        #----------------------------------------------------------
-        #self.process_form_input_details(form_input_details)
-        #----------------------------------------------------------
-        for input_data in form_input_details:
-            label = input_data['label']
-            matching_keys = self.get_matching_key_if_present(input_data, label)
-            if matching_keys:
-                answer = " ".join([self.users_information[key] for key in matching_keys])
-            else:
-                pass
-
-    def process_form_input_details(self, form_input_details):
-        nlp = spacy.load("en_core_web_sm")
-        for input_detail in form_input_details:
-            if not input_detail["is_hidden"] and input_detail["type"] != "submit":
-                label = re.sub(r'/W+', ' ', input_detail['label'])
-                doc = nlp(label.lower())
-                #! JUST INSERT ROOT AS 1st INDEX!!!
-                #TODO: Dependency Parse
-                headword, dependants = self.spacy_extract_headword_and_dependants(doc)
-                special_expected_user_input = self.is_special_case(input_detail)
-                #if special_expected_user_input is not None:    #in ['is_multiple_chocie', 'is_file']:
-                matching_keys = self.get_matching_key_if_present(label, special_expected_user_input)
-                #value = self.match_env_value(input_detail)
-
-                if value is None:
-                    value = self.handle_special_cases(input_detail)
-                    
-                if matching_keys:
-                    answer = " ".join([self.users_information[key] for key in matching_keys])
-
-                if value is None:
-                    value = input(f"Please enter a value for '{input_detail['label']}': ")
-                    # Save the new value in the users_information dictionary
-                    key = input_detail["label"].upper().replace(" ", "_")
-                    self.users_information[key] = value
-                    #TODO: Save to the config.py file
-                    # Save the new value to the .env file
-                    with open(self.env_path, "a") as file:
-                        file.write(f"\n{key}='{value}'")
-
-                # Input the value into the form (example with Selenium)
-                field_name = input_detail["name"]
-                field_element = self.driver.find_element_by_name(field_name)
-                field_element.send_keys(value)
-
-    def match_env_value(self, input_detail):
-        label = input_detail["label"].upper().replace(" ", "_")
-        for key, value in self.users_information.items():
-            if key == label:
-                return value
-        return None
-
-    def handle_special_cases(self, input_detail):
-        standardized_label = self.standardize_string(input_detail["label"])
-
-        # Add more special cases here as needed
-        if self.is_yes_no_case(input_detail):
-            env_value = self.find_matching_env_value(standardized_label)
-            return self.handle_yes_no_case(input_detail, env_value)
-
-        return None
-    
-    def is_yes_no_case(self, input_detail):
-        standardized_label = self.standardize_string(input_detail["label"])
-        yes_no_keywords = ["neurodiversity", "another_example"]  # Add more keywords as needed
-
-        for keyword in yes_no_keywords:
-            if keyword in standardized_label:
-                return True
-
-        return False
-
-    def standardize_string(self, s):
-        return s.lower().replace(" ", "_").replace("*", "").replace(".", "").replace("(", "").replace(")", "").replace("?", "")
-
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                                                                               !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    #! ^^^ WARNINGS: 
-        #NEGATIVES:
-            # Only put your last name if you aren't Hispanic?
-            # Kindly share your LinkedIn profile with us if you haven't already!
-        #DIFFERENT
-            #-Describe your experience with Networking?   {Talking with people/Recruiting}
-            #-Describe your experience with Networking?   {Computer Networks}
-        #BACKWARDS:
-            #In my .env => 'ethnicity': 'mexico'  BUT  in form if label is 
-        #ANSWERS DONT MATCH:
-            #T/F => Y/N
-        #
-        #
-
-
-
-
- 
-
-
-
-
-
-
-
-    def find_visible_input(self, selector):
-        input_element = self.browser.find_element(By.CSS_SELECTOR, selector)
-        is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-        if is_hidden:
-            self.browser.execute_script("arguments[0].style.display = 'block';", input_element)
-            is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-        return input_element, not is_hidden 
-        
-    def is_input_invisible(self, input_element):
-        from scraperGoogle import webdriver
-        """
-        Checks if an input element is invisible to the user
-        Returns True if the input is invisible, False otherwise
-        """
-        if input_element is None:
-            return False
-        
-        # Check if input element itself is hidden
-        if input_element.get_attribute("type") == "hidden" or input_element.get_attribute("style") == "display: none;":
-            return True
-        
-        # Check if parent element is hidden
-        print(input_element)
-        print(type(input_element))
-        parent_element = input_element.find_element(By.XPATH, '..')
-        while parent_element is not None:
-            if parent_element.get_attribute("style") == "display: none;":
-                return True
-            parent_element = parent_element.find_element(By.XPATH, '..')
-        return False
-
-
-
-
-
 
 
 #! Important Notes

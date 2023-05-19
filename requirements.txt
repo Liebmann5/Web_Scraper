@@ -10,8 +10,16 @@ google-auth-httplib2
 google-api-python-client
 spacy==3.5.2
 fuzzywuzzy==0.18.0
+<<<<<<< HEAD
 wordnet==2.1
 nltk==3.8.1
+=======
+python-Levenshtein==0.21.0
+nltk==3.8.1
+torch==1.10.0
+transformers==4.14.1
+#wordnet==2.1
+>>>>>>> 7f19eeabe478f9f77363d378f5799a2169ae5b2c
 #config
 #csv
 #dotenv
