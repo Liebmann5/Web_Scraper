@@ -49,11 +49,30 @@
         print(f"dependants = {dependants}")
         return headword, dependants
     
+
+
+
+
+
+
+
+
+
+
     def handle_custom_rules(self, label):
         for rule, keys in config.CUSTOM_RULES.items():
             if fuzz.partial_ratio(label.lower(), rule.lower()) > 80:
                 return keys
         return None
+    
+
+
+
+
+
+
+
+
     
     def get_matching_key(self, label):
         custom_rule = self.handle_custom_rules(label)
@@ -74,6 +93,16 @@
         
         return None
     
+
+
+
+
+
+
+
+
+
+    
     #MAYBE: from fuzzywuzzy import process
     def spacy_handle_custom_rules(self, label):
         print("spacy_handle_custom_rules()")
@@ -85,6 +114,16 @@
             if fuzz.token_set_ratio(key.lower(), label.lower()) > 80:
                 return key
         return None
+    
+
+
+
+
+
+
+
+
+
     
     #! If no keys match but 1 was a maybe then get the keys value and compare it to the label && || its predefined values!!!!! 
     def get_matching_key_if_present(self, label, special_expected_user_input):
@@ -110,6 +149,16 @@
             return [best_match]
         
         return None
+    
+
+
+
+
+
+
+
+
+
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -215,6 +264,16 @@
             else:
                 pass
 
+
+
+
+
+
+
+
+
+
+    
     def process_form_input_details(self, form_input_details):
         nlp = spacy.load("en_core_web_sm")
         for input_detail in form_input_details:
@@ -250,6 +309,16 @@
                 field_element = self.driver.find_element_by_name(field_name)
                 field_element.send_keys(value)
 
+
+
+
+
+
+
+
+
+
+    
     def match_env_value(self, input_detail):
         label = input_detail["label"].upper().replace(" ", "_")
         for key, value in self.users_information.items():
@@ -257,6 +326,16 @@
                 return value
         return None
 
+
+
+
+
+
+
+
+
+
+    
     def handle_special_cases(self, input_detail):
         standardized_label = self.standardize_string(input_detail["label"])
 
@@ -266,6 +345,16 @@
             return self.handle_yes_no_case(input_detail, env_value)
 
         return None
+    
+
+
+
+
+
+
+
+
+
     
     def is_yes_no_case(self, input_detail):
         standardized_label = self.standardize_string(input_detail["label"])
@@ -277,6 +366,16 @@
 
         return False
 
+
+
+
+
+
+
+
+
+
+    
     def standardize_string(self, s):
         return s.lower().replace(" ", "_").replace("*", "").replace(".", "").replace("(", "").replace(")", "").replace("?", "")
 
@@ -315,8 +414,18 @@
         if is_hidden:
             self.browser.execute_script("arguments[0].style.display = 'block';", input_element)
             is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
-        return input_element, not is_hidden 
-        
+        return input_element, not is_hidden
+    
+
+
+
+
+
+
+
+
+
+    
     def is_input_invisible(self, input_element):
         from scraperGoogle import webdriver
         """

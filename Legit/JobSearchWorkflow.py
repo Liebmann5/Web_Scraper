@@ -34,12 +34,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import sys
 print("Here's some info about sys.executable: ", sys.executable)
+import config
 
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
                 #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
                 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 #ThisFolderWasMadeAtThreeAM/setup.sh
+                #!!!!!!!!!!!!!!!!!!! chmod +x setup.sh & .bat !!!!!!!!!!!!!!!!!!!!!!!!!!
 
 #! EXTRACT JOB_TYPE AS LIST OD len()=3 | {DESIRED_LOCATION, HYBRID, REMOTE}
 #! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
@@ -188,7 +190,7 @@ class Workflow():
         return datetime.now().strftime("%Y-%m-%d")
     
     
-    
+    '''
     def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
@@ -258,6 +260,46 @@ class Workflow():
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #self.todays_jobs_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).company_workflow(job_link)
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+    '''
+    
+    
+    #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
+        for i in range(len(self.google_search_results_links) - 1, -1, -1):
+            job_link = self.google_search_results_links[i]
+            if not clicked_link_from_google_search:
+                print(last_link_from_google_search)
+                self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                print("Scrolled to this place...\n")
+                time.sleep(5)
+
+                diagnostics = self.diagnose_interaction(last_link_from_google_search)
+                for check, result in diagnostics.items():
+                    print(f"{check}: {result}")
+
+                try:
+                    # Try to click the element
+                    if not self.safe_click(last_link_from_google_search):
+                        print("Clicking on the element failed.")
+                except Exception as e:
+                    print(f"Safe click failed: {e}")
+                
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                print("This time wasn't an accident!")
+                time.sleep(4)
+
+            else:
+                print(job_link)
+                self.browser.get(job_link)
+                time.sleep(5)
+            
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+
 
 
 
@@ -270,10 +312,10 @@ class Workflow():
             element.click()
             return True
         except Exception as e:
-            print(f"2) Normal click failed: {e}")
+            print(f"1) Normal click failed: {e}")
 
         # Next, try waiting for the element to be clickable
-        print("1) Waiting for element to be clickable attempt")
+        print("2) Waiting for element to be clickable attempt")
         try:
             WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
             element.click()
@@ -282,32 +324,32 @@ class Workflow():
             print(f"2) Waiting for element to be clickable failed: {e}")
 
         # Then, try scrolling the element into view and clicking
-        print("1) Waiting for element to be clickable attempt")
+        print("3) Waiting for element to be clickable attempt")
         try:
             self.browser.execute_script("arguments[0].scrollIntoView();", element)
             element.click()
             return True
         except Exception as e:
-            print(f"2) Scrolling and clicking failed: {e}")
+            print(f"4) Scrolling and clicking failed: {e}")
 
         # Next, try checking if the element is displayed before clicking
-        print(f"1) Checking visibility and clicking attempt")
+        print(f"5.1) Checking visibility and clicking attempt")
         try:
             if element.is_displayed():
                 element.click()
                 return True
             else:
-                print("Element is not visible")
+                print("5.2)Element is not visible")
         except Exception as e:
-            print(f"2) Checking visibility and clicking failed: {e}")
+            print(f"5.3) Checking visibility and clicking failed: {e}")
 
         # Finally, try using JavaScript to perform the click
-        print(f"1) JavaScript click attempt")
+        print(f"6) JavaScript click attempt")
         try:
             self.browser.execute_script("arguments[0].click();", element)
             return True
         except Exception as e:
-            print(f"2) JavaScript click failed: {e}")
+            print(f"6) JavaScript click failed: {e}")
 
         # If all methods fail, return False
         return False
@@ -412,9 +454,23 @@ class Workflow():
         print('-------------------------------')
     #!---------------------------------------
     
-
-    
-    
+    #!------------ config -------------------
+    @staticmethod
+    def load_custom_rules():
+        print("load_custom_rules()")
+        print("dir(config) = ", dir(config))
+        
+        attributes = [attr for attr in dir(config) if not attr.startswith("__")]
+        
+        for attr in attributes:
+            print("attr = ", attr)
+            value = getattr(config, attr)
+            print("value = ", value)
+            
+            if isinstance(value, dict):
+                print("dict = ", dict)
+                globals()[attr.lower()] = value
+    #!---------------------------------------
     
     
     
@@ -461,7 +517,7 @@ class Workflow():
     #TODO: FINISH BOTH OF THESE!!
     #Use Quick Sort to sort jobs_previously_applied_to
     #! We run this when we finish running other_company_openings()!!!!
-        #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
+    #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
     def filter_out_jobs_user_previously_applied_to(self, list_to_filter, previously_applied_links):
         print("\nfilter_out_jobs_user_previously_applied_to()")
         

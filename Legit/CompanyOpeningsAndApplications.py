@@ -65,8 +65,6 @@ class CompanyWorkflow():
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs  #[]
         self.one_resume_label = False
-        
-        self.lemmatizer = WordNetLemmatizer()
     
         
         self.lemmatizer = WordNetLemmatizer()
@@ -1075,6 +1073,15 @@ class CompanyWorkflow():
 
 
 
+
+    def find_visible_input(self, selector):
+        input_element = self.browser.find_element(By.CSS_SELECTOR, selector)
+        is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+        if is_hidden:
+            self.browser.execute_script("arguments[0].style.display = 'block';", input_element)
+            is_hidden = input_element.get_attribute('type') == 'hidden' or not input_element.is_displayed()
+        return input_element, not is_hidden
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #!       REMEMBER TO COUNT THE NUMBER OF OPEN SENIOR > ROLES AVAILABLE           !
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1483,6 +1490,11 @@ class CompanyWorkflow():
     
     
     
+    
+    
+    
+    
+    
         
     def keep_jobs_applied_to_info(self, job_link):
         self.todays_jobs_applied_to_info.append({
@@ -1592,34 +1604,68 @@ class CompanyWorkflow():
     
     
     
-    
+#Fiesty
+        # def fill_form(self, form_input_details):
+        # print("\nfill_form()")
+        # for i, input_data in enumerate(form_input_details):
+        #     print(f"Processing Input {i}: ...")
 
-    
-# print("\n\n--------------------------------------------------------")
-# print("My Way")
-# print("spacy_extract_headword_and_dependants()")
-# headword = ""
-# dependants = []
-# for token in doc:
-#     print(f"""
-#           TOKEN: {token.text}
-#           ====
-#           {token.tag_ = }
-#           {token.head.text = }
-#           {token.dep_ = }
-#           """)
-    
-    
-    
-#     if token.head == "ROOT":
-#         headword = token.head.text
-#     elif token.dep_ in {"compund", "amoud", "attr"}:
-#         dependants.append(token.lemma_)
-#         #dependants.append(token.text)
-# print(f"headword = {headword}")
-# print(f"dependants = {dependants}")
-# #return headword, dependants
-# print("--------------------------------------------------------")
+        #     # Check if it's a special case
+        #     special_expected_user_input = self.is_special_case(input_data)
+        #     if special_expected_user_input:
+        #         print(f"Input {i}: a special case -> {special_expected_user_input}")
+
+        #     # Extract label from the input_data
+        #     label = input_data['label']
+
+        #     # Handle custom rules or get matching key if present
+        #     key = self.get_matching_key_if_present(label, special_expected_user_input)
+
+        #     if key:
+        #         # Get value from the users_information dictionary
+        #         value = self.users_information[key]
+
+        #         if special_expected_user_input == 'is_multiple_choice':
+        #             # if multiple values are expected, we'll assume value is a list
+        #             for v in value:
+        #                 self.browser.find_element(label).send_keys(v)
+        #                 # Add additional logic here to handle multiple choice selections
+        #         elif special_expected_user_input == 'is_file':
+        #             # handle file upload
+        #             self.browser.find_element(label).send_keys(value)  # assuming value is file path
+        #         else:
+        #             # Fill in the form
+        #             self.browser.find_element(label).send_keys(value)
+        #     else:
+        #         print(f"No matching key found for label {label}")
+        # print("eff that question")
+        # time.sleep(5)
+#Kittens 
+    # print("\n\n--------------------------------------------------------")
+    # print("My Way")
+    # print("spacy_extract_headword_and_dependants()")
+    # headword = ""
+    # dependants = []
+    # for token in doc:
+    #     print(f"""
+    #           TOKEN: {token.text}
+    #           ====
+    #           {token.tag_ = }
+    #           {token.head.text = }
+    #           {token.dep_ = }
+    #           """)
+        
+        
+        
+    #     if token.head == "ROOT":
+    #         headword = token.head.text
+    #     elif token.dep_ in {"compund", "amoud", "attr"}:
+    #         dependants.append(token.lemma_)
+    #         #dependants.append(token.text)
+    # print(f"headword = {headword}")
+    # print(f"dependants = {dependants}")
+    # #return headword, dependants
+    # print("--------------------------------------------------------")
     
     
     
@@ -1681,41 +1727,61 @@ class CompanyWorkflow():
             finally:
                 print(f"Finished processing URL {i+1}")
     
+    def double_check_before_fill_in_form(self):
+        print("double_check_before_fill_in_form()")
+        print("Nepotism")
+    
     #*Sends values to form
     #TODO: NOTE -> if process_form_input sends nothing then check if there was a * in the label!! or if it's a text/textarea!!
-    def fill_form(self, form_input_details):
+    # def fill_form(self, form_input_details):
+    def fill_form(self, label, key):
         print("\nfill_form()")
-        for i, input_data in enumerate(form_input_details):
-            print(f"Processing Input {i}: ...")
+        # for i, input_data in enumerate(form_input_details):
+        #     print(f"Processing Input {i}: ...")
 
-            # Check if it's a special case
+        #     # Check if it's a special case
+        #     special_expected_user_input = self.is_special_case(input_data)
+        #     if special_expected_user_input:
+        #         print(f"Input {i}: a special case -> {special_expected_user_input}")
+
+        #     # Extract label from the input_data
+        #     label = input_data['label']
+
+        #     # Handle custom rules or get matching key if present
+        #     key = self.get_matching_key_if_present(label, special_expected_user_input)
+
+        if key:
+            # Get value from the users_information dictionary
+            value = self.users_information[key]
+            
+            
+            
+            
+            for input in self.form_input_details:
+                if label == input['label']:
+                    input_data = input
+                    
+                    
+                    
             special_expected_user_input = self.is_special_case(input_data)
-            if special_expected_user_input:
-                print(f"Input {i}: a special case -> {special_expected_user_input}")
 
-            # Extract label from the input_data
-            label = input_data['label']
-
-            # Handle custom rules or get matching key if present
-            key = self.get_matching_key_if_present(label, special_expected_user_input)
-
-            if key:
-                # Get value from the users_information dictionary
-                value = self.users_information[key]
-
-                if special_expected_user_input == 'is_multiple_choice':
-                    # if multiple values are expected, we'll assume value is a list
-                    for v in value:
-                        self.browser.find_element(label).send_keys(v)
-                        # Add additional logic here to handle multiple choice selections
-                elif special_expected_user_input == 'is_file':
-                    # handle file upload
-                    self.browser.find_element(label).send_keys(value)  # assuming value is file path
-                else:
-                    # Fill in the form
-                    self.browser.find_element(label).send_keys(value)
+            #self.form_input_details
+            if special_expected_user_input == 'is_multiple_choice':
+                # if multiple values are expected, we'll assume value is a list
+                for v in value:
+                    self.browser.find_element(label).send_keys(v)
+                    # Add additional logic here to handle multiple choice selections
+            elif special_expected_user_input == 'is_file':
+                # handle file upload
+                self.browser.find_element(label).send_keys(value)  # assuming value is file path
             else:
-                print(f"No matching key found for label {label}")
+                # Fill in the form
+                self.browser.find_element(label).send_keys(value)
+        else:
+            print(f"No matching key found for label {label}")
+        print("inserted that question")
+        print("but eff that question")
+        time.sleep(5)
     
     #*Scrolls to each question in the form
     def scroll_to_question(self, input_data):
@@ -1776,6 +1842,7 @@ class CompanyWorkflow():
                         if answer in predefined_options:
                             # Input the answer into the form
                             print(f"Entering '{answer}' for '{label}'")
+                            self.fill_form(label, answer)
                         else:
                             print(f"Stored answer '{answer}' is not a valid option for '{label}'")
                 else:
@@ -1788,14 +1855,17 @@ class CompanyWorkflow():
                         answer = self.users_information[key]
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
+                        self.fill_form(label, answer)
                 else:
-                    context = self.users_summary + " " + label
+                    context = self.summary + " " + label
                     answer = self.generate_response(context)
                     if answer:
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
+                        self.fill_form(label, answer)
                     else:
                         print(f"No stored answers found for '{label}'")
+        print("Normally Germans would push the 'Submit Application' button right now!")
     
     def try_finding_match(self, label):
         print("\ntry_finding_match()")
@@ -1807,16 +1877,22 @@ class CompanyWorkflow():
         key = self.generate_key(named_entities, headword, dependants)
         jacc_key = key.lower().replace("_", " ")
         
+        self.JobSearchWorkflow_instance.load_custom_rules()
+        print("self.custom_rules = ", self.custom_rules)
+        for rule in self.custom_rules:
+            if label == rule:
+                return rule
+            
         found_best_match = self.find_best_match(label)
         #TODO: REPLACE THIS    v!!!!!!!!!!
-        if label == config.py[key]:
-            return config.py[key]
-        elif found_best_match:
+        # if label == config.py[key]:
+        #     return config.py[key]
+        if found_best_match:
             return found_best_match
         elif self.jaccard_similarity(jacc_key, label):
             return jacc_key
         else:
-            return self.generate_repsonse(users_summary)
+            return self.generate_response(self.summary)
     
     
     #*SpaCy's needs and dumb stuff gone
@@ -1828,11 +1904,13 @@ class CompanyWorkflow():
     #*Answer simple question for user based off their provided summary
     def generate_response(self, context):
         print("\ngenerate_response()")
+        print("context = ", context)
         input_ids = self.tokenizer.encode(context, return_tensors='pt').to("cuda" if torch.cuda.is_available() else "cpu")
 
         max_length = len(input_ids[0]) + 100
         output = self.model.generate(input_ids, max_length=max_length, temperature=0.7)
         response = self.tokenizer.decode(output[:, input_ids.shape[-1]:][0], skip_special_tokens=True)
+        print("response = ", response)
         
         return response
     

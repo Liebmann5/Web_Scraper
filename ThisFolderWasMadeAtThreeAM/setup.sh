@@ -23,6 +23,18 @@ source virtual_environments_smell_like_updog/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
+# Create a directory for the models
+mkdir -p models
+
+# Download the spaCy model into the models directory
+python -m spacy download en_core_web_md -p ./models
+
+# Set the Transformers cache directory
+export TRANSFORMERS_CACHE=./models/transformers_cache
+
+# Download the Transformers model
+python -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-1.3B')"
+
 # Run your Python script
 python Legit/JobSearchWorkflow.py
 

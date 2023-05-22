@@ -42,7 +42,7 @@ class UntouchedUser():
           print("And if you are on Windows then msTools: ")
           print("\tScroll all the way to the bottom and click 'Tools for Visual Studio'")
           print("\tand then download 'Build Tools for Visual Studio 2022'")
-          print("")
+          print("????? Maybe you gotta download pip no clue though ??")       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
           print("")
           print("")
     
