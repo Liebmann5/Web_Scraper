@@ -72,6 +72,16 @@ class CompanyWorkflow():
         self.lemmatizer = WordNetLemmatizer()
         self.init_gpt_neo("EleutherAI/gpt-neo-1.3B")
         self.init_nltk()
+        self.nlp = None
+        
+    
+    # from transformers import pipeline
+
+    # generator = pipeline('text-generation', model='EleutherAI/gpt-neo-2.7B')
+    # print(generator("Once upon a time", max_length=100))
+
+    
+    
         
     def init_nltk(self):
         try:
@@ -81,7 +91,7 @@ class CompanyWorkflow():
             #If WordNet is not present, download it
             nltk.download('wordnet')
         
-    def check_cuda_compatibility():
+    def check_cuda_compatibility(self):
         if torch.cuda.is_available():
             print("CUDA is available!")
             print(f"CUDA version: {torch.version.cuda}")
@@ -105,6 +115,7 @@ class CompanyWorkflow():
     #!                                                  ^.get_job_data()
     #NOTE: For the 1st iteration let .determine_current_page() do all the work
     def company_workflow(self, job_link):
+        print("company_workflow()")
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
         self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
@@ -160,7 +171,9 @@ class CompanyWorkflow():
         
     
     def determine_current_page(self, job_link, application_company_name):
+        print("determine_current_page()")
         soup = self.apply_beautifulsoup(job_link, "lxml")
+        print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         if application_company_name == "lever":
             webpage_body = soup.find('body')
             opening_link_application = soup.find('div', {"class": 'application-page'})
@@ -174,7 +187,8 @@ class CompanyWorkflow():
                     application_webpage_html = soup.find("div", {"class": "application-page"})
                     self.lever_co_header(webpage_body, soup)
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    self.fill_form(form_input_details)
+                    self.form_input_details = self.get_form_input_details(current_url)
+                    self.process_form_inputs(form_input_details)
                     
                     
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -198,10 +212,10 @@ class CompanyWorkflow():
                     time.sleep(3)
                     current_url = self.browser.current_url
                     soup = self.apply_beautifulsoup(current_url, "html")
-                    form_input_details = self.get_form_input_details(current_url)
+                    self.form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    self.fill_form(form_input_details)
+                    self.process_form_inputs(form_input_details)
                     
                     
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -263,10 +277,11 @@ class CompanyWorkflow():
                             print("me")
                             time.sleep(8)
                             #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                            self.fill_form(form_input_details)
+                            self.process_form_inputs(form_input_details)
                     
                             
                             #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                            print("out back naked little Timmy....")
                             #self.fill_out_application(job_link, form_input_details)
                             self.keep_jobs_applied_to_info(job_link)
                         elif should_apply == False:
@@ -281,7 +296,7 @@ class CompanyWorkflow():
                             self.browser.get(self.company_other_openings_href)
                             
                             
-                        time.sleep(2)
+                        time.sleep(4)
                         pass
                     break
                 else:
@@ -303,6 +318,7 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     def apply_beautifulsoup(self, job_link, parser):
+        print("apply_beautifulsoup()")
         #the way I learned how to do it
         if parser == "lxml":
             result = requests.get(job_link)
@@ -316,10 +332,12 @@ class CompanyWorkflow():
         return soup
     
     def scroll_to_element(self, element):
+        print("scroll_to_element()")
         # Check if the input element is a BeautifulSoup element
         if isinstance(element, Tag):
             # Extract the tag name
             tag_name = element.name
+            print("  ", {tag_name})
             
             # Extract the attributes
             attrs = element.attrs
@@ -332,13 +350,15 @@ class CompanyWorkflow():
                     css_selectors.append(f"[{attr}='{value}']")
                     
                 css_selector = "".join(css_selectors)
+                print("  ", end="")
+                print(css_selector)
                 
                 # Find the same element using Selenium
                 element = self.browser.find_element(By.CSS_SELECTOR, css_selector)
                 
         self.browser.execute_script("arguments[0].scrollIntoView();", element)
-        print("Scrolled to this place...")
-        time.sleep(1)
+        print("  Scrolled to this place...")
+        time.sleep(3)
         return
     
     #These set of methods are a bit different because... although they do filter; their purpose is for my Google Sheets Data!!
@@ -500,6 +520,7 @@ class CompanyWorkflow():
     #should_user_apply(everything_about_job)
     #greenhouse(job_description) => app_body
     def should_user_apply(self, job_description):
+        print("should_user_apply()")
         #FILTER: keywords (industry experience//////)
         everything_about_job = job_description.get_text()
 
@@ -516,6 +537,7 @@ class CompanyWorkflow():
             return True
         
     def bottom_has_application_or_button(self, application_company_name):
+        print("bottom_has_application_or_button()")
         soup = self.apply_beautifulsoup(self.browser.current_url, "html")
         if application_company_name == "lever":
             a_tag_butt = soup.find('a', {'data-qa': ['btn-apply-bottom', 'show-page-apply']})
@@ -574,6 +596,7 @@ class CompanyWorkflow():
     
     
     def company_job_openings(self, soup, div_main, application_company_name):
+        print("company_job_openings()")
         #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
         #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
         #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
@@ -808,6 +831,7 @@ class CompanyWorkflow():
     
     
     def check_header_links(self, links_in_header):
+        print("check_header_links()")
         #! CANT SET VALUES TO LOCAL VARIABLES  REMEMBER!!!!!...  except for booleans I guess?
         first_link = True
         list_of_other_jobs_keyword
@@ -837,6 +861,7 @@ class CompanyWorkflow():
             time.sleep(5)
     
     def try_adjusting_job_link(self, job_link):
+        print("try_adjusting_job_link()")
         if self.application_company_name == 'lever':
             adjusting_link = job_link.find('jobs.lever.co/') + len('jobs.lever.co/')
             still_adjusting = job_link.find('/', adjusting_link) + 1
@@ -870,6 +895,7 @@ class CompanyWorkflow():
     
     
     def is_absolute_path(href):
+        print("is_absolute_path()")
         parsed_url = urlparse(href)
         print("The href value is: ", end="")
         print(parsed_url)
@@ -1055,7 +1081,7 @@ class CompanyWorkflow():
 
         #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
-        print(">>>>>>   .insert_resume()")
+        print(".insert_resume()")
         #resume_path = self.users_information.get('WORK_RESUME_PATH')
         resume_path = self.users_information.get('RESUME_PATH')
         print(resume_path)
@@ -1226,8 +1252,8 @@ class CompanyWorkflow():
                     label = holey_holes
             else:
                 print("No sibling found with the 'attach' keyword.")
-                print("Just to remember input_element = ")
-                print(input_element)
+                #print("Just to remember input_element = ")
+                #print(input_element)
 
         # Check if the label contains a nested div element with the class "application-label" (case for Input 18)
         if label:
@@ -1603,35 +1629,33 @@ class CompanyWorkflow():
     
     
     
-    
+    #*Testing Method
     def test_this_pile_of_lard(self, job_link):
         print("test_this_pile_of_lard()")
         print(job_link)
         urls = ['https://boards.greenhouse.io/galileofinancialtechnologies/jobs/5610103003',
-                'https://boards.greenhouse.io/earnin/jobs/5049016',
+                'https://boards.greenhouse.io/earnin/jobs/4860753',
                 'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
                 'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
         for i, url in enumerate(urls):
             try:
                 print(f"Processing URL {i+1}...")
                 self.browser.get(url)
-                time.sleep(4)
-                #Run any tests you want here!
-                #form_input_details = self.get_form_input_details(url)
-                #self.print_form_details(form_input_details)
+                time.sleep(6)
                 self.company_workflow(url)
+                print(f"URL({url}) {i+1} company_workflow() complete...")
                 time.sleep(20)
             except Exception as e:
                 print(f"An error occurred while processing URL {i+1}: {url}")
                 print(str(e))
-
             finally:
                 print(f"Finished processing URL {i+1}")
                 
-        self.process_urls(urls)
+        #self.process_urls(urls)
     
+    #*Old Test Method
     def process_urls(self, urls):
-        print("()")
+        print("process_urls()")
         for i, url in enumerate(urls):
             try:
                 print(f"Processing URL {i+1}...")
@@ -1657,15 +1681,17 @@ class CompanyWorkflow():
             finally:
                 print(f"Finished processing URL {i+1}")
     
+    #*Sends values to form
+    #TODO: NOTE -> if process_form_input sends nothing then check if there was a * in the label!! or if it's a text/textarea!!
     def fill_form(self, form_input_details):
-        print("fill_form()")
+        print("\nfill_form()")
         for i, input_data in enumerate(form_input_details):
-            print(f"Processing Input {i}...")
+            print(f"Processing Input {i}: ...")
 
             # Check if it's a special case
             special_expected_user_input = self.is_special_case(input_data)
             if special_expected_user_input:
-                print(f"Input {i} is a special case: {special_expected_user_input}")
+                print(f"Input {i}: a special case -> {special_expected_user_input}")
 
             # Extract label from the input_data
             label = input_data['label']
@@ -1691,23 +1717,59 @@ class CompanyWorkflow():
             else:
                 print(f"No matching key found for label {label}")
     
+    #*Scrolls to each question in the form
+    def scroll_to_question(self, input_data):
+        print("\nscroll_to_question()")
+        soup = self.apply_beautifulsoup(input_data, 'html.parser')
+        first_element = soup.contents[0]
+        
+        #XPath expression for the element based off its tag name and HTML attributes
+        xpath_to_first_element = first_element.name + ''.join([f'[@{attr}="{val}"]' for attr, val in first_element.attrs.items()])
+        selenium_first_element = self.browser.find_element(By.XPATH, f"//{xpath_to_first_element}")
+        
+        #create an action chain to scroll to the element
+        actions = ActionChains(self.browser)
+        actions.move_to_element(selenium_first_element).perform()
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                               TESTING                                         !
+    #!                               TESTING                                         ! [https://github.com/explosion/spaCy]
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
-    def process_form_inputs(self):
-        print("process_form_inputs()")
-        for input_data in self.form_input_details:
+    #*Analyzes the label and values along with the .env(key-value) && config.py files
+    #! THIS METHOD IS WHERE WE FIND OUT IF WE HAVE AN ANSWER OR NOT!!    ssoooo if we don't then we send fill_in_form() that user_response is needed!!!
+    #TODO: Make sure sure to handle N/A situations as well!!
+    def process_form_inputs(self, form_input_details):
+        print("\nprocess_form_inputs()")
+        self.nlp_load()
+        print("self.form_input_details: ", self.form_input_details)
+        print("form_input_details: ", form_input_details)
+        submit_button = None
+        for input_data in form_input_details:
             if input_data['is_hidden']:
                 continue
             
+            if ['dynamic', None] in input_data['label']:
+                continue
+            
+            if 'Submit Application' in input_data['label']:
+                print("Submit Application")
+                print("input_data: ", input_data)
+                submit_button = input_data
+                print("submit_button: ", submit_button)
+            
+            self.scroll_to_question(input_data)
+            print("  Scrolled here I guess...")
+            
             label = input_data['label']
+            print("unprocessed label: ", label)
+            label = self.process_text(label)
+            print("processed label: ", label)
             input_type = input_data['type']
             predefined_options = input_data.get('values', None)
             
             # If the input type in select, radio, or checkbox, handle it as a !special case!
             if input_type in ['select', 'radio', 'checkbox']:
-                matching_keys = self.get_matching_keys(label)
+                matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
                 if matching_keys:
                     for key in matching_keys:
                         answer = self.users_information[key]
@@ -1720,7 +1782,7 @@ class CompanyWorkflow():
                     print(f"No stored answers found for '{label}'")
                     
             else:
-                matching_keys = self.get_matching_keys(label)
+                matching_keys = self.try_finding_match(label)
                 if matching_keys:
                     for key in matching_keys:
                         answer = self.users_information[key]
@@ -1735,8 +1797,37 @@ class CompanyWorkflow():
                     else:
                         print(f"No stored answers found for '{label}'")
     
+    def try_finding_match(self, label):
+        print("\ntry_finding_match()")
+        #doc = self.nlp(label)
+        named_entities, headword, dependants = self.spacy_extract_key_info(self.nlp(label))
+        print(f"named_entities = {named_entities}")
+        print(f"headword = {headword}")
+        print(f"dependants = {dependants}")
+        key = self.generate_key(named_entities, headword, dependants)
+        jacc_key = key.lower().replace("_", " ")
+        
+        found_best_match = self.find_best_match(label)
+        #TODO: REPLACE THIS    v!!!!!!!!!!
+        if label == config.py[key]:
+            return config.py[key]
+        elif found_best_match:
+            return found_best_match
+        elif self.jaccard_similarity(jacc_key, label):
+            return jacc_key
+        else:
+            return self.generate_repsonse(users_summary)
+    
+    
+    #*SpaCy's needs and dumb stuff gone
+    #TODO: do something with the dumb *!!!!
+    def process_text(self, text):
+        print("\nprocess_text()")
+        return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
+    
+    #*Answer simple question for user based off their provided summary
     def generate_response(self, context):
-        print("generate_response()")
+        print("\ngenerate_response()")
         input_ids = self.tokenizer.encode(context, return_tensors='pt').to("cuda" if torch.cuda.is_available() else "cpu")
 
         max_length = len(input_ids[0]) + 100
@@ -1745,16 +1836,14 @@ class CompanyWorkflow():
         
         return response
     
-    def process_text(self, text):
-        print("process_text()")
-        return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
-    
+    #*Checklist/Radio just transitions Yes-True && No-False
     def bool_to_str(self, value):
-        print("bool_to_str()")
+        print("\nbool_to_str()")
         return "Yes" if value.lower() == "true" else "No"
     
+    #*SpaCy runs SpaCy methods
     def spacy_extract_key_info(self, doc):
-        print("spacy_extract_key_info()")
+        print("\nspacy_extract_key_info()")
         print("\n\n--------------------------------------------------------")
         print("My Way")
         print("spacy_extract_headword_and_dependants()")
@@ -1798,8 +1887,9 @@ class CompanyWorkflow():
         print("--------------------------------------------------------")
         return named_entities, headword, dependants
     
+    #*If SpaCy special case needs to be made... ensure it!! and if still yes then do so here
     def generate_key(self, named_entities, headword, dependants):
-        print("generate_key()")
+        print("\ngenerate_key()")
         # Using set automatically eliminates duplicates for us!!
         tokens = set(named_entities + [headword] + dependants)
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1809,10 +1899,11 @@ class CompanyWorkflow():
         print(f"key = {key}")
         return key
     
+    #*Add !UNIQUE! key-value pair to EITHER config.py || .env
     def store_new_answer(self, question, answer):
-        print("store_new_answer()")
-        nlp = spacy.load("en_core_web_md")
-        doc = nlp(question.lower())
+        print("\nstore_new_answer()")
+        #nlp = spacy.load("en_core_web_md")
+        doc = self.nlp(question.lower())
         named_entities, headword, dependants = self.spacy_extract_key_info(doc)
         key = self.generate_key(named_entities, headword, dependants)
         #key = self.verify_key(key, question)
@@ -1822,28 +1913,38 @@ class CompanyWorkflow():
             self.users_information[key] = answer
             with open(self.env_path, "a") as file:
                 file.write(f"\n{key}='{answer}")
-                
+    
+    def nlp_load(self):
+        self.nlp = spacy.load("en_core_web_md")
+        #self.nlp.add_pipe()
+        return
+    
+    #*Uses label to try and find a matching key from the users' .env
     def find_best_match(self, label):
-        print("find_best_match()")
-        nlp = spacy.load("en_core_web_md")
-        doc1 = nlp(label.lower())
+        print("\nfind_best_match()")
+        
+        doc1 = self.nlp(label.lower())
         max_similarity = -1
         best_match = None
         
         for key in self.users_information.keys():
-            doc2 = nlp(key.lower().replace("_", " "))
+            doc2 = self.nlp(key.lower().replace("_", " "))
             similarity = doc1.similarity(doc2)
             print("similarity = ", similarity)
+            print("key = ", key)
             if similarity > max_similarity:
                 max_similarity = similarity
                 best_match = key
                 
             # Check for synonyms
+            #! WRONG ! sometimes I have 2 so get the root or something!!!
             synonyms = self.get_synonyms(key)
             for synonym in synonyms:
-                doc2 = nlp(synonym.lower().replace("_", " "))
+                doc2 = self.nlp(synonym.lower().replace("_", " "))
                 similarity = doc1.similarity(doc2)
                 print("similarity = ", similarity)
+                print("key = ", key)
+                print("synonyms = ", synonyms)
                 if similarity > max_similarity:
                     max_similarity = similarity
                     best_match = key
@@ -1853,8 +1954,9 @@ class CompanyWorkflow():
         print(best_match if max_similarity > 0.75 else None)
         return best_match if max_similarity > 0.75 else None
     
+    #*This is the DOUBLE CHECK
     def get_synonyms(self, word):
-        print("get_synonyms()")
+        print("\nget_synonyms()")
         print(f"word = {word}")
         synonyms = []
         for syn in wordnet.synsets(word):
@@ -1864,7 +1966,9 @@ class CompanyWorkflow():
         print(synonyms)
         return synonyms
     
+    #*special_case() method 1
     def get_input_type(self, input_data):
+        print("get_input_type()")
         label = input_data['type']
         if label == 'select':
             select_element = self.browser.find_element(label)
@@ -1876,8 +1980,9 @@ class CompanyWorkflow():
             return 'is_file'
         return None
     
+    #*Just for me to see what it does!! Crap looks haaatt!
     def jaccard_similarity(self, sentence1, sentence2):
-        print("jaccard_similarity()")
+        print("\njaccard_similarity()")
         set1 = set(sentence1.lower().split())
         set2 = set(sentence2.lower().split())
         intersection = set1.intersection(set2)
@@ -1886,11 +1991,49 @@ class CompanyWorkflow():
         print(f"union = {union}")
         jaccard_similarity = (len(intersection) / len(union))
         print(f"jaccard_similarity = {jaccard_similarity}")
-        return
+        if jaccard_similarity > 90:
+            return True
+        else:
+            return False
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    # print("Form Input Details: ", end="")
+    # print(f"Input {i}:")
+    # print(f"  Label: {detail['label']}")
+    # print(f"  Type: {detail['type']}")
+    # print(f"  Values: {detail['values']}")
+    # print(f"  Is Hidden: {detail['is_hidden']}")
+    # print(f"  HTML: {detail['html']}")
+    # print(f"  Dynamic: {detail['dynamic']}")
+    # print(f"  Related Elements: {detail['related_elements']}")
+    #------------------------------------------------------------------------------
+    # ['text', 'email', 'password', 'select', 'radio', 'checkbox', 'textarea', 'button', 'file']
+    #TODO: Compare label->key/label->value/values->key/values->value
+    #*special_case() method 2
+    def is_special_case(self, input_data):
+        expected_user_input = None
+        label = input_data['type']
+        if label in ['select', 'radio', 'checkbox', 'file']:  #NOT 'button' b/c that's just the Submit
+            if label == 'select':
+                select_element = self.browser.find_element(label)
+                is_multiple_choice = select_element.get_attribute('multiple') is not None
+                if is_multiple_choice is True:
+                    expected_user_input = 'is_multiple_choice'
+                elif is_multiple_choice is False:
+                    pass
+            elif label == 'checkbox':
+                expected_user_input = 'is_multiple_choice'
+            elif label == 'file':
+                expected_user_input = 'is_file'
+        return expected_user_input
+    
+    
+    
+    
+    
     
     
     

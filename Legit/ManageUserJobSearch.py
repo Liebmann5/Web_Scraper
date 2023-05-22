@@ -34,15 +34,40 @@ class UntouchedUser():
         #self.search_for_jobs(self)
         return self.links_to_jobs
     
+    def lazy_users_chores():
+          print("ight loser you gotta download a few things cause God only knows I tried to do it for you but")
+          print("these people must hate fun!")
+          print("Any ways download python: ")
+          print("Then download rust: ")
+          print("And if you are on Windows then msTools: ")
+          print("\tScroll all the way to the bottom and click 'Tools for Visual Studio'")
+          print("\tand then download 'Build Tools for Visual Studio 2022'")
+          print("")
+          print("")
+          print("")
     
     
-    
-    
-    
-    
-    
-    
-    
+    def users_NLP_model(self):
+          print("Are you on a desktop or laptop? Do you have access to a Desktop and does that Desktop 1) Have a 500 Gb Hard Drive")
+          print("and 2) a graphics card!? If your answers weren't 100% yes then GPT-Neo-1.3B is what you should pick! Then you can pick")
+          users_NLP_model = self.roulette_the_NLP()
+          print("between the (sm, md, lg) models. I've been told the higher you go up this latter will provide better and more accurate")
+          print("answers. ")
+          print("GPT-Neo-1.3B     => 2 Gb")
+          print("\ten_core_web_sm => 2 Gb")
+          print("\ten_core_web_md => 2 Gb")
+          print("\ten_core_web_lg => 2 Gb")
+          print("GPT-Neo-2.7B     => 2 Gb")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
+          print("")
     
     
     
