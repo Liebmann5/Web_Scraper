@@ -15,7 +15,7 @@ exit /b 1
 :FoundPython
 
 REM Create a virtual environment
-%PYTHON_CMD% -m venv ..\virtual_environments_smell_like_updog
+%PYTHON_CMD% -m venv ..\virtual_environments_smell_like_updog --prompt="virtual-environment"
 
 REM Activate the virtual environment
 call virtual_environments_smell_like_updog\Scripts\activate
@@ -34,17 +34,17 @@ if %errorlevel% neq 0 (
 REM Install dependencies
 pip install -r requirements.txt
 
-# Create a directory for the models
-mkdir -p models
+REM Create a directory for the models
+mkdir models
 
-# Download the spaCy model into the models directory
-python -m spacy download en_core_web_md -p ./models
+REM Download the spaCy model into the models directory
+%PYTHON_CMD% -m spacy download en_core_web_md -p ./models
 
-# Set the Transformers cache directory
-export TRANSFORMERS_CACHE=./models/transformers_cache
+REM Set the Transformers cache directory
+set TRANSFORMERS_CACHE=./models/transformers_cache
 
-# Download the Transformers model
-python -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B')"
+REM Download the Transformers model
+%PYTHON_CMD% -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B')"
 
 REM Run your Python script
 %PYTHON_CMD% Legit\JobSearchWorkflow.py
