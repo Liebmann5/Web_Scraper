@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#https://tldp.org/LDP/abs/html/index.html
+
 # Check for a command that runs Python 3
 for CMD in python3 python py; do
     $CMD -c "import sys; sys.exit(sys.version_info < (3,))" &>/dev/null
@@ -23,17 +25,31 @@ source virtual_environments_smell_like_updog/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
+
+
+# if [ -d "models"]
+# then
+#     if [ -d "en_core_web_md" ]
+# fi
+
+
+
+
 # Create a directory for the models
+#New-Item -Type models
 mkdir -p models
+
+# Download the spaCy model into the models directory
+$PYTHON_CMD -m spacy download en_core_web_md -p ./models
+
+# Link the spaCy model to your specified path
+$PYTHON_CMD -m spacy link en_core_web_md ./models/en_core_web_md
 
 # Set the Transformers cache directory
 export TRANSFORMERS_CACHE=./models/transformers_cache
 
 # Download the Transformers model
 $PYTHON_CMD -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-1.3B')"
-
-# Download the spaCy model
-$PYTHON_CMD -m spacy download en_core_web_md -b ./models
 
 # Run your Python script
 $PYTHON_CMD Legit/JobSearchWorkflow.py

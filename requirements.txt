@@ -8,7 +8,8 @@ google-auth
 google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
-spacy==3.5.2
+spacy==3.5.0
+en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.5.0/en_core_web_md-3.5.0.tar.gz
 fuzzywuzzy==0.18.0
 python-Levenshtein==0.21.0
 nltk==3.8.1
@@ -20,4 +21,5 @@ setuptools
 #config
 #csv
 #dotenv
+#spacy==3.5.2
 #https://github.com/acheong08/ChatGPT/issues/53
