@@ -74,25 +74,6 @@ class Workflow():
         
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
-        
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # # Check the location of the en_core_web_md package
-        # package_location = self.check_package_location("en_core_web_md")
-
-        # if package_location is not None:
-        #     print("The en_core_web_md package was found.")
-        # else:
-        #     print("The en_core_web_md package was not found.")
-            
-            
-        # # Check the location of the en_core_web_md package
-        # pack_age_location = self.check_package_location_systemwide("en_core_web_md")
-
-        # if pack_age_location is not None:
-        #     print("The en_core_web_md package was found.")
-        # else:
-        #     print("The en_core_web_md package was not found.")
-        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
        
     def job_search_workflow(self):
         self.browser_setup()
@@ -643,50 +624,7 @@ class Workflow():
 
 
 
-   
-   
-   
-
-
-
-
-
-
-
-
-
-
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # def check_package_location(self, package_name):
-    #     print("check_package_location()")
-    #     for package_dir in site.getsitepackages():
-    #         package_path = os.path.join(package_dir, package_name)
-    #         if os.path.exists(package_path):
-    #             print(f"The {package_name} package is located at: {package_path}")
-    #             return package_path
-    #     return None
-    
-    # def check_package_location_systemwide(self, package_name):
-    #     for root, dirs, files in os.walk('/'):
-    #         if package_name in dirs:
-    #             package_path = os.path.join(root, package_name)
-    #             print(f"The {package_name} package is located at: {package_path}")
-    #             return package_path
-    #     return None
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
 
 
    

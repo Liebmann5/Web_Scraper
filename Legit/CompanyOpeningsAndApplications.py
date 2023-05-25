@@ -72,6 +72,8 @@ class CompanyWorkflow():
         self.init_nltk()
         self.nlp = None
         
+        self.form_input_details = {}
+        
     
     # from transformers import pipeline
 
@@ -213,6 +215,7 @@ class CompanyWorkflow():
                     self.form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                    self.form_input_details = self.get_form_input_details(current_url)
                     self.process_form_inputs(form_input_details)
                     
                     
@@ -275,6 +278,7 @@ class CompanyWorkflow():
                             print("me")
                             time.sleep(8)
                             #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                            self.form_input_details = self.get_form_input_details(current_url)
                             self.process_form_inputs(form_input_details)
                     
                             
@@ -1670,11 +1674,6 @@ class CompanyWorkflow():
     
     
     
-    
-    
-    
-    
-    
     #*Testing Method
     def test_this_pile_of_lard(self, job_link):
         print("test_this_pile_of_lard()")
@@ -1786,7 +1785,13 @@ class CompanyWorkflow():
     #*Scrolls to each question in the form
     def scroll_to_question(self, input_data):
         print("\nscroll_to_question()")
-        soup = self.apply_beautifulsoup(input_data, 'html.parser')
+        # soup = self.apply_beautifulsoup(input_data, 'html')
+        # first_element = soup.contents[0]
+        # Check if input_data is a dictionary and extract the HTML if it is
+        if isinstance(input_data, dict) and 'html' in input_data:
+            input_data = input_data['html']
+    
+        soup = self.apply_beautifulsoup(input_data, 'html')
         first_element = soup.contents[0]
         
         #XPath expression for the element based off its tag name and HTML attributes
@@ -1807,14 +1812,27 @@ class CompanyWorkflow():
     def process_form_inputs(self, form_input_details):
         print("\nprocess_form_inputs()")
         self.nlp_load()
-        print("self.form_input_details: ", self.form_input_details)
-        print("form_input_details: ", form_input_details)
+        #print("self.form_input_details: ", end="")
+        #print(self.form_input_details)
+        #print("form_input_details: ", form_input_details)
         submit_button = None
         for input_data in form_input_details:
             if input_data['is_hidden']:
                 continue
             
-            if ['dynamic', None] in input_data['label']:
+            print("This is -> is None")
+            if input_data['label'] is None:
+                print("Dang so -> is None")
+                continue
+            
+            print("This is -> dynamic")
+            if 'dynamic' in input_data['label']: #or input_data['label'] is None:
+                print("Dang so -> dynamic")
+                continue
+            
+            print("This is -> == None")
+            if input_data['label'] == None:
+                print("Dang so -> == None")
                 continue
             
             if 'Submit Application' in input_data['label']:
