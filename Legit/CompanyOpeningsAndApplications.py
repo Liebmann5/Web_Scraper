@@ -1993,7 +1993,7 @@ class CompanyWorkflow():
                 file.write(f"\n{key}='{answer}")
     
     def nlp_load(self):
-        self.nlp = spacy.load(".models/en_core_web_md")
+        self.nlp = spacy.load("en_core_web_md")
         #self.nlp.add_pipe()
         return
     
