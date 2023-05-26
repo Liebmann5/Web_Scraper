@@ -74,7 +74,10 @@ class CompanyWorkflow():
         
         self.form_input_details = {}
         
-    
+        self.custom_rules = None
+        self.q_and_a = None
+        
+        
     # from transformers import pipeline
 
     # generator = pipeline('text-generation', model='EleutherAI/gpt-neo-2.7B')
@@ -188,7 +191,7 @@ class CompanyWorkflow():
                     self.lever_co_header(webpage_body, soup)
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     self.form_input_details = self.get_form_input_details(current_url)
-                    self.process_form_inputs(form_input_details)
+                    self.process_form_inputs(self.form_input_details)
                     
                     
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -215,8 +218,8 @@ class CompanyWorkflow():
                     self.form_input_details = self.get_form_input_details(current_url)
                     self.insert_resume()
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    self.form_input_details = self.get_form_input_details(current_url)
-                    self.process_form_inputs(form_input_details)
+                    #self.form_input_details = self.get_form_input_details(current_url)
+                    self.process_form_inputs(self.form_input_details)
                     
                     
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -271,7 +274,7 @@ class CompanyWorkflow():
                             #This should setup the code so that it's lookin down the barrell of the application! Everything should already be setup!!!
                             self.bottom_has_application_or_button(application_company_name)
                             print("greenhouse application locked and loaded")
-                            form_input_details = self.get_form_input_details(job_link)
+                            #form_input_details = self.get_form_input_details(job_link)
                             print("Meet")
                             time.sleep(8)
                             self.insert_resume()
@@ -279,7 +282,7 @@ class CompanyWorkflow():
                             time.sleep(8)
                             #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                             self.form_input_details = self.get_form_input_details(current_url)
-                            self.process_form_inputs(form_input_details)
+                            self.process_form_inputs(self.form_input_details)
                     
                             
                             #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1678,7 +1681,7 @@ class CompanyWorkflow():
     def test_this_pile_of_lard(self, job_link):
         print("test_this_pile_of_lard()")
         print(job_link)
-        urls = ['https://boards.greenhouse.io/galileofinancialtechnologies/jobs/5610103003',
+        urls = ['https://boards.greenhouse.io/latitude/jobs/5028220',
                 'https://boards.greenhouse.io/earnin/jobs/4860753',
                 'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
                 'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
@@ -1783,24 +1786,32 @@ class CompanyWorkflow():
         time.sleep(5)
     
     #*Scrolls to each question in the form
-    def scroll_to_question(self, input_data):
+    def scroll_to_question(self, input_data_html):
         print("\nscroll_to_question()")
-        # soup = self.apply_beautifulsoup(input_data, 'html')
-        # first_element = soup.contents[0]
-        # Check if input_data is a dictionary and extract the HTML if it is
-        if isinstance(input_data, dict) and 'html' in input_data:
-            input_data = input_data['html']
-    
-        soup = self.apply_beautifulsoup(input_data, 'html')
-        first_element = soup.contents[0]
+        soup = BeautifulSoup(input_data_html, 'lxml')
+        print("soup = ", soup)
+        # element = soup.find()
+        # print('element = ', element)
         
-        #XPath expression for the element based off its tag name and HTML attributes
-        xpath_to_first_element = first_element.name + ''.join([f'[@{attr}="{val}"]' for attr, val in first_element.attrs.items()])
-        selenium_first_element = self.browser.find_element(By.XPATH, f"//{xpath_to_first_element}")
+        # print(soup.get('id'))  # Prints: "mydiv"
+        # print(soup.get('class'))  # Prints: ["myclass"]
         
-        #create an action chain to scroll to the element
-        actions = ActionChains(self.browser)
-        actions.move_to_element(selenium_first_element).perform()
+        body_children = soup.body.contents
+        for child in body_children:
+            print('element = ', child)
+            
+            if child.get('id'):
+                identifier = child.get('id')
+                css_selector = '#' + identifier
+            elif child.get('class'):
+                identifier = child.get('class')[0]
+                css_selector = '.' + identifier
+            else:
+                raise ValueError('The element does not have an id or a class')
+        
+            elemental = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+        
+            self.browser.execute_script("arguments[0].scrollIntoView();", elemental)
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         ! [https://github.com/explosion/spaCy]
@@ -1812,11 +1823,14 @@ class CompanyWorkflow():
     def process_form_inputs(self, form_input_details):
         print("\nprocess_form_inputs()")
         self.nlp_load()
+        print("nlp loaded... ")
         #print("self.form_input_details: ", end="")
         #print(self.form_input_details)
         #print("form_input_details: ", form_input_details)
         submit_button = None
-        for input_data in form_input_details:
+        for i, input_data in enumerate(form_input_details):
+            print("Input " + str(i) + ":")
+            print("  form_input_details = ", input_data)
             if input_data['is_hidden']:
                 continue
             
@@ -1841,8 +1855,10 @@ class CompanyWorkflow():
                 submit_button = input_data
                 print("submit_button: ", submit_button)
             
-            self.scroll_to_question(input_data)
+            self.scroll_to_question(input_data['html'])
+            #self.scroll_to_element(input_data)
             print("  Scrolled here I guess...")
+            time.sleep(3)
             
             label = input_data['label']
             print("unprocessed label: ", label)
@@ -1850,9 +1866,12 @@ class CompanyWorkflow():
             print("processed label: ", label)
             input_type = input_data['type']
             predefined_options = input_data.get('values', None)
+            print("predefined_options = ", predefined_options)
             
             # If the input type in select, radio, or checkbox, handle it as a !special case!
+            print("TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING BUTTS!!")
             if input_type in ['select', 'radio', 'checkbox']:
+                print("Ahhhhhhh yes a very sexual we have come across as it is either one of these: 'select', 'radio', 'checkbox'")
                 matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
                 if matching_keys:
                     for key in matching_keys:
@@ -1867,6 +1886,7 @@ class CompanyWorkflow():
                     print(f"No stored answers found for '{label}'")
                     
             else:
+                print("This one ain't special... this one ain't even intelligent... dumb ol' question any how")
                 matching_keys = self.try_finding_match(label)
                 if matching_keys:
                     for key in matching_keys:
@@ -1887,13 +1907,14 @@ class CompanyWorkflow():
     
     def try_finding_match(self, label):
         print("\ntry_finding_match()")
-        #doc = self.nlp(label)
+        #! => doc = self.nlp(label)
         named_entities, headword, dependants = self.spacy_extract_key_info(self.nlp(label))
         print(f"named_entities = {named_entities}")
         print(f"headword = {headword}")
         print(f"dependants = {dependants}")
         key = self.generate_key(named_entities, headword, dependants)
         jacc_key = key.lower().replace("_", " ")
+        print("jacc_key = ", jacc_key)
         
         self.JobSearchWorkflow_instance.load_custom_rules()
         print("self.custom_rules = ", self.custom_rules)
@@ -1916,8 +1937,8 @@ class CompanyWorkflow():
     #*SpaCy's needs and dumb stuff gone
     #TODO: do something with the dumb *!!!!
     def process_text(self, text):
-        print("\nprocess_text()")
-        return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "")
+        print("process_text()")
+        return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "").replace("*", "").replace("✱", "").strip()
     
     #*Answer simple question for user based off their provided summary
     def generate_response(self, context):
@@ -1955,10 +1976,10 @@ class CompanyWorkflow():
                   """)
             
             
-            
-            if token.head == "ROOT":
+            print(token.head)
+            if token.dep_ == "ROOT":
                 headword = token.head.text
-            elif token.dep_ in {"compund", "amoud", "attr"}:
+            elif token.dep_ in {"compound", "amod", "attr"}:
                 dependants.append(token.lemma_)
                 #dependants.append(token.text)
         print(f"headword = {headword}")
@@ -2011,6 +2032,7 @@ class CompanyWorkflow():
                 file.write(f"\n{key}='{answer}")
     
     def nlp_load(self):
+        print("nlp_load()")
         self.nlp = spacy.load("en_core_web_md")
         #self.nlp.add_pipe()
         return
@@ -2153,7 +2175,7 @@ class CompanyWorkflow():
 # if label in ['select', 'radio', 'checkbox', 'file']:
 
 
-
+#.replace("*", "").replace("✱", "")
 
 
 

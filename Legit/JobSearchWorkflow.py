@@ -74,9 +74,15 @@ class Workflow():
         
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
+        
        
     def job_search_workflow(self):
         self.browser_setup()
+        self.ludacris_speed_apply_to_jobs()
+        
+        
+        
+        
         self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
@@ -302,6 +308,15 @@ class Workflow():
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
 
 
+    def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        self.load_users_information()
+        print("Accidently clamped my testicles b/c I needed to be punished")
+
+        print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
+
+
 
 
     def safe_click(self, element):
@@ -461,16 +476,27 @@ class Workflow():
         print("load_custom_rules()")
         print("dir(config) = ", dir(config))
         
-        attributes = [attr for attr in dir(config) if not attr.startswith("__")]
+        for attr in dir(config):
+            if not attr.startswith("__"):
+                print(f"Attribute: {attr}")
+                value = getattr(config, attr)
+                if isinstance(value, dict):
+                    for key, val in value.items():
+                        print(f"Key: {key}, Value: {val}")
+                else:
+                    print(f"Value: {value}")
+
         
-        for attr in attributes:
-            print("attr = ", attr)
-            value = getattr(config, attr)
-            print("value = ", value)
+        # attributes = [attr for attr in dir(config) if not attr.startswith("__")]
+        
+        # for attr in attributes:
+        #     print("attr = ", attr)
+        #     value = getattr(config, attr)
+        #     print("value = ", value)
             
-            if isinstance(value, dict):
-                print("dict = ", dict)
-                globals()[attr.lower()] = value
+        #     if isinstance(value, dict):
+        #         print("dict = ", dict)
+        #         globals()[attr.lower()] = value
     #!---------------------------------------
     
     

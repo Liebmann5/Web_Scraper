@@ -2,7 +2,7 @@ https://spacy.io/api/cli#init-config
 
 https://www.pythonfixing.com/2021/11/fixed-attributeerror-module.html
 
-
+https://realpython.com/natural-language-processing-spacy-python/
 
 
 
