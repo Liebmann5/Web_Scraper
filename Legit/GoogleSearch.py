@@ -30,6 +30,11 @@ class scraperGoogle():
         self.google_search_results_links = []
         self.last_link_from_google_search = None
         
+        
+        
+    #TODO: LAST_APPLIED => If anythng less than 3 days -> 24 hrs | If anything > 3 days filter by -> Past Week | If anything > 2 weeks just do -> anytime
+        #TODO: But show the user LAST_APPLIED and let them pick
+        
     def ludacris_speed(self):
         self.user_desired_jobs.append("software engineer")
         return

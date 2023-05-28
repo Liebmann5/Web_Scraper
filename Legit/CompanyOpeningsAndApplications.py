@@ -37,7 +37,7 @@ import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, senior_experience):
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         #self.list_of_links = list_of_links
         self.browser = browser
@@ -66,16 +66,24 @@ class CompanyWorkflow():
         self.user_desired_jobs = user_desired_jobs  #[]
         self.one_resume_label = False
     
-        
-        self.lemmatizer = WordNetLemmatizer()
-        self.init_gpt_neo("EleutherAI/gpt-neo-1.3B")
-        self.init_nltk()
-        self.nlp = None
-        
         self.form_input_details = {}
+    
+    
         
-        self.custom_rules = None
-        self.q_and_a = None
+        #init_gpt_neo()
+        self.tokenizer = tokenizer
+        self.model = model
+        #load_nlp()
+        self.nlp = nlp
+        #load_company_resources()
+        self.lemmatizer = lemmatizer
+        
+        
+        
+        self.custom_rules = custom_rules
+        self.q_and_a = q_and_a
+        
+        self.env_path = '.env'
         
         
     # from transformers import pipeline
@@ -86,31 +94,7 @@ class CompanyWorkflow():
     
     
         
-    def init_nltk(self):
-        try:
-            #Try to access WordNet
-            nltk.corpus.wordnet.synsets('word')
-        except LookupError:
-            #If WordNet is not present, download it
-            nltk.download('wordnet')
-        
-    def check_cuda_compatibility(self):
-        if torch.cuda.is_available():
-            print("CUDA is available!")
-            print(f"CUDA version: {torch.version.cuda}")
-        else:
-            print("CUDA is not available.")
-    
-    def init_gpt_neo(self, model_name):
-        print("init_gpt_neo()")
-        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-        self.check_cuda_compatibility()
-        self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
-        
-    def __del__(self):
-        # Delete the model when the object is destroyed
-        del self.model
-        del self.tokenizer
+
     
     #! Run determine_current_page and .header ONCE!!!!
     #! Once you get the list for all the open positions...
@@ -1820,15 +1804,20 @@ class CompanyWorkflow():
     #*Analyzes the label and values along with the .env(key-value) && config.py files
     #! THIS METHOD IS WHERE WE FIND OUT IF WE HAVE AN ANSWER OR NOT!!    ssoooo if we don't then we send fill_in_form() that user_response is needed!!!
     #TODO: Make sure sure to handle N/A situations as well!!
+    #! THIS SHOULDN'T HAVE return ANYWHERE OTHER THAN THE END!! This should only basically be re-directs!!!!
     def process_form_inputs(self, form_input_details):
         print("\nprocess_form_inputs()")
-        self.nlp_load()
-        print("nlp loaded... ")
+        
+        # self.nlp_load()
+        # print("nlp loaded... ")
+        
         #print("self.form_input_details: ", end="")
         #print(self.form_input_details)
         #print("form_input_details: ", form_input_details)
         submit_button = None
         for i, input_data in enumerate(form_input_details):
+            time.sleep(5)
+            
             print("Input " + str(i) + ":")
             print("  form_input_details = ", input_data)
             if input_data['is_hidden']:
@@ -1857,7 +1846,7 @@ class CompanyWorkflow():
             
             self.scroll_to_question(input_data['html'])
             #self.scroll_to_element(input_data)
-            print("  Scrolled here I guess...")
+            print("  Scrolled here I guess...\n")
             time.sleep(3)
             
             label = input_data['label']
@@ -1869,13 +1858,16 @@ class CompanyWorkflow():
             print("predefined_options = ", predefined_options)
             
             # If the input type in select, radio, or checkbox, handle it as a !special case!
+            print("\n_____________________________________________________________________________________")
             print("TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING BUTTS!!")
             if input_type in ['select', 'radio', 'checkbox']:
                 print("Ahhhhhhh yes a very sexual we have come across as it is either one of these: 'select', 'radio', 'checkbox'")
                 matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
                 if matching_keys:
                     for key in matching_keys:
-                        answer = self.users_information[key]
+                        
+                        answer = self.users_information[{key}]
+                        print("answer = ", answer)
                         if answer in predefined_options:
                             # Input the answer into the form
                             print(f"Entering '{answer}' for '{label}'")
@@ -1888,6 +1880,9 @@ class CompanyWorkflow():
             else:
                 print("This one ain't special... this one ain't even intelligent... dumb ol' question any how")
                 matching_keys = self.try_finding_match(label)
+                print("matching_keys = ", matching_keys)
+                print("if matching_keys: ", end="")
+                print("True" if matching_keys else "False")
                 if matching_keys:
                     for key in matching_keys:
                         answer = self.users_information[key]
@@ -1895,7 +1890,7 @@ class CompanyWorkflow():
                         print(f"Entering '{answer}' for '{label}'")
                         self.fill_form(label, answer)
                 else:
-                    context = self.summary + " " + label
+                    context = self.q_and_a['summary'] + " " + label
                     answer = self.generate_response(context)
                     if answer:
                         # Input the answer into the form
@@ -1903,26 +1898,50 @@ class CompanyWorkflow():
                         self.fill_form(label, answer)
                     else:
                         print(f"No stored answers found for '{label}'")
+        print("ALL DONE!!! The job application has been completed Reverand Mackie...")
         print("Normally Germans would push the 'Submit Application' button right now!")
+        time.sleep(20)
+    
     
     def try_finding_match(self, label):
-        print("\ntry_finding_match()")
-        #! => doc = self.nlp(label)
-        named_entities, headword, dependants = self.spacy_extract_key_info(self.nlp(label))
-        print(f"named_entities = {named_entities}")
-        print(f"headword = {headword}")
-        print(f"dependants = {dependants}")
-        key = self.generate_key(named_entities, headword, dependants)
-        jacc_key = key.lower().replace("_", " ")
-        print("jacc_key = ", jacc_key)
+        print("\n1)try_finding_match()")
+        words_in_label = label.split()
+        if len(words_in_label) <= 2:
+            print("This question has 2 words or less.")
+            print(words_in_label)
         
-        self.JobSearchWorkflow_instance.load_custom_rules()
+        else:
+            print("This question has more than 2 words.")
+            #! => doc = self.nlp(label)
+            named_entities, headword, dependants = self.spacy_extract_key_info(self.nlp(label))
+            print(f"named_entities = {named_entities}")
+            print(f"headword = {headword}")
+            print(f"dependants = {dependants}")
+            key = self.generate_key(named_entities, headword, dependants)
+            jacc_key = key.lower().replace("_", " ")
+            print("jacc_key = ", jacc_key)
+        
+        #self.JobSearchWorkflow_instance.load_custom_rules()
+        print("words_in_label = ", words_in_label)
+        print("label = ", label)
+        #NOTE: Remember Q_AND_A is only for the summary! So we only traverse CUSTOM_RULES!!
         print("self.custom_rules = ", self.custom_rules)
+        #? These might work in case that one doesn't
+        #for rule in self.custom_rules.keys():
+        #for rule, value in self.custom_rules.items():
+        #for rule, value in self.custom_rules:
         for rule in self.custom_rules:
             if label == rule:
+                print("MATCH: [ try_finding_match() ]")
+                print("\tCUSTOM_RULES = ", rule)
+                print("\tlabel = ", label)
+                #print("\t... value = ", value)
+                print("\t... value = ", self.custom_rules[rule])
                 return rule
             
         found_best_match = self.find_best_match(label)
+        print("found_best_match = ", found_best_match)
+        
         #TODO: REPLACE THIS    v!!!!!!!!!!
         # if label == config.py[key]:
         #     return config.py[key]
@@ -1931,7 +1950,8 @@ class CompanyWorkflow():
         elif self.jaccard_similarity(jacc_key, label):
             return jacc_key
         else:
-            return self.generate_response(self.summary)
+            #Since `rule` was previously defined you use it as above but since `summary` wasn't {something about Python treats} so just use () with '' inside it and the variable name within the ''
+            return self.generate_response(self.q_and_a('summary'))
     
     
     #*SpaCy's needs and dumb stuff gone
@@ -2031,42 +2051,74 @@ class CompanyWorkflow():
             with open(self.env_path, "a") as file:
                 file.write(f"\n{key}='{answer}")
     
+    '''
     def nlp_load(self):
         print("nlp_load()")
         self.nlp = spacy.load("en_core_web_md")
         #self.nlp.add_pipe()
         return
+    '''
     
     #*Uses label to try and find a matching key from the users' .env
     def find_best_match(self, label):
-        print("\nfind_best_match()")
+        print("\n2)find_best_match()")
         
         doc1 = self.nlp(label.lower())
+        print("-doc1 = ", doc1)
         max_similarity = -1
         best_match = None
+        synonyms = self.get_synonyms(label)
         
+        print("users_information + 1")
         for key in self.users_information.keys():
             doc2 = self.nlp(key.lower().replace("_", " "))
+            print("-doc2(self.users_information.key) = ", doc2)
             similarity = doc1.similarity(doc2)
             print("similarity = ", similarity)
             print("key = ", key)
             if similarity > max_similarity:
                 max_similarity = similarity
-                best_match = key
+                best_match = key    #leave as = to key so it's just easier for later!!
+                print("max_similarity = ", max_similarity)
+                print("best_match = ", best_match)
+                
+                if max_similarity == 1.0:
+                    print("MATCH: [ 2.1)find_best_match() -> .similarity(question{*label*} | self.users_information.key)]")
+                    print("\tusers_information = ", key)
+                    print("\tlabel = ", label)
+                    print("\t... value = ", self.users_information[key])
+                    #print("\t... value = ", self.users_information['{key}'])
+                    return key
                 
             # Check for synonyms
             #! WRONG ! sometimes I have 2 so get the root or something!!!
-            synonyms = self.get_synonyms(key)
+            #synonyms = self.get_synonyms(key)
+            #synonyms = self.get_synonyms(label)
             for synonym in synonyms:
                 doc2 = self.nlp(synonym.lower().replace("_", " "))
-                similarity = doc1.similarity(doc2)
+                print("-doc2(synonyms.index) = ", doc2)
+                #similarity = doc1.similarity(doc2)
+                similarity = doc2.similarity(doc1)
                 print("similarity = ", similarity)
                 print("key = ", key)
                 print("synonyms = ", synonyms)
                 if similarity > max_similarity:
                     max_similarity = similarity
                     best_match = key
+                    print("max_similarity = ", max_similarity)
+                    print("best_match = ", best_match)
                     
+                    if max_similarity == 1.0:
+                        print("MATCH: [ 2.2)find_best_match() -> .similarity(question{*label*} | synonyms.index)]")
+                        print("\tusers_information = ", key)
+                        print("\tlabel = ", label)
+                        print("\t... synonym = ", synonym)
+                        print("\t... value = ", self.users_information[key])
+                        #print("\t... value = ", self.users_information['{key}'])
+                        return key
+            
+            print("\nusers_information + 1")
+            
         print("max_similarity = ", max_similarity)
         print("best_match = ", best_match)
         print(best_match if max_similarity > 0.75 else None)
@@ -2074,7 +2126,7 @@ class CompanyWorkflow():
     
     #*This is the DOUBLE CHECK
     def get_synonyms(self, word):
-        print("\nget_synonyms()")
+        print("\n3)get_synonyms()")
         print(f"word = {word}")
         synonyms = []
         for syn in wordnet.synsets(word):
@@ -2176,6 +2228,7 @@ class CompanyWorkflow():
 
 
 #.replace("*", "").replace("✱", "")
+#print("True" if matching_keys else "False")
 
 
 

@@ -13,7 +13,8 @@ en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_
 fuzzywuzzy==0.18.0
 python-Levenshtein==0.21.0
 nltk==3.8.1
-torch==1.10.0
+#torch==1.10.0
+torch==2.0.1
 transformers==4.14.1
 setuptools
 #pywin32

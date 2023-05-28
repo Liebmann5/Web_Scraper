@@ -37,6 +37,20 @@ print("Here's some info about sys.executable: ", sys.executable)
 import config
 import site
 
+
+
+import spacy
+from fuzzywuzzy import fuzz
+# import Legit.config as config
+# ^ handle_custom_rules()
+import config
+
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+import torch
+
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
                 #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
@@ -75,37 +89,56 @@ class Workflow():
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
         
-       
+        self.custom_rules = None
+        self.q_and_a = None
+        
+        
+        #init_gpt_neo()
+        self.tokenizer = None
+        self.model = None
+        #load_nlp()
+        self.nlp = None
+        #load_company_resources()
+        self.lemmatizer = None
+        
+        
     def job_search_workflow(self):
         self.browser_setup()
+        
+        self.load_company_resources()
         self.ludacris_speed_apply_to_jobs()
+        self.__del__()
         
         
         
-        
-        self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
+        # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
         time.sleep(3)
-        self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
-        self.google_search_results_links = self.ensure_no_duplicates(self.google_search_results_links)
-        self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
-        self.filter_out_jobs_user_previously_applied_to(self.google_search_results_links, self.previously_applied_to_job_links)
-        self.load_users_information()
+
+        self.google_search_results_links = self.filter_through_google_search_results(google_search_results_links)
+        self.load_company_resources(self)
         self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
         
         self.close_browser()
         
-        
+    
+    
+    
+    
+    
+    
+       
         
         
     #TODO: change variable name => users_browser_choice#TODO: change variable name => users_browser_choice   ->->   users_browser_choice_name??users_browser_choice_name??
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -195,6 +228,16 @@ class Workflow():
     
     def get_date(self):
         return datetime.now().strftime("%Y-%m-%d")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     '''
@@ -307,17 +350,13 @@ class Workflow():
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
 
-
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         self.load_users_information()
         print("Accidently clamped my testicles b/c I needed to be punished")
 
         print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
-
-
-
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
 
     def safe_click(self, element):
         print("safe_click()")
@@ -448,9 +487,64 @@ class Workflow():
 
         return diagnostics
 
-
+    def wait_for_element_explicitly(self, browser, timeout, locator_tuple, condition):
+        wait = WebDriverWait(browser, timeout)
+        
+        if condition == 'presence':
+            return wait.until(EC.presence_of_element_located(locator_tuple))
+        elif condition == 'visibility':
+            return wait.until(EC.visibility_of_element_located(locator_tuple))
+        elif condition == 'clickable':
+            return wait.until(EC.element_to_be_clickable(locator_tuple))
+        else:
+            raise ValueError(f"Invalid condition: {condition}")
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+        
+    
+    
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                      LOAD RESOURCES AND LIBRARIES                             !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    def load_company_resources(self):
+        print("load_company_resources()")
+        self.load_users_information()
+        print("  Loaded Users Information...")
+        self.load_custom_rules()
+        print("  Loaded Custom Rules...")
+        
+        print(self.custom_rules)
+        print(self.q_and_a)
+        
+        self.nlp_load()
+        print("  Loaded Users Information...")
+        
+        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
+        self.init_gpt_neo(model_3B_pars)
+        print("  Initialized GPT-Neo-2.7B...")
+        
+        self.init_nltk()
+        print("  Initialized nltk...")
+        
+        self.lemmatizer = WordNetLemmatizer()
+        print("  Loaded WordNetLemmatizer()...")
     
     #!------------- .env --------------------
     def load_users_information(self):
@@ -471,8 +565,7 @@ class Workflow():
     #!---------------------------------------
     
     #!------------ config -------------------
-    @staticmethod
-    def load_custom_rules():
+    def load_custom_rules(self):
         print("load_custom_rules()")
         print("dir(config) = ", dir(config))
         
@@ -480,7 +573,12 @@ class Workflow():
             if not attr.startswith("__"):
                 print(f"Attribute: {attr}")
                 value = getattr(config, attr)
+                
+                if attr == "CUSTOM_RULES":
+                    value = value[0]
+                
                 if isinstance(value, dict):
+                    setattr(self, attr.lower(), value)
                     for key, val in value.items():
                         print(f"Key: {key}, Value: {val}")
                 else:
@@ -499,9 +597,88 @@ class Workflow():
         #         globals()[attr.lower()] = value
     #!---------------------------------------
     
+    def init_nltk(self):
+        try:
+            #Try to access WordNet
+            nltk.corpus.wordnet.synsets('word')
+        except LookupError:
+            #If WordNet is not present, download it
+            nltk.download('wordnet')
+    
+    def from_website_gptneo_setup(self):
+        #https://gist.github.com/pszemraj/791d72587e718aa90ff2fe79f45b3cfe
+        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
+        
+        #gpu_mem = round(gpu_mem_total() / 1024, 2)
+    
+    def init_gpt_neo(self, model_name):
+        print("init_gpt_neo()")
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        self.check_cuda_compatibility()
+        self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
+        #return self.tokenizer, self.model
+        
+    def check_cuda_compatibility(self):
+        print("check_cuda_compatibility()")
+        if torch.cuda.is_available():
+            print("CUDA is available!")
+            print(f"CUDA version: {torch.version.cuda}")
+        else:
+            print("CUDA is not available.")
+            
+    def nlp_load(self):
+        print("nlp_load()")
+        self.nlp = spacy.load("en_core_web_md")
+        #self.nlp.add_pipe()
+        #return self.nlp
+        return
+    
+    def __del__(self):
+        # Delete the model when the object is destroyed
+        del self.model
+        del self.tokenizer
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    
+    
     
     
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                         GET RID OF BAD LINKS                                  !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    # def filter_through_google_search_results(self):
+    #     self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+    #     self.google_search_results_links = self.ensure_no_duplicates(self.google_search_results_links)
+    #     self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
+    #     self.filter_out_jobs_user_previously_applied_to(self.google_search_results_links, self.previously_applied_to_job_links)
+    
+    def filter_through_google_search_results(self, google_search_results_links):
+        self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+        google_search_results_links = self.ensure_no_duplicates(google_search_results_links)
+        self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
+        self.filter_out_jobs_user_previously_applied_to(google_search_results_links, self.previously_applied_to_job_links)
+        return google_search_results_links
     
     def convert_csv_data(self, csv_relative_path):
         print("\nconvert_csv_data() =")
@@ -570,11 +747,6 @@ class Workflow():
         #print(Lake_Minnetonka_Purified_list)
         return Lake_Minnetonka_Purified_list
     
-    
-    
-    
-    
-    
     def ensure_no_duplicates(self, list_to_filter):
         print("\nensure_no_duplicates() = ")
         
@@ -587,7 +759,9 @@ class Workflow():
                     print(list_URL)
         return unique_results
     
-        
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
         
       
     
@@ -595,6 +769,13 @@ class Workflow():
     
     
     
+    
+    
+    
+    
+    
+    
+    #TODO: Do stuff at very end or once CompanyOpeningsAndApplications.py instance ends!!
     def write_to_csv(self, job_data):
         with open ('job_data.csv', mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -616,17 +797,7 @@ class Workflow():
 
 
 
-    def wait_for_element_explicitly(self, browser, timeout, locator_tuple, condition):
-        wait = WebDriverWait(browser, timeout)
-        
-        if condition == 'presence':
-            return wait.until(EC.presence_of_element_located(locator_tuple))
-        elif condition == 'visibility':
-            return wait.until(EC.visibility_of_element_located(locator_tuple))
-        elif condition == 'clickable':
-            return wait.until(EC.element_to_be_clickable(locator_tuple))
-        else:
-            raise ValueError(f"Invalid condition: {condition}")
+
 
 
     def cookie_information(self):
