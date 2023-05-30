@@ -386,7 +386,17 @@ class CompanyWorkflow():
         return True
     
     #TODO
-    # def users_basic_requirements_job_location(self):
+    # user_desired_worplaceType = [ 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 2 || 1 || 2 || 1 || 2]
+    # 1 = ONLY remote (under no circumstances will you ever go in)
+    # 2 = ONLY in-office (under no circumstances are you trusted with work getting done at home) | check locations match
+    # 3 = 
+    # 4 = 
+    # 5 = 
+    # 6 = 
+    # 7 = 
+    # 8 = 
+    # 9 = 
+    # def users_basic_requirements_job_location(self, company_job_workplaceType, company_job_location):
     #     if company_job_workplaceType == None:
     #         for desired_location in self.user_desired_location:
     #             if desired_location not in company_job_location:
@@ -399,6 +409,9 @@ class CompanyWorkflow():
     #         if self.user_desired_location is not None:
     #             for desired_location in self.user_desired_location:
     #                 if desired_location not in company_job_location:
+    #                     re
+        
+    #     elif company_job_workplaceType == ""
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -1748,6 +1761,7 @@ class CompanyWorkflow():
                     input_data = input
                     
                     
+            
                     
             special_expected_user_input = self.is_special_case(input_data)
 
@@ -1797,6 +1811,37 @@ class CompanyWorkflow():
         
             self.browser.execute_script("arguments[0].scrollIntoView();", elemental)
     
+    # def form_fields_requirement(self, form_input_answers, label):
+    #     #TODO: Make sure to remove the % %
+    #     NA_option = True if "Not Applicable" in label or "N/A" in label else False
+    #     #TODO: Make sure to remove the | |
+    #     SELECT_ONE = True if "select one" in label else False
+    #     SELECT_ALL = True if "select all" in label or "N/A" in label else False
+    #     MARK_ALL = True if "select all" in label else False
+        
+
+        
+        
+    #     if "*" in label or "✱" in label:
+    #         #look through .env for a matching key
+    #             #if match_found -> look at key's value
+    #                 #if value wrapped in between %% remove them
+    #                 #elif value wrapped in between || remove them
+    #                 #else return value
+    #             #else
+        
+    #     if "Not Applicable" in label or 'N/A' in label:
+    #         #look through .env for a matching key
+    #             #if match_found -> look at key's value
+    #                 #if value wrapped in between %% user prefers N/A
+    #                 #elif value wrapped in between || user prefers 'skip question'
+    #                 #else return value
+    #             #else
+                
+    # def job_type_preferences(self, requested_job_type):
+        
+            
+    #TODO: Make the weight of 'your' and 'user'/'users' EQUAL (What is you address? = USERS_ADRESS)!!!!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         ! [https://github.com/explosion/spaCy]
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2199,6 +2244,36 @@ class CompanyWorkflow():
             elif label == 'file':
                 expected_user_input = 'is_file'
         return expected_user_input
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #FILTER OUT: Two (2) years of hands-on experience writing professional software code.
+    #BIRTHDAY: Calculate their age using YYYY
+    
+    
+    #NOTE: q_considerations -> 
+        # https://boards.greenhouse.io/affirm/jobs/5600147003 -> checklist's say (select one)
+        
+    
+    
+    
+    #dictionary variable = {
+    #     question: 'How fat are your nuts hangin? (select one)'
+    #     q_considerations: ''
+    # }
+    
+    
+    
+    
+    
     
     
     

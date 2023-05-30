@@ -28,8 +28,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
 
 import requests
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 import sys
@@ -48,8 +46,10 @@ import config
 import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
-from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
 import torch
+
+import warnings
 
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -516,8 +516,9 @@ class Workflow():
         
     
         
-    
-    
+    def show_warning(message, category, filename, lineno, file=None, line=None):
+        print(f"Warning: {message}")
+    warnings.showwarning = show_warning
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                      LOAD RESOURCES AND LIBRARIES                             !
@@ -540,6 +541,9 @@ class Workflow():
         self.init_gpt_neo(model_3B_pars)
         print("  Initialized GPT-Neo-2.7B...")
         
+        # self.test_gpt_neo(model_3B_pars)
+        # print("  Testicalized GPT-Neo-2.7B...")
+        
         self.init_nltk()
         print("  Initialized nltk...")
         
@@ -555,7 +559,7 @@ class Workflow():
                     key, value = line.strip().split('=', 1)
                     value = value.strip("'")  # Remove quotes around the value
                     self.users_information[key] = value
-        self.print_users_information()
+        #self.print_users_information()
     
     def print_users_information(self):
         print('--------USERS .ENV INFO--------')
@@ -610,13 +614,93 @@ class Workflow():
         model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
         
         #gpu_mem = round(gpu_mem_total() / 1024, 2)
-    
+        
     def init_gpt_neo(self, model_name):
         print("init_gpt_neo()")
-        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        #self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
         self.check_cuda_compatibility()
         self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
         #return self.tokenizer, self.model
+        
+    def clean_gpt_out(self, text, remove_breaks=True):
+        from cleantext import clean
+        cleaned_text = clean(text,
+                         fix_unicode=True,               # fix various unicode errors
+                        to_ascii=True,                  # transliterate to closest ASCII representation
+                        lower=False,                     # lowercase text
+                        no_line_breaks=remove_breaks,   # fully strip line breaks as opposed to only normalizing them
+                        no_urls=True,                  # replace all URLs with a special token
+                        no_emails=True,                # replace all email addresses with a special token
+                        no_phone_numbers=True,         # replace all phone numbers with a special token
+                        no_numbers=False,               # replace all numbers with a special token
+                        no_digits=False,                # replace all digits with a special token
+                        no_currency_symbols=True,      # replace all currency symbols with a special token
+                        no_punct=False,                 # remove punctuations
+                        replace_with_punct="",          # instead of removing punctuations you may replace them
+                        replace_with_url="",
+                        replace_with_email="",
+                        replace_with_phone_number="",
+                        replace_with_number="",
+                        replace_with_digit="0",
+                        replace_with_currency_symbol="",
+                        lang="en"                       # set to 'de' for German special handling
+                        )
+        return cleaned_text
+    
+    def test_gpt_neo(self, model_name):
+        print("\ntest_gpt_neo()")
+        print("The module name of GPT-Neo-2.7B is ", end='')
+        print(GPTNeoForCausalLM.__module__)
+        
+        device = 0 if torch.cuda.is_available() else -1
+        generator = pipeline("text-generation", model=model_name, device=device)
+        
+        prompt = "Question: Is Bengali, India in the United States?"
+        response_min_chars = 10
+        response_max_chars = 500
+        from cleantext import clean
+        import pprint as pp
+        import gc
+        from datetime import timedelta
+        gc.collect()
+        
+        
+        
+        with warnings.catch_warnings(record=True) as w:
+            #https://stackoverflow.com/questions/7370801/how-do-i-measure-elapsed-time-in-python
+            start_time = time.time()
+            
+            warnings.filterwarnings("always", module='transformers.models.gpt_neo.modeling_gpt_neo')
+            #All WARNINGS that GPT-Neo caused
+            # warnings.filterwarnings("always", module='transformers.GPTNeoForCausalLM')
+            # warnings.filterwarnings("always", module='transformers.GPT2Tokenizer')
+            
+            try:
+                response = generator(prompt, do_sample=True, min_length=response_min_chars, max_length=response_max_chars,
+                                                                                            clean_up_tokenization_spaces=True,
+                                                                                            return_full_text=True)
+            except Exception as e:
+                print("An error occured while running the generator()")
+                print(e)
+                
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(f"The generator() took {str(timedelta(seconds=elapsed_time))}")
+        
+        print("----------------------\n")
+        for warnins in w:
+            print(str(warnins.message))
+        
+        
+        
+        
+        gc.collect()
+        print("Prompt: \n")
+        pp.pprint(prompt)
+        print("\nResponse: \n")
+        out3_dict = response[0]
+        pp.pprint(self.clean_gpt_out(out3_dict["generated_text"], remove_breaks=True), compact=True)
         
     def check_cuda_compatibility(self):
         print("check_cuda_compatibility()")

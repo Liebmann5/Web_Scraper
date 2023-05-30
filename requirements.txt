@@ -13,9 +13,9 @@ en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_
 fuzzywuzzy==0.18.0
 python-Levenshtein==0.21.0
 nltk==3.8.1
-#torch==1.10.0
 torch==2.0.1
 transformers==4.14.1
+clean-text[gpl]
 setuptools
 #pywin32
 #wordnet==2.1
@@ -24,3 +24,6 @@ setuptools
 #dotenv
 #spacy==3.5.2
 #https://github.com/acheong08/ChatGPT/issues/53
+#-U spacy
+#torch==1.10.0
+#-U transformers

@@ -1,0 +1,513 @@
+[ jobs.lever.co ]
+
+Pronouns
+
+    He/him                                          <<<<<<<<<<<< <input type='checklist'>
+    She/her
+    They/them
+    Xe/xem
+    Ze/hir
+    Ey/em
+    Hir/hir
+    Fae/faer
+    Hu/hu
+    Use name only
+    Custom         <<<<<<<<<<<< SHOULD HAVE 'dynamic' but doesn't since there isn't 2 repeating values
+
+
+
+I identify my race/ethnicity as
+
+Select all that apply       <<<<<<<<<<<< KINDA HIDDEN SO MAY NOT APPEAR
+
+    American Indian or Alaskan Native               <<<<<<<<<<<< <input type='checklist'>
+    Asian
+    Black or African American
+    Hispanic or Latinx
+    Native Hawaiian or Other Pacific Islander
+    White
+    I do not wish to answer
+
+
+
+I identify my gender as:
+
+    Female                                          <<<<<<<<<<<< <input type='radio'>
+    Male
+    Genderfluid
+    Gender-neutral
+    Genderqueer
+    Non-binary
+    Pangender
+    Transgender
+    Two spirit
+    Agender
+    Not listed
+    Decline to specify
+
+
+
+I identify my ethnicity as:
+
+    White                                           <<<<<<<<<<<< <input type='radio'>
+    Black
+    Hispanic
+    Asian
+    American Indian
+    Two or more races
+    Hawaiian or Pacific Islander
+    Decline to specify
+
+
+
+What is your religious identity?
+
+    Agnostic                                        <<<<<<<<<<<< <input type='radio'>
+    Buddhist
+    Christian
+    Hindu
+    Jewish
+    Muslim
+    No religion
+    Sikh
+    Other
+    Prefer not to say
+
+
+
+Do you consider yourself to be a neurodivergent person?
+
+Neurodivergent refers to a person who has a less typical cognitive variation, for example, a person with autism, dyslexia, Tourette syndrome, attention deficit hyperactivity disorder, obsessive compulsive disorder, or borderline personality disorder. [There are many kinds of neurological differences, which are not limited to these examples.]                     <<<<<<<<<<<< KINDA HIDDEN SO MAY NOT APPEAR
+
+    Yes                                         <<<<<<<<<<<< <input type='radio'>
+    No
+    Prefer not to say
+
+
+
+How many years of industry experience do you have?
+
+{<input type="select">}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[ boards.greenhouse.io ]
+
+Are you a veteran/have you served in the military? (Select one) *
+  
+  Active Reserve                                 <<<<<<<<<<<< <input type='checklist'>
+  Inactive Reserve
+  Other Protected Veteran
+  Retired
+  Unspecified Veteran
+  Vietnam Era Veteran
+  Vietnam Veteran and Other Protected Veteran
+  No military service
+  I don't wish to answer 
+
+
+
+Please select up to 2 ethnicities that you most closely identify with. *   <<<<<<<<<<<<    'select'      'up to(so <=)'      specific      '#'
+
+  American Indian or Alaska Native              <<<<<<<<<<<< <input type='checklist'>
+  Black or African American
+  East Asian
+  South Asian
+  Hispanic or Latinx
+  Middle Eastern or North African
+  Native Hawaiian or Other Pacific Islander
+  White
+  I don't wish to answer
+
+
+
+
+Company Name    {textbox}
+Title           {textbox}
+Start Date      {textbox}   {textbox}
+End Date        {textbox}   {textbox}   {<input type='checklist'>} Current
+
+
+
+How would your describe your ethnicity?
+  Prefer not to say                                                 <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Asian or Asian British: Bangladeshi
+  Asian or Asian British: Chinese
+  Asian or Asian British: Indian
+  Asian or Asian British: Pakistani
+  Asian or Asian British: Any other Asian ethnic background
+  Black or Black British: African
+  Black or Black British: Caribbean
+  Black or Black British: Any other Black ethnic background
+  Hispanic
+  Mixed: White and Asian
+  Mixed: White and Black African
+  Mixed: White and Black Caribbean
+  Mixed: Any other Mixed ethnic background
+  White: British
+  White: Irish
+  White: Any other White ethnic background
+  Not stated
+  Any other ethnic group 
+
+
+
+Are you a person of transgender experience? (Select one) *          |           Do you identify as transgender? 
+  Yes                       <<<<<<<<<<<< <input type='checklist'>   |               Prefer not to say                       <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  No                                                                |               Yes
+  I don't wish to answer                                            |               No
+
+
+
+What gender identity do you most closely identify with? *
+  Agender                                                        <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Genderfluid
+  Gender non-conforming
+  Genderqueer
+  Female
+  Male
+  Non-binary
+  Not listed
+  I don't wish to answer 
+
+
+
+What sexual orientation do you most closely identify with? *
+  Asexual                                                        <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Bisexual
+  Gay
+  Heterosexual
+  Lesbian
+  Pansexual
+  Queer
+  Not listed
+  I don't wish to answer 
+
+
+
+How would you describe your gender identity?
+  Prefer not to say                                               <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Genderqueer / Genderfluid
+  Man
+  Non-binary
+  Woman
+  I identify in another way (please share) 
+
+
+
+Do you consider yourself to be neurodiverse?
+  Prefer not to say                                               <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Yes
+  No 
+
+
+
+#https://boards.greenhouse.io/angi/jobs/6676707002
+Please provide your full home mailing address. *
+
+Example format:                                         <<<<<<<<<<<< for `textbox` => `Address` config.py  &&  for `textarea` => `Address` config.py BUT at "91293 Reje Ct.", " ", "USERS_CITY" for 2nd variable .replace(" ", "\n")
+
+Street Address
+
+City, State Zip Code
+
+{textarea}
+
+
+
+Would you feel comfortable moving forward with a compensation range of $175-200k?  *        <<<<<<<<<<<< Compare to users salary and if less then... in this situation skip application 
+{<input type="select">}
+
+
+
+How would you describe your racial/ethnic background? (mark all that apply)                 <<<<<<<<<<<< ` "(MARK ALL THAT APPLY)" `
+  Black or of African descent
+  East Asian                                          <<<<<<<<<<<<
+  Hispanic, Latinx or of Spanish Origin
+  Indigenous, American Indian or Alaska Native
+  Middle Eastern or North African
+  Native Hawaiian or Pacific Islander
+  South Asian                                         <<<<<<<<<<<<
+  Southeast Asian                                     <<<<<<<<<<<<
+  White or European
+  I prefer to self-describe
+  I don't wish to answer 
+
+
+
+years experience    VS.    years of work experience
+
+
+
+I identify my ethnicity as (please select the description below that best corresponds to the race or ethnic group(s) with which you identify):
+  Alaskan Native / American Indian / Indigenous American / Native American                                                                                      <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  Black/of African descent
+  East Asian (inclusive of Chinese, Japanese, Korean, Mongolian, Tibetan, and Taiwanese)
+  Latinx
+  Middle Eastern
+  Pacific Islander
+  South Asian (inclusive of Bangladeshi, Bhutanese, Indian, Nepali, Pakistani, and Sri Lankan)
+  Southeast Asian (inclusive of Burmese, Cambodian, Filipino, Hmong, Indonesian, Laotian, Malaysian, Mien, Singaporean, Thai, and Vietnamese)
+  White / Caucasian
+  I decline to self-identify
+  My ethnic identity isn't listed 
+
+
+
+Have you ever worked remotely before?  * 
+
+{textbox}
+
+
+
+Do you currently or have you previously been employed as a Full-Time Employee or Intern at GitHub, Microsoft, LinkedIn, or a Microsoft affiliate (if yes, please indicate the most recent experience)? *
+
+{<input type="select">}
+
+Are you currently or have you previously worked as a contractor / external vendor (through an agency) on assignment at GitHub, Microsoft, LinkedIn, or a Microsoft affiliate (if yes, please indicate the most recent experience)? *
+
+{<input type="select">}
+
+
+
+Ethnicity/Race (Select one) *
+  African American or Black - A person having origins in any of the Black racial groups of Africa.                                                                                                                                                                                  <<<<<<<<<<<< <input type='checklist'>
+  American Indian or Alaska Native - A person having origins in any of the original peoples of North and South America (including Central America), and who maintains tribal affiliation or community attachment.
+  Asian - A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.
+  Hispanic or Latino(a) - A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin, regardless of race.
+  Native Hawaiian or Other Pacific Islander - A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.
+  White - A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.
+  Multi-racial - All persons who identify with more than one of the ethnicity/race options.
+  I don't wish to answer
+
+
+
+Will you now or in the future require sponsorship to work in the US?✱
+
+    Yes                                                                         <<<<<<<<<<<< <input type='radio'>
+    No
+
+If "YES", what is the basis of your current employment authorization? And when does your current employment authorization expire? If H-1B, is there an approved I-140?
+
+    {textarea}
+
+*NOTE: See how question 2 starts with 'if' something... and that something is related to the above form field -> as they share the exact same string! What do I mean by that? In this current question the special string is located in between the "" and that entire string is also = to the entire string of the above questions predefined answers!! OR they at least share 90% < similarity!!!!*
+
+vvvvvvvvvvvvv
+
+Are you authorized to work lawfully in the United States for Blend without company sponsorship?  *
+{<input type="select">}
+
+If you responded No to the above question, please give additional context:
+{textarea}
+
+vvvvvvvvvvvvv
+
+How did you hear about us? *
+{<input type="select">}
+
+If you selected Referral, please specify who:
+If you selected Event, please specify:
+If you selected Other, please specify:
+
+
+
+Race/Ethnicity: Please check one of the descriptions below corresponding to the ethnic group with which you identify. (Select one) *
+  Hispanic or Latino: A person of Cuban, Mexican, Puerto Rican, South or Central American, or other Spanish culture or origin regardless of race.                                                                                                                                                <<<<<<<<<<<< <input type='checklist'>
+
+  White (Not Hispanic or Latino): A person having origins in any of the original peoples of Europe, the Middle East or North Africa.
+
+  Black or African American (Not Hispanic or Latino): A person having origins in any of the black racial groups of Africa.
+
+  Native Hawaiian or Pacific Islander (Not Hispanic or Latino): A person having origins in any of the peoples of Hawaii, Guam, Samoa or other Pacific Islands.
+
+  Asian (Not Hispanic or Latino): A person having origins in any of the original peoples of the Far East, Southeast Asia or the Indian Subcontinent, including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Th
+
+  Native American or Alaska Native (Not Hispanic or Latino): A person having origins in any of the original peoples of North and South America (including Central America) and who maintains tribal affiliation or community attachment.
+
+  Two or more races (Not Hispanic or Latino): All persons who identify with more than one of the above five races.
+
+  I don't wish to answer
+
+
+
+Do you consider yourself a member of the Lesbian, Gay, Bisexual, Transgender and/or Queer (LGBTQ) community? (Select one) *
+  Yes                                               <<<<<<<<<<<< <input type='checklist'>
+
+  No
+
+  No, but I identify as an Ally
+
+  I don't wish to answer 
+
+
+
+In what cities are you available to work? *
+  New York City                                     <<<<<<<<<<<< <input type='checklist'>   {UNLIMITED PICKS}
+  San Francisco
+  Remote 
+
+
+
+Do you have a strong proficiency in Python and Go programming languages for web development? * 
+
+{textbox}
+
+
+
+I identify as a first-generation professional (please select one): (Select one) *
+  Yes                                               <<<<<<<<<<<< <input type='checklist'>
+  No
+  I don't wish to answer 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

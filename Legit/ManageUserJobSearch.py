@@ -68,7 +68,11 @@ class UntouchedUser():
           print("")
           print("")
           print("")
-    
+          
+      
+    def recommend_user_resume(self):
+          print("This place is tight to if you need a resume go here -> ", end="")
+          print("https://www.resume.lol/")
     
     
     

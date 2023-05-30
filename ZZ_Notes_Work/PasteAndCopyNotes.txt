@@ -2238,7 +2238,60 @@ and it has many more options but I'm just using this one as an example, since th
 
 
 
-
+So I'm working on a python project that fills out forms for users. So I save the user's information in their .env file which is organized like this
+UNTOUCHED_USER='False'
+USERS_BROWSER_CHOICE=''
+LINKEDIN_USERNAME='Liebmann.nicholas1@gmail.com'
+LINKEDIN_PASSWORD='nockers'
+THE_INTERNET_USERNAME='admin'
+THE_INTERNET_PASSWORD='admin'
+RESUME_PATH='C:\Users\user\OneDrive\Desktop\Nicholas_Liebmann_Resume_23.pdf'
+FIRST_NAME='Nicholas'
+MIDDLE_INITIAL='J.'
+LAST_NAME='Liebmann'
+EMAIL='Liebmann.nicholas1@gmail.com'
+PHONE_NUMBER='6614787829'
+HOME_PHONE=''
+USERS_CITY='Austin'
+USERS_STATE='Texas'
+USERS_ZIP_CODE='78741'
+SCHOOL='San Jose State University'
+DEGREE='B.S.'
+DISCIPLINE='Mathematics'
+SCHOOL_START_DATE_MONTH='08'
+SCHOOL_START_DATE_YEAR='2015'
+SCHOOL_END_DATE_MONTH='05'
+SCHOOL_END_DATE_YEAR='2020'
+GPA='2.9'
+CURRENT_COMPANY='Apex Systems'
+CURRENT_TITLE='Data Analyst'
+now there's more info in the .env file and these are just examples of the first few. So basically my code uses Selenium and BeautifulSoup4 to organize the form input fields into a dictionary variable named form_input_details which consists of values that look like this 
+Input 17:
+  Label: How would you describe your sexual orientation? (mark all that apply)
+  Type: checkbox
+  Values: ["Asexual", "Bisexual and/or pansexual", "Gay", "Heterosexual", "Lesbian", "Queer", "I prefer to self-describe", "I don't wish to answer"]
+  Is Hidden: False
+  HTML: 
+  Dynamic: False
+  Related Elements: []
+Input 18:
+  Label: Do you identify as transgender? (Select one)
+  Type: checkbox
+  Values: ["Yes", "No", "I prefer to self-describe", "I don't wish to answer"]
+  Is Hidden: False
+  HTML: 
+  Dynamic: False
+  Related Elements: []
+so each value value is defined as below
+Input 00: -The number in which this input tag appears in the form
+  Label: -The string value that informs the user what information is needed for this specific input
+  Type: -How my code will insert the users value so Ex. checkbox input, radio input, button, etc.
+  Values: -A list of predefined values that the user has to choose from; if any
+  Is Hidden: -Determines whether this input field is hidden or not
+  HTML: -All the HTML code that contains the Label and Values value so inserting users values are quicker
+  Dynamic: -Whether this input field contains anything dynamic
+  Related Elements: -If Dynamic's value is True then this is where we store that dynamic code
+so as you can see because of my preparation I can easily use the label from my variable form_input_details
 
 
 
