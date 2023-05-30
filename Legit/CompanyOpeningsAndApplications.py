@@ -1930,7 +1930,9 @@ class CompanyWorkflow():
                 print("True" if matching_keys else "False")
                 if matching_keys:
                     for key in matching_keys:
-                        answer = self.users_information[key]
+                        print("key = ", key)
+                        answer = self.users_information['key']
+                        print("answer = ", answer)
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
                         self.fill_form(label, answer)
