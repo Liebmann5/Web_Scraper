@@ -385,33 +385,49 @@ class CompanyWorkflow():
                         return False
         return True
     
-    #TODO
-    # user_desired_worplaceType = [ 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 2 || 1 || 2 || 1 || 2]
-    # 1 = ONLY remote (under no circumstances will you ever go in)
-    # 2 = ONLY in-office (under no circumstances are you trusted with work getting done at home) | check locations match
-    # 3 = 
-    # 4 = 
-    # 5 = 
-    # 6 = 
-    # 7 = 
-    # 8 = 
-    # 9 = 
-    # def users_basic_requirements_job_location(self, company_job_workplaceType, company_job_location):
-    #     if company_job_workplaceType == None:
-    #         for desired_location in self.user_desired_location:
-    #             if desired_location not in company_job_location:
-    #                 if 'hybrid' in company_job_location:
-    #                     if user_desired_state not in self.get_state(company_job_location):
-    #                         return False
-    #                 if 'remote' in company_job_location:
-                        
-    #     elif company_job_workplaceType == 'hybrid':
-    #         if self.user_desired_location is not None:
-    #             for desired_location in self.user_desired_location:
-    #                 if desired_location not in company_job_location:
-    #                     re
+    def user_basic_requirements(self, company_job_location, company_job_workplaceType):
+        if not company_job_location or company_job_location.lower() is None:
+            return True
         
-    #     elif company_job_workplaceType == ""
+        if company_job_location not in self.user_preferred_locations:
+            return False
+        
+        if not company_job_workplaceType or company_job_workplaceType:
+            return False
+        
+        # edge cases
+        if company_job_workplaceType.lower() == 'in-office with occasional remote':     #could just refer to this as travel
+            if 'in-office' in self.user_preferred_workplaceType or 'remote' in self.user_preferred_workplaceType:
+                return True
+            else:
+                return False
+            
+        if company_job_workplaceType.lower() == 'hybrid with rare in-office':
+            if 'hybrid' in self.user_preferred_workplaceType or 'remote' in self.user_preferred_workplaceType:
+                return True
+            else:
+                return False
+        
+        #standard scenario    
+        if company_job_workplaceType.lower() == 'remote':
+            return True
+        
+        if company_job_workplaceType.lower() == 'hybrid':
+            if 'hybrid' in self.user_preferred_workplaceType and 'in-office' in self.user_preferred_workplaceType:
+                return True
+            else:
+                return False
+            
+        if company_job_workplaceType.lower() == 'in-office':
+            if 'in-office' in self.user_preferred_workplaceType:
+                return True
+            else:
+                return False
+            
+        print("Yo some crap went wrong or somethin dog")
+        return False
+    
+
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -1511,7 +1527,7 @@ class CompanyWorkflow():
         })  
         
 
-                
+    #*This is what I used before config.py            
     def get_value_for_label(self, label):
         label_to_key_mapping = {
             'Full Name': 'FULL_NAME',
@@ -1846,6 +1862,22 @@ class CompanyWorkflow():
     #!                               TESTING                                         ! [https://github.com/explosion/spaCy]
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    def init_form_input_extended(self):
+        self.form_input_extended = {
+            "mandatory": False,
+            "select": None,
+            "radio": None,
+            "checkbox": None,
+            "button": None,
+            "file": None,
+            "select all": False,
+            "select one": False,
+            "mark all": False,
+            "dynamic": None,
+            "env_key": None,
+            "env_values": None,
+        }
+    
     #*Analyzes the label and values along with the .env(key-value) && config.py files
     #! THIS METHOD IS WHERE WE FIND OUT IF WE HAVE AN ANSWER OR NOT!!    ssoooo if we don't then we send fill_in_form() that user_response is needed!!!
     #TODO: Make sure sure to handle N/A situations as well!!
@@ -1863,6 +1895,7 @@ class CompanyWorkflow():
         for i, input_data in enumerate(form_input_details):
             time.sleep(5)
             
+            #++++++++++++++++++++++++++++++ MAYBE treat like edge cases +++++++++++++++++++++++++++++++++++++++
             print("Input " + str(i) + ":")
             print("  form_input_details = ", input_data)
             if input_data['is_hidden']:
@@ -1883,11 +1916,29 @@ class CompanyWorkflow():
                 print("Dang so -> == None")
                 continue
             
+            for predefined_answer in form_input_details['values']:
+                if "(dynamic)" not in predefined_answer:
+                    #current index + 1   ->    is dynamic {SSSOOOOO if we pick that to be the answer THEN prepare & take special care of the next question}
+                    answer_results_dynamic = predefined_answer          #Save the answer that will lead to a pop-up dynamic question
+                    
+            for j in reversed(range(i)):
+                #label = form_input_details[j]['label']         #if the 'label' keys' value is empty this action will prompt a KeyError BUT...  using .get() won't!!!
+                if input_data.get('label') == form_input_details[j].get('label'):
+                    #TODO:Figure out how to get access to the previous input ALSO  !ALSO! REMEMBER the questions in form_input_details are sometimes out of order
+                    current_label = duplicate_label
+                    continue
+                else:
+                    if duplicate_label == current_label:
+                        has_dynamic_question = duplicate_label          #NOT current_label becuase THAT IS the duplicate and we're looking for the O.G., which is everything that came before it!!!!
+                # OR OR OOOORRRRRRRR just as Chat-GPT did in fill_out_form() is any of these dynamic things are ran into handle them immediately and then just do `continue` so it skips it on the next iteration!!!!
+            
             if 'Submit Application' in input_data['label']:
                 print("Submit Application")
                 print("input_data: ", input_data)
                 submit_button = input_data
-                print("submit_button: ", submit_button)
+                print("submit_button: ", submit_button)    
+            #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            
             
             self.scroll_to_question(input_data['html'])
             #self.scroll_to_element(input_data)
@@ -2097,14 +2148,6 @@ class CompanyWorkflow():
             self.users_information[key] = answer
             with open(self.env_path, "a") as file:
                 file.write(f"\n{key}='{answer}")
-    
-    '''
-    def nlp_load(self):
-        print("nlp_load()")
-        self.nlp = spacy.load("en_core_web_md")
-        #self.nlp.add_pipe()
-        return
-    '''
     
     #*Uses label to try and find a matching key from the users' .env
     def find_best_match(self, label):
@@ -2627,6 +2670,70 @@ class CompanyWorkflow():
 #                     next_elem = next_elem.find_next()
 #             print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
 #             return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #TODO
+    # user_desired_worplaceType = [ 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 2 || 1 || 2 || 1 || 2]
+    # 1 = ONLY remote (under no circumstances will you ever go in)
+    # 2 = ONLY in-office (under no circumstances are you trusted with work getting done at home) | check locations match
+    # 3 = 
+    # 4 = 
+    # 5 = 
+    # 6 = 
+    # 7 = 
+    # 8 = 
+    # 9 = 
+    # def users_basic_requirements_job_location(self, company_job_workplaceType, company_job_location):
+    #     if company_job_workplaceType == None:
+    #         for desired_location in self.user_desired_location:
+    #             if desired_location not in company_job_location:
+    #                 if 'hybrid' in company_job_location:
+    #                     if user_desired_state not in self.get_state(company_job_location):
+    #                         return False
+    #                 if 'remote' in company_job_location:
+                        
+    #     elif company_job_workplaceType == 'hybrid':
+    #         if self.user_desired_location is not None:
+    #             for desired_location in self.user_desired_location:
+    #                 if desired_location not in company_job_location:
+    #                     re
+        
+    #     elif company_job_workplaceType == ""
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
