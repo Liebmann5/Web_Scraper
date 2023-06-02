@@ -67,7 +67,7 @@ class scraperGoogle():
         time.sleep(2)
         return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
 
-    def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the crap together Nick
+    def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
         job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
         
         print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')

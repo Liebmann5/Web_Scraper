@@ -524,6 +524,7 @@ class Workflow():
     #!                      LOAD RESOURCES AND LIBRARIES                             !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    #! HERE HERE HERE          CHANGE  GPT-Neo-#.#B            HERE HERE HERE
     def load_company_resources(self):
         print("load_company_resources()")
         self.load_users_information()
@@ -537,12 +538,13 @@ class Workflow():
         self.nlp_load()
         print("  Loaded Users Information...")
         
-        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
-        self.init_gpt_neo(model_3B_pars)
-        print("  Initialized GPT-Neo-2.7B...")
+        # model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
+        # self.init_gpt_neo(model_3B_pars)
+        # print("  Initialized GPT-Neo-2.7B...")
         
-        # self.test_gpt_neo(model_3B_pars)
-        # print("  Testicalized GPT-Neo-2.7B...")
+        model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        self.init_gpt_neo(model_3B_pars)
+        print("  Initialized GPT-Neo-1.3B...")
         
         self.init_nltk()
         print("  Initialized nltk...")
@@ -827,7 +829,7 @@ class Workflow():
         
         print("These are all the links you already applied to... ")
         print(previously_applied_links)
-        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
+        print("Swedish men... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
         #print(Lake_Minnetonka_Purified_list)
         return Lake_Minnetonka_Purified_list
     

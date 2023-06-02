@@ -33,6 +33,11 @@ import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+
+
+#! Filter out string "professional experience is a must"
+
+
 import torch
 
 class CompanyWorkflow():
@@ -84,6 +89,9 @@ class CompanyWorkflow():
         self.q_and_a = q_and_a
         
         self.env_path = '.env'
+        
+        
+        self.form_input_extended = None
         
         
     # from transformers import pipeline
@@ -1698,19 +1706,27 @@ class CompanyWorkflow():
                 'https://boards.greenhouse.io/earnin/jobs/4860753',
                 'https://jobs.lever.co/instructure/804e2e79-89dc-4d5a-b247-aee377435f7c/apply',
                 'https://jobs.lever.co/relativity/ac76f210-0070-45d2-ba68-440907de4411/apply']
+        # for i, url in enumerate(urls):
+        #     try:
+        #         print(f"Processing URL {i+1}...")
+        #         self.browser.get(url)
+        #         time.sleep(6)
+        #         self.company_workflow(url)
+        #         print(f"URL({url}) {i+1} company_workflow() complete...")
+        #         time.sleep(20)
+        #     except Exception as e:
+        #         print(f"An error occurred while processing URL {i+1}: {url}")
+        #         print(str(e))
+        #     finally:
+        #         print(f"Finished processing URL {i+1}")
         for i, url in enumerate(urls):
-            try:
-                print(f"Processing URL {i+1}...")
-                self.browser.get(url)
-                time.sleep(6)
-                self.company_workflow(url)
-                print(f"URL({url}) {i+1} company_workflow() complete...")
-                time.sleep(20)
-            except Exception as e:
-                print(f"An error occurred while processing URL {i+1}: {url}")
-                print(str(e))
-            finally:
-                print(f"Finished processing URL {i+1}")
+            print(f"Processing URL {i+1}...")
+            self.browser.get(url)
+            time.sleep(6)
+            self.company_workflow(url)
+            print(f"URL({url}) {i+1} company_workflow() complete...")
+            time.sleep(20)
+
                 
         #self.process_urls(urls)
     
@@ -1865,17 +1881,17 @@ class CompanyWorkflow():
     def init_form_input_extended(self):
         self.form_input_extended = {
             "mandatory": False,
-            "select": None,
-            "radio": None,
-            "checkbox": None,
-            "button": None,
-            "file": None,
+            "text": False,
+            "select": False,
+            "radio": False,
+            "checkbox": False,
+            "button": False,
+            "file": False,
             "select all": False,
             "select one": False,
-            "mark all": False,
-            "dynamic": None,
+            "dynamic": False,
             "env_key": None,
-            "env_values": None,
+            "env_values": [],
         }
     
     #*Analyzes the label and values along with the .env(key-value) && config.py files
@@ -1884,6 +1900,7 @@ class CompanyWorkflow():
     #! THIS SHOULDN'T HAVE return ANYWHERE OTHER THAN THE END!! This should only basically be re-directs!!!!
     def process_form_inputs(self, form_input_details):
         print("\nprocess_form_inputs()")
+        self.init_form_input_extended()
         
         # self.nlp_load()
         # print("nlp loaded... ")
@@ -1894,6 +1911,7 @@ class CompanyWorkflow():
         submit_button = None
         for i, input_data in enumerate(form_input_details):
             time.sleep(5)
+            self.init_form_input_extended()
             
             #++++++++++++++++++++++++++++++ MAYBE treat like edge cases +++++++++++++++++++++++++++++++++++++++
             print("Input " + str(i) + ":")
@@ -1916,22 +1934,7 @@ class CompanyWorkflow():
                 print("Dang so -> == None")
                 continue
             
-            for predefined_answer in form_input_details['values']:
-                if "(dynamic)" not in predefined_answer:
-                    #current index + 1   ->    is dynamic {SSSOOOOO if we pick that to be the answer THEN prepare & take special care of the next question}
-                    answer_results_dynamic = predefined_answer          #Save the answer that will lead to a pop-up dynamic question
-                    
-            for j in reversed(range(i)):
-                #label = form_input_details[j]['label']         #if the 'label' keys' value is empty this action will prompt a KeyError BUT...  using .get() won't!!!
-                if input_data.get('label') == form_input_details[j].get('label'):
-                    #TODO:Figure out how to get access to the previous input ALSO  !ALSO! REMEMBER the questions in form_input_details are sometimes out of order
-                    current_label = duplicate_label
-                    continue
-                else:
-                    if duplicate_label == current_label:
-                        has_dynamic_question = duplicate_label          #NOT current_label becuase THAT IS the duplicate and we're looking for the O.G., which is everything that came before it!!!!
-                # OR OR OOOORRRRRRRR just as Chat-GPT did in fill_out_form() is any of these dynamic things are ran into handle them immediately and then just do `continue` so it skips it on the next iteration!!!!
-            
+
             if 'Submit Application' in input_data['label']:
                 print("Submit Application")
                 print("input_data: ", input_data)
@@ -1943,6 +1946,7 @@ class CompanyWorkflow():
             self.scroll_to_question(input_data['html'])
             #self.scroll_to_element(input_data)
             print("  Scrolled here I guess...\n")
+            print("self.form_input_extended = ", self.form_input_extended)
             time.sleep(3)
             
             label = input_data['label']
@@ -1960,6 +1964,8 @@ class CompanyWorkflow():
                 print("Ahhhhhhh yes a very sexual we have come across as it is either one of these: 'select', 'radio', 'checkbox'")
                 matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
                 if matching_keys:
+                    #!HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
+                    print("self.form_input_extended = ", self.form_input_extended)
                     for key in matching_keys:
                         
                         answer = self.users_information[{key}]
@@ -1977,12 +1983,18 @@ class CompanyWorkflow():
                 print("This one ain't special... this one ain't even intelligent... dumb ol' question any how")
                 matching_keys = self.try_finding_match(label)
                 print("matching_keys = ", matching_keys)
+                #! MAYBE HERE MAYBE HERE MAYBE MAYBE HERE MAYBE HERE MAYBE HERE
+                #self.form_input_extended['env_key'] = key
+                #self.form_input_extended['env_values'].append(self.users_information[key])
                 print("if matching_keys: ", end="")
                 print("True" if matching_keys else "False")
+                # if matching_keys:
+                #     for key in matching_keys:
                 if matching_keys:
-                    for key in matching_keys:
+                    print("self.form_input_extended['env_values'] = ", self.form_input_extended['env_values'])
+                    for key in self.form_input_extended['env_values']:
                         print("key = ", key)
-                        answer = self.users_information['key']
+                        answer = self.users_information.get(key)
                         print("answer = ", answer)
                         # Input the answer into the form
                         print(f"Entering '{answer}' for '{label}'")
@@ -2056,6 +2068,12 @@ class CompanyWorkflow():
     #TODO: do something with the dumb *!!!!
     def process_text(self, text):
         print("process_text()")
+        if "*" in text or "✱" in text:
+            self.form_input_extended['mandatory'] = True
+        if 'select one' in text.lower():
+            self.form_input_extended['select one'] = True
+        if 'select all' in text.lower() or 'mark all' in text.lower():
+            self.form_input_extended['select all'] = True
         return text.lower().strip().replace("(", "").replace(")", "").replace(".", "").replace("?", "").replace("*", "").replace("✱", "").strip()
     
     #*Answer simple question for user based off their provided summary
@@ -2173,6 +2191,13 @@ class CompanyWorkflow():
                 print("best_match = ", best_match)
                 
                 if max_similarity == 1.0:
+                    print("Before assignment:", self.form_input_extended)
+                    print("Before assignment(key):", key)
+                    self.form_input_extended['env_key'] = key
+                    print("After assignment:", self.form_input_extended)
+                    print("After assignment(key):", key)
+                    
+                    self.form_input_extended['env_values'].append(self.users_information[key])
                     print("MATCH: [ 2.1)find_best_match() -> .similarity(question{*label*} | self.users_information.key)]")
                     print("\tusers_information = ", key)
                     print("\tlabel = ", label)
@@ -2199,6 +2224,8 @@ class CompanyWorkflow():
                     print("best_match = ", best_match)
                     
                     if max_similarity == 1.0:
+                        self.form_input_extended['env_key'] = key
+                        self.form_input_extended['env_values'].append(self.users_information[key])
                         print("MATCH: [ 2.2)find_best_match() -> .similarity(question{*label*} | synonyms.index)]")
                         print("\tusers_information = ", key)
                         print("\tlabel = ", label)
@@ -2274,21 +2301,32 @@ class CompanyWorkflow():
     #TODO: Compare label->key/label->value/values->key/values->value
     #*special_case() method 2
     def is_special_case(self, input_data):
-        expected_user_input = None
         label = input_data['type']
         if label in ['select', 'radio', 'checkbox', 'file']:  #NOT 'button' b/c that's just the Submit
             if label == 'select':
                 select_element = self.browser.find_element(label)
                 is_multiple_choice = select_element.get_attribute('multiple') is not None
                 if is_multiple_choice is True:
-                    expected_user_input = 'is_multiple_choice'
+                    self.form_input_extended['text'] = 'is_multiple_choice'
                 elif is_multiple_choice is False:
                     pass
             elif label == 'checkbox':
-                expected_user_input = 'is_multiple_choice'
+                self.form_input_extended['checkbox'] = True
+                self.form_input_extended = 'is_multiple_choice'
+            elif label == 'radio':
+                self.form_input_extended['radio'] = True
             elif label == 'file':
-                expected_user_input = 'is_file'
-        return expected_user_input
+                self.form_input_extended['file'] = True
+        else:
+            if label == 'text' or label == 'textarea':
+                self.form_input_extended['text'] = True
+            elif label == 'button':
+                self.form_input_extended['text'] = True
+            
+            else:
+                print("There has been an error father...")
+                print("label = ", label)
+        return
     
     
     
@@ -2320,8 +2358,27 @@ class CompanyWorkflow():
     
     
     
-    
-    
+    #ADD TO process_form_inputs()
+            #     print("Looking for dynamic answers")
+            # for predefined_answer in form_input_details.get('values'):
+            #     if "(dynamic)" not in predefined_answer:
+            #         #current index + 1   ->    is dynamic {SSSOOOOO if we pick that to be the answer THEN prepare & take special care of the next question}
+            #         #answer_results_dynamic = predefined_answer          #Save the answer that will lead to a pop-up dynamic question
+            #         self.form_input_extended['dynamic'] = True
+                    
+            # print("Looking for dynamic questions")
+            # for j in reversed(range(i)):
+            #     #label = form_input_details[j]['label']         #if the 'label' keys' value is empty this action will prompt a KeyError BUT...  using .get() won't!!!
+            #     if input_data.get('label') == form_input_details[j].get('label'):
+            #         #TODO:Figure out how to get access to the previous input ALSO  !ALSO! REMEMBER the questions in form_input_details are sometimes out of order
+            #         self.form_input_extended['dynamic'] = True
+            #         continue
+            #     #!RECENT CHANGE sssoooooo if anything happens it's cause of this
+            #     # else:
+            #     #     if duplicate_label == current_label:
+            #     #         has_dynamic_question = duplicate_label          #NOT current_label becuase THAT IS the duplicate and we're looking for the O.G., which is everything that came before it!!!!
+            #     # OR OR OOOORRRRRRRR just as Chat-GPT did in fill_out_form() is any of these dynamic things are ran into handle them immediately and then just do `continue` so it skips it on the next iteration!!!!
+            
     
     
     

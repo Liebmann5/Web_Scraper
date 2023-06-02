@@ -258,7 +258,7 @@ class Workflow():
         
         print("These are all the links you already applied to... ")
         print(previously_applied_to_job_links)
-        print("Swedish semen... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.")
+        print("Swedish men... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.")
         print(Lake_Minnetonka_Purified_list)
         self.google_search_results_links = Lake_Minnetonka_Purified_list
         return

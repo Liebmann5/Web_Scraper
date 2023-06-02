@@ -379,7 +379,7 @@ class scraperGoogleJob():
     #greenhouse(job_description) => app_body
     def apply_yes_or_no(self, job_description):
         everything_about_job = job_description.get_text()
-        #semen = everything_about_job.prettify()
+        #men = everything_about_job.prettify()
         #print(everything_about_job)
         #experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
         experience_needed = "You must be a diety; being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
@@ -601,7 +601,7 @@ class scraperGoogleJob():
                 print("0.3 = ", end="")
                 print(element)
             if not element:
-                print("That's some bull crap! Can't scroll")
+                print("That's some el toro poopoo! Can't scroll")
             self.browser.execute_script("arguments[0].scrollIntoView();", element)
             time.sleep(2)
         print("1")
