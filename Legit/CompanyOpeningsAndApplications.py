@@ -1762,6 +1762,26 @@ class CompanyWorkflow():
         print("double_check_before_fill_in_form()")
         print("Nepotism")
     
+    def extract_css(self, input_data_html):
+        soup = BeautifulSoup(input_data_html, 'lxml')
+        print("soup = ", soup)
+        body_children = soup.body.contents
+        for child in body_children:
+            print('element = ', child)
+            
+            if child.get('id'):
+                identifier = child.get('id')
+                css_selector = '#' + identifier
+            elif child.get('class'):
+                identifier = child.get('class')[0]
+                css_selector = '.' + identifier
+            else:
+                raise ValueError('The element does not have an id or a class')
+        
+            elemental = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
+        
+        return elemental
+    
     #*Sends values to form
     #TODO: NOTE -> if process_form_input sends nothing then check if there was a * in the label!! or if it's a text/textarea!!
     # def fill_form(self, form_input_details):
@@ -1814,6 +1834,131 @@ class CompanyWorkflow():
         print("inserted that question")
         print("but eff that question")
         time.sleep(5)
+    
+    def fill_that_form(self):                                                                            #v For `select` when there's too many answers!!
+        if self.form_input_extended['mandatory'] is True and (self.form_input_extended['env_values'] or self.form_input_extended['env_html']):
+            print("fill_that_form()")
+            print('\n\n')
+            print(self.form_input_extended)
+            print('\n\n')
+            time.sleep(3)
+            
+            if self.form_input_extended['text'] is True:
+                #for form_input_answer in self.form_input_extended['env_values']:
+                #form_input_answer = self.form_input_extended['env_values']
+                print("MADE IT INTO [TEXT] - MADE IT INTO [TEXT] - MADE IT INTO [TEXT] - MADE IT INTO [TEXT]")
+                for form_input_ans in self.form_input_extended['env_values']:
+                    print("form_input_ans = ", form_input_ans)
+                    form_input_answer = form_input_ans
+                form_input_html = self.form_input_extended['env_html']
+                
+                if form_input_answer:
+                    #form_input_html.click()
+                    #self.browser.form_input_html.send_keys(form_input_answer)
+                    #self.form_input_html.send_keys(form_input_answer)
+                    form_input_html.send_keys(form_input_answer)
+                    print("Text should be inserted => ", form_input_answer)
+                    time.sleep(3)
+                    return
+                
+                        
+            elif self.form_input_extended['select'] is True:
+                #form_input_answer = self.form_input_extended['env_values']
+                for form_input_ans in self.form_input_extended['env_values']:
+                    print("form_input_ans = ", form_input_ans)
+                    form_input_answer = form_input_ans
+                
+                if answer:
+                    form_input_html = self.form_input_extended['env_html']
+                    input_select_element = self.form_input_html.find_element(By.TAG_NAME, "input")
+                    #select_button = self.form_input_extended(By.)
+
+                    input_select_element.click()
+                    answer = form_input_html.find_element(By.ID, form_input_answer)
+                    answer.click()
+                    return
+                elif form_input_answer is None:
+                    form_input_html = self.form_input_extended['env_html']
+                    input_select_element = self.form_input_html.find_element(By.TAG_NAME, "input")
+                    
+                    input_select_element.click()
+                    self.input_select_element.send_keys(By.TEXT, form_input_answer)
+                    self.send_keys("ENTER")
+                    if input_select_element == form_input_answer:
+                        return
+                    elif input_select_element is None:
+                        print("Try pressing the `down-arrow` key and then click `ENTER`!!")
+                        print("Otherwise click the correct school!")
+                    elif input_select_element is not form_input_answer:
+                        raise BreakLoopException
+                        
+            if self.form_input_extended['radio'] is True:
+                form_input_answer = self.form_input_extended['env_values']
+                form_input_html = self.form_input_extended['env_html']
+                
+                answer = form_input_html.find_element(By.ID, form_input_answer)
+                if answer:
+                    answer.click()
+                    return
+                elif answer is None:
+                    answer = self.browser.find_element(By.TEXT, form_input_answer)
+                    if answer:
+                        answer.click()
+                    elif answer is None:
+                        print("Ummmm I have no clue about this [radio] call the police maybe??")
+                        
+            if self.form_input_extended['checkbox'] is True:
+                #TODO: Utilize the `select_all` || `select_one` from  self.form_input_extended['']
+                form_input_answer = self.form_input_extended['env_values']
+                form_input_html = self.form_input_extended['env_html']
+                
+                answer = form_input_html.find_element(By.ID, form_input_answer)
+                if answer:
+                    answer.click()
+                    return
+                elif answer is None:
+                    answer = self.browser.find_element(By.TEXT, form_input_answer)
+                    if answer:
+                        answer.click()
+                    elif answer is None:
+                        print("Ummmm I have no clue about this [checkbox] call the police maybe??")
+                        
+            if self.form_input_extended['button'] is True:
+                form_input_answer = self.form_input_extended['env_values']
+                form_input_html = self.form_input_extended['env_html']
+                
+                answer = form_input_html.find_element(By.ID, form_input_answer)
+                if answer:
+                    answer.click()
+                    return
+                elif answer is None:
+                    answer = self.browser.find_element(By.TEXT, form_input_answer)
+                    if answer:
+                        answer.click()
+                    elif answer is None:
+                        print("Ummmm I have no clue about this [checkbox] call the police maybe??")
+                        
+            elif self.form_input_extended['file'] is True:
+                form_input_answer = self.form_input_extended['env_values']
+                form_input_html = self.form_input_extended['env_html']
+                
+                answer = form_input_html.find_element(By.ID, form_input_answer)
+                if answer:
+                    answer.click()
+                    return
+                elif answer is None:
+                    answer = self.browser.find_element(By.TEXT, form_input_answer)
+                    if answer:
+                        answer.click()
+                    elif answer is None:
+                        print("Ummmm I have no clue about this [file] call the police maybe??")
+                        
+        if self.form_input_extended['mandatory'] is True and not self.form_input_extended['env_values']:
+            if self.max_similarity < .25:
+                print("prompt user to answer!!!")
+            else:
+                #Skips the form
+                raise BreakLoopException
     
     #*Scrolls to each question in the form
     def scroll_to_question(self, input_data_html):
@@ -1874,6 +2019,8 @@ class CompanyWorkflow():
         
             
     #TODO: Make the weight of 'your' and 'user'/'users' EQUAL (What is you address? = USERS_ADRESS)!!!!!!
+    #TODO: For 'I acknowledge' buttons check the answers for that and just skip everything!!
+        #TODO: Same with 'subscribe' && '?'
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         ! [https://github.com/explosion/spaCy]
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1892,6 +2039,7 @@ class CompanyWorkflow():
             "dynamic": False,
             "env_key": None,
             "env_values": [],
+            "env_html": None
         }
     
     #*Analyzes the label and values along with the .env(key-value) && config.py files
@@ -1910,104 +2058,117 @@ class CompanyWorkflow():
         #print("form_input_details: ", form_input_details)
         submit_button = None
         for i, input_data in enumerate(form_input_details):
-            time.sleep(5)
-            self.init_form_input_extended()
-            
-            #++++++++++++++++++++++++++++++ MAYBE treat like edge cases +++++++++++++++++++++++++++++++++++++++
-            print("Input " + str(i) + ":")
-            print("  form_input_details = ", input_data)
-            if input_data['is_hidden']:
-                continue
-            
-            print("This is -> is None")
-            if input_data['label'] is None:
-                print("Dang so -> is None")
-                continue
-            
-            print("This is -> dynamic")
-            if 'dynamic' in input_data['label']: #or input_data['label'] is None:
-                print("Dang so -> dynamic")
-                continue
-            
-            print("This is -> == None")
-            if input_data['label'] == None:
-                print("Dang so -> == None")
-                continue
-            
+            try:
+                
+                time.sleep(5)
+                self.init_form_input_extended()
+                self.is_special_case(input_data)
+                
+                #++++++++++++++++++++++++++++++ MAYBE treat like edge cases +++++++++++++++++++++++++++++++++++++++
+                print("Input " + str(i) + ":")
+                print("  form_input_details = ", input_data)
+                if input_data['is_hidden']:
+                    continue
+                
+                print("This is -> is None")
+                if input_data['label'] is None:
+                    print("Dang so -> is None")
+                    continue
+                
+                print("This is -> dynamic")
+                if 'dynamic' in input_data['label']: #or input_data['label'] is None:
+                    print("Dang so -> dynamic")
+                    continue
+                
+                print("This is -> == None")
+                if input_data['label'] == None:
+                    print("Dang so -> == None")
+                    continue
+                
 
-            if 'Submit Application' in input_data['label']:
-                print("Submit Application")
-                print("input_data: ", input_data)
-                submit_button = input_data
-                print("submit_button: ", submit_button)    
-            #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            
-            
-            self.scroll_to_question(input_data['html'])
-            #self.scroll_to_element(input_data)
-            print("  Scrolled here I guess...\n")
-            print("self.form_input_extended = ", self.form_input_extended)
-            time.sleep(3)
-            
-            label = input_data['label']
-            print("unprocessed label: ", label)
-            label = self.process_text(label)
-            print("processed label: ", label)
-            input_type = input_data['type']
-            predefined_options = input_data.get('values', None)
-            print("predefined_options = ", predefined_options)
-            
-            # If the input type in select, radio, or checkbox, handle it as a !special case!
-            print("\n_____________________________________________________________________________________")
-            print("TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING BUTTS!!")
-            if input_type in ['select', 'radio', 'checkbox']:
-                print("Ahhhhhhh yes a very sexual we have come across as it is either one of these: 'select', 'radio', 'checkbox'")
-                matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
-                if matching_keys:
-                    #!HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
-                    print("self.form_input_extended = ", self.form_input_extended)
-                    for key in matching_keys:
-                        
-                        answer = self.users_information[{key}]
-                        print("answer = ", answer)
-                        if answer in predefined_options:
-                            # Input the answer into the form
-                            print(f"Entering '{answer}' for '{label}'")
-                            self.fill_form(label, answer)
-                        else:
-                            print(f"Stored answer '{answer}' is not a valid option for '{label}'")
-                else:
-                    print(f"No stored answers found for '{label}'")
-                    
-            else:
-                print("This one ain't special... this one ain't even intelligent... dumb ol' question any how")
-                matching_keys = self.try_finding_match(label)
-                print("matching_keys = ", matching_keys)
-                #! MAYBE HERE MAYBE HERE MAYBE MAYBE HERE MAYBE HERE MAYBE HERE
-                #self.form_input_extended['env_key'] = key
-                #self.form_input_extended['env_values'].append(self.users_information[key])
-                print("if matching_keys: ", end="")
-                print("True" if matching_keys else "False")
-                # if matching_keys:
-                #     for key in matching_keys:
-                if matching_keys:
-                    print("self.form_input_extended['env_values'] = ", self.form_input_extended['env_values'])
-                    for key in self.form_input_extended['env_values']:
-                        print("key = ", key)
-                        answer = self.users_information.get(key)
-                        print("answer = ", answer)
-                        # Input the answer into the form
-                        print(f"Entering '{answer}' for '{label}'")
-                        self.fill_form(label, answer)
-                else:
-                    context = self.q_and_a['summary'] + " " + label
-                    answer = self.generate_response(context)
-                    if answer:
-                        # Input the answer into the form
-                        print(f"Entering '{answer}' for '{label}'")
-                        self.fill_form(label, answer)
+                if 'Submit Application' in input_data['label']:
+                    print("Submit Application")
+                    print("input_data: ", input_data)
+                    submit_button = input_data
+                    print("submit_button: ", submit_button)    
+                #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                
+                
+                self.scroll_to_question(input_data['html'])
+                #self.scroll_to_element(input_data)
+                print("  Scrolled here I guess...\n")
+                print("self.form_input_extended = ", self.form_input_extended)
+                time.sleep(3)
+                
+                label = input_data['label']
+                print("unprocessed label: ", label)
+                label = self.process_text(label)
+                print("processed label: ", label)
+                input_type = input_data['type']
+                predefined_options = input_data.get('values', None)
+                print("predefined_options = ", predefined_options)
+                
+                # If the input type in select, radio, or checkbox, handle it as a !special case!
+                print("\n_____________________________________________________________________________________")
+                print("TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING BUTTS!!")
+                if input_type in ['select', 'radio', 'checkbox']:
+                    print("Ahhhhhhh yes a very sexual we have come across as it is either one of these: 'select', 'radio', 'checkbox'")
+                    matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
+                    if matching_keys:
+                        #!HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
+                        print("self.form_input_extended = ", self.form_input_extended)
+                        for key in matching_keys:
+                            
+                            answer = self.users_information[{key}]
+                            print("answer = ", answer)
+                            if answer in predefined_options:
+                                # Input the answer into the form
+                                print(f"Entering '{answer}' for '{label}'")
+                                #self.fill_form(label, answer)
+                            else:
+                                print(f"Stored answer '{answer}' is not a valid option for '{label}'")
                     else:
                         print(f"No stored answers found for '{label}'")
+                        
+                else:
+                    print("This one ain't special... this one ain't even intelligent... dumb ol' question any how")
+                    matching_keys = self.try_finding_match(label)
+                    print("matching_keys = ", matching_keys)
+                    #! MAYBE HERE MAYBE HERE MAYBE MAYBE HERE MAYBE HERE MAYBE HERE
+                    #self.form_input_extended['env_key'] = key
+                    #self.form_input_extended['env_values'].append(self.users_information[key])
+                    print("if matching_keys: ", end="")
+                    print("True" if matching_keys else "False")
+                    # if matching_keys:
+                    #     for key in matching_keys:
+                    if matching_keys:
+                        print("self.form_input_extended['env_values'] = ", self.form_input_extended['env_values'])
+                        for key in self.form_input_extended['env_values']:
+                            print("key = ", key)
+                            answer = self.users_information.get(key)
+                            print("answer = ", answer)
+                            # Input the answer into the form
+                            print(f"Entering '{answer}' for '{label}'")
+                            #self.fill_form(label, answer)
+                    else:
+                        context = self.q_and_a['summary'] + " " + label
+                        answer = self.generate_response(context)
+                        if answer:
+                            # Input the answer into the form
+                            print(f"Entering '{answer}' for '{label}'")
+                            #self.fill_form(label, answer)
+                        else:
+                            print(f"No stored answers found for '{label}'")
+                self.form_input_extended['env_html'] = self.extract_css(input_data['html'])
+                self.fill_that_form()
+                            
+                            
+            except BreakLoopException:
+                print("You know what eff that job anyways! They probably suck and would've over worked you anyways.")
+                return
+            
+            
+        self.submit_job_application(submit_button)
         print("ALL DONE!!! The job application has been completed Reverand Mackie...")
         print("Normally Germans would push the 'Submit Application' button right now!")
         time.sleep(20)
@@ -2283,6 +2444,31 @@ class CompanyWorkflow():
         else:
             return False
     
+    def submit_job_application(self, submit_button):
+        #submit_button_index = self.form_input_details.get('KEY-NAME')
+        #submit_button = self.extract_css(submit_button_index['HTML'])
+        
+        submit_button = self.extract_css(submit_button['HTML'])
+        
+        self.browser.find_element(By.CSS_SELECTOR, submit_button).click()
+        
+        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".response-message")))
+        
+        response_message = self.browser.find_element(By.CSS_SELECTOR, ".response-message").text
+        if "success" in response_message.lower():
+            print("Form submission was successful!")
+        else:
+            print("Form submission failed!")
+            
+        error_messages = self.driver.find_elements(By.CSS_SELECTOR, ".error-message")
+        for error_message in error_messages:
+            print(f"Error: {error_message.text}")
+            
+        #TODO: Add call to oxylabs captcha!!!!!
+            
+        #TODO: I believe I just return all the way to go to the next job application!!!!
+        #return
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2333,7 +2519,29 @@ class CompanyWorkflow():
     
     
     
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class BreakLoopException(Exception):
+    pass
+
+
+
+
+  
     
     
     
