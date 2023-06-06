@@ -42,7 +42,7 @@ import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         #self.list_of_links = list_of_links
         self.browser = browser
@@ -87,6 +87,7 @@ class CompanyWorkflow():
         
         self.custom_rules = custom_rules
         self.q_and_a = q_and_a
+        self.custom_synonyms = custom_synonyms
         
         self.env_path = '.env'
         
@@ -2059,6 +2060,7 @@ class CompanyWorkflow():
         submit_button = None
         for i, input_data in enumerate(form_input_details):
             try:
+                print("\n\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n")
                 
                 time.sleep(5)
                 self.init_form_input_extended()
@@ -2177,6 +2179,7 @@ class CompanyWorkflow():
     def try_finding_match(self, label):
         print("\n1)try_finding_match()")
         words_in_label = label.split()
+        jacc_key = None
         if len(words_in_label) <= 2:
             print("This question has 2 words or less.")
             print(words_in_label)
@@ -2218,11 +2221,19 @@ class CompanyWorkflow():
         #     return config.py[key]
         if found_best_match:
             return found_best_match
-        elif self.jaccard_similarity(jacc_key, label):
-            return jacc_key
+        #! RECENT CHANGE RECENT CHANGE RECENT CHANGE
+        # elif self.jaccard_similarity(jacc_key, label):
+        #     return jacc_key
+        # else:
+        #     #Since `rule` was previously defined you use it as above but since `summary` wasn't {something about Python treats} so just use () with '' inside it and the variable name within the ''
+        #     return self.generate_response(self.q_and_a('summary'))
+       
+        
+        #! HERE HERE HERE HERE
+               
+                   
         else:
-            #Since `rule` was previously defined you use it as above but since `summary` wasn't {something about Python treats} so just use () with '' inside it and the variable name within the ''
-            return self.generate_response(self.q_and_a('summary'))
+            jacc_key
     
     
     #*SpaCy's needs and dumb stuff gone
@@ -2338,6 +2349,16 @@ class CompanyWorkflow():
         best_match = None
         synonyms = self.get_synonyms(label)
         
+        
+        
+        if label == 'phone':
+            synonyms = self.get_synonyms('phone number')
+            print("PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER ", end='')
+            print(synonyms)
+            time.sleep(5)
+        
+        
+        
         print("users_information + 1")
         for key in self.users_information.keys():
             doc2 = self.nlp(key.lower().replace("_", " "))
@@ -2365,42 +2386,70 @@ class CompanyWorkflow():
                     print("\t... value = ", self.users_information[key])
                     #print("\t... value = ", self.users_information['{key}'])
                     return key
+                elif len(synonyms) <= 0:
+                    for synonym in synonyms:
+                        doc2_syn = self.nlp(synonym.lower().replace("_", " "))
+                        similarity_syn = doc2_syn.similarity(doc2)
+                        if similarity_syn > max_similarity:
+                            max_similarity = similarity_syn
+                            best_match = key
+                            
+                            if max_similarity == 1.0:
+                                print("Before assignment:", self.form_input_extended)
+                                print("Before assignment(key):", key)
+                                self.form_input_extended['env_key'] = key
+                                print("After assignment:", self.form_input_extended)
+                                print("After assignment(key):", key)
+                                
+                                self.form_input_extended['env_values'].append(self.users_information[key])
+                                print("MATCH: [ 2.1)find_best_match() -> .similarity(question{*label*} | self.users_information.key)]")
+                                print("\tusers_information = ", key)
+                                print("\tlabel = ", label)
+                                print("\t... value = ", self.users_information[key])
+                                #print("\t... value = ", self.users_information['{key}'])
+                                return key
+                
                 
             # Check for synonyms
             #! WRONG ! sometimes I have 2 so get the root or something!!!
             #synonyms = self.get_synonyms(key)
             #synonyms = self.get_synonyms(label)
-            for synonym in synonyms:
-                doc2 = self.nlp(synonym.lower().replace("_", " "))
-                print("-doc2(synonyms.index) = ", doc2)
-                #similarity = doc1.similarity(doc2)
-                similarity = doc2.similarity(doc1)
-                print("similarity = ", similarity)
-                print("key = ", key)
-                print("synonyms = ", synonyms)
-                if similarity > max_similarity:
-                    max_similarity = similarity
-                    best_match = key
-                    print("max_similarity = ", max_similarity)
-                    print("best_match = ", best_match)
+            
+            
+            #!-------------------------------------------------------------------------------------------------------------------------
+            # for synonym in synonyms:
+            #     doc2 = self.nlp(synonym.lower().replace("_", " "))
+            #     print("-doc2(synonyms.index) = ", doc2)
+            #     #similarity = doc1.similarity(doc2)
+            #     similarity = doc2.similarity(doc1)
+            #     print("similarity = ", similarity)
+            #     print("key = ", key)
+            #     print("synonyms = ", synonyms)
+            #     if similarity > max_similarity:
+            #         max_similarity = similarity
+            #         best_match = key
+            #         print("max_similarity = ", max_similarity)
+            #         print("best_match = ", best_match)
                     
-                    if max_similarity == 1.0:
-                        self.form_input_extended['env_key'] = key
-                        self.form_input_extended['env_values'].append(self.users_information[key])
-                        print("MATCH: [ 2.2)find_best_match() -> .similarity(question{*label*} | synonyms.index)]")
-                        print("\tusers_information = ", key)
-                        print("\tlabel = ", label)
-                        print("\t... synonym = ", synonym)
-                        print("\t... value = ", self.users_information[key])
-                        #print("\t... value = ", self.users_information['{key}'])
-                        return key
+            #         if max_similarity == 1.0:
+            #             self.form_input_extended['env_key'] = key
+            #             self.form_input_extended['env_values'].append(self.users_information[key])
+            #             print("MATCH: [ 2.2)find_best_match() -> .similarity(question{*label*} | synonyms.index)]")
+            #             print("\tusers_information = ", key)
+            #             print("\tlabel = ", label)
+            #             print("\t... synonym = ", synonym)
+            #             print("\t... value = ", self.users_information[key])
+            #             #print("\t... value = ", self.users_information['{key}'])
+            #             return key
+            #!-------------------------------------------------------------------------------------------------------------------------
+            
             
             print("\nusers_information + 1")
             
         print("max_similarity = ", max_similarity)
         print("best_match = ", best_match)
-        print(best_match if max_similarity > 0.75 else None)
-        return best_match if max_similarity > 0.75 else None
+        print(best_match if max_similarity > 0.80 else None)
+        return best_match if max_similarity > 0.80 else None
     
     #*This is the DOUBLE CHECK
     def get_synonyms(self, word):
@@ -2410,8 +2459,22 @@ class CompanyWorkflow():
         for syn in wordnet.synsets(word):
             for lemma in syn.lemmas():
                 synonyms.append(lemma.name())
+        #TODO: DOUBLE CHECK THIS!!!!! Your asking for the synonyms of `phone number`?!?!?!?! Do we really want the synonyms for the key and not the label?!?!?!
+        if word.lower() in self.custom_synonyms:
+            #for custom_syn in self.custom_synonyms[word]:
+            for custom_syn in self.custom_synonyms[self.process_text(word)]:
+                synonyms.extend(custom_syn)
+
+        print("self.custom_synonyms = ", end="")
+        print(self.custom_synonyms)
+        
+        
         print("synonyms = ", end="")
         print(synonyms)
+        print("\n--------------------")
+        
+        time.sleep(12)
+        
         return synonyms
     
     #*special_case() method 1

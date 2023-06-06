@@ -91,6 +91,7 @@ class Workflow():
         
         self.custom_rules = None
         self.q_and_a = None
+        self.custom_synonyms = None
         
         
         #init_gpt_neo()
@@ -356,7 +357,7 @@ class Workflow():
         print("Accidently clamped my testicles b/c I needed to be punished")
 
         print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
 
     def safe_click(self, element):
         print("safe_click()")
@@ -580,7 +581,8 @@ class Workflow():
                 print(f"Attribute: {attr}")
                 value = getattr(config, attr)
                 
-                if attr == "CUSTOM_RULES":
+                                        #! v  NEWLY ADDED!!!!!
+                if attr == "CUSTOM_RULES" or attr == "CUSTOM_SYNONYMS":
                     value = value[0]
                 
                 if isinstance(value, dict):
