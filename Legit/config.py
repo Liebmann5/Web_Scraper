@@ -6,7 +6,7 @@ CUSTOM_RULES = {
     "Name and Date": ["FIRST_NAME", " ", "LAST_NAME", " ", "self.time_program_ran"],
 },
 CUSTOM_SYNONYMS = {
-    "phone number": ["PHONE_NUMBER", "PERSONAL_CELL", "CELLPHONE", "PHONE"],
+    "phone": ["PHONE_NUMBER", "PERSONAL_CELL", "CELLPHONE", "PHONE"],
 },
 Q_AND_A = {
     "summary": ["I'm a hard worker. I'm always trying to learn some new topic or idea in computer science. I'm a good leader. I was a Division 1 runner so my work ethic is top-tier!"],

@@ -95,6 +95,9 @@ class CompanyWorkflow():
         self.form_input_extended = None
         
         
+
+        
+        
     # from transformers import pipeline
 
     # generator = pipeline('text-generation', model='EleutherAI/gpt-neo-2.7B')
@@ -2352,7 +2355,9 @@ class CompanyWorkflow():
         
         
         if label == 'phone':
-            synonyms = self.get_synonyms('phone number')
+            #synonyms = self.get_synonyms('phone number')
+            print(len(synonyms))
+            print("Yee good dog" if len(synonyms) <= 0 else "No good dog!")
             print("PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER PHONE NUMBER ", end='')
             print(synonyms)
             time.sleep(5)
@@ -2386,7 +2391,7 @@ class CompanyWorkflow():
                     print("\t... value = ", self.users_information[key])
                     #print("\t... value = ", self.users_information['{key}'])
                     return key
-                elif len(synonyms) <= 0:
+                elif len(synonyms) > 0:
                     for synonym in synonyms:
                         doc2_syn = self.nlp(synonym.lower().replace("_", " "))
                         similarity_syn = doc2_syn.similarity(doc2)
@@ -2455,7 +2460,9 @@ class CompanyWorkflow():
     def get_synonyms(self, word):
         print("\n3)get_synonyms()")
         print(f"word = {word}")
+        #TODO: Ensure this resets the list of synonyms each time
         synonyms = []
+
         for syn in wordnet.synsets(word):
             for lemma in syn.lemmas():
                 synonyms.append(lemma.name())
@@ -2463,7 +2470,12 @@ class CompanyWorkflow():
         if word.lower() in self.custom_synonyms:
             #for custom_syn in self.custom_synonyms[word]:
             for custom_syn in self.custom_synonyms[self.process_text(word)]:
-                synonyms.extend(custom_syn)
+                #synonyms.extend(custom_syn)
+                print("filtered_custom_syn = ", end="")
+                filtered_custom_syn = self.process_text(custom_syn)
+                filtered_custom_syn = filtered_custom_syn.replace("_", " ")
+                print(filtered_custom_syn)
+                synonyms.append(filtered_custom_syn)
 
         print("self.custom_synonyms = ", end="")
         print(self.custom_synonyms)
@@ -2473,7 +2485,7 @@ class CompanyWorkflow():
         print(synonyms)
         print("\n--------------------")
         
-        time.sleep(12)
+        time.sleep(2)
         
         return synonyms
     
@@ -2685,7 +2697,6 @@ class BreakLoopException(Exception):
     
         
         
-
 
 
 
