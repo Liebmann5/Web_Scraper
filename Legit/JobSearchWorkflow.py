@@ -106,9 +106,9 @@ class Workflow():
     def job_search_workflow(self):
         self.browser_setup()
         
-        self.load_company_resources()
-        self.ludacris_speed_apply_to_jobs()
-        self.__del__()
+        # self.load_company_resources()
+        # self.ludacris_speed_apply_to_jobs()
+        # self.__del__()
         
         
         
@@ -120,7 +120,7 @@ class Workflow():
         time.sleep(3)
 
         self.google_search_results_links = self.filter_through_google_search_results(google_search_results_links)
-        self.load_company_resources(self)
+        self.load_company_resources()
         self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
         
         self.close_browser()
@@ -349,7 +349,8 @@ class Workflow():
                 time.sleep(5)
             
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
 
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")

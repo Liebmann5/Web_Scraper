@@ -1338,6 +1338,10 @@ class CompanyWorkflow():
 
     def get_div_parent(self, input_element):
         parent_element = input_element.find_previous(lambda tag: any('question' in class_name for class_name in tag.get('class', [])))
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #!       recent change              !                                            !
+        parents_text = None
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if parent_element:
             current_element = parent_element.next_element
             while current_element:
