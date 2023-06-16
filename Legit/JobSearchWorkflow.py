@@ -138,8 +138,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -540,13 +540,13 @@ class Workflow():
         self.nlp_load()
         print("  Loaded Users Information...")
         
-        # model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
-        # self.init_gpt_neo(model_3B_pars)
-        # print("  Initialized GPT-Neo-2.7B...")
-        
-        model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
         self.init_gpt_neo(model_3B_pars)
-        print("  Initialized GPT-Neo-1.3B...")
+        print("  Initialized GPT-Neo-2.7B...")
+        
+        # model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        # self.init_gpt_neo(model_3B_pars)
+        # print("  Initialized GPT-Neo-1.3B...")
         
         self.init_nltk()
         print("  Initialized nltk...")

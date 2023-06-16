@@ -52,6 +52,7 @@ class CompanyWorkflow():
         self.company_open_positions_urls = []
         #This and apply can be temporary/method variables
         #self.a_fragment_identifier = None
+        self.a_fragment_identifier = None
         self.company_job_department = None
         self.job_id_number = None
         
@@ -822,6 +823,23 @@ class CompanyWorkflow():
             #?     print(child)
             #self.company_openings_test_link = 
         if self.company_other_openings_href == None:
+            
+            
+            
+            
+            
+            
+            #!!!!!!!!!!!! CHANGE RUSSIA !!!!!!!!!!!!
+            # if self.a_fragment_identifier is None:
+            #     self.a_fragment_identifier = 'Nothing here doofus!'
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
+            
+            
+            
+            
+            
+            
             self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=self.a_fragment_identifier)
         else:
             self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplication_OnPageID=self.a_fragment_identifier)
@@ -1201,7 +1219,9 @@ class CompanyWorkflow():
             if div_parent == 'None' or parents_text == 'None':
                 pass
             elif div_parent and parents_text:
-                return div_parent, parents_text
+                #return div_parent, parents_text
+                checkbox_values = [div_parent, parents_text]
+                return checkbox_values
 
         label = None
 
@@ -1428,7 +1448,15 @@ class CompanyWorkflow():
                     continue
                 
                 #! values - different -> sometimes value attr or in search next element for text_value!!
-                div_parent, parents_text = self.get_label(field)
+                #div_parent, parents_text = self.get_label(field)
+                checkbox_values = self.get_label(field)
+                print("SWEET ODIN'S RAVEN ITS A checkbox A... A checkbox I SAY... GOSH DARN YOU LISTEN TO ME ITS A checkbox!!!")
+                print("also the .get_label() appeared to work and has been returne Woodstock man animal...     Korny poo's ewww")
+                print("checkbox_values = ", checkbox_values)
+                div_parent = checkbox_values[0]
+                print("div_parent = ", div_parent)
+                parents_text = checkbox_values[1]
+                print("parents_text = ", parents_text)
                 values = []
                 input_label = parents_text
                 checkbox_group = div_parent.find_all('input', {'type': [input_type, "text", "textarea"]})

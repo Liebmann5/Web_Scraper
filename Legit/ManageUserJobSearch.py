@@ -79,7 +79,71 @@ class UntouchedUser():
     
     
     
-    
+    #! GENERAL REASONS WHY CODE MIGHT CRASH
+      # User's browsers might need to be updated
+            # Ex 1) is what that error might look like (I hope that is what that is...   ?)
+      #
+      #
+      #
+      #
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      #Ex 1)
+            # Requirement already satisfied: pycparser in c:\users\user\onedrive\documents\github\web_scraper\virtual_environments_smell_like_updog\lib\site-packages (from cffi>=1.14->trio~=0.17->selenium==4.9.0->-r requirements.txt (line 4)) (2.21)
+            # Requirement already satisfied: h11<1,>=0.9.0 in c:\users\user\onedrive\documents\github\web_scraper\virtual_environments_smell_like_updog\lib\site-packages (from wsproto>=0.14->trio-websocket~=0.9->selenium==4.9.0->-r requirements.txt (line 4)) (0.14.0)
+            # A subdirectory or file models already exists.
+
+            # Usage:
+            # C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe -m pip install [options] <requirement specifier> [package-index-options] ...
+            # C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe -m pip install [options] -r <requirements file> [package-index-options] ...
+            # C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe -m pip install [options] [-e] <vcs project url> ...
+            # C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe -m pip install [options] [-e] <local project path> ...
+            # C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe -m pip install [options] <archive url/path> ...
+
+            # no such option: -p
+            # Here's some info about sys.executable:  C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe
+            # This program began running at 2023-06-15 21:58:12
+            # Execution Started -- Opening Firefox Browser
+            # Traceback (most recent call last):
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 924, in <module>
+            # workflow.job_search_workflow()
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 107, in job_search_workflow
+            # self.browser_setup()
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 188, in browser_setup
+            # self.browser = webdriver.Firefox(options=options)
+            #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\firefox\webdriver.py", line 201, in __init__
+            # super().__init__(command_executor=executor, options=options, keep_alive=True)
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 286, in __init__
+            # self.start_session(capabilities, browser_profile)
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 378, in start_session
+            # response = self.execute(Command.NEW_SESSION, parameters)
+            #             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 440, in execute
+            # self.error_handler.check_response(response)
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 245, in check_response
+            # raise exception_class(message, screen, stacktrace)
+            # selenium.common.exceptions.WebDriverException: Message: Process unexpectedly closed with status 0
+
     
     
     

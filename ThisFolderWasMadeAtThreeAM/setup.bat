@@ -52,7 +52,7 @@ REM Download the Transformers model
 %PYTHON_CMD% -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B')"
 
 REM Run your Python script
-%PYTHON_CMD% Legit\JobSearchWorkflow.py
+@REM %PYTHON_CMD% Legit\JobSearchWorkflow.py
 
 REM Deactivate the virtual environment
 deactivate
