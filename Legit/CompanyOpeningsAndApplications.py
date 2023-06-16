@@ -2093,11 +2093,13 @@ class CompanyWorkflow():
         #print(self.form_input_details)
         #print("form_input_details: ", form_input_details)
         submit_button = None
+        remove_attachment = None
+        resume_attachment = None
         for i, input_data in enumerate(form_input_details):
             try:
                 print("\n\n\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n")
                 
-                time.sleep(5)
+                time.sleep(2)
                 self.init_form_input_extended()
                 self.is_special_case(input_data)
                 
@@ -2107,19 +2109,50 @@ class CompanyWorkflow():
                 if input_data['is_hidden']:
                     continue
                 
-                print("This is -> is None")
-                if input_data['label'] is None:
-                    print("Dang so -> is None")
+                # print("This is -> is None")         |       print("This is -> == None")         =>       print("This is -> None or empty")
+                # if input_data['label'] is None:     |       if input_data['label'] == None:     =>       if not input_data['label']:
+                #     print("Dang so -> is None")     |           print("Dang so -> == None")     =>           print("Dang so -> is None or empty")
+                #     continue                        |           continue                        =>           continue
+                
+                
+                #! THIS HAS TO BE 1st!!!!!!!!!  b/c if it's None or 'empty'(null) then all the other tests give erros when comparring!!
+                print("This is -> None or empty")
+                #Basically checks for None and empty!!
+                if not input_data['label'] or input_data['label'] == None:
+                    print("Dang so -> is None or empty")
                     continue
                 
                 print("This is -> dynamic")
-                if 'dynamic' in input_data['label']: #or input_data['label'] is None:
+                # or input_data['label'] is None:
+                if 'dynamic' in input_data['label']:
                     print("Dang so -> dynamic")
                     continue
                 
-                print("This is -> == None")
-                if input_data['label'] == None:
-                    print("Dang so -> == None")
+                print("This is -> == None       ...straight-up")
+                if input_data['label'] is None:
+                    print("Dang so -> == None       ...straight-up")
+                    continue
+                
+                print("This is -> == None       IT'S A STRING")
+                if input_data['label'] == 'None':
+                    print("Dang so -> == None       IT'S A STRING")
+                    continue
+                
+                
+                
+                if 'Remove attachment' in input_data['label']:
+                    print("Remove attachment: (a file of sorts)")
+                    print("input_data: ", input_data)
+                    remove_attachment = input_data
+                    print("remove_attachment: ", remove_attachment)
+                    continue
+                
+                
+                if 'Resume/CV' in input_data['label']:
+                    print("Resume/CV: (a file)")
+                    print("input_data: ", input_data)
+                    resume_attachment = input_data
+                    print("resume_attachment: ", resume_attachment)
                     continue
                 
 
@@ -2485,8 +2518,8 @@ class CompanyWorkflow():
             
         print("max_similarity = ", max_similarity)
         print("best_match = ", best_match)
-        print(best_match if max_similarity > 0.80 else None)
-        return best_match if max_similarity > 0.80 else None
+        print(best_match if max_similarity > 0.90 else None)
+        return best_match if max_similarity > 0.90 else None
     
     #*This is the DOUBLE CHECK
     def get_synonyms(self, word):

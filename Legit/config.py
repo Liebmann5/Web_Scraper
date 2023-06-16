@@ -5,8 +5,17 @@ CUSTOM_RULES = {
     "Start Availability": ["self.time_program_ran" + " " + "add 2 weeks"],
     "Name and Date": ["FIRST_NAME", " ", "LAST_NAME", " ", "self.time_program_ran"],
 },
+#TODO: I'm fairly certain I'd want these switched!?!?!?
 CUSTOM_SYNONYMS = {
     "phone": ["PHONE_NUMBER", "PERSONAL_CELL", "CELLPHONE", "PHONE"],
+    "linkedIn profile": ["LINKEDIN_PROFILE"],
+    "website": ["GITHUB_URL"],
+    "github": ["GITHUB_URL"],
+    "portfolio": ["GITHUB_URL"],
+    "require immigration sponsorship": ["US_CITIZEN"],
+    "hear about job": ["COME_ACROSS_HOW"],
+    # "website": ["GITHUB_URL"],
+    # "website": ["GITHUB_URL"],
 },
 Q_AND_A = {
     "summary": ["I'm a hard worker. I'm always trying to learn some new topic or idea in computer science. I'm a good leader. I was a Division 1 runner so my work ethic is top-tier!"],

@@ -326,6 +326,34 @@ class scraperGoogle():
 
 
 
+#jobs.polymer.co
 
 
 
+
+
+
+
+
+
+(virtual-environment) PS C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper> python Legit\JobSearchWorkflow.py > terminalOutput.txt
+Traceback (most recent call last):
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 924, in <module>
+    workflow.job_search_workflow()
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 124, in job_search_workflow
+    self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 353, in apply_to_jobs
+    CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 146, in company_workflow
+    self.determine_current_page(job_link, self.application_company_name)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 215, in determine_current_page
+    self.form_input_details = self.get_form_input_details(current_url)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 1509, in get_form_input_details
+    self.print_form_details(form_input_details)
+  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 1534, in print_form_details
+    print(f"  Label: {detail['label']}")
+  File "C:\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2731' in position 19: character maps to <undefined>
