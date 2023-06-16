@@ -2379,7 +2379,7 @@ https://github.com/Liebmann5/Web_Scraper
 
 
 
-
+What changes do you think I need to make in my CompanyOpeningsAndApplications.py file? I feel like it's some great code but major changes need to be made. I want this to be an amazing piece of software so what changes would you make and why? Then could you explain how to implement those changes and why they would be crucial changes to make my code great? Finally could you show me what that code would look like?
 
 
 

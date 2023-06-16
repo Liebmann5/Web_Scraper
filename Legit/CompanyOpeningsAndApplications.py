@@ -437,7 +437,7 @@ class CompanyWorkflow():
             else:
                 return False
             
-        print("Yo some crap went wrong or somethin dog")
+        print("Yo dog some crapola went wrong or somethin dog")
         return False
     
 
@@ -2568,7 +2568,7 @@ class CompanyWorkflow():
             return 'is_file'
         return None
     
-    #*Just for me to see what it does!! Crap looks haaatt!
+    #*Just for me to see what it does!! Crapola looks haaatt!
     def jaccard_similarity(self, sentence1, sentence2):
         print("\njaccard_similarity()")
         set1 = set(sentence1.lower().split())
