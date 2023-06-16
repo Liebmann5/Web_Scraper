@@ -32,6 +32,11 @@ class scraperGoogle():
         
         
         
+        
+        self.user_preferred_locations = []
+        
+        
+        
     #TODO: LAST_APPLIED => If anythng less than 3 days -> 24 hrs | If anything > 3 days filter by -> Past Week | If anything > 2 weeks just do -> anytime
         #TODO: But show the user LAST_APPLIED and let them pick
         
@@ -90,8 +95,10 @@ class scraperGoogle():
         self.search_locations(search_bar)
         return
     
-    #TODO
+    #TODO       -   -   -   -   - > user_preferred_locations
     def search_locations(self, search_bar):
+        self.user_preferred_locations = self.get_user_locations_request()
+        print("self.user_preferred_locations = ", self.user_preferred_locations)
         
         #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
         if not self.good_locations and not self.bad_locations:
