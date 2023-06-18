@@ -118,7 +118,18 @@ class CompanyWorkflow():
         print("company_workflow()")
         #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
         #self.lets_run_some_tests()
-        self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
+        
+        
+        #TODO: use the job_link list here(1st if) and compare/filter them through self.company_job_openings!!
+        if type(job_link) is list:
+            print("Should be a list: job_link = ", job_link)
+            self.job_link_url = job_link[0]
+        elif type(job_link) is str:
+            print("Should be a sting: job_link = ", job_link)
+            self.job_link_url = job_link
+        
+        
+        #self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
         #self.lets_run_some_tests()
         #self.full_company_test()
         
