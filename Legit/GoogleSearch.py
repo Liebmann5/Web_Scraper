@@ -16,7 +16,7 @@ from selenium.common.exceptions import ElementNotInteractableException
 
 class scraperGoogle():
     
-    def __init__(self, browser):
+    def __init__(self, browser, senior_experience):
         self.browser = browser
         self.user_desired_jobs = []
         self.good_locations = None
@@ -34,6 +34,11 @@ class scraperGoogle():
         
         
         self.user_preferred_locations = []
+        #NOTE: if senior_experience is true then everything is fair game but...  if it's False create this new variable!!!!
+        # if senior_experience == False:
+        #     self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        self.senior_experience = senior_experience
+        self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
         
         
         
@@ -95,27 +100,50 @@ class scraperGoogle():
         self.search_locations(search_bar)
         return
     
+    '''
+    #NOTE: google already returns too few jobs AND since time is not of the essance... this will hopefully lead the users to find some hidden gems!!!
+    # def filter_out_experience(self, search_bar):
+    #     if self.senior_experience == False:
+    #         search_bar.send_keys(('-'.join(self.avoid_these_job_titles) + ' '))
+    '''
+    
+    #NOTE: Ok so because google can't do it's job the locations are more so just suggestions!! At least
+        #for all the jobs in this 'returned list' from the 'google search'... once I get to the internal
+        #company job list I can prioritize location!!!
     #TODO       -   -   -   -   - > user_preferred_locations
     def search_locations(self, search_bar):
-        self.user_preferred_locations = self.get_user_locations_request()
-        print("self.user_preferred_locations = ", self.user_preferred_locations)
+        requested_job_locations = self.user_preferred_locations
         
-        #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
-        if not self.good_locations and not self.bad_locations:
-            self.filter_search_time_frame(search_bar)
-            return 
+        print("Specifying search to only return job's within the " + ", ".join(requested_job_locations) + " area")
+        print("1/2")
+        time.sleep(1)
+        job_locations_string = ' ("'
+        for i, location in enumerate(requested_job_locations):
+            if i == len(requested_job_locations):
+                job_locations_string += (location + '") ')
+            else:
+                job_locations_string += (location + '" | "')
+        search_bar.send_keys(job_locations_string)
+        print("2/2")
         
-        #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
-        search_location = " & "
-        for count, add_location in enumerate(self.good_locations):
-            if count == len(self.good_locations):
-                search_location += (" near=" + add_location + " ")
-                #! ADD: Find out how to add more location!!!!!                
-        for count, exclude_location in self.bad_locations:
-            if count == len(self.bad_locations):
-                search_location += ("!(near=" + exclude_location + ")")
         
-        search_bar.send_keys(search_location)
+        
+        # #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
+        # if not self.good_locations and not self.bad_locations:
+        #     self.filter_search_time_frame(search_bar)
+        #     return 
+        
+        # #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
+        # search_location = " & "
+        # for count, add_location in enumerate(self.good_locations):
+        #     if count == len(self.good_locations):
+        #         search_location += (" near=" + add_location + " ")
+        #         #! ADD: Find out how to add more location!!!!!                
+        # for count, exclude_location in self.bad_locations:
+        #     if count == len(self.bad_locations):
+        #         search_location += ("!(near=" + exclude_location + ")")
+        
+        # search_bar.send_keys(search_location)
         self.filter_search_time_frame(self, search_bar)
         return
     
@@ -339,28 +367,3 @@ class scraperGoogle():
 
 
 
-
-
-
-
-(virtual-environment) PS C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper> python Legit\JobSearchWorkflow.py > terminalOutput.txt
-Traceback (most recent call last):
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 924, in <module>
-    workflow.job_search_workflow()
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 124, in job_search_workflow
-    self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 353, in apply_to_jobs
-    CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 146, in company_workflow
-    self.determine_current_page(job_link, self.application_company_name)
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 215, in determine_current_page
-    self.form_input_details = self.get_form_input_details(current_url)
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 1509, in get_form_input_details
-    self.print_form_details(form_input_details)
-  File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\CompanyOpeningsAndApplications.py", line 1534, in print_form_details
-    print(f"  Label: {detail['label']}")
-  File "C:\Python311\Lib\encodings\cp1252.py", line 19, in encode
-    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-UnicodeEncodeError: 'charmap' codec can't encode character '\u2731' in position 19: character maps to <undefined>

@@ -51,6 +51,9 @@ import torch
 
 import warnings
 
+
+from urllib.parse import urlparse, urlunparse
+
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
                 #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
@@ -113,15 +116,15 @@ class Workflow():
         
         
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser, senior_experience=False).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
         time.sleep(3)
 
-        self.google_search_results_links = self.filter_through_google_search_results(google_search_results_links)
+        self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
-        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs)
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, completely_filtered_list)
         
         self.close_browser()
         
@@ -138,8 +141,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -315,7 +318,7 @@ class Workflow():
     
     
     #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
-    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, completely_filtered_list):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(self.google_search_results_links) - 1, -1, -1):
@@ -348,6 +351,7 @@ class Workflow():
                 self.browser.get(job_link)
                 time.sleep(5)
             
+            job_link = self.check_company_url_list(job_link, completely_filtered_list)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
@@ -501,7 +505,13 @@ class Workflow():
         else:
             raise ValueError(f"Invalid condition: {condition}")
     
-    
+    #TODO: Add last_link_from_google_search  to  filter_this_list!!!!!!
+    def check_company_url_list(self, job_link, completely_filtered_list):
+        print("\ncheck_company_duplicates()")
+        for companies_url_list in completely_filtered_list:
+            if companies_url_list[0] == job_link:
+                return companies_url_list
+        return job_link
     
     
     
@@ -767,7 +777,8 @@ class Workflow():
         google_search_results_links = self.ensure_no_duplicates(google_search_results_links)
         self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
         self.filter_out_jobs_user_previously_applied_to(google_search_results_links, self.previously_applied_to_job_links)
-        return google_search_results_links
+        google_search_results_links, completely_filtered_list = self.encapsulate_companies_urls(google_search_results_links)
+        return google_search_results_links, completely_filtered_list
     
     def convert_csv_data(self, csv_relative_path):
         print("\nconvert_csv_data() =")
@@ -847,6 +858,44 @@ class Workflow():
                     print("Repeated Link Found: ", end="")
                     print(list_URL)
         return unique_results
+    
+    #TODO: MAYBE!!!  PERHAPS!!!  Make a method for when you have multiple links to the same company!!
+        #TODO: So it gets the 1st index [https://boards.greenhouse.io/openai/jobs/4911334004] and looks
+        #TODO: for end of the url {Ex).io, .com, .gov} and then gets the next set of '/ /' and saves
+        #TODO: that url as  sole_company_url which should look like [https://boards.greenhouse.io/openai/]
+        #TODO: and if a match is found then create a list for that company!! Add both of those url's to the
+        #TODO: newly created list along with each match moving foward BUT ALSO ERASE EVERY FOUND MATCH! So
+        #TODO: that should leave you with only 1 url for that company; so when in the for loop in the
+        #TODO: apply_to_jobs() method before sending it to CompanyWorkflow check if that company is the 1st
+        #TODO: of any lists. If it isn't send the url. If it is send that list!!!!
+    def encapsulate_companies_urls(self, list_to_filter):
+        print("\nencapsulate_companies_urls()")
+        #!
+        #Make sure last_link_from_google_search is included in this list!!!!!!!
+        #print("****self.last_link_from_google_search****   =>   ", last_link_from_google_search)  #it's not a self
+        #!
+        updated_google_search_results_links = []
+        #companies_multiple_urls
+        completely_filtered_list = []
+        company_filtered_list = []
+        for i, indexed_job in enumerate(list_to_filter):
+            print("indexed_job = ", indexed_job)
+            updated_google_search_results_links.append(indexed_job)
+            parsed_url = urlparse(indexed_job)
+            url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+            for j, company_url_duplicate in enumerate(list_to_filter, 1):
+                if url_un_parse in company_url_duplicate:
+                    if len(company_filtered_list) == 0:
+                        company_filtered_list.append(indexed_job)
+                        company_filtered_list.append(company_url_duplicate)
+                    else:
+                        company_filtered_list.append(company_url_duplicate)
+            if len(company_filtered_list) > 0:
+                print("company_filtered_list = ", company_filtered_list)
+                completely_filtered_list.append(company_filtered_list)
+        #self.google_search_results_links = updated_google_search_results_links
+        #print("self.google_search_results_links = ", self.google_search_results_links)
+        return updated_google_search_results_links, completely_filtered_list
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
