@@ -49,7 +49,7 @@ class CompanyWorkflow():
         self.company_job_title = None
         self.company_name = None
         self.company_job_location = None
-        self.company_open_positions_urls = []
+        self.company_open_positions_url = []
         #This and apply can be temporary/method variables
         #self.a_fragment_identifier = None
         self.a_fragment_identifier = None
@@ -62,6 +62,7 @@ class CompanyWorkflow():
         self.users_information = users_information  #{}
         #the current company during this entire run
         self.application_company_name = None
+        #link to company's other openings
         self.company_open_positions_link = None
         if senior_experience == False:
             self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
@@ -77,7 +78,7 @@ class CompanyWorkflow():
         self.one_resume_label = False
     
         self.form_input_details = {}
-    
+        self.form_input_extended = None
     
         
         #init_gpt_neo()
@@ -98,7 +99,7 @@ class CompanyWorkflow():
         self.env_path = '.env'
         
         
-        self.form_input_extended = None
+        
         
         
 
@@ -149,14 +150,14 @@ class CompanyWorkflow():
         
         
         #TODO: use the job_link list here(1st if) and compare/filter them through self.company_job_openings!!
-        extra_found_urls = []
+        non_unique_links = None
         if type(job_link) is list:
             print("Should be a list: job_link = ", job_link)
             self.job_link_url = job_link[0]
             #! "SHARE" the exact same value
             #extra_found_urls = job_link
             #! This is now a copy ssooo... seperate values!
-            extra_found_urls = job_link.copy()
+            non_unique_links = job_link.copy()
             job_link = None
         elif type(job_link) is str:
             print("Should be a string: job_link = ", job_link)
@@ -171,23 +172,6 @@ class CompanyWorkflow():
             self.application_company_name = "lever"
         elif "boards.greenhouse.io" in job_link:
             self.application_company_name = "greenhouse"
-            # self.determine_current_page(job_link, self.application_company_name)
-            # self.company_job_openings(soup)
-            
-            # for job_opening in self.company_job_openings:
-            #     soup = self.apply_beautifulsoup(job_opening, "lxml")
-            #     webpage_body = soup.find('body')
-            #     if self.should_user_apply(webpage_body) == True:
-            #         self.lever_io_data(job_opening, webpage_body)
-            #         soup = self.apply_beautifulsoup(job_link, "html")
-            #         form_input_details = self.get_form_input_details()
-            #         self.insert_resume()
-            #         self.fill_out_application(form_input_details)
-            #         self.keep_jobs_applied_to_info(job_link)
-            #     self.reset_job_variables()
-            
-        # elif "boards.greenhouse.io" in job_link:
-        #     self.application_company_name = "greenhouse"
         self.determine_current_page(job_link, self.application_company_name)
         #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         print("GOOOOODDDD LORD!!!! Do you know what this means Mr. McCalister...")
@@ -196,12 +180,17 @@ class CompanyWorkflow():
         
         
         
-        #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        soup = self.apply_beautifulsoup(job_link, "lxml")
-        self.company_job_openings(soup)
+        #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx     #!!!We also need to already be at company_job_openings!!!!
+        soup = self.apply_beautifulsoup(job_link, "lxml")       #TODO:Fairly certain this shouldn't be job_link! This needs to be updates
+        div_main = soup.find("div", id="main")
+        self.company_job_openings(soup, div_main, self.application_company_name)
+        self.filter_company_job_openings()
         
         for job_opening in self.company_job_openings:
+            self.browser.get(job_opening)
+            self.job_link_url = self.browser.current_url
             soup = self.apply_beautifulsoup(job_opening, "lxml")
+
             webpage_body = soup.find('body')
             if self.should_user_apply(webpage_body) == True:
                 self.lever_io_data(job_opening, webpage_body)
@@ -209,7 +198,7 @@ class CompanyWorkflow():
                 form_input_details = self.get_form_input_details()
                 self.insert_resume()
                 self.fill_out_application(job_link, form_input_details)
-                self.keep_jobs_applied_to_info(job_link)
+                #self.keep_jobs_applied_to_info(job_link)
             self.reset_job_variables()
         #! div_main ==> lever.co = job_description
         return
@@ -357,119 +346,6 @@ class CompanyWorkflow():
                     next_elem = next_elem.find_next()
             print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
             return
-    
-    def company_job_openings(self, soup, div_main, application_company_name):
-        print("company_job_openings()")
-        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
-        #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
-        #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
-        print("Application Company = " + application_company_name)
-        
-        
-        if application_company_name == 'lever':
-            #just getting a better(more narrowed result) filter
-            postings_wrapper = soup.find('div', class_="postings-wrapper")
-            current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
-            postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
-            
-            
-            #department_name_empty = True
-            for section in postings_group_apply:
-                print(section)
-                company_department = section.find('div', class_='large-category-header').text
-                #if company_department and department_name_empty:
-                if company_department:
-                    print(company_department)
-                    #department_name_empty = False
-                
-                # if section.name == 'h3':
-                #     company_department = section.text
-                # if section.name == 'h4':
-                #     print('This is most likely just a SUB-category so not really important otber than making sure we go through EVERY job it contains!')
-                    
-                #job_opening = section.find('div', {'class': 'opening'})
-                if section.name == 'div' and section.get('class') == 'posting-apply':
-                    job_opening_href = section.next_sibling
-                    if job_opening_href.name == 'a' and job_opening_href.get('class') == 'posting-title':
-                        button_to_job_description = job_opening_href
-                        job_link = job_opening_href.get('href')
-                        job_title = job_opening_href.find('h5').text
-                        for bad_word in self.avoid_these_job_titles:
-                            if bad_word not in job_title:
-                                job_href = job_opening_href.get('href')
-                                job_url = perfect_url + job_href
-                                self.company_open_positions_url.append(job_url)
-                                print(job_title)
-                        span_tag = job_opening_href.find('span', {'class', 'sort-by-location'})
-                        span_tag_company_team = job_opening_href.find('span', {'class': 'sort-by-team'})
-                        span_tag_workplaceTypes = job_opening_href.find('span', {'class': 'workplaceTypes'})
-                        if span_tag:
-                            job_opening_location = span_tag.text
-                        #job_opening_href.click()$%$%$%$%$%$%$%$%$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%
-                if self.fits_users_criteria():
-                    self.company_open_positions_url.append(job_link)
-            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
-            return
-        
-        elif application_company_name == 'greenhouse':
-            current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
-            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
-            #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
-            count = 0
-            for section in sections:
-                count += 1
-                #if section.name == "class" and section.get("class") == 'level-0':
-                if section.name == 'h3':
-                    company_department = section.text
-                    print(company_department)
-                if section.name == 'h4':
-                    print('This is most likely just a SUB-category so not really important other than making sure we go through EVERY job it contains!')
-                    
-                job_opening = section.find('div', {'class': 'opening'})
-                if job_opening:
-                    job_opening_href = job_opening.find('a')
-                    if job_opening_href:
-                        job_title = job_opening_href.text
-                        print(job_title)
-                        for bad_word in self.avoid_these_job_titles:
-                            if bad_word not in job_title:
-                                job_href = job_opening_href.get('href')
-                                job_url = perfect_url + job_href
-                                self.company_open_positions_url.append(job_url)
-                        span_tag = job_opening.find('span', {'class', 'location'})
-                        if span_tag:
-                            job_opening_location = span_tag.text
-                            print(job_opening_location)
-                        #job_opening_href.click()
-                if count == 20:
-                    break
-                print("-------")
-            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_href)
-            #%% %% %% %% %% %% %% %%
-        return
-    
-    def print_company_job_openings(*args, **kwargs):
-        print('\n\n\n')
-        print('----------------------------------------------------------------------------------------------------')
-        print("print_company_job_openings()")
-        method_name = None
-        for arg in args:
-            if arg == 'greenhouse':
-                print(method_name)
-                print(arg)
-                for key, value in kwargs.items():
-                    print(key + ": " + str(value))
-            elif arg == 'lever':
-                print(method_name)
-                print(arg)
-                for key, value in kwargs.items():
-                    print(key + ": " + str(value))
-            else:
-                method_name = arg
-        print('----------------------------------------------------------------------------------------------------')
-        print('\n\n\n')
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                               TESTING                                         !
@@ -647,8 +523,8 @@ class CompanyWorkflow():
     
     
     
-    
-    
+    # updated_google_search_results_links
+    # previously_applied_links
     
     
     
@@ -658,6 +534,15 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
+    #TODO: I assume that this deals with the self.company_job_openings variable! BUT...  BUT I don't know if it's called in the company_job_openings() method for every incremented index OR the final result!!!
+    #TODO: ****self.JobSearchWorkflow_instance uses methods from the parent class => none from this class too actually
+    def users_basic_requirements_company_openings(self):
+        #This filters company_job_openings BUT only removes duplicates && everything previously already looked at!!
+        self.company_job_openings = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.company_job_openings)
+        todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.sessions_applied_to_info)
+        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, todays_jobs_applied_to_URLs)
+        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, self.JobSearchWorkflow_instance.google_search_results_links)
+    
     #TODO: I put this one in determine_current_page()
     def fits_users_criteria(test_elements_uniqueness, *args):
         ultimate_lists_checker = []
@@ -688,15 +573,6 @@ class CompanyWorkflow():
         elif basic_requirements_met == True:
             self.found_entry_job_insert()
         return
-    
-    #TODO: I assume that this deals with the self.company_job_openings variable! BUT...  BUT I don't know if it's called in the company_job_openings() method for every incremented index OR the final result!!!
-        #TODO: ****self.JobSearchWorkflow_instance uses methods from the parent class => none from this class too actually
-    def users_basic_requirements_company_openings(self):
-        #This filters company_job_openings BUT only removes duplicates && everything previously already looked at!!
-        self.company_job_openings = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.company_job_openings)
-        todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.sessions_applied_to_info)
-        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, todays_jobs_applied_to_URLs)
-        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, self.JobSearchWorkflow_instance.google_search_results_links)
     #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
     
     
@@ -815,11 +691,13 @@ class CompanyWorkflow():
     
     
     
-    
-    
-    
-    
-    
+    # STAGE 1: Figure out where ever the heck we are; if we happen to be in a position to fill out a job application then great do that, then get to company_job_openings (Use the header methods to accomplish this!!)  
+    # STAGE 2: Once at the Company's Job Listings page -> GO THROUGH ALL THE JOBS   ALL WHILE  1)collecting all the jobs for the user AND 2) collect data for Google Sheets (filterings should take place) return back to CompanyWorkflow
+    # STAGE 3: 
+    # STAGE :
+    # STAGE :
+    # STAGE :
+    # STAGE :
     
     
     
@@ -842,6 +720,119 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                   INDIVIDUAL COMPANY-WORKFLOW STEPS                           !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    def company_job_openings(self, soup, div_main, application_company_name):
+        print("company_job_openings()")
+        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
+        #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
+        #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
+        print("Application Company = " + application_company_name)
+        
+        
+        if application_company_name == 'lever':
+            #just getting a better(more narrowed result) filter
+            postings_wrapper = soup.find('div', class_="postings-wrapper")
+            current_url = self.browser.current_url
+            perfect_url = self.try_adjusting_job_link(current_url)
+            postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
+            
+            
+            #department_name_empty = True
+            for section in postings_group_apply:
+                print(section)
+                company_department = section.find('div', class_='large-category-header').text
+                #if company_department and department_name_empty:
+                if company_department:
+                    print(company_department)
+                    #department_name_empty = False
+                
+                # if section.name == 'h3':
+                #     company_department = section.text
+                # if section.name == 'h4':
+                #     print('This is most likely just a SUB-category so not really important otber than making sure we go through EVERY job it contains!')
+                    
+                #job_opening = section.find('div', {'class': 'opening'})
+                if section.name == 'div' and section.get('class') == 'posting-apply':
+                    job_opening_href = section.next_sibling
+                    if job_opening_href.name == 'a' and job_opening_href.get('class') == 'posting-title':
+                        button_to_job_description = job_opening_href
+                        job_link = job_opening_href.get('href')
+                        job_title = job_opening_href.find('h5').text
+                        for bad_word in self.avoid_these_job_titles:
+                            if bad_word not in job_title:
+                                job_href = job_opening_href.get('href')
+                                job_url = perfect_url + job_href
+                                self.company_open_positions_url.append(job_url)
+                                print(job_title)
+                        span_tag = job_opening_href.find('span', {'class', 'sort-by-location'})
+                        span_tag_company_team = job_opening_href.find('span', {'class': 'sort-by-team'})
+                        span_tag_workplaceTypes = job_opening_href.find('span', {'class': 'workplaceTypes'})
+                        if span_tag:
+                            job_opening_location = span_tag.text
+                        #job_opening_href.click()$%$%$%$%$%$%$%$%$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%
+                if self.fits_users_criteria():
+                    self.company_open_positions_url.append(job_link)
+            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
+            return
+        
+        elif application_company_name == 'greenhouse':
+            current_url = self.browser.current_url
+            perfect_url = self.try_adjusting_job_link(current_url)
+            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
+            count = 0
+            for section in sections:
+                count += 1
+                #if section.name == "class" and section.get("class") == 'level-0':
+                if section.name == 'h3':
+                    company_department = section.text
+                    print(company_department)
+                if section.name == 'h4':
+                    print('This is most likely just a SUB-category so not really important other than making sure we go through EVERY job it contains!')
+                    
+                job_opening = section.find('div', {'class': 'opening'})
+                if job_opening:
+                    job_opening_href = job_opening.find('a')
+                    if job_opening_href:
+                        job_title = job_opening_href.text
+                        print(job_title)
+                        for bad_word in self.avoid_these_job_titles:
+                            if bad_word not in job_title:
+                                job_href = job_opening_href.get('href')
+                                job_url = perfect_url + job_href
+                                self.company_open_positions_url.append(job_url)
+                        span_tag = job_opening.find('span', {'class', 'location'})
+                        if span_tag:
+                            job_opening_location = span_tag.text
+                            print(job_opening_location)
+                        #job_opening_href.click()
+                if count == 20:
+                    break
+                print("-------")
+            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_href)
+            #%% %% %% %% %% %% %% %%
+        return
+    
+    def print_company_job_openings(*args, **kwargs):
+        print('\n\n\n')
+        print('----------------------------------------------------------------------------------------------------')
+        print("print_company_job_openings()")
+        method_name = None
+        for arg in args:
+            if arg == 'greenhouse':
+                print(method_name)
+                print(arg)
+                for key, value in kwargs.items():
+                    print(key + ": " + str(value))
+            elif arg == 'lever':
+                print(method_name)
+                print(arg)
+                for key, value in kwargs.items():
+                    print(key + ": " + str(value))
+            else:
+                method_name = arg
+        print('----------------------------------------------------------------------------------------------------')
+        print('\n\n\n')
     
     #The purpose of this method is pretty much only finding and retrieving the companies' other open positions url!!!
     def lever_co_header(self, webpage_body):
@@ -1030,7 +1021,72 @@ class CompanyWorkflow():
         time.sleep(2)
         return job_link
     
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                        USERS COMPANY-WORKFLOW STEPS                           !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     #everything_about_job = app_body.get_text()
     #should_user_apply(everything_about_job)
@@ -1112,6 +1168,27 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
+    
+    
+    
+    
     
     
     
@@ -2000,7 +2077,7 @@ class CompanyWorkflow():
         #self.process_urls(urls)
 
     
-    def double_check_before_fill_in_form(self):
+    def print_form_input_extended(self):
         print("\n\n\ndouble_check_before_fill_in_form()")
         print("Nepotism")
         #print('\n\n\n')
@@ -2544,7 +2621,7 @@ class CompanyWorkflow():
                             print(f"No stored answers found for '{label}'")
                 self.form_input_extended['env_html'] = self.extract_css(input_data['html'])
                 
-                self.double_check_before_fill_in_form()     ############################### HERE VON!!!
+                self.print_form_input_extended()     ############################### HERE VON!!!
                 
                 self.fill_that_form()
                             
@@ -2913,6 +2990,7 @@ class CompanyWorkflow():
         
         response_message = self.browser.find_element(By.CSS_SELECTOR, ".response-message").text
         if "success" in response_message.lower():
+            self.keep_jobs_applied_to_info()
             print("Form submission was successful!")
         else:
             print("Form submission failed!")
@@ -2977,6 +3055,9 @@ class CompanyWorkflow():
     
     #TODO: Once we submit the application confirm that here and then save everything!!!
         #? For the user or my google_sheet_stats i don't know???
+    #* My vote is we leave it as it is so b/c this is the correct format for Google Sheet's!!!
+    #* Then JobsThatUserHasAppliedTo.csv has the same format and we can just add the session time at the end easily!!
+    #! REMEMBER: if the program crashes it has to hold/preserve values!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def keep_jobs_applied_to_info(self, job_link):
         self.sessions_applied_to_info.append({

@@ -2353,7 +2353,7 @@ https://github.com/Liebmann5/Web_Scraper
 
 
 
-
+ok so those are normally 3 seperate files but I put them in 1 so it's easier to read and sepeated each of them with this #--------------------00----------------------------------------------------------------------------------------------------. Anyways are you able to tell me where I originally defined self.company_job_openings and where I 1st assigned it a value? If possible are you able to tell me what values it is recieving and from where?
 
 
 

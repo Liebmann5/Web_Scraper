@@ -808,7 +808,7 @@ class Workflow():
         return csv_to_list
     
     def ensure_no_duplicates(self, list_to_filter):
-        print("\nensure_no_duplicates() = ")
+        print("\nensure_no_duplicates()")
         
         unique_results = []
         for list_URL in list_to_filter:
@@ -844,6 +844,7 @@ class Workflow():
     #Use Quick Sort to sort jobs_previously_applied_to
     #! We run this when we finish running other_company_openings()!!!!
     #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
+    #TODO: Only include links that are within the past 6 months for "previously_applied_links" !!!
     def filter_out_jobs_user_previously_applied_to(self, list_to_filter, previously_applied_links):
         print("\nfilter_out_jobs_user_previously_applied_to()")
         

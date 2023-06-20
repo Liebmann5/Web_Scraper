@@ -1,0 +1,32 @@
+https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08
+
+Cookie Talk:
+<script type="text/javascript">/*We only want to not initialize Google Analytics and Segment on load if the following is true:- `gdpr` is enabled for the account- the account has the `cookieBanner` enabled- the account has the `optIn` cookieBanner typeThis is the only case where an applicant has to explicitly opt-in to the cookie consent before we can load GA/Segment*/</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1299,6 +1299,7 @@ class CompanyWorkflow():
     
     #The purpose of this method is pretty much only finding and retrieving the companies other open positions url!!!
     def lever_co_header(self, webpage_body):
+        print("\nlever_co_header()")
         links_in_header = []
         print("\nThese are the links/elements that lead to this companies other available Job Openings:")
         current_url = self.browser.current_url
