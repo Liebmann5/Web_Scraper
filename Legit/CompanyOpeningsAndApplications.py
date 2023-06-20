@@ -1773,7 +1773,7 @@ class CompanyWorkflow():
     
         
 
-        
+    
 
 
         
@@ -2124,11 +2124,29 @@ class CompanyWorkflow():
     
     def fill_that_form(self):                                                                            #v For `select` when there's too many answers!!
         if self.form_input_extended['mandatory'] is True and (self.form_input_extended['env_values'] or self.form_input_extended['env_html']):
+        # ^ the purpose of the if is b/c...  if we don't need(['mandatory']) to do the question then we don't!!!!
             print("fill_that_form()")
             print('\n\n')
             print(self.form_input_extended)
             print('\n\n')
             time.sleep(3)
+            
+            
+            
+            
+            if self.form_input_extended['env_key'] == 'PHONE_NUMBER':
+                element = self.form_input_extended['env_html']
+                value = self.form_input_extended['env_values'][0]
+                
+                success = self.troubleshoot_form_filling(element, value)
+                
+                if not success:
+                    print("Failed to fill in the form. See the error messages above for details.")
+                else:
+                    print("Successfully filled in the form.")
+            
+            
+            
             
             if self.form_input_extended['text'] is True:
                 #for form_input_answer in self.form_input_extended['env_values']:
@@ -2246,6 +2264,49 @@ class CompanyWorkflow():
             else:
                 #Skips the form
                 raise BreakLoopException
+    
+    def troubleshoot_form_filling(self, element, value):
+        try:
+            # Check if the value is not None or empty
+            if not value:
+                print("Error: Value is None or empty")
+                return False
+
+            # Check if the element is present
+            if element is None:
+                print("Error: Element is None")
+                return False
+
+            # Check if the element is an input field
+            if element.tag_name.lower() != 'input':
+                print(f"Error: Element is not an input field, it's a {element.tag_name}")
+                return False
+
+            # Check if the element has the correct attributes
+            if element.get_attribute('name') != 'job_application[phone]':
+                print("Error: Element has incorrect name attribute")
+                return False
+
+            # Check if the element is displayed (visible to the user)
+            if not element.is_displayed():
+                print("Error: Element is not displayed")
+                return False
+
+            # Check if the element is enabled (interactable)
+            if not element.is_enabled():
+                print("Error: Element is not enabled")
+                return False
+
+            # Try to fill in the form
+            element.clear()
+            element.send_keys(value)
+            print(f"Success: Filled in the form with {value}")
+
+            return True
+        except Exception as e:
+            print(f"Error: An exception occurred: {e}")
+            return False
+
     
     #*Scrolls to each question in the form
     def scroll_to_question(self, input_data_html):
