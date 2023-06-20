@@ -3,6 +3,7 @@
 REM https://python.land/virtual-environments/virtualenv
 REM 1)python -m venv virtual_environments_smell_like_updog --prompt="virtual-environment"
 REM 2)virtual_environments_smell_like_updog\Scripts\Activate.ps1
+REM 3)python Legit\JobSearchWorkflow.py > terminalOutput.txt
 REM End)deactivate
 
 REM Check for a command that runs Python 3

@@ -42,7 +42,7 @@ import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, todays_jobs_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         #self.list_of_links = list_of_links
         self.browser = browser
@@ -58,18 +58,22 @@ class CompanyWorkflow():
         
         self.app_comp = None
         
+        #users .env values
         self.users_information = users_information  #{}
+        #the current company during this entire run
         self.application_company_name = None
         self.company_open_positions_link = None
         if senior_experience == False:
             self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
         self.soup = None
         self.company_open_positions_a = None    #For selenium to click
-        self.application_company_name = None
-        self.todays_jobs_applied_to_info = todays_jobs_applied_to_info  #{}
+        
+        self.sessions_applied_to_info = sessions_applied_to_info  #{}
         self.company_other_openings_href = None
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs  #[]
+        self.user_preferred_locations = user_preferred_locations  #[]
+        #this is to ensure only 1 Resume/CV label is added to the form_input_details
         self.one_resume_label = False
     
         self.form_input_details = {}
@@ -90,6 +94,7 @@ class CompanyWorkflow():
         self.q_and_a = q_and_a
         self.custom_synonyms = custom_synonyms
         
+        
         self.env_path = '.env'
         
         
@@ -106,7 +111,30 @@ class CompanyWorkflow():
 
     
     
-        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
     #! Run determine_current_page and .header ONCE!!!!
@@ -121,11 +149,17 @@ class CompanyWorkflow():
         
         
         #TODO: use the job_link list here(1st if) and compare/filter them through self.company_job_openings!!
+        extra_found_urls = []
         if type(job_link) is list:
             print("Should be a list: job_link = ", job_link)
             self.job_link_url = job_link[0]
+            #! "SHARE" the exact same value
+            #extra_found_urls = job_link
+            #! This is now a copy ssooo... seperate values!
+            extra_found_urls = job_link.copy()
+            job_link = None
         elif type(job_link) is str:
-            print("Should be a sting: job_link = ", job_link)
+            print("Should be a string: job_link = ", job_link)
             self.job_link_url = job_link
         
         
@@ -180,7 +214,14 @@ class CompanyWorkflow():
         #! div_main ==> lever.co = job_description
         return
         
-    
+    # if (current_webpage == ApplicationOnly)   =>   attempt to find this companies CompanyJobOpenings url && if we do then go there and return "if not... idk I didn't get that far I guess"
+        #REASON: We're not going to fill out a random application
+    # elif (current_webpage == JobDescription)   =>   normal walk-through
+    # elif (current_webpage == CompanyJobOpenings)   =>   return
+    # elif (current_webpage == None)  =>   if (typeof(job_link) == list) try next link BUT if all are unsuccessfull THEN REMEMBER THIS COMPANY CAUSE THEY SUCK and we'll never apply again!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #? determine_inital_page()    <- NEW NAME since it's only run once!!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def determine_current_page(self, job_link, application_company_name):
         print("determine_current_page()")
         soup = self.apply_beautifulsoup(job_link, "lxml")
@@ -317,6 +358,220 @@ class CompanyWorkflow():
             print("Not really sure how the heck we got here and defintiely don't have a clue about where to go from here!?!?!?")
             return
     
+    def company_job_openings(self, soup, div_main, application_company_name):
+        print("company_job_openings()")
+        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
+        #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
+        #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
+        print("Application Company = " + application_company_name)
+        
+        
+        if application_company_name == 'lever':
+            #just getting a better(more narrowed result) filter
+            postings_wrapper = soup.find('div', class_="postings-wrapper")
+            current_url = self.browser.current_url
+            perfect_url = self.try_adjusting_job_link(current_url)
+            postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
+            
+            
+            #department_name_empty = True
+            for section in postings_group_apply:
+                print(section)
+                company_department = section.find('div', class_='large-category-header').text
+                #if company_department and department_name_empty:
+                if company_department:
+                    print(company_department)
+                    #department_name_empty = False
+                
+                # if section.name == 'h3':
+                #     company_department = section.text
+                # if section.name == 'h4':
+                #     print('This is most likely just a SUB-category so not really important otber than making sure we go through EVERY job it contains!')
+                    
+                #job_opening = section.find('div', {'class': 'opening'})
+                if section.name == 'div' and section.get('class') == 'posting-apply':
+                    job_opening_href = section.next_sibling
+                    if job_opening_href.name == 'a' and job_opening_href.get('class') == 'posting-title':
+                        button_to_job_description = job_opening_href
+                        job_link = job_opening_href.get('href')
+                        job_title = job_opening_href.find('h5').text
+                        for bad_word in self.avoid_these_job_titles:
+                            if bad_word not in job_title:
+                                job_href = job_opening_href.get('href')
+                                job_url = perfect_url + job_href
+                                self.company_open_positions_url.append(job_url)
+                                print(job_title)
+                        span_tag = job_opening_href.find('span', {'class', 'sort-by-location'})
+                        span_tag_company_team = job_opening_href.find('span', {'class': 'sort-by-team'})
+                        span_tag_workplaceTypes = job_opening_href.find('span', {'class': 'workplaceTypes'})
+                        if span_tag:
+                            job_opening_location = span_tag.text
+                        #job_opening_href.click()$%$%$%$%$%$%$%$%$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%
+                if self.fits_users_criteria():
+                    self.company_open_positions_url.append(job_link)
+            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
+            return
+        
+        elif application_company_name == 'greenhouse':
+            current_url = self.browser.current_url
+            perfect_url = self.try_adjusting_job_link(current_url)
+            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
+            count = 0
+            for section in sections:
+                count += 1
+                #if section.name == "class" and section.get("class") == 'level-0':
+                if section.name == 'h3':
+                    company_department = section.text
+                    print(company_department)
+                if section.name == 'h4':
+                    print('This is most likely just a SUB-category so not really important other than making sure we go through EVERY job it contains!')
+                    
+                job_opening = section.find('div', {'class': 'opening'})
+                if job_opening:
+                    job_opening_href = job_opening.find('a')
+                    if job_opening_href:
+                        job_title = job_opening_href.text
+                        print(job_title)
+                        for bad_word in self.avoid_these_job_titles:
+                            if bad_word not in job_title:
+                                job_href = job_opening_href.get('href')
+                                job_url = perfect_url + job_href
+                                self.company_open_positions_url.append(job_url)
+                        span_tag = job_opening.find('span', {'class', 'location'})
+                        if span_tag:
+                            job_opening_location = span_tag.text
+                            print(job_opening_location)
+                        #job_opening_href.click()
+                if count == 20:
+                    break
+                print("-------")
+            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_href)
+            #%% %% %% %% %% %% %% %%
+        return
+    
+    def print_company_job_openings(*args, **kwargs):
+        print('\n\n\n')
+        print('----------------------------------------------------------------------------------------------------')
+        print("print_company_job_openings()")
+        method_name = None
+        for arg in args:
+            if arg == 'greenhouse':
+                print(method_name)
+                print(arg)
+                for key, value in kwargs.items():
+                    print(key + ": " + str(value))
+            elif arg == 'lever':
+                print(method_name)
+                print(arg)
+                for key, value in kwargs.items():
+                    print(key + ": " + str(value))
+            else:
+                method_name = arg
+        print('----------------------------------------------------------------------------------------------------')
+        print('\n\n\n')
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                               TESTING                                         !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    #PURPOSE: To test methods
+    def lets_run_some_tests(self):
+        print('Coolio, waiting...')
+        time.sleep(5)
+        print("Eff that old website! Let's test this new one heard J.Cole said he heard Jonah Hill said it was tight! Out with the old in with the new!!")
+        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
+        #url = "https://boards.greenhouse.io/zealcareers/jobs/4873035004"
+        url = "https://jobs.lever.co/younited/6c000bb3-c2e4-490c-a02d-48cd3b2df908/apply"
+        self.browser.get(url)
+        time.sleep(4)
+        #Run any tests you want here!
+        form_input_details = self.get_form_input_details(url)
+        self.print_form_details(form_input_details)
+        time.sleep(20)
+        #url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
+        url="https://jobs.lever.co/mainstreet/c09d4403-97be-4ffd-b886-e5df9b6e1f88/apply"
+        self.browser.get(url)
+        time.sleep(4)
+        #Run any tests you want here!
+        form_input_details = self.get_form_input_details(url)
+        self.print_form_details(form_input_details)
+        time.sleep(20)
+        
+        print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
+        time.sleep(5)
+        return
+    
+    #PURPOSE: To test full walkthroughs
+    def full_company_test(self):
+        print("OOOOOOOOOOOHHHHHHHHHH SSSSShhhhhiiiiiiii we goin full-auto!!")
+        url = "https://jobs.lever.co/younited/6c000bb3-c2e4-490c-a02d-48cd3b2df908"
+        self.browser.get(url)
+        self.job_link_url = url
+        time.sleep(3)
+        return
+        
+    def delete_maybe(self, job_link):
+        application_company_name = None
+        
+        #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
+        self.lets_run_some_tests()
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    def reset_job_variables(self):
+        self.company_job_title = None
+        self.company_name = None
+        self.company_job_location = None
+        self.company_job_department = None
+        self.job_id_number = None
+        
+        self.soup = None
+        #self.company_open_positions_a = None   |   Pretty sure keeping this would be fine since we remain in the same companies jobs!?!?!?
+        self.form_input_details = {}
+        self.form_input_extended = None
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -374,7 +629,49 @@ class CompanyWorkflow():
         time.sleep(3)
         return
     
-    #These set of methods are a bit different because... although they do filter; their purpose is for my Google Sheets Data!!
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                FILTER                                         !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
+    #TODO: I put this one in determine_current_page()
+    def fits_users_criteria(test_elements_uniqueness, *args):
+        ultimate_lists_checker = []
+        for arg in args:
+            ultimate_lists_checker.extend(arg)                      #WORKS for job_title && links
+        for unacceptable_element in ultimate_lists_checker:
+            if unacceptable_element in test_elements_uniqueness:
+                return False
+        return True
+    
+    #These set of methods are a bit different because...  although they do filter; their purpose is for my
+        #Google Sheets Data file!!
+        #? When && Where should this be run????
+    #TODO: ????? ok asuming for the job description page ?????
     def users_basic_requirements(self):
         basic_requirements_met = True
         while basic_requirements_met == True:
@@ -391,13 +688,17 @@ class CompanyWorkflow():
         elif basic_requirements_met == True:
             self.found_entry_job_insert()
         return
-        
+    
+    #TODO: I assume that this deals with the self.company_job_openings variable! BUT...  BUT I don't know if it's called in the company_job_openings() method for every incremented index OR the final result!!!
+        #TODO: ****self.JobSearchWorkflow_instance uses methods from the parent class => none from this class too actually
     def users_basic_requirements_company_openings(self):
         #This filters company_job_openings BUT only removes duplicates && everything previously already looked at!!
         self.company_job_openings = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.company_job_openings)
-        todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.todays_jobs_applied_to_info)
+        todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.sessions_applied_to_info)
         self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, todays_jobs_applied_to_URLs)
         self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, self.JobSearchWorkflow_instance.google_search_results_links)
+    #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
+    
     
     def users_basic_requirements_job_title(self):
         for desired_job in self.user_desired_jobs:
@@ -494,62 +795,46 @@ class CompanyWorkflow():
     #             print(f"No search result found for: {google_search_name}")
     #             continue
     
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                               TESTING                                         !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
-    #PURPOSE: To test methods
-    def lets_run_some_tests(self):
-        print('Coolio, waiting...')
-        time.sleep(5)
-        print("Eff that old website! Let's test this new one heard J.Cole said he heard Jonah Hill said it was tight! Out with the old in with the new!!")
-        #url = "https://boards.greenhouse.io/doubleverify/jobs/6622484002"
-        #url = "https://boards.greenhouse.io/zealcareers/jobs/4873035004"
-        url = "https://jobs.lever.co/younited/6c000bb3-c2e4-490c-a02d-48cd3b2df908/apply"
-        self.browser.get(url)
-        time.sleep(4)
-        #Run any tests you want here!
-        form_input_details = self.get_form_input_details(url)
-        self.print_form_details(form_input_details)
-        time.sleep(20)
-        #url="https://jobs.lever.co/govini/cc5f740a-7248-4246-8b77-e28ed27dd46d/apply"
-        url="https://jobs.lever.co/mainstreet/c09d4403-97be-4ffd-b886-e5df9b6e1f88/apply"
-        self.browser.get(url)
-        time.sleep(4)
-        #Run any tests you want here!
-        form_input_details = self.get_form_input_details(url)
-        self.print_form_details(form_input_details)
-        time.sleep(20)
-        
-        print("You've done it all your hard work is done! Definitely wasn't worth it but whatever. Never doin that crap again.")
-        time.sleep(5)
-        return
-    
-    #PURPOSE: To test full walkthroughs
-    def full_company_test(self):
-        print("OOOOOOOOOOOHHHHHHHHHH SSSSShhhhhiiiiiiii we goin full-auto!!")
-        url = "https://jobs.lever.co/younited/6c000bb3-c2e4-490c-a02d-48cd3b2df908"
-        self.browser.get(url)
-        self.job_link_url = url
-        time.sleep(3)
-        return
-        
-    def delete_maybe(self, job_link):
-        application_company_name = None
-        
-        #ALSO use this to get NEW... input Headers and their anwsers!!!!!! 
-        self.lets_run_some_tests()
 
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!                                                                               !
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 
 
 
 
 
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
  
 
@@ -558,202 +843,9 @@ class CompanyWorkflow():
     #!                   INDIVIDUAL COMPANY-WORKFLOW STEPS                           !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
-    #everything_about_job = app_body.get_text()
-    #should_user_apply(everything_about_job)
-    #greenhouse(job_description) => app_body
-    def should_user_apply(self, job_description):
-        print("should_user_apply()")
-        #FILTER: keywords (industry experience//////)
-        everything_about_job = job_description.get_text()
-
-        #print(everything_about_job)
-        #experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
-        experience_needed = "You must be a diety! Being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
-        if re.search(experience_needed, everything_about_job):
-            print("Experience requirement found!")
-            #print(re.search(experience_needed, everything_about_job))
-            return False
-        else:
-            print("No experience requirement found!")
-            #print(re.search(experience_needed, everything_about_job))
-            return True
-        
-    def bottom_has_application_or_button(self, application_company_name):
-        print("bottom_has_application_or_button()")
-        soup = self.apply_beautifulsoup(self.browser.current_url, "html")
-        if application_company_name == "lever":
-            a_tag_butt = soup.find('a', {'data-qa': ['btn-apply-bottom', 'show-page-apply']})
-            div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
-            application_at_bottom = soup.find("div", id="application")
-            print("\nLever: Application at bottom or <button>")
-            if a_tag_butt:
-                print("\tPress button to go to application")
-                xpath_selector = f"//a[@data-qa='{a_tag_butt['data-qa']}']"
-                print(f"xpath_selector: {xpath_selector}")
-                apply_button = self.browser.find_element(By.XPATH, xpath_selector)
-                self.scroll_to_element(apply_button)
-                time.sleep(1)
-                print("apply_button: ", end="")
-                print(apply_button)
-                apply_button.click()
-                time.sleep(2)
-            elif div_tag_butt:
-                print("\tlever: Press button to go to application")
-                apply_button = self.browser.find_element(By.XPATH, f"//div[@data-qa='{a_tag_butt['data-qa'][0]}']")
-                self.scroll_to_element(apply_button)
-                time.sleep(1)
-                apply_button.click()
-                time.sleep(2)
-            elif application_at_bottom:
-                print("\tApplication at bottom of page")
-                self.scroll_to_element(application_at_bottom)
-            return
-            
-        elif application_company_name == "greenhouse":
-            application = soup.find("div", id="application")
-            apply_button_list = None
-            try:
-                apply_button_list = self.browser.find_element(By.XPATH, "//button[text()='Apply Here' or text()='Apply Now' or text()='Apply for this job']")
-            except NoSuchElementException:
-                pass
-            print("\nGreenhouse: Application at bottom or <button>")
-            if application:
-                self.scroll_to_element(application)
-                print("\tApplication at bottom of page")
-                time.sleep(1)
-            elif apply_button:
-                #print("apply_button options:", ", ".join(str(button) for button in apply_button_list))
-                #apply_button = apply_button_list[0]
-                apply_button = apply_button_list
-                print("apply_button options:", end="") 
-                print(apply_button)
-
-                self.scroll_to_element(apply_button)
-                print("\tPress button to go to application")
-                time.sleep(1)
-                apply_button.click()
-                time.sleep(3)
-            return
-    
-    
-    
-    def company_job_openings(self, soup, div_main, application_company_name):
-        print("company_job_openings()")
-        #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
-        #greenhouse.io == <section class="level-0">   =>   lever.co == <div class="postings-group">
-        #greenhouse.io == <section class="level-1">   =>   lever.co == <div class="posting">
-        print("Application Company = " + application_company_name)
-        
-        
-        if application_company_name == 'lever':
-            #just getting a better(more narrowed result) filter
-            postings_wrapper = soup.find('div', class_="postings-wrapper")
-            current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
-            postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
-            
-            
-            #department_name_empty = True
-            for section in postings_group_apply:
-                print(section)
-                company_department = section.find('div', class_='large-category-header').text
-                #if company_department and department_name_empty:
-                if company_department:
-                    print(company_department)
-                    #department_name_empty = False
-                
-                # if section.name == 'h3':
-                #     company_department = section.text
-                # if section.name == 'h4':
-                #     print('This is most likely just a SUB-category so not really important otber than making sure we go through EVERY job it contains!')
-                    
-                #job_opening = section.find('div', {'class': 'opening'})
-                if section.name == 'div' and section.get('class') == 'posting-apply':
-                    job_opening_href = section.next_sibling
-                    if job_opening_href.name == 'a' and job_opening_href.get('class') == 'posting-title':
-                        button_to_job_description = job_opening_href
-                        job_link = job_opening_href.get('href')
-                        job_title = job_opening_href.find('h5').text
-                        for bad_word in self.avoid_these_job_titles:
-                            if bad_word not in job_title:
-                                job_href = job_opening_href.get('href')
-                                job_url = perfect_url + job_href
-                                self.company_open_positions_url.append(job_url)
-                                print(job_title)
-                        span_tag = job_opening_href.find('span', {'class', 'sort-by-location'})
-                        span_tag_company_team = job_opening_href.find('span', {'class': 'sort-by-team'})
-                        span_tag_workplaceTypes = job_opening_href.find('span', {'class': 'workplaceTypes'})
-                        if span_tag:
-                            job_opening_location = span_tag.text
-                        #job_opening_href.click()$%$%$%$%$%$%$%$%$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%$$$$$$$$$$$$$$$$$$%%%%%%%%%%%%%%%%%%
-                if self.fits_users_criteria():
-                    self.company_open_positions_url.append(job_link)
-            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, WorkPlaceTypes=span_tag_workplaceTypes, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_link, ButtonToJob=button_to_job_description)
-            return
-        
-        elif application_company_name == 'greenhouse':
-            current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
-            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
-            #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
-            count = 0
-            for section in sections:
-                count += 1
-                #if section.name == "class" and section.get("class") == 'level-0':
-                if section.name == 'h3':
-                    company_department = section.text
-                    print(company_department)
-                if section.name == 'h4':
-                    print('This is most likely just a SUB-category so not really important other than making sure we go through EVERY job it contains!')
-                    
-                job_opening = section.find('div', {'class': 'opening'})
-                if job_opening:
-                    job_opening_href = job_opening.find('a')
-                    if job_opening_href:
-                        job_title = job_opening_href.text
-                        print(job_title)
-                        for bad_word in self.avoid_these_job_titles:
-                            if bad_word not in job_title:
-                                job_href = job_opening_href.get('href')
-                                job_url = perfect_url + job_href
-                                self.company_open_positions_url.append(job_url)
-                        span_tag = job_opening.find('span', {'class', 'location'})
-                        if span_tag:
-                            job_opening_location = span_tag.text
-                            print(job_opening_location)
-                        #job_opening_href.click()
-                if count == 20:
-                    break
-                print("-------")
-            self.print_company_job_openings("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_opening_location, ButtonToJob=job_href)
-        return
-    
-    def print_company_job_openings(*args, **kwargs):
-        print('\n\n\n')
-        print('----------------------------------------------------------------------------------------------------')
-        print("print_company_job_openings()")
-        method_name = None
-        for arg in args:
-            if arg == 'greenhouse':
-                print(method_name)
-                print(arg)
-                for key, value in kwargs.items():
-                    print(key + ": " + str(value))
-            elif arg == 'lever':
-                print(method_name)
-                print(arg)
-                for key, value in kwargs.items():
-                    print(key + ": " + str(value))
-            else:
-                method_name = arg
-        print('----------------------------------------------------------------------------------------------------')
-        print('\n\n\n')
-    
-    
-    
-    
-    #The purpose of this method is pretty much only finding and retrieving the companies other open positions url!!!
+    #The purpose of this method is pretty much only finding and retrieving the companies' other open positions url!!!
     def lever_co_header(self, webpage_body):
+        print("\nlever_co_header()")
         links_in_header = []
         print("\nThese are the links/elements that lead to this companies other available Job Openings:")
         current_url = self.browser.current_url
@@ -780,6 +872,7 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!         greenhouse_io_BANNER  [not header]           !!!!!!!!!!!!!!!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     def greenhouse_io_header(self, app_body, header, content): #! ^ ^ ^ ^
+        print("\ngreenhouse_io_header()")
         first_child = True
         searched_all_a = False
         string_tab = '\n'
@@ -888,7 +981,6 @@ class CompanyWorkflow():
             # return
     
     
-    
     def check_header_links(self, links_in_header):
         print("check_header_links()")
         #! CANT SET VALUES TO LOCAL VARIABLES  REMEMBER!!!!!...  except for booleans I guess?
@@ -917,7 +1009,7 @@ class CompanyWorkflow():
         time.sleep(1)
         if (self.company_open_positions_link == None):
             self.company_open_positions_a.click()
-            time.sleep(5)
+            time.sleep(3)
     
     def try_adjusting_job_link(self, job_link):
         print("try_adjusting_job_link()")
@@ -935,8 +1027,87 @@ class CompanyWorkflow():
             print(link_adjusted)
             job_link = link_adjusted
             print(job_link)
-        time.sleep(8)
+        time.sleep(2)
         return job_link
+    
+    
+    
+    #everything_about_job = app_body.get_text()
+    #should_user_apply(everything_about_job)
+    #greenhouse(job_description) => app_body
+    def should_user_apply(self, job_description):
+        print("should_user_apply()")
+        #FILTER: keywords (industry experience//////)
+        everything_about_job = job_description.get_text()
+
+        #print(everything_about_job)
+        #experience_needed = r"\b\d+\s*(year|yr)s?\s+of\s+experience\b"
+        experience_needed = "You must be a diety! Being a demigod or demigoddess is literally embarrassing... just go back to coloring if this is you. Literally useless & pathetic ewww"
+        if re.search(experience_needed, everything_about_job):
+            print("Experience requirement found!")
+            #print(re.search(experience_needed, everything_about_job))
+            return False
+        else:
+            print("No experience requirement found!")
+            #print(re.search(experience_needed, everything_about_job))
+            return True
+        
+    def bottom_has_application_or_button(self, application_company_name):
+        print("bottom_has_application_or_button()")
+        soup = self.apply_beautifulsoup(self.browser.current_url, "html")
+        if application_company_name == "lever":
+            a_tag_butt = soup.find('a', {'data-qa': ['btn-apply-bottom', 'show-page-apply']})
+            div_tag_butt = soup.find('div', {'data-qa': 'btn-apply-bottom'})
+            application_at_bottom = soup.find("div", id="application")
+            print("\nLever: Application at bottom or <button>")
+            if a_tag_butt:
+                print("\tPress button to go to application")
+                xpath_selector = f"//a[@data-qa='{a_tag_butt['data-qa']}']"
+                print(f"xpath_selector: {xpath_selector}")
+                apply_button = self.browser.find_element(By.XPATH, xpath_selector)
+                self.scroll_to_element(apply_button)
+                time.sleep(1)
+                print("apply_button: ", end="")
+                print(apply_button)
+                apply_button.click()
+                time.sleep(2)
+            elif div_tag_butt:
+                print("\tlever: Press button to go to application")
+                apply_button = self.browser.find_element(By.XPATH, f"//div[@data-qa='{a_tag_butt['data-qa'][0]}']")
+                self.scroll_to_element(apply_button)
+                time.sleep(1)
+                apply_button.click()
+                time.sleep(3)
+            elif application_at_bottom:
+                print("\tApplication at bottom of page")
+                self.scroll_to_element(application_at_bottom)
+            return
+            
+        elif application_company_name == "greenhouse":
+            application = soup.find("div", id="application")
+            apply_button_list = None
+            try:
+                apply_button_list = self.browser.find_element(By.XPATH, "//button[text()='Apply Here' or text()='Apply Now' or text()='Apply for this job']")
+            except NoSuchElementException:
+                pass
+            print("\nGreenhouse: Application at bottom or <button>")
+            if application:
+                self.scroll_to_element(application)
+                print("\tApplication at bottom of page")
+                time.sleep(1)
+            elif apply_button:
+                #print("apply_button options:", ", ".join(str(button) for button in apply_button_list))
+                #apply_button = apply_button_list[0]
+                apply_button = apply_button_list
+                print("apply_button options:", end="") 
+                print(apply_button)
+
+                self.scroll_to_element(apply_button)
+                print("\tPress button to go to application")
+                time.sleep(1)
+                apply_button.click()
+                time.sleep(3)
+            return
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -953,23 +1124,50 @@ class CompanyWorkflow():
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #! NOT RELATED TO ANYTHING !!!!
     def is_absolute_path(href):
         print("is_absolute_path()")
         parsed_url = urlparse(href)
         print("The href value is: ", end="")
         print(parsed_url)
         return bool(parsed_url.netloc)
-
-    #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
-    def fits_users_criteria(test_elements_uniqueness, *args):
-        ultimate_lists_checker = []
-        for arg in args:
-            ultimate_lists_checker.extend(arg)                      #WORKS for job_title && links
-        for unacceptable_element in ultimate_lists_checker:
-            if unacceptable_element in test_elements_uniqueness:
-                return False
-        return True
-
+    #! NOT RELATED TO ANYTHING !!!!
+    
+    
+    
+    
+    #Apart of insert_resume() but   BUT the variable it is set = to I don't think is ever used! (Meaning this code is now useless)
     def get_input_tag_elements(self):
         """
         Returns a list of tuples with input element ID, type and visibility status
@@ -987,7 +1185,8 @@ class CompanyWorkflow():
 
     
 
-    
+    #! I BELIEVE...  I  BELIEVE && don't know but seems to be the O.G. start_page_decider 's !!!!!!!
+        #! These methods could be for the companies job list page!!!! 
     #filter out already applied jobs
     #traverse job webpage
     #?????
@@ -1112,8 +1311,11 @@ class CompanyWorkflow():
             else:
                 next_elem = next_elem.find_next()
         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
     #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
+    # DEPRICATED
     def attach_resum(self, application):
         resume_element = application.find_element(By.XPATH, "//*[@id[contains(@id, 'resume')]]")
         resume_path = "get from .env file"
@@ -1129,9 +1331,8 @@ class CompanyWorkflow():
             ActionChains(self.browser).send_keys(Keys.ENTER).perform()
         except:
             raise "Something went wrong meanie! Help me :("
-
-
-
+    # DEPRICATED
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -1147,9 +1348,9 @@ class CompanyWorkflow():
 #!       REMEMBER TO COUNT THE NUMBER OF OPEN SENIOR > ROLES AVAILABLE           !
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
+    #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
     def insert_resume(self):
-        print(".insert_resume()")
+        print("\ninsert_resume()")
         #resume_path = self.users_information.get('WORK_RESUME_PATH')
         resume_path = self.users_information.get('RESUME_PATH')
         print(resume_path)
@@ -1571,39 +1772,80 @@ class CompanyWorkflow():
     
     
         
-    def keep_jobs_applied_to_info(self, job_link):
-        self.todays_jobs_applied_to_info.append({
-            'Job_URL': job_link,
-            'Company_Name': self.company_name,
-            'Job_Title': self.company_job_title,
-            'Company_Job_Location': self.company_job_location,
-            'Company_Department': self.company_job_department,
-            'Job_ID_Number': self.job_id_number,
-        })  
+
         
 
-    #*This is what I used before config.py            
-    def get_value_for_label(self, label):
-        label_to_key_mapping = {
-            'Full Name': 'FULL_NAME',
-            # Add other custom mappings here
-        }
 
-        if label in label_to_key_mapping:
-            key = label_to_key_mapping[label]
-            if key == 'FULL_NAME':
-                first_name = self.users_information.get('FIRST_NAME', '')
-                middle_initial = self.users_information.get('MIDDLE_INITIAL', '')
-                last_name = self.users_information.get('LAST_NAME', '')
-                return f"{first_name} {middle_initial} {last_name}".strip()
-
-        # If there's no custom mapping for the label, return the value associated with the label as the key
-        return self.users_information.get(label, None)
         
         
         
     
         
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     def fill_form_fields(self, form_input_details):
         # Start the Selenium browser
         browser = webdriver.Firefox()
@@ -1655,25 +1897,6 @@ class CompanyWorkflow():
         # Click the submit button
         submit_button = browser.find_element_by_css_selector("input[type='submit'], button[type='submit']")
         submit_button.click()
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -1744,7 +1967,6 @@ class CompanyWorkflow():
     
     
     
-    
     #*Testing Method
     def test_this_pile_of_lard(self, job_link):
         print("test_this_pile_of_lard()")
@@ -1776,38 +1998,56 @@ class CompanyWorkflow():
 
                 
         #self.process_urls(urls)
-    
-    #*Old Test Method
-    def process_urls(self, urls):
-        print("process_urls()")
-        for i, url in enumerate(urls):
-            try:
-                print(f"Processing URL {i+1}...")
-                self.browser.get(url)  # assuming self.browser is an instance of a webdriver
-                
-                
-                
-                
-                time.sleep(5)
-                self.scroll_to_element("form")
 
-
-
-
-
-                form_input_details = self.get_form_input_details()  # assuming a function to extract form details
-                self.fill_form(form_input_details)
-
-            except Exception as e:
-                print(f"An error occurred while processing URL {i+1}: {url}")
-                print(str(e))
-
-            finally:
-                print(f"Finished processing URL {i+1}")
     
     def double_check_before_fill_in_form(self):
-        print("double_check_before_fill_in_form()")
+        print("\n\n\ndouble_check_before_fill_in_form()")
         print("Nepotism")
+        #print('\n\n\n')
+        jam = "10"
+        # self.form_input_extended = {
+        #     "mandatory": False,
+        #     "text": False,
+        #     "select": False,
+        #     "radio": False,
+        #     "checkbox": False,
+        #     "button": False,
+        #     "file": False,
+        #     "select all": False,
+        #     "select one": False,
+        #     "dynamic": False,
+        #     "env_key": None,
+        #     "env_values": [],
+        #     "env_html": None
+        # }
+        #------------------------------------------------------------------------------
+        # if jam == "1":
+        #     print('--------------------------------------------')
+        #     print("Form Input Extended: ", end="")
+        #     for i, detail in enumerate(self.form_input_extended, start=1):
+        #         print(f"Input {i}:")
+        #         print(f"  Mandatory: {detail['mandatory']}")
+        #         print(f"  Text: {detail['text']}")
+        #         print(f"  Select: {detail['select']}")
+        #         print(f"  Radio: {detail['radio']}")
+        #         print(f"  Checkbox: {detail['checkbox']}")
+        #         print(f"  Button: {detail['button']}")
+        #         print(f"  File: {detail['file']}")
+        #         print(f"  Select All: {detail['select all']}")
+        #         print(f"  Select One: {detail['select one']}")
+        #         print(f"  Dynamic: {detail['dynamic']}")
+        #         print(f"  env_key: {detail['env_key']}")
+        #         print(f"  env_values: {detail['env_values']}")
+        #         print(f"  env_html: {detail['env_html']}")
+        #     print('--------------------------------------------')
+        #     print("\n")
+        #------------------------------------------------------------------------------
+        print('--------------------------------------------')
+        print("Form Input Extended: ")
+        for key, value in self.form_input_extended.items():
+            print(f"{key}: {value}")
+        print('--------------------------------------------')
+        print("\n")
     
     def extract_css(self, input_data_html):
         soup = BeautifulSoup(input_data_html, 'lxml')
@@ -2171,7 +2411,8 @@ class CompanyWorkflow():
                     print("Submit Application")
                     print("input_data: ", input_data)
                     submit_button = input_data
-                    print("submit_button: ", submit_button)    
+                    print("submit_button: ", submit_button)
+                    continue
                 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 
                 
@@ -2241,6 +2482,9 @@ class CompanyWorkflow():
                         else:
                             print(f"No stored answers found for '{label}'")
                 self.form_input_extended['env_html'] = self.extract_css(input_data['html'])
+                
+                self.double_check_before_fill_in_form()     ############################### HERE VON!!!
+                
                 self.fill_that_form()
                             
                             
@@ -2403,6 +2647,7 @@ class CompanyWorkflow():
         print(f"key = {key}")
         return key
     
+    #TODO: ADD NEW key-value PAIR TO FILE  &&  THE custom_rules or users_information
     #*Add !UNIQUE! key-value pair to EITHER config.py || .env
     def store_new_answer(self, question, answer):
         print("\nstore_new_answer()")
@@ -2669,10 +2914,19 @@ class CompanyWorkflow():
     
     
     
-    
-
-
-
+    #TODO: Once we submit the application confirm that here and then save everything!!!
+        #? For the user or my google_sheet_stats i don't know???
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    def keep_jobs_applied_to_info(self, job_link):
+        self.sessions_applied_to_info.append({
+            'Job_URL': job_link,
+            'Company_Name': self.company_name,
+            'Job_Title': self.company_job_title,
+            'Company_Job_Location': self.company_job_location,
+            'Company_Department': self.company_job_department,
+            'Job_ID_Number': self.job_id_number,
+        })
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -2708,7 +2962,7 @@ class BreakLoopException(Exception):
     
     
     #dictionary variable = {
-    #     question: 'How fat are your nuts hangin? (select one)'
+    #     question: 'How fat was the biggest wave ever surfed? (select one)'
     #     q_considerations: ''
     # }
     

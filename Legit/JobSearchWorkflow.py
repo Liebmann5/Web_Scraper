@@ -87,7 +87,7 @@ class Workflow():
         self.previous_job_applications_data = []
         self.previously_applied_to_job_links = []
         self.last_time_user_applied = None
-        self.todays_jobs_applied_to_info = {}
+        self.sessions_applied_to_info = {}
         
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
@@ -116,7 +116,7 @@ class Workflow():
         
         
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser, senior_experience=False).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations = scraperGoogle(self.browser, senior_experience=False).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
@@ -124,7 +124,7 @@ class Workflow():
 
         self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
-        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, completely_filtered_list)
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
         
         self.close_browser()
         
@@ -312,13 +312,13 @@ class Workflow():
                 self.browser.get(job_link)
                 time.sleep(5)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            #self.todays_jobs_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).company_workflow(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            #self.sessions_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
     '''
     
     
     #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
-    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, completely_filtered_list):
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(self.google_search_results_links) - 1, -1, -1):
@@ -353,8 +353,8 @@ class Workflow():
             
             job_link = self.check_company_url_list(job_link, completely_filtered_list)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
 
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
@@ -362,7 +362,7 @@ class Workflow():
         print("Accidently clamped my testicles b/c I needed to be punished")
 
         print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
 
     def safe_click(self, element):
         print("safe_click()")
@@ -507,10 +507,20 @@ class Workflow():
     
     #TODO: Add last_link_from_google_search  to  filter_this_list!!!!!!
     def check_company_url_list(self, job_link, completely_filtered_list):
-        print("\ncheck_company_duplicates()")
+        print("\ncheck_company_url_list()")
         for companies_url_list in completely_filtered_list:
+            print("In JobSearchWorkflow the list google_search_results_links is being iterated through...")
+            print("job_link = ", job_link)
+            print("     ^This repsents an indexed iteration from google_search_results_links")
+            print("companies_url_list[0] = ", companies_url_list[0])
+            print("     ^This reprents the list of lists which is made to contain all the urls found from")
+            print("      the google search and encapsulate all of them into a single variable so CompanyWorkflow")
+            print("      does not redundantely run all the code multiple time for the same company!!!!!!")
+            
             if companies_url_list[0] == job_link:
+                print("MATCH FOUND!!!!!!        POOOOOOOOOOOOOP DOOOOOOOLLLLLLLLAAAAAAAAA!!!!!")
                 return companies_url_list
+            print("\n--------------------------------\n")
         return job_link
     
     
@@ -797,6 +807,18 @@ class Workflow():
         print(csv_to_list)
         return csv_to_list
     
+    def ensure_no_duplicates(self, list_to_filter):
+        print("\nensure_no_duplicates() = ")
+        
+        unique_results = []
+        for list_URL in list_to_filter:
+                if list_URL not in unique_results:
+                    unique_results.append(list_URL)
+                else:   #THIS ELSE AND 2 PRINT STATEMENTS ARE PURELY FOR TESTING!!!
+                    print("Repeated Link Found: ", end="")
+                    print(list_URL)
+        return unique_results
+    
     #TODO: Keep job url's
     #! Pretty sure this is this is the only time I use JobsThatUserHasAppliedTo.csv so it doesn't matter
     def get_job_links_users_applied_to(self, extract_URLs_from_dictionary):
@@ -847,18 +869,6 @@ class Workflow():
         #print(Lake_Minnetonka_Purified_list)
         return Lake_Minnetonka_Purified_list
     
-    def ensure_no_duplicates(self, list_to_filter):
-        print("\nensure_no_duplicates() = ")
-        
-        unique_results = []
-        for list_URL in list_to_filter:
-                if list_URL not in unique_results:
-                    unique_results.append(list_URL)
-                else:   #THIS ELSE AND 2 PRINT STATEMENTS ARE PURELY FOR TESTING!!!
-                    print("Repeated Link Found: ", end="")
-                    print(list_URL)
-        return unique_results
-    
     #TODO: MAYBE!!!  PERHAPS!!!  Make a method for when you have multiple links to the same company!!
         #TODO: So it gets the 1st index [https://boards.greenhouse.io/openai/jobs/4911334004] and looks
         #TODO: for end of the url {Ex).io, .com, .gov} and then gets the next set of '/ /' and saves
@@ -868,44 +878,128 @@ class Workflow():
         #TODO: that should leave you with only 1 url for that company; so when in the for loop in the
         #TODO: apply_to_jobs() method before sending it to CompanyWorkflow check if that company is the 1st
         #TODO: of any lists. If it isn't send the url. If it is send that list!!!!
+    # def encapsulate_companies_urls(self, list_to_filter):
+    #     print("\nencapsulate_companies_urls()")
+    #     #!
+    #     #Make sure last_link_from_google_search is included in this list!!!!!!!
+    #     #print("****self.last_link_from_google_search****   =>   ", last_link_from_google_search)  #it's not a self
+    #     #!
+    #     updated_google_search_results_links = []
+    #     #companies_multiple_urls
+    #     completely_filtered_list = []
+    #     # company_filtered_list = []
+    #     for i, indexed_job in enumerate(list_to_filter):
+    #         print((str(i) + ") "), end="")
+    #         print("[O.G.]  indexed_job = ", indexed_job)
+    #         updated_google_search_results_links.append(indexed_job)
+    #         parsed_url = urlparse(indexed_job)
+    #         print("parsed_url = ", parsed_url)
+    #         #url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+    #         url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path.split('/')[1], '', '', ''))
+    #         print("url_un_parse = ", url_un_parse)
+            
+    #         company_filtered_list = []
+            
+    #         for j, company_url_duplicate in enumerate(list_to_filter, i):
+    #             if j == 0:
+    #                 print("\tThe 1st iteration...")
+    #                 print("ok so we start with the index 0 and in this for loop skip that initial index and start at the one after it to compare....")
+    #                 print("\ti = ", str(i))
+    #                 print("\turl_un_parse = ", url_un_parse)
+    #                 print("\t^ this to this v")
+    #                 print("\tj = ", str(j))
+    #                 print("\tcompany_url_duplicate = ", company_url_duplicate)
+    #         #     if url_un_parse in company_url_duplicate:
+    #         #         company_filtered_list.append(company_url_duplicate)
+    #         # if company_filtered_list:
+    #         #     print("company_filtered_list = ", company_filtered_list)
+    #         #     completely_filtered_list.append(company_filtered_list)
+    #             #print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #             if url_un_parse in company_url_duplicate:
+    #                 #if len(company_filtered_list) == 0:
+    #                 if not company_filtered_list:
+    #                     company_filtered_list.append(indexed_job)
+    #                     company_filtered_list.append(company_url_duplicate)
+    #                 #else:
+    #                 elif company_filtered_list:
+    #                     company_filtered_list.append(company_url_duplicate)
+    #         #if len(company_filtered_list) > 0:
+    #         if company_filtered_list:
+    #             print("company_filtered_list = ", company_filtered_list)
+    #             completely_filtered_list.append(company_filtered_list)
+    #     #self.google_search_results_links = updated_google_search_results_links
+    #     #print("self.google_search_results_links = ", self.google_search_results_links)
+    #     print("\n\n    Sup Negro's-------")
+    #     print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #     print("updated_google_search_results_links = ", str(len(updated_google_search_results_links)))
+    #     print("completely_filtered_list = ", completely_filtered_list)
+    #     print("completely_filtered_list = ", str(len(completely_filtered_list)))
+    #     return updated_google_search_results_links, completely_filtered_list
+    #!---------------------------------------------------------------------------------------------------------------
+    # def encapsulate_companies_urls(self, list_to_filter):
+    #     print("\nencapsulate_companies_urls()")
+    #     updated_google_search_results_links = []
+    #     completely_filtered_list = []
+    #     for i, indexed_job in enumerate(list_to_filter):
+    #         print((str(i) + ") "), end="")
+    #         print("indexed_job = ", indexed_job)
+    #         updated_google_search_results_links.append(indexed_job)
+    #         parsed_url = urlparse(indexed_job)
+    #         url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+    #         company_filtered_list = []  # Initialize the list here
+    #         for j, company_url_duplicate in enumerate(list_to_filter, 1):
+    #             if url_un_parse in company_url_duplicate:
+    #                 company_filtered_list.append(company_url_duplicate)
+    #         if company_filtered_list:
+    #             print("company_filtered_list = ", company_filtered_list)
+    #             completely_filtered_list.append(company_filtered_list)
+    #     print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #     print("completely_filtered_list = ", completely_filtered_list)
+    #     return updated_google_search_results_links, completely_filtered_list
+    #!---------------------------------------------------------------------------------------------------------------
     def encapsulate_companies_urls(self, list_to_filter):
         print("\nencapsulate_companies_urls()")
-        #!
-        #Make sure last_link_from_google_search is included in this list!!!!!!!
-        #print("****self.last_link_from_google_search****   =>   ", last_link_from_google_search)  #it's not a self
-        #!
         updated_google_search_results_links = []
-        #companies_multiple_urls
         completely_filtered_list = []
-        company_filtered_list = []
+        seen_urls = set()
+
         for i, indexed_job in enumerate(list_to_filter):
-            print("indexed_job = ", indexed_job)
-            updated_google_search_results_links.append(indexed_job)
             parsed_url = urlparse(indexed_job)
-            url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
-            for j, company_url_duplicate in enumerate(list_to_filter, 1):
-                if url_un_parse in company_url_duplicate:
-                    if len(company_filtered_list) == 0:
-                        company_filtered_list.append(indexed_job)
-                        company_filtered_list.append(company_url_duplicate)
-                    else:
-                        company_filtered_list.append(company_url_duplicate)
-            if len(company_filtered_list) > 0:
-                print("company_filtered_list = ", company_filtered_list)
-                completely_filtered_list.append(company_filtered_list)
-        #self.google_search_results_links = updated_google_search_results_links
-        #print("self.google_search_results_links = ", self.google_search_results_links)
+            base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+            company_url = '/'.join(parsed_url.path.strip('/').split('/')[:1])
+            company_base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, company_url, '', '', ''))
+
+            if company_base_url not in seen_urls:
+                seen_urls.add(company_base_url)
+                updated_google_search_results_links.append(indexed_job)
+
+                company_filtered_list = [url for url in list_to_filter if company_base_url in url]
+                if len(company_filtered_list) > 1:
+                    print("company_filtered_list = ", company_filtered_list)
+                    completely_filtered_list.append(company_filtered_list)
+
+        print("\n\n    Sup Captain -------")
+        print("updated_google_search_results_links = ", updated_google_search_results_links)
+        print("updated_google_search_results_links = ", str(len(updated_google_search_results_links)))
+        print("completely_filtered_list = ", completely_filtered_list)
+        print("completely_filtered_list = ", str(len(completely_filtered_list)))
+        self.print_lists_side_by_side(list_to_filter, updated_google_search_results_links)
         return updated_google_search_results_links, completely_filtered_list
-    
+
+    def print_lists_side_by_side(self, list_to_filter, updated_google_search_results_links):
+        print("\n\n    Sup Norrington")
+        print("Index | List to Filter URL | Updated Google Search Results URL")
+        print("------|-------------------|-----------------------------------")
+        for i in range(max(len(list_to_filter), len(updated_google_search_results_links))):
+            list_to_filter_url = list_to_filter[i] if i < len(list_to_filter) else "N/A"
+            updated_url = updated_google_search_results_links[i] if i < len(updated_google_search_results_links) else "N/A"
+            print(f"{i:5} | {list_to_filter_url:20} | {updated_url}")
+
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
         
       
-    
-    
-    
-    
     
     
     

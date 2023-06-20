@@ -73,9 +73,9 @@ class scraperGoogle():
         
         self.search_for_jobs()
         self.new_new_print_google_search_results()
-        print("Returning back to JobSearchWorkflow")
+        print("Returning back to JobSearchWorkflow\n\n")
         time.sleep(2)
-        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
         job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
@@ -112,7 +112,13 @@ class scraperGoogle():
         #company job list I can prioritize location!!!
     #TODO       -   -   -   -   - > user_preferred_locations
     def search_locations(self, search_bar):
-        requested_job_locations = self.user_preferred_locations
+        requested_job_locations = None
+        if not self.user_preferred_locations:
+            self.filter_search_time_frame(search_bar)
+            #?????? Adding a return right here cause if I don't then won't the rest of this method run?????
+            return
+        else:
+            requested_job_locations = self.user_preferred_locations
         
         print("Specifying search to only return job's within the " + ", ".join(requested_job_locations) + " area")
         print("1/2")
@@ -144,7 +150,7 @@ class scraperGoogle():
         #         search_location += ("!(near=" + exclude_location + ")")
         
         # search_bar.send_keys(search_location)
-        self.filter_search_time_frame(self, search_bar)
+        self.filter_search_time_frame(search_bar)
         return
     
     def filter_search_time_frame(self, search_bar):
