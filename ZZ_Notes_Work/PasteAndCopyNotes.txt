@@ -2428,7 +2428,37 @@ What changes do you think I need to make in my CompanyOpeningsAndApplications.py
 
 
 
+Ok so I need help manipulating a list but am first wondering if I can possibly use my already present methods to do so. I'm wondering if you see an extremely clever way to accomplish what I'm wanting  and I'll put all the coding below here
 
+    def encapsulate_companies_urls(self, list_to_filter):
+        print("\nencapsulate_companies_urls()")
+        updated_google_search_results_links = []
+        completely_filtered_list = []
+        seen_urls = set()
+
+        for i, indexed_job in enumerate(list_to_filter):
+            parsed_url = urlparse(indexed_job)
+            base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+            company_url = '/'.join(parsed_url.path.strip('/').split('/')[:1])
+            company_base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, company_url, '', '', ''))
+
+            if company_base_url not in seen_urls:
+                seen_urls.add(company_base_url)
+                updated_google_search_results_links.append(indexed_job)
+
+                company_filtered_list = [url for url in list_to_filter if company_base_url in url]
+                if len(company_filtered_list) > 1:
+                    print("company_filtered_list = ", company_filtered_list)
+                    completely_filtered_list.append(company_filtered_list)
+
+        print("\n\n    Sup Captain -------")
+        print("updated_google_search_results_links = ", updated_google_search_results_links)
+        print("updated_google_search_results_links = ", str(len(updated_google_search_results_links)))
+        print("completely_filtered_list = ", completely_filtered_list)
+        print("completely_filtered_list = ", str(len(completely_filtered_list)))
+        self.print_lists_side_by_side(list_to_filter, updated_google_search_results_links)
+        return updated_google_search_results_links, completely_filtered_list
+usng that manipulate lists 
 
 
 

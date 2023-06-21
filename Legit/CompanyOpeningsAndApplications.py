@@ -43,6 +43,11 @@ import torch
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
+        
+        #! *************************************************************************************
+        # THESE VARIABLES NEED "NEW NAMES" FOOL: job_link_url, company_open_positions_url, company_open_positions_link!!!!!
+        
+        
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         #self.list_of_links = list_of_links
         self.browser = browser
@@ -184,9 +189,10 @@ class CompanyWorkflow():
         soup = self.apply_beautifulsoup(job_link, "lxml")       #TODO:Fairly certain this shouldn't be job_link! This needs to be updates
         div_main = soup.find("div", id="main")
         self.company_job_openings(soup, div_main, self.application_company_name)
-        self.filter_company_job_openings()
+        #TODO: v finish this then kiss heather who is under the weather
+        #self.filter_company_job_openings()
         
-        for job_opening in self.company_job_openings:
+        for job_opening in self.company_open_positions_url:
             self.browser.get(job_opening)
             self.job_link_url = self.browser.current_url
             soup = self.apply_beautifulsoup(job_opening, "lxml")
@@ -197,7 +203,7 @@ class CompanyWorkflow():
                 soup = self.apply_beautifulsoup(job_link, "html")
                 form_input_details = self.get_form_input_details()
                 self.insert_resume()
-                self.fill_out_application(job_link, form_input_details)
+                self.process_form_inputs(form_input_details)      #(job_link, form_input_details) <= O.G. so sending "job_link" is easy
                 #self.keep_jobs_applied_to_info(job_link)
             self.reset_job_variables()
         #! div_main ==> lever.co = job_description
@@ -226,7 +232,7 @@ class CompanyWorkflow():
                     #TODO: This is v what we want to avoid!!!
                     company_open_positions = soup.find('a', {"class": "main-header-logo"})
                     application_webpage_html = soup.find("div", {"class": "application-page"})
-                    self.lever_co_header(webpage_body, soup)
+                    self.lever_co_banner(webpage_body, soup)
                     #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     self.form_input_details = self.get_form_input_details(current_url)
                     self.process_form_inputs(self.form_input_details)
@@ -305,7 +311,7 @@ class CompanyWorkflow():
                     if header and content:
                         print("-Job Description Page")
                         #TODO: Fix this!!! I need the header link!
-                        self.greenhouse_io_header(app_body, header, content)    #TODO: return *job_title, company, location, ???*
+                        self.greenhouse_io_banner(app_body, header, content)    #TODO: return *job_title, company, location, ???*
                         current_url = self.browser.current_url
                         should_apply = self.should_user_apply(app_body)
                         if should_apply == True:
@@ -721,6 +727,7 @@ class CompanyWorkflow():
     #!                   INDIVIDUAL COMPANY-WORKFLOW STEPS                           !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    #TODO: This uses   company_open_positions_url  [ ]   company_open_positions_url  [ ]   company_open_positions_url  [ ]   company_open_positions_url  [ ]
     def company_job_openings(self, soup, div_main, application_company_name):
         print("company_job_openings()")
         #greenhouse.io == <div id="main">   =>   lever.co == ??? [?postings-wrapper?] -> maybe 'filter-bar'
@@ -733,7 +740,7 @@ class CompanyWorkflow():
             #just getting a better(more narrowed result) filter
             postings_wrapper = soup.find('div', class_="postings-wrapper")
             current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
+            perfect_url = self.try_adjusting_this_link(current_url)
             postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
             
             
@@ -777,7 +784,7 @@ class CompanyWorkflow():
         
         elif application_company_name == 'greenhouse':
             current_url = self.browser.current_url
-            perfect_url = self.try_adjusting_job_link(current_url)
+            perfect_url = self.try_adjusting_this_link(current_url)
             sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
             #print(sections) #TODO: Make sure this list includes all 'level-0' and 'level-1' THEN the for loop below should parse through both 'levels'!!
             count = 0
@@ -835,7 +842,8 @@ class CompanyWorkflow():
         print('\n\n\n')
     
     #The purpose of this method is pretty much only finding and retrieving the companies' other open positions url!!!
-    def lever_co_header(self, webpage_body):
+    #TODO:   company_open_positions_url  [ ]
+    def lever_co_banner(self, webpage_body, soup):
         print("\nlever_co_header()")
         links_in_header = []
         print("\nThese are the links/elements that lead to this companies other available Job Openings:")
@@ -851,19 +859,17 @@ class CompanyWorkflow():
                 company_open_positions_href = self.company_open_positions_a['href']
                 print("Webpage's Header link: " + company_open_positions_href)
                 company_open_positions_url = company_open_positions_href
+                print("Webpage's Header link: " + company_open_positions_href)
                 links_in_header.append(company_open_positions_url)
         except:
             print("This company's webpage is dumb anyways! Trust me they would've probably overworked you anyways.")
-        self.check_header_links(links_in_header)
+        self.check_banner_links(links_in_header)
         return
     
     #line 570 #elif child.name == "a"
     #if ("button" in child.get("class")) => remember !BUTTON! to click
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #!!!!!!!!!!!!!!!!!         greenhouse_io_BANNER  [not header]           !!!!!!!!!!!!!!!!!
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    def greenhouse_io_header(self, app_body, header, content): #! ^ ^ ^ ^
-        print("\ngreenhouse_io_header()")
+    def greenhouse_io_banner(self, app_body, header, content):
+        print("\ngreenhouse_io_banner()")
         first_child = True
         searched_all_a = False
         string_tab = '\n'
@@ -935,9 +941,9 @@ class CompanyWorkflow():
             
             
             
-            self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=self.a_fragment_identifier)
+            self.print_company_job_openings("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=self.a_fragment_identifier)
         else:
-            self.print_company_job_openings("greenhouse_io_header()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplication_OnPageID=self.a_fragment_identifier)
+            self.print_company_job_openings("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=self.company_other_openings_href, LinkToApplication_OnPageID=self.a_fragment_identifier)
         return
         #self.greenhouse_io_content(app_body, content)
         # if self.a_fragment_identifier == None:
@@ -971,20 +977,41 @@ class CompanyWorkflow():
             #         raise ConnectionError("ERROR: Companies other open positions are not present")
             # return
     
-    
-    def check_header_links(self, links_in_header):
-        print("check_header_links()")
+    #TODO: Lots of work needs to be done here!!!
+    # This method is checking the links present in the header of a web page. It takes a list of
+    # links as input and iterates through each link. If the link is the firstlink and the company
+    # name is "lever", it tries to adjust the job link using the try_adjusting_this_link() method
+    # and sets list_of_other_jobs_keyword to 'list-page'.
+
+    # If the link is the first link and the company name is "greenhouse", it sets
+    # list_of_other_jobs_keywords to an empty string and sets first_link to False. It then opens
+    # each link in a new window using execute_script() method of the browser object and switches
+    # to each window using switch_to.window() method.
+
+    # For each window, it checks if list_of_other_jobs_keyword is present in the page source. If
+    # it is present, it sets company_open_positions_link to the current link and returns. If
+    # company_open_positions_link is still None after checking all the links, it clicks on
+    # company_open_positions_a and waits for 3 seconds.
+    def check_banner_links(self, links_in_header):
+        print("check_banner_links()")
         #! CANT SET VALUES TO LOCAL VARIABLES  REMEMBER!!!!!...  except for booleans I guess?
         first_link = True
         list_of_other_jobs_keyword
         for header_link in links_in_header:
             if first_link == True and "lever" == self.application_company_name:
-                self.try_adjusting_job_link(header_link)
+                self.try_adjusting_this_link(header_link)    #! <- try_adjusting_this_link() returns a link!!
                 list_of_other_jobs_keyword = 'list-page'
                 first_link = False
             elif first_link == True and "greenhouse" in self.application_company_name:
                 
-                list_of_other_jobs_keywords = ''
+                
+                
+                
+                #self.try_adjusting_this_link(header_link)    #! <- try_adjusting_this_link() returns a link!!
+                
+                
+                
+                list_of_other_jobs_keywords = ''    #I think I just need to add a keyword here => just like lever - 'list-page'
                 first_link == False
             self.browser.execute_script("window.open('{}', '_blank');".format(header_link))
             for handle in self.browser.window_handles:
@@ -1001,25 +1028,28 @@ class CompanyWorkflow():
         if (self.company_open_positions_link == None):
             self.company_open_positions_a.click()
             time.sleep(3)
+            #TODO
+            #!  YOU NEED TO CHECK IF IT WAS SUCCESSFUL!!!!!
+            #original_link == self.browser.current_link
     
-    def try_adjusting_job_link(self, job_link):
-        print("try_adjusting_job_link()")
+    def try_adjusting_this_link(self, adjust_this_link):
+        print("try_adjusting_this_link()")
         if self.application_company_name == 'lever':
-            adjusting_link = job_link.find('jobs.lever.co/') + len('jobs.lever.co/')
-            still_adjusting = job_link.find('/', adjusting_link) + 1
-            link_adjusted = job_link[:still_adjusting]
+            adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
             print(link_adjusted)
-            job_link = link_adjusted
-            print(job_link)
+            adjust_this_link = link_adjusted
+            print(adjust_this_link)
         if self.application_company_name == 'greenhouse':
-            adjusting_link = job_link.find('greenhouse.io/') + len('greenhouse.io/')
-            still_adjusting = job_link.find('/', adjusting_link) + 1
-            link_adjusted = job_link[:still_adjusting]
+            adjusting_link = adjust_this_link.find('greenhouse.io/') + len('greenhouse.io/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
             print(link_adjusted)
-            job_link = link_adjusted
-            print(job_link)
+            adjust_this_link = link_adjusted
+            print(adjust_this_link)
         time.sleep(2)
-        return job_link
+        return adjust_this_link
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -1233,6 +1263,7 @@ class CompanyWorkflow():
     
     
     #! NOT RELATED TO ANYTHING !!!!
+    #TODO: Might be apart of the check_banner_links || try_adjusting_this_link
     def is_absolute_path(href):
         print("is_absolute_path()")
         parsed_url = urlparse(href)
@@ -1370,7 +1401,7 @@ class CompanyWorkflow():
                 application = soup.find("div", id="application")
                 if header and content:
                     print("Job Description Page")
-                    self.greenhouse_io_header(app_body, header, content)
+                    self.greenhouse_io_banner(app_body, header, content)
                 else:
                     print("Application at bottom or <button>")
                     #TODO
@@ -2199,21 +2230,51 @@ class CompanyWorkflow():
         print("but eff that question")
         time.sleep(5)
     
+    def specify_questions(self):
+        self.form_input_extended['bc_nick_said'] = True
+    
     def fill_that_form(self):                                                                            #v For `select` when there's too many answers!!
-        if self.form_input_extended['mandatory'] is True and (self.form_input_extended['env_values'] or self.form_input_extended['env_html']):
+        #if self.form_input_extended['mandatory'] is True and (self.form_input_extended['env_values'] or self.form_input_extended['env_html']):
         # ^ the purpose of the if is b/c...  if we don't need(['mandatory']) to do the question then we don't!!!!
+        self.specify_questions()
+        if self.form_input_extended['env_key'] and self.form_input_extended['env_values']:
             print("fill_that_form()")
             print('\n\n')
             print(self.form_input_extended)
             print('\n\n')
-            time.sleep(3)
+            time.sleep(1)
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            if i == [1, 2, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
+                print("Release the hounds Mr. Smithers...")
+                self.form_input_extended['bc_nick_said'] == False
+            
+            
+            
+            
             
             
             
             
             if self.form_input_extended['env_key'] == 'PHONE_NUMBER':
+                print("Ok at least I made it in here!")
                 element = self.form_input_extended['env_html']
                 value = self.form_input_extended['env_values'][0]
+                
+                
+                
+                print("element = ", element)
+                print("value = ", value)
+                
+                
+                
                 
                 success = self.troubleshoot_form_filling(element, value)
                 
@@ -2497,6 +2558,16 @@ class CompanyWorkflow():
                 print("  form_input_details = ", input_data)
                 if input_data['is_hidden']:
                     continue
+                
+                
+                
+                
+                
+                if i == i 
+                
+                
+                
+                
                 
                 # print("This is -> is None")         |       print("This is -> == None")         =>       print("This is -> None or empty")
                 # if input_data['label'] is None:     |       if input_data['label'] == None:     =>       if not input_data['label']:
@@ -3003,7 +3074,7 @@ class CompanyWorkflow():
             
         #TODO: I believe I just return all the way to go to the next job application!!!!
         #return
-    
+
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
