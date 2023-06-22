@@ -326,8 +326,9 @@ class Workflow():
             if not clicked_link_from_google_search:
                 print(last_link_from_google_search)
                 self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", last_link_from_google_search)
                 print("Scrolled to this place...\n")
-                time.sleep(5)
+                time.sleep(3)
 
                 diagnostics = self.diagnose_interaction(last_link_from_google_search)
                 for check, result in diagnostics.items():
@@ -342,7 +343,8 @@ class Workflow():
                 
                 clicked_link_from_google_search = True
                 print("Accidently clamped my testicles b/c I needed to be punished")
-                wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                # wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
                 print("This time wasn't an accident!")
                 time.sleep(4)
 
@@ -367,50 +369,107 @@ class Workflow():
     def safe_click(self, element):
         print("safe_click()")
         
-        # First, try clicking normally
+        # # First, try clicking normally
+        # print("1) Normal click attempt")
+        # try:
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"1) Normal click failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print("1) Normal click attempt")
+        current_url = self.browser.current_url
         try:
             element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
             return True
-        except Exception as e:
-            print(f"1) Normal click failed: {e}")
+        except:
+            #return False
+            print("This dumb thing didn't work!")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        # Next, try waiting for the element to be clickable
+        # # Next, try waiting for the element to be clickable
+        # print("2) Waiting for element to be clickable attempt")
+        # try:
+        #     WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+        #     element.click()
+        #     return True
+        # except TimeoutException as e:
+        #     print(f"2) Waiting for element to be clickable failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print("2) Waiting for element to be clickable attempt")
         try:
             WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
             element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
             return True
         except TimeoutException as e:
             print(f"2) Waiting for element to be clickable failed: {e}")
-
-        # Then, try scrolling the element into view and clicking
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        # # Then, try scrolling the element into view and clicking
+        # print("3) Waiting for element to be clickable attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"4) Scrolling and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print("3) Waiting for element to be clickable attempt")
         try:
             self.browser.execute_script("arguments[0].scrollIntoView();", element)
             element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
             return True
         except Exception as e:
             print(f"4) Scrolling and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        # Next, try checking if the element is displayed before clicking
+        # # Next, try checking if the element is displayed before clicking
+        # print(f"5.1) Checking visibility and clicking attempt")
+        # try:
+        #     if element.is_displayed():
+        #         element.click()
+        #         return True
+        #     else:
+        #         print("5.2)Element is not visible")
+        # except Exception as e:
+        #     print(f"5.3) Checking visibility and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print(f"5.1) Checking visibility and clicking attempt")
         try:
             if element.is_displayed():
                 element.click()
+                WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
                 return True
             else:
                 print("5.2)Element is not visible")
         except Exception as e:
             print(f"5.3) Checking visibility and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        # Finally, try using JavaScript to perform the click
+        # # Finally, try using JavaScript to perform the click
+        # print(f"6) JavaScript click attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].click();", element)
+        #     return True
+        # except Exception as e:
+        #     print(f"6) JavaScript click failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print(f"6) JavaScript click attempt")
         try:
             self.browser.execute_script("arguments[0].click();", element)
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
             return True
         except Exception as e:
             print(f"6) JavaScript click failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         # If all methods fail, return False
         return False
@@ -963,6 +1022,8 @@ class Workflow():
         updated_google_search_results_links = []
         completely_filtered_list = []
         seen_urls = set()
+        #Purely for testing
+        count = 0
 
         for i, indexed_job in enumerate(list_to_filter):
             parsed_url = urlparse(indexed_job)
@@ -976,7 +1037,9 @@ class Workflow():
 
                 company_filtered_list = [url for url in list_to_filter if company_base_url in url]
                 if len(company_filtered_list) > 1:
-                    print("company_filtered_list = ", company_filtered_list)
+                    #HERE Nick HERE Nick Here Nick
+                    count=count+1
+                    print(str(count) + ") company_filtered_list = ", company_filtered_list)
                     completely_filtered_list.append(company_filtered_list)
 
         print("\n\n    Sup Captain -------")

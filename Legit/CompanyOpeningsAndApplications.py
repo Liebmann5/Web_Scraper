@@ -154,6 +154,13 @@ class CompanyWorkflow():
         #self.lets_run_some_tests()
         
         
+        
+        
+        
+        
+        
+        
+        
         #TODO: use the job_link list here(1st if) and compare/filter them through self.company_job_openings!!
         non_unique_links = None
         if type(job_link) is list:
@@ -167,6 +174,14 @@ class CompanyWorkflow():
         elif type(job_link) is str:
             print("Should be a string: job_link = ", job_link)
             self.job_link_url = job_link
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         #self.job_link_url = job_link       #!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------------------------------
@@ -287,17 +302,20 @@ class CompanyWorkflow():
             
         elif application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
-            job_description_element = self.browser.find_element(By.ID, "content")
+            #job_description_element = self.browser.find_element(By.ID, "content")
+            
             
             #I did it this way because it checks very few elements since 1 of these options are normally literally the next element
             next_elem = div_main.find_next()
             while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
                 if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
-                    print('-Job Listings Page')
-                    pass
+                    print('-Job Listings Page V.1')
+                    #pass
+                    return
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
-                    print('-Job Listings Page')
-                    pass
+                    print('-Job Listings Page V.2')
+                    #pass
+                    return
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
                     print("-Company Job Openings Page")
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
@@ -852,7 +870,13 @@ class CompanyWorkflow():
         links_in_header.append(current_url)
         webpage_header = webpage_body.find('div', {"class": 'main-header-content'})
         self.company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
-        print("Selenium Click => Companies other Job Openings: " + self.company_open_positions_a)
+        #! RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX
+        #print("Selenium Click => Companies other Job Openings: " + self.company_open_positions_a)
+        if isinstance(self.company_open_positions_a, str):
+            print("Selenium Click => Companies other Job Openings: " + self.company_open_positions_a)
+        else:
+            print("Selenium Click => Companies other Job Openings: " + str(self.company_open_positions_a))
+        #! RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX RECENT FIX
         #links_in_header.append(self.company_open_positions_a)
         try:
             if self.company_open_positions_a['href']:
@@ -2250,9 +2274,13 @@ class CompanyWorkflow():
             
             
             
-            
-            
-            if i == [1, 2, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
+            success = self.troubleshoot_form_filling(element, value)
+            if not success:
+                print("Failed to fill in the form. See the error messages above for details.")
+            else:
+                print("Successfully filled in the form.")
+            #-------------------------------------------------------------------------------------------
+            if self.form_input_extended['bc_nick_said'] == True:
                 print("Release the hounds Mr. Smithers...")
                 self.form_input_extended['bc_nick_said'] == False
             
@@ -2267,14 +2295,8 @@ class CompanyWorkflow():
                 print("Ok at least I made it in here!")
                 element = self.form_input_extended['env_html']
                 value = self.form_input_extended['env_values'][0]
-                
-                
-                
                 print("element = ", element)
                 print("value = ", value)
-                
-                
-                
                 
                 success = self.troubleshoot_form_filling(element, value)
                 
@@ -2282,6 +2304,9 @@ class CompanyWorkflow():
                     print("Failed to fill in the form. See the error messages above for details.")
                 else:
                     print("Successfully filled in the form.")
+            
+            
+            
             
             
             
@@ -2563,7 +2588,8 @@ class CompanyWorkflow():
                 
                 
                 
-                if i == i 
+                if i == [1, 2, 3, 4, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
+                    self.form_input_extended['bc_nick_said'] == True
                 
                 
                 

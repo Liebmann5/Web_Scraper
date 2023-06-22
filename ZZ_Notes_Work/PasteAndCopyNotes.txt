@@ -2501,8 +2501,70 @@ usng that manipulate lists
 
 
 
+ok can you read my CompanyOpeningsAndApplications.py file in my repo here https://github.com/Liebmann5/Web_Scraper/Legit, please. Then tell what caused these 2 errors and then how to fix them?
+(virtual_environments_smell_like_updog) nliebmann@dhcp017104094139 Web_Scraper % python3 Legit/JobSearchWorkflow.py > terminalOutput.txt
+Traceback (most recent call last):
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 235, in determine_current_page
+    self.lever_co_banner(webpage_body, soup)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 855, in lever_co_banner
+    print("Selenium Click => Companies other Job Openings: " + self.company_open_positions_a)
+TypeError: can only concatenate str (not "Tag") to str
 
+During handling of the above exception, another exception occurred:
 
+Traceback (most recent call last):
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 1068, in <module>
+    workflow.job_search_workflow()
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 127, in job_search_workflow
+    self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 357, in apply_to_jobs
+    CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 180, in company_workflow
+    self.determine_current_page(job_link, self.application_company_name)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 251, in determine_current_page
+    raise ConnectionError("ERROR: Companies other open positions are not present")
+ConnectionError: ERROR: Companies other open positions are not present
+(virtual_environments_smell_like_updog) nliebmann@dhcp017104094139 Web_Scraper % python3 Legit/JobSearchWorkflow.py > terminalOutput.txt
+Traceback (most recent call last):
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 1068, in <module>
+    workflow.job_search_workflow()
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 110, in job_search_workflow
+    self.browser_setup()
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 199, in browser_setup
+    self.browser = webdriver.Safari(options=options)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/safari/webdriver.py", line 110, in __init__
+    super().__init__(command_executor=executor, options=options)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/webdriver.py", line 286, in __init__
+    self.start_session(capabilities, browser_profile)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/webdriver.py", line 378, in start_session
+    response = self.execute(Command.NEW_SESSION, parameters)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/webdriver.py", line 440, in execute
+    self.error_handler.check_response(response)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/errorhandler.py", line 245, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.SessionNotCreatedException: Message: Could not create a session: The Safari instance is already paired with another WebDriver session.
+
+(virtual_environments_smell_like_updog) nliebmann@dhcp017104094139 Web_Scraper % python3 Legit/JobSearchWorkflow.py > terminalOutput.txt
+Traceback (most recent call last):
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 1068, in <module>
+    workflow.job_search_workflow()
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 127, in job_search_workflow
+    self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/JobSearchWorkflow.py", line 357, in apply_to_jobs
+    CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 180, in company_workflow
+    self.determine_current_page(job_link, self.application_company_name)
+  File "/Users/nliebmann/Desktop/GitHub/Web_Scraper/Legit/CompanyOpeningsAndApplications.py", line 290, in determine_current_page
+    job_description_element = self.browser.find_element(By.ID, "content")
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/webdriver.py", line 831, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/webdriver.py", line 440, in execute
+    self.error_handler.check_response(response)
+  File "/Users/nliebmann/Library/Python/3.9/lib/python/site-packages/selenium/webdriver/remote/errorhandler.py", line 245, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: 
+
+(virtual_environments_smell_like_updog) nliebmann@dhcp017104094139 Web_Scraper % 
 
 
 
