@@ -18,7 +18,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 import re
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotInteractableException
 #from scraperGoogle import webdriver
 import bs4
 from bs4 import Tag
@@ -529,20 +529,69 @@ class CompanyWorkflow():
         time.sleep(3)
         return
     
+    #NOTE: The HTML is below and is "interesting", it has 2 buttons, one for Desktop and another for Mobile
+        #NOTE: ^ Selenium by default emulates a desktop browser!
+    # def dismiss_random_popups(self):
+    #     wait = WebDriverWait(self.browser, 10)
+    #     try:
+    #         overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.cc-desktop button.cc-dismiss')))
+    #         print("I see you have encountered a silly pop-up don't worry I got this!")
+    #         time.sleep(1)
+    #         print("GET THE **** OUT OF HERE! I HAVE A GUN AND YOUR KID AND I WILL SHOOT, I SWEAR!!")
+    #         time.sleep(1)
+    #         print("ok that's it I'm counting to 1...")
+    #         time.sleep(1)
+    #         overlay_close_button.click()
+    #         print("Noice!!")
+    #     except TimeoutException:
+    #         # The 'overlay'/pop-up didn't appear within the timeout, so continue
+    #         print("ok that took a while because I thought there would be a pop-up... ONWARD I suppose!")
+    #         pass
+    
+    def dismiss_random_popups(self):
+        wait = WebDriverWait(self.browser, 10)
+        try:
+            overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.cc-desktop button.cc-dismiss')))
+            # Wait a bit before clicking the button
+            time.sleep(2)
+            # Check if the button is displayed and enabled
+            if overlay_close_button.is_displayed() and overlay_close_button.is_enabled():
+                overlay_close_button.click()
+            else:
+                print("The 'Dismiss' button is not interactable. Skipping click.")
+                print("Button's outer HTML:", overlay_close_button.get_attribute('outerHTML'))
+        except TimeoutException:
+            # The 'overlay'/pop-up didn't appear within the timeout, so continue
+            print("ok that took a while because I thought there would be a pop-up... ONWARD I suppose!")
+        except ElementNotInteractableException:
+            # The button was found but it was not interactable
+            print("Failed to click the 'Dismiss' button because it's not interactable.")
+            print("Button's outer HTML:", overlay_close_button.get_attribute('outerHTML'))
+    
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
+    '''
+    <div class="message message-inverse flex-column">
+        <div class="icon">🍪</div>
+        <div class="message-buttons cc-desktop">
+            <button class="button button-sm cc-btn cc-dismiss" href="#">Dismiss</button>
+        </div>
+        <h4 class="text-white">Privacy Notice</h4>
+        <p>This website uses cookies to improve your web experience. By using the site, you agree to the use of cookies.</p>
+        <div class="self-end cc-mobile m1">
+            <button class="button button-sm cc-btn cc-dismiss" href="#">Dismiss</button>
+        </div>
+    </div>
+    '''
     
     
     
     
     
     
-    
-    
-    
-    
+
     
     
     
@@ -1518,8 +1567,14 @@ class CompanyWorkflow():
             print("4")
         else:
             print("5")
+            self.dismiss_random_popups()
+                        #self.browser.execute_script("arguments[0].scrollIntoView();", resume_file_input)
             #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button.visible-resume-upload')
-            resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
+            #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
+            wait = WebDriverWait(self.browser, 10)
+            #overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.close-overlay')))
+            #overlay_close_button.click()
+            resume_upload_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')))
             print("--------------------------------------------------------")
             print(resume_upload_button)
             print("--------------------------------------------------------")
@@ -2253,16 +2308,14 @@ class CompanyWorkflow():
         print("inserted that question")
         print("but eff that question")
         time.sleep(5)
-    
-    def specify_questions(self):
-        self.form_input_extended['bc_nick_said'] = True
+
     
     def fill_that_form(self):                                                                            #v For `select` when there's too many answers!!
         #if self.form_input_extended['mandatory'] is True and (self.form_input_extended['env_values'] or self.form_input_extended['env_html']):
         # ^ the purpose of the if is b/c...  if we don't need(['mandatory']) to do the question then we don't!!!!
-        self.specify_questions()
+        print("fill_that_form()")
         if self.form_input_extended['env_key'] and self.form_input_extended['env_values']:
-            print("fill_that_form()")
+            #print("fill_that_form()")
             print('\n\n')
             print(self.form_input_extended)
             print('\n\n')
@@ -2274,6 +2327,10 @@ class CompanyWorkflow():
             
             
             
+            element = self.form_input_extended['env_html']
+            value = self.form_input_extended['env_values'][0]
+            print("element = ", element)
+            print("value = ", value)
             success = self.troubleshoot_form_filling(element, value)
             if not success:
                 print("Failed to fill in the form. See the error messages above for details.")
@@ -2281,8 +2338,11 @@ class CompanyWorkflow():
                 print("Successfully filled in the form.")
             #-------------------------------------------------------------------------------------------
             if self.form_input_extended['bc_nick_said'] == True:
+                pass
+            elif self.form_input_extended['bc_nick_said'] == False:
                 print("Release the hounds Mr. Smithers...")
-                self.form_input_extended['bc_nick_said'] == False
+                #self.form_input_extended['bc_nick_said'] == False
+                return
             
             
             

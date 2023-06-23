@@ -6,6 +6,7 @@ import json
 
 app = Flask(__name__)
 
+# Load Google Sheets API credentials
 credentials = service_account.Credentials.from_service_account_file('path/to/your/credentials.json', scopes=['https://www.googleapis.com/auth/spreadsheets'])
 spreadsheet_id = 'spreadsheet_id'
 

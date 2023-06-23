@@ -77,6 +77,9 @@ class Workflow():
         #TODO: Change this name... it's all the job info a user has previously applied to!!
         self.csv_data = []
  
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # WRITE THE ADDRESS 'STARTING FROM' WHEREEVER, YOU "RUN THE PROGRAM"!!!!!! 
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.env_path = '.env'
         self.env_other_path = '../.env'
         #self.previous_job_data_csv_relative_path = r'../Scraper/JobsThatUserHasAppliedTo.csv'
@@ -118,13 +121,16 @@ class Workflow():
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
         google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations = scraperGoogle(self.browser, senior_experience=False).user_requirements()
         print("DOPE")
-        print(self.google_search_results_links)
+        #print(self.google_search_results_links)
+        print(google_search_results_links)
         print("DOPER")
         time.sleep(3)
 
         self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
         self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
+        
+        
         
         self.close_browser()
         
@@ -357,6 +363,8 @@ class Workflow():
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
             CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+        print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
+        return
 
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
@@ -1070,6 +1078,17 @@ class Workflow():
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def do_yo_thang_google_sheets_do_yo_thang(self):
+        send_to_google_sheets = self
     
     #TODO: Do stuff at very end or once CompanyOpeningsAndApplications.py instance ends!!
     def write_to_csv(self, job_data):

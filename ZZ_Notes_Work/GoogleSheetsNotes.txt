@@ -1,0 +1,21 @@
+Google Sheets API
+    https://developers.google.com/sheets
+
+Fundamentals of Apps Script with Google Sheets #1:Macros & Custom Functions
+    https://developers.google.com/codelabs/apps-script-fundamentals-1?hl=en#0
+
+Fundamentals of Apps Script with Google Sheets #2:Spreadsheets, Sheets, and Ranges
+    https://developers.google.com/codelabs/apps-script-fundamentals-2?hl=en#0
+
+Fundamentals of Apps Script with Google Sheets #3:Working with Data
+    https://developers.google.com/codelabs/apps-script-fundamentals-3?hl=en#0
+
+Use Google Sheets as your application's reporting tool
+    https://codelabs.developers.google.com/codelabs/sheets-api?hl=en#0
+
+Google Codelabs
+    https://codelabs.developers.google.com/?product=googleworkspace
+
+
+
+
