@@ -42,6 +42,23 @@ class scraperGoogle():
         
         
         
+        
+    
+    #TODO:
+    # def init_users_job_search_requirements(self):
+    #     self.users_job_search_requirements = {
+    #         "user_desired_job_title": [],
+    #         "user_preferred_locations": [],
+    #         "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+    #         "employment_type": [],  #Not really something I'm checking for
+    #         "entry_level": True, 
+    #     }
+    
+    
+    
+    
+    
+    
     #TODO: LAST_APPLIED => If anythng less than 3 days -> 24 hrs | If anything > 3 days filter by -> Past Week | If anything > 2 weeks just do -> anytime
         #TODO: But show the user LAST_APPLIED and let them pick
         

@@ -119,7 +119,7 @@ class Workflow():
         
         
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser, senior_experience=False).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations = scraperGoogle(self.browser, senior_experience=False).user_requirements()
         print("DOPE")
         #print(self.google_search_results_links)
         print(google_search_results_links)
@@ -128,7 +128,7 @@ class Workflow():
 
         self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
-        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list)
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
         
         
         
@@ -147,8 +147,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        users_browser_choice, browser_name = 1, " Firefox "
-        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 1, " Firefox "
+        users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -324,7 +324,7 @@ class Workflow():
     
     
     #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
-    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list):
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(self.google_search_results_links) - 1, -1, -1):
@@ -362,7 +362,7 @@ class Workflow():
             job_link = self.check_company_url_list(job_link, completely_filtered_list)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
         print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
         return
 
@@ -627,13 +627,13 @@ class Workflow():
         self.nlp_load()
         print("  Loaded Users Information...")
         
-        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
-        self.init_gpt_neo(model_3B_pars)
-        print("  Initialized GPT-Neo-2.7B...")
-        
-        # model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        # model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
         # self.init_gpt_neo(model_3B_pars)
-        # print("  Initialized GPT-Neo-1.3B...")
+        # print("  Initialized GPT-Neo-2.7B...")
+        
+        model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        self.init_gpt_neo(model_3B_pars)
+        print("  Initialized GPT-Neo-1.3B...")
         
         self.init_nltk()
         print("  Initialized nltk...")

@@ -1,0 +1,28 @@
+def get_page_variables(driver):
+    # Get the page source
+    page_source = driver.page_source
+
+    # Create a BeautifulSoup object and specify the parser
+    soup = BeautifulSoup(page_source, 'html.parser')
+
+    # Find the necessary elements on the page
+    company_name = soup.find('h1', class_='topcard__title').text
+    job_title = soup.find('h2', class_='topcard__flavor').text
+    location = soup.find('span', class_='topcard__flavor--bullet').text
+    job_description = soup.find('div', class_='description__text').text
+    seniority_level = soup.find('span', text='Seniority level').find_next_sibling('span').text
+    employment_type = soup.find('span', text='Employment type').find_next_sibling('span').text
+    job_function = soup.find('span', text='Job function').find_next_sibling('span').text
+    industries = soup.find('span', text='Industries').find_next_sibling('span').text
+
+    # Return all the variables as a dictionary
+    return {
+        'company_name': company_name,
+        'job_title': job_title,
+        'location': location,
+        'job_description': job_description,
+        'seniority_level': seniority_level,
+        'employment_type': employment_type,
+        'job_function': job_function,
+        'industries': industries
+    }
