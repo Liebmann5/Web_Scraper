@@ -42,7 +42,7 @@ import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
         
         #! *************************************************************************************
         # THESE VARIABLES NEED "NEW NAMES" FOOL: job_link_url, company_open_positions_url, company_open_positions_link!!!!!
@@ -54,6 +54,8 @@ class CompanyWorkflow():
         self.company_job_title = None
         self.company_name = None
         self.company_job_location = None
+        #! CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME
+        #potentially_qualified_job_links
         self.company_open_positions_url = []
         #This and apply can be temporary/method variables
         #self.a_fragment_identifier = None
@@ -70,15 +72,20 @@ class CompanyWorkflow():
         #link to company's other openings
         self.company_open_positions_link = None
         if senior_experience == False:
+            #! CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME
+            #self.prior_experience_keywords
             self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
         self.soup = None
         self.company_open_positions_a = None    #For selenium to click
         
+        #! CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME
+        #jobs_applied_this_session
         self.sessions_applied_to_info = sessions_applied_to_info  #{}
         self.company_other_openings_href = None
         self.job_link_url = None
         self.user_desired_jobs = user_desired_jobs  #[]
         self.user_preferred_locations = user_preferred_locations  #[]
+        self.user_preferred_workplaceType = user_preferred_workplaceType  #[]
         #this is to ensure only 1 Resume/CV label is added to the form_input_details
         self.one_resume_label = False
     
@@ -104,7 +111,9 @@ class CompanyWorkflow():
         self.env_path = '.env'
         
         
-        
+        #! CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME
+        #sibling_links_from_google_search
+        self.extra_google_non_unique_links = None  #[]
         
         
 
@@ -162,14 +171,14 @@ class CompanyWorkflow():
         
         
         #TODO: use the job_link list here(1st if) and compare/filter them through self.company_job_openings!!
-        non_unique_links = None
+        #extra_google_non_unique_links = None
         if type(job_link) is list:
             print("Should be a list: job_link = ", job_link)
             self.job_link_url = job_link[0]
             #! "SHARE" the exact same value
             #extra_found_urls = job_link
             #! This is now a copy ssooo... seperate values!
-            non_unique_links = job_link.copy()
+            self.extra_google_non_unique_links = job_link.copy()
             job_link = None
         elif type(job_link) is str:
             print("Should be a string: job_link = ", job_link)
@@ -317,7 +326,7 @@ class CompanyWorkflow():
                     #pass
                     return
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
-                    print("-Company Job Openings Page")
+                    print('-Company Job Openings Page')
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
                     return
@@ -589,8 +598,18 @@ class CompanyWorkflow():
     
     
     
-    
-    
+    #TODO: Look out for errors for the 1st link!! The one we send to determine_current_page()
+        #I think we can just skip it if need be!?!? BUT may not matter in any way, doing this!!
+    def check_google_search_links(self):
+        new_link_list_lol = []
+        for extra_google_links in self.extra_google_non_unique_links:
+            if self.company_internal_job_listings_url == extra_google_links:
+                continue
+            for company_internal_jobs in self.company_open_positions_url:
+                if extra_google_links == company_internal_jobs:
+                    continue
+            new_link_list_lol.append(extra_google_links)
+        return (self.company_open_positions_url + new_link_list_lol) 
 
     
     
@@ -609,14 +628,19 @@ class CompanyWorkflow():
     #! HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
     #TODO: I assume that this deals with the self.company_job_openings variable! BUT...  BUT I don't know if it's called in the company_job_openings() method for every incremented index OR the final result!!!
     #TODO: ****self.JobSearchWorkflow_instance uses methods from the parent class => none from this class too actually
+    #! THIS IS A NEW LIST WE COLLECTED!!! SSSooooo just like google_search_results_links we are filtering the list for normal checks/mistakes!!
     def users_basic_requirements_company_openings(self):
         #This filters company_job_openings BUT only removes duplicates && everything previously already looked at!!
-        self.company_job_openings = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.company_job_openings)
-        todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.sessions_applied_to_info)
-        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, todays_jobs_applied_to_URLs)
-        self.company_job_openings = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_job_openings, self.JobSearchWorkflow_instance.google_search_results_links)
+        self.company_open_positions_url = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.company_open_positions_url)
+        #Since I collect all the links for a company prior I THINK this might no longer be necessary!?!?!?
+        #todays_jobs_applied_to_URLs = self.JobSearchWorkflow_instance.get_job_links_users_applied_to(self.sessions_applied_to_info)
+        if not self.extra_google_non_unique_links:
+            self.company_open_positions_url = self.check_google_search_links()
+        #self.company_open_positions_url = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_open_positions_url, todays_jobs_applied_to_URLs)  # < < < previously applied to positions
+        self.company_open_positions_url = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.company_open_positions_url, self.JobSearchWorkflow_instance.previously_applied_to_job_links)
     
     #TODO: I put this one in determine_current_page()
+    #IDEA: Maybe like don't surpass 5 applications to the same company??
     def fits_users_criteria(test_elements_uniqueness, *args):
         ultimate_lists_checker = []
         for arg in args:
@@ -637,7 +661,9 @@ class CompanyWorkflow():
             #? to run the inside we need {something that's} "not True" LITERALLY which is False which is needed to => run the inside
             if not self.users_basic_requirements_job_title():
                 basic_requirements_met = False
-            if not self.users_basic_requirements_job_location():
+                #Does this work the way I think it does?
+                #continue
+            if not self.users_basic_requirements_job_location_workplaceType():
                 basic_requirements_met = False
             if basic_requirements_met == True:
                 break
@@ -659,14 +685,18 @@ class CompanyWorkflow():
                         return False
         return True
     
-    def user_basic_requirements(self, company_job_location, company_job_workplaceType):
-        if not company_job_location or company_job_location.lower() is None:
-            return True
+    #TODO: So b/c of the edge cases when asking the user their preferred workplace type...
+        #TODO: for 'in-office w/ travel' = 'in-office' && 'remote' || for 'hybrid but tax-season is in-office' = 'hybrid' && 'remote'  ??? {i really dont know/get this} -> IDEA maybe the else is the missing link!?!?!?
+    def user_basic_requirements_location_workplaceType(self, company_job_location, company_job_workplaceType):
+        # Job location is unknown OR 'at the bare minimum'(due to working permits) countries don't match up
+        if not company_job_location or company_job_location.lower().country() not in self.user_preferred_locations:
+            return False
         
+        # User has specific location requirements
         if company_job_location not in self.user_preferred_locations:
             return False
         
-        if not company_job_workplaceType or company_job_workplaceType:
+        if not company_job_workplaceType or company_job_workplaceType.lower() == "unknown":
             return False
         
         # edge cases
@@ -803,11 +833,20 @@ class CompanyWorkflow():
         print("Application Company = " + application_company_name)
         
         
+        #???????????????????????????????????????????????????????????????????????
+        #TODO
+        #! Check out below!!! Maybe this needs to be perfect url?
+        self.company_internal_job_listings_url = self.browser.current_url
+        #???????????????????????????????????????????????????????????????????????
+        #NOTE:Sometimes clicking the banner takes you to the company's website rather than their internal job listings on 'greenhouse' or 'lever'
+        
+        
         if application_company_name == 'lever':
             #just getting a better(more narrowed result) filter
             postings_wrapper = soup.find('div', class_="postings-wrapper")
             current_url = self.browser.current_url
             perfect_url = self.try_adjusting_this_link(current_url)
+            
             postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
             
             
@@ -887,6 +926,8 @@ class CompanyWorkflow():
             #%% %% %% %% %% %% %% %%
         return
     
+    #! CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME  CHANGE THIS NAME
+    #def print_companies_internal_job_opening()
     def print_company_job_openings(*args, **kwargs):
         print('\n\n\n')
         print('----------------------------------------------------------------------------------------------------')
@@ -1110,6 +1151,11 @@ class CompanyWorkflow():
         if self.application_company_name == 'lever':
             adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
             still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            # if self.is_absolute_path(still_adjusting):
+            #     print("We know two things 1)This is in fact an href 2)This does lead somewhere")
+            # else:
+            #     #!IDEA: After the 'lever' and 'greenhouse' check wrap all this in a while loop && try a couple things!!
+            #     print("I really have not 1 clue what to do here")
             link_adjusted = adjust_this_link[:still_adjusting]
             print(link_adjusted)
             adjust_this_link = link_adjusted
@@ -1123,6 +1169,16 @@ class CompanyWorkflow():
             print(adjust_this_link)
         time.sleep(2)
         return adjust_this_link
+    
+    #! NOT RELATED TO ANYTHING !!!!
+    #TODO: Might be apart of the check_banner_links || try_adjusting_this_link
+    def is_absolute_path(self, href):
+        print("is_absolute_path()")
+        parsed_url = urlparse(href)
+        print("The href value is: ", end="")
+        print(parsed_url)
+        return bool(parsed_url.netloc)
+    #! NOT RELATED TO ANYTHING !!!!
     
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
@@ -1335,15 +1391,7 @@ class CompanyWorkflow():
     
     
     
-    #! NOT RELATED TO ANYTHING !!!!
-    #TODO: Might be apart of the check_banner_links || try_adjusting_this_link
-    def is_absolute_path(href):
-        print("is_absolute_path()")
-        parsed_url = urlparse(href)
-        print("The href value is: ", end="")
-        print(parsed_url)
-        return bool(parsed_url.netloc)
-    #! NOT RELATED TO ANYTHING !!!!
+
     
     
     
@@ -2337,12 +2385,15 @@ class CompanyWorkflow():
             else:
                 print("Successfully filled in the form.")
             #-------------------------------------------------------------------------------------------
-            if self.form_input_extended['bc_nick_said'] == True:
-                pass
-            elif self.form_input_extended['bc_nick_said'] == False:
-                print("Release the hounds Mr. Smithers...")
-                #self.form_input_extended['bc_nick_said'] == False
-                return
+            #This  v  checks if the "value" is 'empty' or 'None'
+            #if self.form_input_extended['bc_nick_said']:
+            if 'bc_nick_said' in self.form_input_extended:
+                if self.form_input_extended['bc_nick_said'] == True:
+                    pass
+                elif self.form_input_extended['bc_nick_said'] == False:
+                    print("Release the hounds Mr. Smithers...")
+                    #self.form_input_extended['bc_nick_said'] == False
+                    return
             
             
             
@@ -2351,19 +2402,23 @@ class CompanyWorkflow():
             
             
             
-            if self.form_input_extended['env_key'] == 'PHONE_NUMBER':
-                print("Ok at least I made it in here!")
-                element = self.form_input_extended['env_html']
-                value = self.form_input_extended['env_values'][0]
-                print("element = ", element)
-                print("value = ", value)
+            # if self.form_input_extended['env_key'] == 'PHONE_NUMBER':
+            #     print("Ok at least I made it in here!")
+            #     element = self.form_input_extended['env_html']
+            #     value = self.form_input_extended['env_values'][0]
+            #     print("element = ", element)
+            #     print("value = ", value)
                 
-                success = self.troubleshoot_form_filling(element, value)
+            #     success = self.troubleshoot_form_filling(element, value)
                 
-                if not success:
-                    print("Failed to fill in the form. See the error messages above for details.")
-                else:
-                    print("Successfully filled in the form.")
+            #     if not success:
+            #         print("Failed to fill in the form. See the error messages above for details.")
+            #     else:
+            #         print("Successfully filled in the form.")
+            
+            
+            
+            
             
             
             
@@ -2646,11 +2701,11 @@ class CompanyWorkflow():
                 
                 
                 
-                
-                
-                if i == [1, 2, 3, 4, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
-                    self.form_input_extended['bc_nick_said'] == True
-                
+                #|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+                #       iMac Computer needed this for testing!!!
+                # if i == [1, 2, 3, 4, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33]:
+                #     self.form_input_extended['bc_nick_said'] == True
+                #|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
                 
                 
                 
@@ -3136,6 +3191,23 @@ class CompanyWorkflow():
             return False
     
     def submit_job_application(self, submit_button):
+        
+        print("We are about to click the submit button")
+        time.sleep(3)
+        submit_button = self.extract_css(submit_button['HTML'])
+        print("submit_button = ", submit_button)
+        time.sleep(1)
+        submit_element_idk = self.browser.find_element(By.CSS_SELECTOR, submit_button)
+        print("submit_element_idk = ", submit_element_idk)
+        time.sleep(1)
+        self.keep_jobs_applied_to_info()
+        self.sessions_applied_to_info
+        return
+        
+        
+        
+        
+        
         #submit_button_index = self.form_input_details.get('KEY-NAME')
         #submit_button = self.extract_css(submit_button_index['HTML'])
         
@@ -3216,9 +3288,9 @@ class CompanyWorkflow():
     #* Then JobsThatUserHasAppliedTo.csv has the same format and we can just add the session time at the end easily!!
     #! REMEMBER: if the program crashes it has to hold/preserve values!!!
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    def keep_jobs_applied_to_info(self, job_link):
+    def keep_jobs_applied_to_info(self):
         self.sessions_applied_to_info.append({
-            'Job_URL': job_link,
+            'Job_URL': self.job_link_url,
             'Company_Name': self.company_name,
             'Job_Title': self.company_job_title,
             'Company_Job_Location': self.company_job_location,
