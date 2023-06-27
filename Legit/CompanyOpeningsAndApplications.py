@@ -36,6 +36,7 @@ from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 
 
 #! Filter out string "professional experience is a must"
+    #! also SPECIFICALLY the word "experienced"
 
 
 import torch
