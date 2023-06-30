@@ -43,7 +43,7 @@ import torch
 
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
         
         #! *************************************************************************************
         # THESE VARIABLES NEED "NEW NAMES" FOOL: job_link_url, company_open_positions_url, company_open_positions_link!!!!!
@@ -106,7 +106,7 @@ class CompanyWorkflow():
         
         
         
-        
+        self.user_preferred_workplaceType = user_preferred_workplaceType
         
 
         
@@ -1494,27 +1494,6 @@ class CompanyWorkflow():
                 next_elem = next_elem.find_next()
         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-    #! FIND AND ATTACH RESUME 1st B/C AUTOFILL SUCKS
-    # DEPRICATED
-    def attach_resum(self, application):
-        resume_element = application.find_element(By.XPATH, "//*[@id[contains(@id, 'resume')]]")
-        resume_path = "get from .env file"
-        
-        #How does the form want us to upload our resume? Button click...
-        while True:
-            upload_by_button = application.find_element(By.TAG_NAME, "//fieldset[@aria-describedby='resume-allowable-file-types']")
-            if upload_by_button:
-                ActionChains(self.browser).move_to_element(upload_by_button).click().perform()
-                upload_by_button.send_keys(resume_path)
-                break
-        try:
-            ActionChains(self.browser).send_keys(Keys.ENTER).perform()
-        except:
-            raise "Something went wrong meanie! Help me :("
-    # DEPRICATED
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 

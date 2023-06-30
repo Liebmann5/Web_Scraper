@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from selenium import webdriver
 
 from dotenv import load_dotenv
@@ -53,6 +53,13 @@ import warnings
 
 
 from urllib.parse import urlparse, urlunparse
+
+
+
+from selenium.webdriver.remote.webelement import WebElement
+
+
+
 
                 #Run "python|python3 -u Legit/JobSearchWorkflow.py"
                 #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -109,6 +116,9 @@ class Workflow():
         self.lemmatizer = None
         
         
+        self.user_preferred_workplaceType = []
+        
+        
     def job_search_workflow(self):
         self.browser_setup()
         
@@ -119,7 +129,7 @@ class Workflow():
         
         
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations = scraperGoogle(self.browser, senior_experience=False).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser, senior_experience=False).user_requirements()
         print("DOPE")
         #print(self.google_search_results_links)
         print(google_search_results_links)
@@ -128,7 +138,7 @@ class Workflow():
 
         self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
-        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list)
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list)
         
         
         
@@ -250,6 +260,41 @@ class Workflow():
     
     
     
+    
+    
+    
+    
+    
+    
+    
+
+
+
+    def convert_and_print_element(self, last_link_from_google_search, browser):
+        print("\nconvert_and_print_element()")
+        # Check if the element is a BeautifulSoup element
+        if isinstance(last_link_from_google_search, Tag):
+            print("BeautifulSoup element:", last_link_from_google_search)
+
+            # Convert to Selenium WebElement
+            selenium_element = browser.find_element_by_xpath('//a[@href="' + last_link_from_google_search['href'] + '"]')
+            print("Converted to Selenium WebElement:", selenium_element)
+
+        # Check if the element is a Selenium WebElement
+        elif isinstance(last_link_from_google_search, WebElement):
+            print("Selenium WebElement:", last_link_from_google_search)
+
+            # Convert to BeautifulSoup Tag
+            soup = BeautifulSoup(browser.page_source, 'html.parser')
+            bs4_element = soup.find('a', href=last_link_from_google_search.get_attribute('href'))
+            print("Converted to BeautifulSoup Tag:", bs4_element)
+
+        else:
+            print("Element is neither a BeautifulSoup Tag nor a Selenium WebElement.")
+
+    
+    
+    
     '''
     def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
@@ -324,7 +369,7 @@ class Workflow():
     
     
     #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
-    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, completely_filtered_list):
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list):
         print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(self.google_search_results_links) - 1, -1, -1):
@@ -334,12 +379,16 @@ class Workflow():
                 self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
                 self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", last_link_from_google_search)
                 print("Scrolled to this place...\n")
-                time.sleep(3)
+                time.sleep(2)
 
                 diagnostics = self.diagnose_interaction(last_link_from_google_search)
                 for check, result in diagnostics.items():
                     print(f"{check}: {result}")
-
+                
+                #!@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                self.convert_and_print_element(last_link_from_google_search, self.browser)
+                #!@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                
                 try:
                     # Try to click the element
                     if not self.safe_click(last_link_from_google_search):
@@ -362,7 +411,7 @@ class Workflow():
             job_link = self.check_company_url_list(job_link, completely_filtered_list)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
             #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
         print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
         return
 
@@ -631,9 +680,9 @@ class Workflow():
         # self.init_gpt_neo(model_3B_pars)
         # print("  Initialized GPT-Neo-2.7B...")
         
-        model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
-        self.init_gpt_neo(model_3B_pars)
-        print("  Initialized GPT-Neo-1.3B...")
+        # model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        # self.init_gpt_neo(model_3B_pars)
+        # print("  Initialized GPT-Neo-1.3B...")
         
         self.init_nltk()
         print("  Initialized nltk...")
@@ -710,7 +759,9 @@ class Workflow():
     def init_gpt_neo(self, model_name):
         print("init_gpt_neo()")
         #self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-        self.check_cuda_compatibility()
+        #TODO: v UNCOMMENT UNCOMMENT UNCOMMENT
+        #self.check_cuda_compatibility()
+        #TODO: ^ UNCOMMENT UNCOMMENT UNCOMMENT
         self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
         #return self.tokenizer, self.model
@@ -1184,6 +1235,115 @@ if __name__ == '__main__':
 
 
 
+
+
+    def safe_click(self, element):
+        print("safe_click()")
+        
+        # # First, try clicking normally
+        # print("1) Normal click attempt")
+        # try:
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"1) Normal click failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("1) Normal click attempt")
+        current_url = self.browser.current_url
+        try:
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except:
+            #return False
+            print("This dumb thing didn't work!")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try waiting for the element to be clickable
+        # print("2) Waiting for element to be clickable attempt")
+        # try:
+        #     WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+        #     element.click()
+        #     return True
+        # except TimeoutException as e:
+        #     print(f"2) Waiting for element to be clickable failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("2) Waiting for element to be clickable attempt")
+        try:
+            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except TimeoutException as e:
+            print(f"2) Waiting for element to be clickable failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        # # Then, try scrolling the element into view and clicking
+        # print("3) Waiting for element to be clickable attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"4) Scrolling and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("3) Waiting for element to be clickable attempt")
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"4) Scrolling and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try checking if the element is displayed before clicking
+        # print(f"5.1) Checking visibility and clicking attempt")
+        # try:
+        #     if element.is_displayed():
+        #         element.click()
+        #         return True
+        #     else:
+        #         print("5.2)Element is not visible")
+        # except Exception as e:
+        #     print(f"5.3) Checking visibility and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"5.1) Checking visibility and clicking attempt")
+        try:
+            if element.is_displayed():
+                element.click()
+                WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+                return True
+            else:
+                print("5.2)Element is not visible")
+        except Exception as e:
+            print(f"5.3) Checking visibility and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Finally, try using JavaScript to perform the click
+        # print(f"6) JavaScript click attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].click();", element)
+        #     return True
+        # except Exception as e:
+        #     print(f"6) JavaScript click failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"6) JavaScript click attempt")
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"6) JavaScript click failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # If all methods fail, return False
+        return False
 
 
 

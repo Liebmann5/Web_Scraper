@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#Setup the Virtual Environment
+#1) python -m venv ../virtual_environments_smell_like_updog --prompt="virtual environment"
+#2) source virtual_environments_smell_like_updog/bin/activate
+#3) pip install --upgrade pip
+#4) pip install -r requirements.txt
+#5) mkdir -p models
+#6) export TRANSFORMERS_CACHE=./models/transformers_cache
+#7) python3 -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-1.3B')"
+#8) python3 -m spacy download en_core_web_md
+#9) python3 Legit/JobSearchWorkflow.py
+
+
 # Check for a command that runs Python 3
 for CMD in python3 python py; do
     $CMD -c "import sys; sys.exit(sys.version_info < (3,))" &>/dev/null

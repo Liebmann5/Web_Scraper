@@ -276,17 +276,33 @@ class scraperGoogle():
             print('--------------------------------')
             print(str(count+1) + "/" + str(list_last_index))
             print(results_link)
+            #The HTML element of the link
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
+            #The link
             job_link = link.get_attribute("href")
             print(job_link)
+            
+            #self.google_search_results_links.append(job_link)
+            
+            
+            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
+            
+            if self.banned_urls(link):
+                continue
             self.google_search_results_links.append(job_link)
             
-            if (count+1) == list_last_index:
-                self.last_link_from_google_search = results_link
-                print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-                print(self.last_link_from_google_search)
-                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
+            
+            
+            # if (count+1) == list_last_index and self.banned_urls(link):
+            #     self.last_link_from_google_search = results_link
+            #     print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+            #     print(self.last_link_from_google_search)
+            #     print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+            
+            if self.google_search_results_links:
+                self.last_link_from_google_search = self.google_search_results_links[-1]
             
             #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
             if count == list_last_index:
@@ -323,6 +339,16 @@ class scraperGoogle():
             except NoSuchElementException:
                 pass
             return False 
+    
+    def banned_urls(self, job_link):
+        if job_link.text == 'Skip to main content':
+            return True
+        #TODO:
+        #Add users banned companies[places they don't want to work... Ex) military, construction, children]
+        return False
+    
+    
+    
     
     
     
