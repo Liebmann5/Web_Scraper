@@ -41,9 +41,16 @@ from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 
 import torch
 
+
+
+import sys
+import codecs
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+
+
 class CompanyWorkflow():
                                                 #TODO: v INCLUDE THIS EVERYWHERE!!!!!
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms, senior_experience):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, sessions_applied_to_info, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
         
         #! *************************************************************************************
         # THESE VARIABLES NEED "NEW NAMES" FOOL: job_link_url, company_open_positions_url, company_open_positions_link!!!!!
@@ -70,8 +77,10 @@ class CompanyWorkflow():
         self.application_company_name = None
         #link to company's other openings
         self.company_open_positions_link = None
-        if senior_experience == False:
-            self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        # if senior_experience == False:
+        #     self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        
         self.soup = None
         self.company_open_positions_a = None    #For selenium to click
         
@@ -1550,11 +1559,21 @@ class CompanyWorkflow():
             self.dismiss_random_popups()
                         #self.browser.execute_script("arguments[0].scrollIntoView();", resume_file_input)
             #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button.visible-resume-upload')
-            #resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
-            wait = WebDriverWait(self.browser, 10)
+            try:
+                resume_upload_button = self.browser.find_element(By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')
+                if not resume_upload_button:
+                    try:
+                        resume_upload_button = self.browser.find_element(By.XPATH, "//*[@id[contains(@id, 'resume')]]")
+                    except:
+                        print("Golly no one can do this...")
+                        exit()
+            except:
+                print("This ain't right dog")
+                exit()
+            #wait = WebDriverWait(self.browser, 10)
             #overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button.close-overlay')))
             #overlay_close_button.click()
-            resume_upload_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')))
+            #resume_upload_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')))
             print("--------------------------------------------------------")
             print(resume_upload_button)
             print("--------------------------------------------------------")
@@ -1730,6 +1749,7 @@ class CompanyWorkflow():
                     print(element.prettify())
                 if current_level == 5:
                     sauce = element.next_element.get_text(strip=True)
+                    #print(sauce)
                     print(sauce)
                     return sauce
             element = element.parent

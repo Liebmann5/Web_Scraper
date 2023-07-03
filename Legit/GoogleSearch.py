@@ -16,7 +16,7 @@ from selenium.common.exceptions import ElementNotInteractableException
 
 class scraperGoogle():
     
-    def __init__(self, browser, senior_experience):
+    def __init__(self, browser):
         self.browser = browser
         self.user_desired_jobs = []
         self.good_locations = None
@@ -37,7 +37,7 @@ class scraperGoogle():
         #NOTE: if senior_experience is true then everything is fair game but...  if it's False create this new variable!!!!
         # if senior_experience == False:
         #     self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
-        self.senior_experience = senior_experience
+        #self.senior_experience = senior_experience
         self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
         
         
@@ -150,6 +150,10 @@ class scraperGoogle():
         print("2/2")
         
         
+
+
+
+
         
         # #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
         # if not self.good_locations and not self.bad_locations:
@@ -276,33 +280,17 @@ class scraperGoogle():
             print('--------------------------------')
             print(str(count+1) + "/" + str(list_last_index))
             print(results_link)
-            #The HTML element of the link
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
-            #The link
             job_link = link.get_attribute("href")
             print(job_link)
-            
-            #self.google_search_results_links.append(job_link)
-            
-            
-            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
-            
-            if self.banned_urls(link):
-                continue
             self.google_search_results_links.append(job_link)
             
-            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
-            
-            
-            # if (count+1) == list_last_index and self.banned_urls(link):
-            #     self.last_link_from_google_search = results_link
-            #     print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-            #     print(self.last_link_from_google_search)
-            #     print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-            
-            if self.google_search_results_links:
-                self.last_link_from_google_search = self.google_search_results_links[-1]
+            if (count+1) == list_last_index:
+                self.last_link_from_google_search = results_link
+                print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+                print(self.last_link_from_google_search)
+                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
             
             #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
             if count == list_last_index:
@@ -339,16 +327,6 @@ class scraperGoogle():
             except NoSuchElementException:
                 pass
             return False 
-    
-    def banned_urls(self, job_link):
-        if job_link.text == 'Skip to main content':
-            return True
-        #TODO:
-        #Add users banned companies[places they don't want to work... Ex) military, construction, children]
-        return False
-    
-    
-    
     
     
     

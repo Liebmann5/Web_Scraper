@@ -654,6 +654,52 @@
 
 
 
+    def determine_current_page(self, job_link, application_company_name):
+        d
+        if application_company_name == "lever":
+            # do stuff
+
+
+        elif application_company_name == "greenhouse":
+            div_main = soup.find("div", id="main")
+
+            next_elem = div_main.find_next()
+            while next_elem:
+                if self.is_company_job_openings_page(next_elem):
+                    print("-Company Job Openings Page")
+                    return self.applying_process_webpage[3]
+                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
+                    app_body = next_elem
+                    header = next_elem.find("div", id="header")
+                    content = next_elem.find("div", id="content")
+                    
+                    if header and content:
+                        print("-Job Description Page")
+
+
+
+
+
+
+
+
+
+
+
+    def is_company_job_openings_page(self, elem):
+        if application_company_name == "lever":
+            bv
+        elif application_company_name == "greenhouse":
+            if elem.name == "div" and (elem.get("id") == "flash-wrapper" or elem.get("id") == "flash_wrapper"):
+                return True
+            elif elem.name == "div" and elem.get("id") == "embedded_job_board_wrapper":
+                return True
+            elif elem.name == "section" and elem.get("class") == "level-0":
+                return True
+            else:
+                return False
+
+
 
 
 
@@ -3814,6 +3860,2349 @@ class BreakLoopException(Exception):
 
 
 
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+    
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+from bs4 import BeautifulSoup, Tag
+from selenium import webdriver
+
+from dotenv import load_dotenv
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
+import os
+import csv
+
+import time
+
+#! from fileName import className
+from GoogleSearch import scraperGoogle
+from CompanyOpeningsAndApplications import CompanyWorkflow
+from datetime import datetime
+import openpyxl
+import requests
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
+
+import requests
+
+
+import sys
+print("Here's some info about sys.executable: ", sys.executable)
+import config
+import site
+
+
+
+import spacy
+from fuzzywuzzy import fuzz
+# import Legit.config as config
+# ^ handle_custom_rules()
+import config
+
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import WordNetLemmatizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
+import torch
+
+import warnings
+
+
+from urllib.parse import urlparse, urlunparse
+
+
+
+from selenium.webdriver.remote.webelement import WebElement
+
+
+
+
+                #Run "python|python3 -u Legit/JobSearchWorkflow.py"
+                #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
+                #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
+                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                #ThisFolderWasMadeAtThreeAM/setup.sh
+                #!!!!!!!!!!!!!!!!!!! chmod +x setup.sh & .bat !!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#! EXTRACT JOB_TYPE AS LIST OD len()=3 | {DESIRED_LOCATION, HYBRID, REMOTE}
+#! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
+#! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
+
+class Workflow():
+       
+    def __init__(self):
+        self.browser = None
+        #self.google_search_results_links = None
+        self.google_search_results_links = []
+        self.time_program_ran = self.get_time()
+        print("This program began running at " + self.time_program_ran)
+        
+        #TODO: Change this name... it's all the job info a user has previously applied to!!
+        self.csv_data = []
+ 
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # WRITE THE ADDRESS 'STARTING FROM' WHEREEVER, YOU "RUN THE PROGRAM"!!!!!! 
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.env_path = '.env'
+        self.env_other_path = '../.env'
+        #self.previous_job_data_csv_relative_path = r'../Scraper/JobsThatUserHasAppliedTo.csv'
+        self.previous_job_data_csv_relative_path = r'DataOutput/JobsThatUserHasAppliedTo.csv'
+        self.users_information = {}
+        self.total_jobs_applied_to_count = 0
+        self.total_jobs_applied_to_info = {} 
+        self.previous_job_applications_data = []
+        self.previously_applied_to_job_links = []
+        self.last_time_user_applied = None
+        self.sessions_applied_to_info = {}
+        
+        self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
+        self.entry_jobs_found = {}
+        
+        self.custom_rules = None
+        self.q_and_a = None
+        self.custom_synonyms = None
+        
+        
+        #init_gpt_neo()
+        self.tokenizer = None
+        self.model = None
+        #load_nlp()
+        self.nlp = None
+        #load_company_resources()
+        self.lemmatizer = None
+        
+        
+        self.user_preferred_workplaceType = []
+        
+        
+    def job_search_workflow(self):
+        self.browser_setup()
+        
+        # self.load_company_resources()
+        # self.ludacris_speed_apply_to_jobs()
+        # self.__del__()
+        
+        
+        
+        # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser, senior_experience=False).user_requirements()
+        print("DOPE")
+        #print(self.google_search_results_links)
+        print(google_search_results_links)
+        print(len(google_search_results_links))
+        print("last_link_from_google_search = ", last_link_from_google_search)
+        #self.dumb_accessibility_links(google_search_results_links)
+        print("DOPER")
+        time.sleep(3)
+
+        self.google_search_results_links, completely_filtered_list = self.filter_through_google_search_results(google_search_results_links)
+        self.load_company_resources()
+        self.apply_to_jobs(last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list)
+        
+        
+        
+        self.close_browser()
+        
+    
+    
+    
+    
+    
+    
+       
+        
+        
+    #TODO: change variable name => users_browser_choice#TODO: change variable name => users_browser_choice   ->->   users_browser_choice_name??users_browser_choice_name??
+    #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
+    #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
+    def users_browser_choice(self):
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 3, " Chrome "
+        return users_browser_choice, browser_name
+        print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
+        print(f"\t1) FireFox")
+        print(f"\t2) Safari")
+        print(f"\t3) Chrome")
+        print(f"\t4) Edge")
+        while True:
+            user_jobs = input()
+            user_jobs.strip()
+            
+            if user_jobs == "1":
+                users_browser_choice = " FireFox "
+                break
+            elif user_jobs == "2":
+                users_browser_choice = " Safari "
+                break
+            elif user_jobs == "3":
+                users_browser_choice = " Chrome "
+                break
+            elif user_jobs == "4":
+                users_browser_choice = " Edge "
+                break
+            else:
+                print("That's kinda messed up dog... I give you an opportunity to pick and you pick some dumb crap.")
+                print("You've squandered any further opportunities to decide stuff. I hope you are happy with yourself.")
+                print("Don't worry clown I'll pick for you!")
+                #TODO: Make else just check OS and return number of that OS's web browser!!!
+                #! THIS IS A while loop.... so it runs until false
+        return users_browser_choice, browser_name
+    
+    #! I have browser setup called 1st and then users_browser_choice b/c if the user uses the same browser over & over this will remember it!!!
+    #? ALSO!!!... setting code up this way might lead to very good, safe, and secure code because in no way can an outside person send in any code right from the get go!!! Meaning if they can't use the browser to begin with then the rest of the code is rendered useless...  right?!?!?!?
+    def browser_setup(self):
+        users_browser_choice, browser_name = self.users_browser_choice()
+        print('Execution Started -- Opening' + browser_name + 'Browser')
+        
+        if users_browser_choice == 1:
+            options = FirefoxOptions()
+            options.set_preference("dom.webnotifications.enabled", False)
+            options.set_preference("extensions.enabledScopes", 0)
+            options.set_preference("browser.toolbars.bookmarks.visibilty", "never")
+            options.set_preference("signon.rememberSignons", False)
+            options.set_preference("places.history.enabled", False)
+            
+            self.browser = webdriver.Firefox(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 2:
+            options = SafariOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+            
+            self.browser = webdriver.Safari(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 3:
+            options = ChromeOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+            
+            self.browser = webdriver.Chrome(options=options)
+            self.browser.set_page_load_timeout(30)
+        elif users_browser_choice == 4:
+            options = EdgeOptions()
+            options.add_argument("--disable-notifications")
+            options.add_argument("--disable-extensions")
+            options.add_argument("--disable-infobars")
+            
+            self.browser = webdriver.Edge(options=options)
+            self.browser.set_page_load_timeout(30)
+        
+        #TODO:   if (browser is open == True && browser is ready == True)
+        #assert 'Yahoo' in browser.title
+        try:
+            self.browser.get('https://www.google.com')
+        except:
+            raise ConnectionError('ERROR: Check Internet Connection')
+        return
+    
+    def close_browser(self):
+        self.browser.quit()
+        print('Execution Ending -- Webdriver session is Closing')
+    
+    def get_time(self):
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    def get_date(self):
+        return datetime.now().strftime("%Y-%m-%d")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # def dumb_accessibility_links(self, google_search_results_links):
+    #     print("dumb_accessibility_links()")
+    #     for link in google_search_results_links:
+    #         convert_and_print_element(link)
+    
+
+
+
+    def convert_and_print_element(self, last_link_from_google_search):   #(self, last_link_from_google_search, browser)
+        print("\nconvert_and_print_element()")
+        # Check if the element is a BeautifulSoup element
+        if isinstance(last_link_from_google_search, Tag):
+            print("BeautifulSoup element:", last_link_from_google_search)
+
+            # Convert to Selenium WebElement
+            selenium_element = self.browser.find_element_by_xpath('//a[@href="' + last_link_from_google_search['href'] + '"]')
+            print("Converted to Selenium WebElement:", selenium_element)
+
+        # Check if the element is a Selenium WebElement
+        elif isinstance(last_link_from_google_search, WebElement):
+            print("Selenium WebElement:", last_link_from_google_search)
+
+            # Convert to BeautifulSoup Tag
+            soup = BeautifulSoup(self.browser.page_source, 'html.parser')
+            bs4_element = soup.find('a', href=last_link_from_google_search.get_attribute('href'))
+            print("Converted to BeautifulSoup Tag:", bs4_element)
+
+        else:
+            print("Element is neither a BeautifulSoup Tag nor a Selenium WebElement.")
+
+    
+    
+    
+    '''
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
+        # for job_link in self.google_search_results_links[::1]:
+        for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
+            job_link = self.google_search_results_links[i]
+            if not clicked_link_from_google_search:
+                print(last_link_from_google_search)
+                #self.browser.find_element(By.X_PATH, )
+                
+                self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                print("Scrolled to this place...\n")
+                time.sleep(5)
+                
+                
+                
+                
+                
+                diagnostics = self.diagnose_interaction(last_link_from_google_search)
+                for check, result in diagnostics.items():
+                    print(f"{check}: {result}")
+                # element_code_outer = last_link_from_google_search.get_attribute('outerHTML')
+                # element_code_inner = last_link_from_google_search.get_attribute('innerHTML')
+                # soup_outer = BeautifulSoup(element_code_outer, 'html.parser')
+                # soup_inner = BeautifulSoup(element_code_inner, 'html.parser')
+                # dumb_a_tag_link = soup_inner.find('a')
+                # print("------------------------------------------------------")
+                # print("This is the dumb selenium element outerHTML: ")
+                # print(soup_outer.prettify())
+                # print("------------------------------------------------------")
+                # print("This is the dumb selenium element innerHTML: ")
+                # print(soup_inner.prettify())
+                # print("------------------------------------------------------")
+                # print("This is my attempt to find the <a>: ")
+                # print(dumb_a_tag_link)
+                # print("------------------------------------------------------Kenny Powers")
+                # some_crap = self.test_click_element(dumb_a_tag_link)
+                # print(some_crap)
+                # time.sleep(15)
+                if not self.safe_click(last_link_from_google_search):
+                    print("Clicking on the element failed.")
+                
+                
+                 
+                
+                # last_a_tag = last_link_from_google_search.find_element(By.TAG_NAME, 'a')
+                # last_a_tag.click()
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                print("This time wasn't an accident!")
+                time.sleep(4)
+
+
+
+                #print("\n\n\n???????????????????????????????????????????????????")
+                #self.cookie_information()
+                #self.website_modified_cookie_info()
+                #print("???????????????????????????????????????????????????\n\n\n")
+
+
+
+            else:
+                print(job_link)
+                self.browser.get(job_link)
+                time.sleep(5)
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+            #self.sessions_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+    '''
+    
+    
+    #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
+    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, completely_filtered_list):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
+        for i in range(len(self.google_search_results_links) - 1, -1, -1):
+            job_link = self.google_search_results_links[i]
+            if not clicked_link_from_google_search:
+                print(last_link_from_google_search)
+                self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", last_link_from_google_search)
+                print("Scrolled to this place...\n")
+                time.sleep(2)
+
+                diagnostics = self.diagnose_interaction(last_link_from_google_search)
+                for check, result in diagnostics.items():
+                    print(f"{check}: {result}")
+                
+                #!@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                #self.convert_and_print_element(last_link_from_google_search, self.browser)
+                self.convert_and_print_element(last_link_from_google_search)
+                #!@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                
+                try:
+                    # Try to click the element
+                    if not self.safe_click(last_link_from_google_search):
+                        print("Clicking on the element failed.")
+                except Exception as e:
+                    print(f"Safe click failed: {e}")
+                
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                # wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                print("This time wasn't an accident!")
+                time.sleep(4)
+
+            else:
+                print(job_link)
+                self.browser.get(job_link)
+                time.sleep(5)
+            
+            job_link = self.check_company_url_list(job_link, completely_filtered_list)
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).company_workflow(job_link)
+        print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
+        return
+
+    def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        self.load_users_information()
+        print("Accidently clamped my testicles b/c I needed to be punished")
+
+        print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.sessions_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms, senior_experience=False).test_this_pile_of_lard('https://www.google.com')
+
+    def safe_click(self, element):
+        print("safe_click()")
+        
+        # # First, try clicking normally
+        # print("1) Normal click attempt")
+        # try:
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"1) Normal click failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("1) Normal click attempt")
+        current_url = self.browser.current_url
+        try:
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except:
+            #return False
+            print("This dumb thing didn't work!")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try waiting for the element to be clickable
+        # print("2) Waiting for element to be clickable attempt")
+        # try:
+        #     WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+        #     element.click()
+        #     return True
+        # except TimeoutException as e:
+        #     print(f"2) Waiting for element to be clickable failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("2) Waiting for element to be clickable attempt")
+        try:
+            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except TimeoutException as e:
+            print(f"2) Waiting for element to be clickable failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        # # Then, try scrolling the element into view and clicking
+        # print("3) Waiting for element to be clickable attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"4) Scrolling and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("3) Waiting for element to be clickable attempt")
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"4) Scrolling and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try checking if the element is displayed before clicking
+        # print(f"5.1) Checking visibility and clicking attempt")
+        # try:
+        #     if element.is_displayed():
+        #         element.click()
+        #         return True
+        #     else:
+        #         print("5.2)Element is not visible")
+        # except Exception as e:
+        #     print(f"5.3) Checking visibility and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"5.1) Checking visibility and clicking attempt")
+        try:
+            if element.is_displayed():
+                element.click()
+                WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+                return True
+            else:
+                print("5.2)Element is not visible")
+        except Exception as e:
+            print(f"5.3) Checking visibility and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Finally, try using JavaScript to perform the click
+        # print(f"6) JavaScript click attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].click();", element)
+        #     return True
+        # except Exception as e:
+        #     print(f"6) JavaScript click failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"6) JavaScript click attempt")
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"6) JavaScript click failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # If all methods fail, return False
+        return False
+
+    def diagnose_interaction(self, element):
+        diagnostics = {}
+
+        # Check 1: Is the element present in the DOM?
+        try:
+            self.browser.find_element(By.XPATH, element.tag_name)
+            diagnostics["Present in DOM"] = "Yes"
+        except Exception as e:
+            diagnostics["Present in DOM"] = f"No, Error: {e}"
+
+        # Check 2: Is the element displayed?
+        try:
+            if element.is_displayed():
+                diagnostics["Displayed"] = "Yes"
+            else:
+                diagnostics["Displayed"] = "No"
+        except Exception as e:
+            diagnostics["Displayed"] = f"Error: {e}"
+
+        # Check 3: Is the element enabled?
+        try:
+            if element.is_enabled():
+                diagnostics["Enabled"] = "Yes"
+            else:
+                diagnostics["Enabled"] = "No"
+        except Exception as e:
+            diagnostics["Enabled"] = f"Error: {e}"
+
+        # Check 4: Can we scroll to the element?
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            diagnostics["Scroll Into View"] = "Success"
+        except Exception as e:
+            diagnostics["Scroll Into View"] = f"Error: {e}"
+
+        # Check 5: Can we click the element normally?
+        try:
+            element.click()
+            diagnostics["Normal Click"] = "Success"
+        except Exception as e:
+            diagnostics["Normal Click"] = f"Error: {e}"
+
+        # Check 6: Can we click the element using JavaScript?
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            diagnostics["JavaScript Click"] = "Success"
+        except Exception as e:
+            diagnostics["JavaScript Click"] = f"Error: {e}"
+
+        # Check 7: Does the element have any children that could be interfering with the click?
+        try:
+            children = element.find_elements(By.XPATH, ".//*")
+            if children:
+                diagnostics["Has Children"] = f"Yes, count: {len(children)}"
+            else:
+                diagnostics["Has Children"] = "No"
+        except Exception as e:
+            diagnostics["Has Children"] = f"Error: {e}"
+
+        # Check 8: Is the element covered by another element?
+        try:
+            covering_element = self.browser.execute_script(
+                "var elem = arguments[0],"
+                "  box = elem.getBoundingClientRect(),"
+                "  cx = box.left + box.width / 2,"
+                "  cy = box.top + box.height / 2,"
+                "  e = document.elementFromPoint(cx, cy);"
+                "for (; e; e = e.parentElement) {"
+                "  if (e === elem)"
+                "    return true"
+                "}"
+                "return false;", element)
+            diagnostics["Covered by another element"] = "No" if covering_element else "Yes"
+        except Exception as e:
+            diagnostics["Covered by another element"] = f"Error: {e}"
+
+        return diagnostics
+
+    def wait_for_element_explicitly(self, browser, timeout, locator_tuple, condition):
+        wait = WebDriverWait(browser, timeout)
+        
+        if condition == 'presence':
+            return wait.until(EC.presence_of_element_located(locator_tuple))
+        elif condition == 'visibility':
+            return wait.until(EC.visibility_of_element_located(locator_tuple))
+        elif condition == 'clickable':
+            return wait.until(EC.element_to_be_clickable(locator_tuple))
+        else:
+            raise ValueError(f"Invalid condition: {condition}")
+    
+    #TODO: Add last_link_from_google_search  to  filter_this_list!!!!!!
+    def check_company_url_list(self, job_link, completely_filtered_list):
+        print("\ncheck_company_url_list()")
+        for companies_url_list in completely_filtered_list:
+            print("In JobSearchWorkflow the list google_search_results_links is being iterated through...")
+            print("job_link = ", job_link)
+            print("     ^This repsents an indexed iteration from google_search_results_links")
+            print("companies_url_list[0] = ", companies_url_list[0])
+            print("     ^This reprents the list of lists which is made to contain all the urls found from")
+            print("      the google search and encapsulate all of them into a single variable so CompanyWorkflow")
+            print("      does not redundantely run all the code multiple time for the same company!!!!!!")
+            
+            if companies_url_list[0] == job_link:
+                print("MATCH FOUND!!!!!!        POOOOOOOOOOOOOP DOOOOOOOLLLLLLLLAAAAAAAAA!!!!!")
+                return companies_url_list
+            print("\n--------------------------------\n")
+        return job_link
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+        
+    def show_warning(message, category, filename, lineno, file=None, line=None):
+        print(f"Warning: {message}")
+    warnings.showwarning = show_warning
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                      LOAD RESOURCES AND LIBRARIES                             !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    #! HERE HERE HERE          CHANGE  GPT-Neo-#.#B            HERE HERE HERE
+    def load_company_resources(self):
+        print("load_company_resources()")
+        self.load_users_information()
+        print("  Loaded Users Information...")
+        self.load_custom_rules()
+        print("  Loaded Custom Rules...")
+        
+        print(self.custom_rules)
+        print(self.q_and_a)
+        
+        self.nlp_load()
+        print("  Loaded Users Information...")
+        
+        # model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
+        # self.init_gpt_neo(model_3B_pars)
+        # print("  Initialized GPT-Neo-2.7B...")
+        
+        # model_3B_pars = 'EleutherAI/gpt-neo-1.3B'
+        # self.init_gpt_neo(model_3B_pars)
+        # print("  Initialized GPT-Neo-1.3B...")
+        
+        self.init_nltk()
+        print("  Initialized nltk...")
+        
+        self.lemmatizer = WordNetLemmatizer()
+        print("  Loaded WordNetLemmatizer()...")
+    
+    #!------------- .env --------------------
+    def load_users_information(self):
+        self.users_information = {}
+        with open(self.env_path) as file:
+            for line in file:
+                if line.strip() and not line.startswith("#"):
+                    key, value = line.strip().split('=', 1)
+                    value = value.strip("'")  # Remove quotes around the value
+                    self.users_information[key] = value
+        #self.print_users_information()
+    
+    def print_users_information(self):
+        print('--------USERS .ENV INFO--------')
+        for key, value in self.users_information.items():
+            print(f"{key}: {value}")
+        print('-------------------------------')
+    #!---------------------------------------
+    
+    #!------------ config -------------------
+    def load_custom_rules(self):
+        print("load_custom_rules()")
+        print("dir(config) = ", dir(config))
+        
+        for attr in dir(config):
+            if not attr.startswith("__"):
+                print(f"Attribute: {attr}")
+                value = getattr(config, attr)
+                
+                                        #! v  NEWLY ADDED!!!!!
+                if attr == "CUSTOM_RULES" or attr == "CUSTOM_SYNONYMS":
+                    value = value[0]
+                
+                if isinstance(value, dict):
+                    setattr(self, attr.lower(), value)
+                    for key, val in value.items():
+                        print(f"Key: {key}, Value: {val}")
+                else:
+                    print(f"Value: {value}")
+
+        
+        # attributes = [attr for attr in dir(config) if not attr.startswith("__")]
+        
+        # for attr in attributes:
+        #     print("attr = ", attr)
+        #     value = getattr(config, attr)
+        #     print("value = ", value)
+            
+        #     if isinstance(value, dict):
+        #         print("dict = ", dict)
+        #         globals()[attr.lower()] = value
+    #!---------------------------------------
+    
+    def init_nltk(self):
+        try:
+            #Try to access WordNet
+            nltk.corpus.wordnet.synsets('word')
+        except LookupError:
+            #If WordNet is not present, download it
+            nltk.download('wordnet')
+    
+    def from_website_gptneo_setup(self):
+        #https://gist.github.com/pszemraj/791d72587e718aa90ff2fe79f45b3cfe
+        model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
+        
+        #gpu_mem = round(gpu_mem_total() / 1024, 2)
+        
+    def init_gpt_neo(self, model_name):
+        print("init_gpt_neo()")
+        #self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        #TODO: v UNCOMMENT UNCOMMENT UNCOMMENT
+        #self.check_cuda_compatibility()
+        #TODO: ^ UNCOMMENT UNCOMMENT UNCOMMENT
+        self.model = GPTNeoForCausalLM.from_pretrained(model_name).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+        #return self.tokenizer, self.model
+        
+    def clean_gpt_out(self, text, remove_breaks=True):
+        from cleantext import clean
+        cleaned_text = clean(text,
+                         fix_unicode=True,               # fix various unicode errors
+                        to_ascii=True,                  # transliterate to closest ASCII representation
+                        lower=False,                     # lowercase text
+                        no_line_breaks=remove_breaks,   # fully strip line breaks as opposed to only normalizing them
+                        no_urls=True,                  # replace all URLs with a special token
+                        no_emails=True,                # replace all email addresses with a special token
+                        no_phone_numbers=True,         # replace all phone numbers with a special token
+                        no_numbers=False,               # replace all numbers with a special token
+                        no_digits=False,                # replace all digits with a special token
+                        no_currency_symbols=True,      # replace all currency symbols with a special token
+                        no_punct=False,                 # remove punctuations
+                        replace_with_punct="",          # instead of removing punctuations you may replace them
+                        replace_with_url="",
+                        replace_with_email="",
+                        replace_with_phone_number="",
+                        replace_with_number="",
+                        replace_with_digit="0",
+                        replace_with_currency_symbol="",
+                        lang="en"                       # set to 'de' for German special handling
+                        )
+        return cleaned_text
+    
+    def test_gpt_neo(self, model_name):
+        print("\ntest_gpt_neo()")
+        print("The module name of GPT-Neo-2.7B is ", end='')
+        print(GPTNeoForCausalLM.__module__)
+        
+        device = 0 if torch.cuda.is_available() else -1
+        generator = pipeline("text-generation", model=model_name, device=device)
+        
+        prompt = "Question: Is Bengali, India in the United States?"
+        response_min_chars = 10
+        response_max_chars = 500
+        from cleantext import clean
+        import pprint as pp
+        import gc
+        from datetime import timedelta
+        gc.collect()
+        
+        
+        
+        with warnings.catch_warnings(record=True) as w:
+            #https://stackoverflow.com/questions/7370801/how-do-i-measure-elapsed-time-in-python
+            start_time = time.time()
+            
+            warnings.filterwarnings("always", module='transformers.models.gpt_neo.modeling_gpt_neo')
+            #All WARNINGS that GPT-Neo caused
+            # warnings.filterwarnings("always", module='transformers.GPTNeoForCausalLM')
+            # warnings.filterwarnings("always", module='transformers.GPT2Tokenizer')
+            
+            try:
+                response = generator(prompt, do_sample=True, min_length=response_min_chars, max_length=response_max_chars,
+                                                                                            clean_up_tokenization_spaces=True,
+                                                                                            return_full_text=True)
+            except Exception as e:
+                print("An error occured while running the generator()")
+                print(e)
+                
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(f"The generator() took {str(timedelta(seconds=elapsed_time))}")
+        
+        print("----------------------\n")
+        for warnins in w:
+            print(str(warnins.message))
+        
+        
+        
+        
+        gc.collect()
+        print("Prompt: \n")
+        pp.pprint(prompt)
+        print("\nResponse: \n")
+        out3_dict = response[0]
+        pp.pprint(self.clean_gpt_out(out3_dict["generated_text"], remove_breaks=True), compact=True)
+        
+    def check_cuda_compatibility(self):
+        print("check_cuda_compatibility()")
+        if torch.cuda.is_available():
+            print("CUDA is available!")
+            print(f"CUDA version: {torch.version.cuda}")
+        else:
+            print("CUDA is not available.")
+            
+    def nlp_load(self):
+        print("nlp_load()")
+        self.nlp = spacy.load("en_core_web_md")
+        #self.nlp.add_pipe()
+        #return self.nlp
+        return
+    
+    def __del__(self):
+        # Delete the model when the object is destroyed
+        del self.model
+        del self.tokenizer
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                         GET RID OF BAD LINKS                                  !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    # def filter_through_google_search_results(self):
+    #     self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+    #     self.google_search_results_links = self.ensure_no_duplicates(self.google_search_results_links)
+    #     self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
+    #     self.filter_out_jobs_user_previously_applied_to(self.google_search_results_links, self.previously_applied_to_job_links)
+    
+    def filter_through_google_search_results(self, google_search_results_links):
+        self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
+        google_search_results_links = self.ensure_no_duplicates(google_search_results_links)
+        self.previously_applied_to_job_links = self.get_job_links_users_applied_to(self.previous_job_applications_data)  #and filter them out!
+        self.filter_out_jobs_user_previously_applied_to(google_search_results_links, self.previously_applied_to_job_links)
+        google_search_results_links, completely_filtered_list = self.encapsulate_companies_urls(google_search_results_links)
+        return google_search_results_links, completely_filtered_list
+    
+    def convert_csv_data(self, csv_relative_path):
+        print("\nconvert_csv_data() =")
+        
+        csv_to_list = []
+        
+        with open(csv_relative_path, 'r') as file:
+            csv_reader = csv.reader(file)
+            
+            # Skip the header row
+            next(csv_reader)
+            
+            for row in csv_reader:
+                updated_row = [cell.replace('=>', ',') for cell in row]
+                csv_to_list.append(updated_row)
+        print(csv_to_list)
+        return csv_to_list
+    
+    def ensure_no_duplicates(self, list_to_filter):
+        print("\nensure_no_duplicates()")
+        
+        unique_results = []
+        for list_URL in list_to_filter:
+                if list_URL not in unique_results:
+                    unique_results.append(list_URL)
+                else:   #THIS ELSE AND 2 PRINT STATEMENTS ARE PURELY FOR TESTING!!!
+                    print("Repeated Link Found: ", end="")
+                    print(list_URL)
+        return unique_results
+    
+    #TODO: Keep job url's
+    #! Pretty sure this is this is the only time I use JobsThatUserHasAppliedTo.csv so it doesn't matter
+    def get_job_links_users_applied_to(self, extract_URLs_from_dictionary):
+        print("\nget_job_links_users_applied_to() =")
+        
+        URLs_list = []
+        
+        for row in extract_URLs_from_dictionary:
+            links_row = row[0]
+            print("If my calculations are correct this should print a link MUAH HA HA... ", end="")
+            print(links_row)
+            URLs_list.append(links_row)
+            
+        print("These are all the links you already applied to... Tom")
+        print(URLs_list)
+        if self.last_time_user_applied == None:
+            self.last_time_user_applied = extract_URLs_from_dictionary[-1][-1]
+            print("And this is when you last applied... Tom")
+            print(self.last_time_user_applied)
+        return URLs_list
+    
+    #TODO: FINISH BOTH OF THESE!!
+    #Use Quick Sort to sort jobs_previously_applied_to
+    #! We run this when we finish running other_company_openings()!!!!
+    #! And self.google_search_results_links can stay in the method b/c nothing changes this value!! (b/c if it needed any we already applied it!)
+    #TODO: Only include links that are within the past 6 months for "previously_applied_links" !!!
+    def filter_out_jobs_user_previously_applied_to(self, list_to_filter, previously_applied_links):
+        print("\nfilter_out_jobs_user_previously_applied_to()")
+        
+        Lake_Minnetonka_Purified_list = []
+        
+        for list_URL in list_to_filter:
+            found = False
+            for previously_applied_URL in previously_applied_links:
+                if list_URL == previously_applied_URL:
+                    print("Match list_URL: ", end='')
+                    print(list_URL)
+                    print("Match previously_applied_URL: ", end='')
+                    print(previously_applied_URL)
+                    #previously_applied_links.append(previously_applied_URL)
+                    found = True
+                    break
+            if not found:
+                Lake_Minnetonka_Purified_list.append(list_URL)
+        
+        print("These are all the links you already applied to... ")
+        print(previously_applied_links)
+        print("Swedish men... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
+        #print(Lake_Minnetonka_Purified_list)
+        return Lake_Minnetonka_Purified_list
+    
+    #TODO: MAYBE!!!  PERHAPS!!!  Make a method for when you have multiple links to the same company!!
+        #TODO: So it gets the 1st index [https://boards.greenhouse.io/openai/jobs/4911334004] and looks
+        #TODO: for end of the url {Ex).io, .com, .gov} and then gets the next set of '/ /' and saves
+        #TODO: that url as  sole_company_url which should look like [https://boards.greenhouse.io/openai/]
+        #TODO: and if a match is found then create a list for that company!! Add both of those url's to the
+        #TODO: newly created list along with each match moving foward BUT ALSO ERASE EVERY FOUND MATCH! So
+        #TODO: that should leave you with only 1 url for that company; so when in the for loop in the
+        #TODO: apply_to_jobs() method before sending it to CompanyWorkflow check if that company is the 1st
+        #TODO: of any lists. If it isn't send the url. If it is send that list!!!!
+    # def encapsulate_companies_urls(self, list_to_filter):
+    #     print("\nencapsulate_companies_urls()")
+    #     #!
+    #     #Make sure last_link_from_google_search is included in this list!!!!!!!
+    #     #print("****self.last_link_from_google_search****   =>   ", last_link_from_google_search)  #it's not a self
+    #     #!
+    #     updated_google_search_results_links = []
+    #     #companies_multiple_urls
+    #     completely_filtered_list = []
+    #     # company_filtered_list = []
+    #     for i, indexed_job in enumerate(list_to_filter):
+    #         print((str(i) + ") "), end="")
+    #         print("[O.G.]  indexed_job = ", indexed_job)
+    #         updated_google_search_results_links.append(indexed_job)
+    #         parsed_url = urlparse(indexed_job)
+    #         print("parsed_url = ", parsed_url)
+    #         #url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+    #         url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path.split('/')[1], '', '', ''))
+    #         print("url_un_parse = ", url_un_parse)
+            
+    #         company_filtered_list = []
+            
+    #         for j, company_url_duplicate in enumerate(list_to_filter, i):
+    #             if j == 0:
+    #                 print("\tThe 1st iteration...")
+    #                 print("ok so we start with the index 0 and in this for loop skip that initial index and start at the one after it to compare....")
+    #                 print("\ti = ", str(i))
+    #                 print("\turl_un_parse = ", url_un_parse)
+    #                 print("\t^ this to this v")
+    #                 print("\tj = ", str(j))
+    #                 print("\tcompany_url_duplicate = ", company_url_duplicate)
+    #         #     if url_un_parse in company_url_duplicate:
+    #         #         company_filtered_list.append(company_url_duplicate)
+    #         # if company_filtered_list:
+    #         #     print("company_filtered_list = ", company_filtered_list)
+    #         #     completely_filtered_list.append(company_filtered_list)
+    #             #print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #             if url_un_parse in company_url_duplicate:
+    #                 #if len(company_filtered_list) == 0:
+    #                 if not company_filtered_list:
+    #                     company_filtered_list.append(indexed_job)
+    #                     company_filtered_list.append(company_url_duplicate)
+    #                 #else:
+    #                 elif company_filtered_list:
+    #                     company_filtered_list.append(company_url_duplicate)
+    #         #if len(company_filtered_list) > 0:
+    #         if company_filtered_list:
+    #             print("company_filtered_list = ", company_filtered_list)
+    #             completely_filtered_list.append(company_filtered_list)
+    #     #self.google_search_results_links = updated_google_search_results_links
+    #     #print("self.google_search_results_links = ", self.google_search_results_links)
+    #     print("\n\n    Sup Negro's-------")
+    #     print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #     print("updated_google_search_results_links = ", str(len(updated_google_search_results_links)))
+    #     print("completely_filtered_list = ", completely_filtered_list)
+    #     print("completely_filtered_list = ", str(len(completely_filtered_list)))
+    #     return updated_google_search_results_links, completely_filtered_list
+    #!---------------------------------------------------------------------------------------------------------------
+    # def encapsulate_companies_urls(self, list_to_filter):
+    #     print("\nencapsulate_companies_urls()")
+    #     updated_google_search_results_links = []
+    #     completely_filtered_list = []
+    #     for i, indexed_job in enumerate(list_to_filter):
+    #         print((str(i) + ") "), end="")
+    #         print("indexed_job = ", indexed_job)
+    #         updated_google_search_results_links.append(indexed_job)
+    #         parsed_url = urlparse(indexed_job)
+    #         url_un_parse = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+    #         company_filtered_list = []  # Initialize the list here
+    #         for j, company_url_duplicate in enumerate(list_to_filter, 1):
+    #             if url_un_parse in company_url_duplicate:
+    #                 company_filtered_list.append(company_url_duplicate)
+    #         if company_filtered_list:
+    #             print("company_filtered_list = ", company_filtered_list)
+    #             completely_filtered_list.append(company_filtered_list)
+    #     print("updated_google_search_results_links = ", updated_google_search_results_links)
+    #     print("completely_filtered_list = ", completely_filtered_list)
+    #     return updated_google_search_results_links, completely_filtered_list
+    #!---------------------------------------------------------------------------------------------------------------
+    def encapsulate_companies_urls(self, list_to_filter):
+        print("\nencapsulate_companies_urls()")
+        updated_google_search_results_links = []
+        completely_filtered_list = []
+        seen_urls = set()
+        #Purely for testing
+        count = 0
+
+        for i, indexed_job in enumerate(list_to_filter):
+            parsed_url = urlparse(indexed_job)
+            base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
+            company_url = '/'.join(parsed_url.path.strip('/').split('/')[:1])
+            company_base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, company_url, '', '', ''))
+
+            if company_base_url not in seen_urls:
+                seen_urls.add(company_base_url)
+                updated_google_search_results_links.append(indexed_job)
+
+                company_filtered_list = [url for url in list_to_filter if company_base_url in url]
+                if len(company_filtered_list) > 1:
+                    #HERE Nick HERE Nick Here Nick
+                    count=count+1
+                    print(str(count) + ") company_filtered_list = ", company_filtered_list)
+                    completely_filtered_list.append(company_filtered_list)
+
+        print("\n\n    Sup Captain -------")
+        print("updated_google_search_results_links = ", updated_google_search_results_links)
+        print("updated_google_search_results_links = ", str(len(updated_google_search_results_links)))
+        print("completely_filtered_list = ", completely_filtered_list)
+        print("completely_filtered_list = ", str(len(completely_filtered_list)))
+        self.print_lists_side_by_side(list_to_filter, updated_google_search_results_links)
+        return updated_google_search_results_links, completely_filtered_list
+
+    def print_lists_side_by_side(self, list_to_filter, updated_google_search_results_links):
+        print("\n\n    Sup Norrington")
+        print("Index | List to Filter URL | Updated Google Search Results URL")
+        print("------|-------------------|-----------------------------------")
+        for i in range(max(len(list_to_filter), len(updated_google_search_results_links))):
+            list_to_filter_url = list_to_filter[i] if i < len(list_to_filter) else "N/A"
+            updated_url = updated_google_search_results_links[i] if i < len(updated_google_search_results_links) else "N/A"
+            print(f"{i:5} | {list_to_filter_url:20} | {updated_url}")
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #!                                                                               !
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
+        
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def do_yo_thang_google_sheets_do_yo_thang(self):
+        send_to_google_sheets = self
+    
+    #TODO: Do stuff at very end or once CompanyOpeningsAndApplications.py instance ends!!
+    def write_to_csv(self, job_data):
+        with open ('job_data.csv', mode='a', newline='') as file:
+            writer = csv.writer(file)
+            #for row in writer:
+            writer.writerow(job_data)
+        return "All done!"
+    
+   
+   
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def cookie_information(self):
+        print("cookie_information()")
+        current_url = self.browser.current_url
+        parameters = {'Name':'Nick Liebmann', 'Email-id':'Liebmann.nicholas1@gmail.com','Message':'Hello cookies'}
+        r = requests.post(f"{current_url}", data = parameters)
+        print('The cookie is:')
+        print(r.cookies.get_dict())
+        print(r.text)
+
+    def website_modified_cookie_info(self):
+        print("website_modified_cookie_info()")
+        current_url = self.browser.current_url
+        session = requests.Session()
+        parameters = {'Name':'Nick Liebmann', 'Email-id':'Liebmann.nicholas1@gmail.com','Message':'Hello cookies'}
+        r = session.post(f"{current_url}", data=parameters)
+        print('The cookie is:')
+        print(r.cookies.get_dict())
+        print(r.text)
+
+
+
+ 
+
+
+   
+    
+    
+    
+        
+
+if __name__ == '__main__':
+    workflow = Workflow()
+    workflow.job_search_workflow()
+
+
+
+
+
+
+
+#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
+
+
+
+
+
+
+# Web_Scraper/
+# ├── config.py
+# ├── Legit
+# │   ├── JobSearchWorkflow.py
+# │   ├── GoogleSearch.py
+# │   └── CompanyOpeningsAndApplications.py
+# ├── .env
+# ├── README.md
+# └── Scraper
+#     ├── scraperGoogle.py
+#     ├── scraperGoogleJob.py
+#     ├── TestingSelenium.py
+#     └── JobData.csv
+
+
+
+
+
+
+
+
+
+
+
+    def safe_click(self, element):
+        print("safe_click()")
+        
+        # # First, try clicking normally
+        # print("1) Normal click attempt")
+        # try:
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"1) Normal click failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("1) Normal click attempt")
+        current_url = self.browser.current_url
+        try:
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except:
+            #return False
+            print("This dumb thing didn't work!")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try waiting for the element to be clickable
+        # print("2) Waiting for element to be clickable attempt")
+        # try:
+        #     WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+        #     element.click()
+        #     return True
+        # except TimeoutException as e:
+        #     print(f"2) Waiting for element to be clickable failed: {e}")
+
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("2) Waiting for element to be clickable attempt")
+        try:
+            WebDriverWait(self.browser, 10).until(EC.element_to_be_clickable((By.TAG_NAME, element.tag_name)))
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except TimeoutException as e:
+            print(f"2) Waiting for element to be clickable failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        
+        # # Then, try scrolling the element into view and clicking
+        # print("3) Waiting for element to be clickable attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        #     element.click()
+        #     return True
+        # except Exception as e:
+        #     print(f"4) Scrolling and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print("3) Waiting for element to be clickable attempt")
+        try:
+            self.browser.execute_script("arguments[0].scrollIntoView();", element)
+            element.click()
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"4) Scrolling and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Next, try checking if the element is displayed before clicking
+        # print(f"5.1) Checking visibility and clicking attempt")
+        # try:
+        #     if element.is_displayed():
+        #         element.click()
+        #         return True
+        #     else:
+        #         print("5.2)Element is not visible")
+        # except Exception as e:
+        #     print(f"5.3) Checking visibility and clicking failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"5.1) Checking visibility and clicking attempt")
+        try:
+            if element.is_displayed():
+                element.click()
+                WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+                return True
+            else:
+                print("5.2)Element is not visible")
+        except Exception as e:
+            print(f"5.3) Checking visibility and clicking failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # # Finally, try using JavaScript to perform the click
+        # print(f"6) JavaScript click attempt")
+        # try:
+        #     self.browser.execute_script("arguments[0].click();", element)
+        #     return True
+        # except Exception as e:
+        #     print(f"6) JavaScript click failed: {e}")
+        
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        print(f"6) JavaScript click attempt")
+        try:
+            self.browser.execute_script("arguments[0].click();", element)
+            WebDriverWait(self.browser, 10).until(EC.url_changes(current_url))
+            return True
+        except Exception as e:
+            print(f"6) JavaScript click failed: {e}")
+        #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        # If all methods fail, return False
+        return False
+
+
+
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
+
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+from selenium.common.exceptions import NoSuchElementException
+import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import ElementNotInteractableException
+
+class scraperGoogle():
+    
+    def __init__(self, browser, senior_experience):
+        self.browser = browser
+        self.user_desired_jobs = []
+        self.good_locations = None
+        self.bad_locations = None
+        self.list_first_index = 0
+        self.list_last_index = 0
+        self.links_to_jobs = []
+        self.previous_results_count = 0
+        self.job_links_counter = 0
+        self.results_from_search = []
+        self.google_search_results_links = []
+        self.last_link_from_google_search = None
+        
+        
+        #! NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
+        self.user_preferred_workplaceType = ["in-office", "hybrid", "remote"]
+        self.user_preferred_locations = []
+        #NOTE: if senior_experience is true then everything is fair game but...  if it's False create this new variable!!!!
+        # if senior_experience == False:
+        #     self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        self.senior_experience = senior_experience
+        self.avoid_these_job_titles = ["senior", "sr", "principal", "lead", "manager"]
+        
+        
+        
+        
+    
+    #TODO:
+    # def init_users_job_search_requirements(self):
+    #     self.users_job_search_requirements = {
+    #         "user_desired_job_title": [],
+    #         "user_preferred_locations": [],
+    #         "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+    #         "employment_type": [],  #Not really something I'm checking for
+    #         "entry_level": True, 
+    #     }
+    
+    
+    
+    
+    
+    
+    #TODO: LAST_APPLIED => If anythng less than 3 days -> 24 hrs | If anything > 3 days filter by -> Past Week | If anything > 2 weeks just do -> anytime
+        #TODO: But show the user LAST_APPLIED and let them pick
+        
+    def ludacris_speed(self):
+        self.user_desired_jobs.append("software engineer")
+        return
+    
+    def plaid_speed(self):
+        self.user_desired_jobs.append("software engineer")
+        self.user_desired_jobs.append("backend engineer")
+        self.user_desired_jobs.append("full-stack engineer")
+        #self.user_desired_jobs.append("frontend engineer")
+        #self.user_desired_jobs.append("engineer")
+        self.search_for_jobs()
+        return
+    
+    def purely_for_testing_and_examples(self, walkthrough_choice):
+        if walkthrough_choice == 'ludacris':
+            self.ludacris_speed()
+        elif walkthrough_choice == 'plaid':
+            self.plaid_speed()
+        self.new_new_print_google_search_results()
+        print("Returning back to JobSearchWorkflow")
+        time.sleep(2)
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
+    
+    def user_requirements(self):
+        self.ludacris_speed()
+        
+        self.search_for_jobs()
+        self.new_new_print_google_search_results()
+        print("Returning back to JobSearchWorkflow\n\n")
+        time.sleep(2)
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType
+
+    def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
+        job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
+        
+        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
+        search_bar = self.browser.find_element(By.NAME, "q")
+        search_bar.clear()
+        search_bar.send_keys('site:lever.co | site:greenhouse.io')     #('site:lever.co | site:greenhouse.io | site:workday.com')
+        print('1/2')
+        time.sleep(1)
+        job_titles_string = ' ("'
+        for i, job in enumerate(job_titles):
+            if i == len(job_titles)-1 or len(job_titles) == 0:
+                job_titles_string += (job + '")')
+            else:
+                job_titles_string += (job + '" | "')
+        search_bar.send_keys(job_titles_string)
+        print('2/2')
+        print("Searching google for...       adult films?")
+        time.sleep(1)
+
+        self.search_locations(search_bar)
+        return
+    
+    '''
+    #NOTE: google already returns too few jobs AND since time is not of the essance... this will hopefully lead the users to find some hidden gems!!!
+    # def filter_out_experience(self, search_bar):
+    #     if self.senior_experience == False:
+    #         search_bar.send_keys(('-'.join(self.avoid_these_job_titles) + ' '))
+    '''
+    
+    #NOTE: Ok so because google can't do it's job the locations are more so just suggestions!! At least
+        #for all the jobs in this 'returned list' from the 'google search'... once I get to the internal
+        #company job list I can prioritize location!!!
+    #TODO       -   -   -   -   - > user_preferred_locations
+    def search_locations(self, search_bar):
+        requested_job_locations = None
+        if not self.user_preferred_locations:
+            self.filter_search_time_frame(search_bar)
+            #?????? Adding a return right here cause if I don't then won't the rest of this method run?????
+            return
+        else:
+            requested_job_locations = self.user_preferred_locations
+        
+        print("Specifying search to only return job's within the " + ", ".join(requested_job_locations) + " area")
+        print("1/2")
+        time.sleep(1)
+        job_locations_string = ' ("'
+        for i, location in enumerate(requested_job_locations):
+            if i == len(requested_job_locations):
+                job_locations_string += (location + '") ')
+            else:
+                job_locations_string += (location + '" | "')
+        search_bar.send_keys(job_locations_string)
+        print("2/2")
+        
+        
+        
+        # #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
+        # if not self.good_locations and not self.bad_locations:
+        #     self.filter_search_time_frame(search_bar)
+        #     return 
+        
+        # #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
+        # search_location = " & "
+        # for count, add_location in enumerate(self.good_locations):
+        #     if count == len(self.good_locations):
+        #         search_location += (" near=" + add_location + " ")
+        #         #! ADD: Find out how to add more location!!!!!                
+        # for count, exclude_location in self.bad_locations:
+        #     if count == len(self.bad_locations):
+        #         search_location += ("!(near=" + exclude_location + ")")
+        
+        # search_bar.send_keys(search_location)
+        self.filter_search_time_frame(search_bar)
+        return
+    
+    def filter_search_time_frame(self, search_bar):
+        search_bar.send_keys(Keys.RETURN)
+        print("TAAAA DDDAAAAAA")
+        time.sleep(1)
+        self.adjust_viewport()
+        print("GET SUCKED WIZARD!")
+        time.sleep(1)
+        
+        tools_butt = self.browser.find_element(By.XPATH, "//div[text()='Tools']")
+        tools_butt.click()
+        
+        any_time_butt = self.browser.find_element(By.XPATH, "//div[text()='Any time']")
+        any_time_butt.click()
+        decisi = "24"
+        
+        if decisi == "24":
+            past_24 = self.browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
+            past_24.click()
+        elif decisi == "7":
+            past_week = self.browser.find_element(By.XPATH, "//a[text()='Past week']")
+            past_week.click()
+        else:
+            raise TypeError('ERROR: Didnt pick a registered time!')
+        print("Filtering by past " + decisi)
+        time.sleep(1)
+        #self.search_results(self.list_first_index, self.list_last_index)
+        #self.job_search_workflow()
+        #self.search_results(self.list_first_index)
+        self.process_search_results()
+        return
+    
+    def adjust_viewport(self):   
+        # Get the current window size
+        window_width = self.browser.execute_script("return window.innerWidth;")
+        window_height = self.browser.execute_script("return window.innerHeight;")
+
+        # Set the viewport to match the window size
+        self.browser.execute_script(f"document.documentElement.style.setProperty('width', '{window_width}px');")
+        self.browser.execute_script(f"document.documentElement.style.setProperty('height', '{window_height}px');")
+        self.browser.execute_script("document.documentElement.style.setProperty('overflow', 'hidden');")
+    
+
+
+    def scroll_to_bottom(self):
+        prev_height = self.browser.execute_script("return document.body.scrollHeight")
+        print('\n\n\n')
+        print("increment_search_results")
+        print("****************************************************************")
+        print("Current Height == " + str(prev_height))
+        
+        #! This is what does the actual scrolling!!!
+        self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        #------------------------------------------------------------------------------------------------------
+        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        # ============
+        #     # Scroll down in smaller increments
+        #     scroll_increment = current_height // 5
+        #     for _ in range(5):
+        #         self.browser.execute_script(f"window.scrollBy(0, {scroll_increment});")
+        #         time.sleep(1)
+        time.sleep(1)
+        print("Scrolled...")
+        
+        new_height = self.browser.execute_script("return document.body.scrollHeight")
+        print("New Height == " + str(new_height))
+        return new_height != prev_height
+
+    def process_search_results(self):
+        list_first_index = 0
+        list_last_index = 0
+        while True:
+            list_last_index = self.search_results(list_first_index, list_last_index)
+            
+            if not self.scroll_to_bottom():
+                if self.end_of_search():
+                    print("I'm the issue 2")
+                    break
+                
+                if not self.get_more_results():
+                    print("I'm the issue 3")
+                    break
+            # else:
+            #     list_first_index = list_last_index
+        print("I'm the issue 4")
+            
+    def search_results(self, list_first_index, list_last_index):
+        # Wait for the last result from the previous search to appear on the page
+        # if self.results_from_search:
+        #     last_result = self.results_from_search[-1]
+        #     WebDriverWait(self.browser, 10).until(
+        #         EC.visibility_of(last_result)
+        #     )
+        initial_length = len(self.results_from_search)
+        
+        if list_first_index == 0:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
+            list_last_index = len(self.results_from_search)
+        else:
+            self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! vvvvvvvvvvvvvvvvvvvvvvv  IF THERE ARE ANY ISSUES ITS B/C OF THIS !!!!!!!!!!!!!
+            list_last_index = list_first_index + len(self.results_from_search)
+
+        for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
+            print('--------------------------------')
+            print(str(count+1) + "/" + str(list_last_index))
+            print(results_link)
+            #The HTML element of the link
+            link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
+            
+            
+            
+            print("link = ", str(link))
+            
+            
+            
+            
+            print(f"Here is link #{count+1}: ", end="")
+            #The link
+            job_link = link.get_attribute("href")
+            print(job_link)
+            
+            self.google_search_results_links.append(job_link)
+            
+            
+            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
+            
+            # if self.banned_urls(link):
+            #     print("BANNED v BANNED v BANNED v BANNED v BANNED v BANNED v BANNED v BANNED")
+            #     print("link = ", link)
+            #     print("BANNED ^ BANNED ^ BANNED ^ BANNED ^ BANNED ^ BANNED ^ BANNED ^ BANNED")
+            #     continue
+            # self.google_search_results_links.append(job_link)
+            
+            #! RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI RECENT B/C SAFARI
+            
+            
+            if (count+1) == list_last_index:   #(count+1) == list_last_index and self.banned_urls(link)
+                self.last_link_from_google_search = results_link
+                print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
+                print(self.last_link_from_google_search)
+                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
+            
+            # if self.google_search_results_links:
+            #     self.last_link_from_google_search = self.google_search_results_links[-1]
+            
+            #Honestly, seems like the fastest way!?
+            #self.last_link_from_google_search = results_link
+            
+            #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
+            if count == list_last_index:
+                list_first_index = list_last_index
+                break
+        print("\nI am at end of search_results()...")
+        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        return list_last_index
+
+    def get_more_results(self):
+        try:
+            more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
+            if more_results:
+                print("Found the more_results button")
+                more_results.click()
+                print("Clicked 'More results' button")
+                time.sleep(2)
+                return True
+            else:
+                print("No 'More results' button found")
+                print("THIS COULD BE THE REASON FOR ERRORS!! idk though dog... soundproof spectacles")
+                return False
+        except NoSuchElementException:
+            print("No 'More results' button found")
+            return False
+
+    def end_of_search(self):
+            try:
+                no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+                if no_more_results:
+                    print("No more search results")
+                    time.sleep(2)
+                    return True
+            except NoSuchElementException:
+                pass
+            return False 
+    
+    def banned_urls(self, job_link):
+        if job_link.text == 'Skip to main content':
+            return True
+        #TODO:
+        #Add users banned companies[places they don't want to work... Ex) military, construction, children]
+        return False
+    
+    
+    
+    
+    
+    
+
+    def print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(self.job_links_counter) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+    
+    def new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.results_from_search):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.links_to_jobs[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+    
+    def new_new_print_google_search_results(self):
+        print('--------------------------------------------')
+        print("Results from this Google Search: ")
+        for i, job in enumerate(self.google_search_results_links):
+            self.job_links_counter += 1
+            print("Result #" + str(i+1) + " from Google Seaech")
+            print("\tJob Title: ", end="")
+            print(job)
+            print("\tLink to Job: ", end="")
+            print(self.google_search_results_links[i])
+        print('--------------------------------------------')
+        #time.sleep(30)
+        return
+
+
+
+
+
+
+
+
+
+
+
+#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
+
+
+
+
+#jobs.polymer.co
 
 
 
