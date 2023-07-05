@@ -2608,7 +2608,18 @@ selenium.common.exceptions.NoSuchElementException: Message:
 
 
 
-
+    def init_user(self):
+        self.user = (
+        users_job_search_requirements = {
+            "user_desired_job_title": [],
+            "user_preferred_locations": [],
+            "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+            "employment_type": [],  #Not really something I'm checking for
+            "entry_level": True, 
+        },
+        users_personal_information = {
+          "users_information": []
+        })
 
 
 
