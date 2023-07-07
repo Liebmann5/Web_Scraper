@@ -1411,8 +1411,8 @@ class CompanyWorkflow():
         
         self.env_path = '.env'
         self.sibling_company_job_links = None  #[]
-                                                             # v greenhouse doesn't have
-        self.job_application_webpage = ["Job-Description", "Job-Application", "Submitted-Application", "Internal-Job-Listings"]
+                                                                                     # v greenhouse doesn't have
+        self.job_application_webpage = ["Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"]
                                          # ^ starts at 0
         
         
@@ -1502,6 +1502,7 @@ class CompanyWorkflow():
         #? If v this link isn't present for the 1st what makes the others different!?!?!?
         self.find_companys_internal_job_openings_URL()
         self.filter_companys_current_job_opening_urls()
+        webpage_num = 0
         
         for job_opening in self.list_of_links:
             #TODO: Ensure -> self.current_url should always lag 1 behind EXCEPT FOR...  the 1st index!!??
@@ -1509,7 +1510,7 @@ class CompanyWorkflow():
             if self.current_url != job_opening:
                 self.browser.get(job_opening)
             elif self.current_url == job_opening:
-                print("BOOM skipped visit! Should only be for the 1st iteration...")
+                print("BOOM skipped click from Google visit! Should only be for the 1st iteration...")
                 pass
                 
             try:    #what if the link is broken...   like old link b/c the job has been filled
@@ -1518,16 +1519,19 @@ class CompanyWorkflow():
             except:
                 continue
             
-            if self.job_application_webpage[0]:
-                self.analyze_job_suitabililty()
-            if self.job_application_webpage[1]:
-                    #stuff
-            if self.job_application_webpage[2]:
-                    #stuff
-            if self.job_application_webpage[3]:
-                    #stuff
+            if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
+                webpage_num = self.collect_companies_current_job_openings()
+            if self.job_application_webpage[webpage_num] == "Job-Description":
+                webpage_num = self.analyze_job_suitabililty()
+            if self.job_application_webpage[webpage_num] == "Job-Application":
+                webpage_num = self.apply_to_job()
+            if self.job_application_webpage[webpage_num] == "Submitted-Application":
+                
+                self.reset_every_job_variable()
+                webpage_num = 
             if:     #Nothing  MAYBE actually just an else
                 self.reset_every_job_variable()
+                webpage_num = 
         
         
         
@@ -1594,9 +1598,36 @@ class CompanyWorkflow():
         self.current_jobs_details["job_url"] = self.current_url
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
         
+        self.handle_job_description_webpage()
+        user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
+        job_fits_users_criteria = self.fits_users_criteria()
+        
+        if user_fits_jobs_criteria == True and job_fits_users_criteria == True:
+            print("User is applying to this lever.co tabajo!!")
+            #This clicks for us
+            self.bottom_has_application_or_button(self.application_company_name)
+            return self.job_application_webpage[2]
+        # elif should_apply == False:
+        #     return 
+        else:
+            print("\tHmmm that's weird ? it's neither button nor application")
+            return self.job_application_webpage[1]
+        
+    def apply_to_job(self):
+        time.sleep(3)
+        current_url = self.browser.current_url
+        #TODO: self.soup_elements  > > >  do something with the soup!!!
+        self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
+        self.form_input_details = self.get_form_input_details(current_url)
+        self.insert_resume()
+        self.process_form_inputs(self.form_input_details)
+        return self.job_application_webpage[3]
+        
+    #TODO: Because of this one all the pages need to be shifted! MOVE THIS TO 0! Then everything else + 1!!!
     def find_companys_internal_job_openings_URL(self):
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
         self.search_for_internal_jobs_link()
+        return self.job_application_webpage[1]
         
     
     # if (current_webpage == ApplicationOnly)   =>   attempt to find this companies CompanyJobOpenings url && if we do then go there and return "if not... idk I didn't get that far I guess"
@@ -1720,6 +1751,8 @@ class CompanyWorkflow():
             #self.fits_users_criteria(  )
             
             self.scroll_to_element(self.soup_elements['opening_link_description'])
+            #! TESTING  analyze_job_suitabililty  TESTING  analyze_job_suitabililty  TESTING  analyze_job_suitabililty
+            return self.job_application_webpage[1]
             apply_to_job = self.should_user_apply(self.soup_elements['opening_link_description'])
             if apply_to_job == True:
                 print("User is applying to this lever.co tabajo!!")
@@ -1728,7 +1761,7 @@ class CompanyWorkflow():
                 time.sleep(3)
                 current_url = self.browser.current_url
                 #TODO: self.soup_elements  > > >  do something with the soup!!!
-                soup = self.apply_beautifulsoup(current_url, "html")
+                self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
                 self.form_input_details = self.get_form_input_details(current_url)
                 self.insert_resume()
                 self.process_form_inputs(self.form_input_details)
