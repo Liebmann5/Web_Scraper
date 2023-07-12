@@ -97,7 +97,7 @@ class Workflow():
         self.previous_job_applications_data = []
         self.previously_applied_to_job_links = []
         self.last_time_user_applied = None
-        self.todays_jobs_applied_to_info = {}
+        self.jobs_applied_to_this_session = {}
         
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
@@ -156,8 +156,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        users_browser_choice, browser_name = 1, " Firefox "
-        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 1, " Firefox "
+        users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -327,8 +327,8 @@ class Workflow():
                 self.browser.get(job_link)
                 time.sleep(5)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            #self.todays_jobs_applied_to_info = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).company_workflow(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
+            #self.jobs_applied_to_this_session = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, senior_experience=False).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, senior_experience=False).test_this_pile_of_lard(job_link)
     '''
     
     
@@ -386,10 +386,74 @@ class Workflow():
             
             job_link = self.consolidate_job_links_by_company(job_link, job_links_organized_by_company)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, senior_experience=False).test_this_pile_of_lard(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
+            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, senior_experience=False).test_this_pile_of_lard(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
         print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
         return
+
+
+    def refatored_apply_to_jobs(self):
+        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        clicked_link_from_google_search = False
+        for i in range(len(google_search_results_links) - 1, -1, -1):
+            job_link = google_search_results_links[i]
+            if not clicked_link_from_google_search:
+                # print(last_link_from_google_search)
+                # self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
+                
+                print("job_link = ", job_link)
+                job_link_element = self.transition_link_into_selenium(job_link)
+                print("job_link_element = ", job_link_element)
+                self.browser.execute_script("arguments[0].scrollIntoView();", job_link_element)
+                
+                
+                
+                #!WinMerge WinMerge WinMerge WinMerge WinMerge WinMerge WinMerge
+                self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", job_link_element)
+                #! ^ WinMerge ^ WinMerge ^ WinMerge ^ WinMerge ^ WinMerge ^ WinMerge ^ WinMerge
+                print("Scrolled to this place...\n")
+                time.sleep(3)	#!OLD TIME = 5 && NEW TIME = 2 ssoooooo... POSSIBLY DUE TO too LITTLE TIME!!!!
+
+                diagnostics = self.diagnose_interaction(job_link_element)
+                for check, result in diagnostics.items():
+                    print(f"{check}: {result}")
+
+                try:
+                    # Try to click the element
+                    if not self.safe_click(job_link_element):
+                        print("Clicking on the element failed.")
+                except Exception as e:
+                    print(f"Safe click failed: {e}")
+                
+                clicked_link_from_google_search = True
+                print("Accidently clamped my testicles b/c I needed to be punished")
+                
+                #OG OG OG OG OG OG OG OG OG OG OG OG OG OG OG OG
+                #wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                
+                #NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW
+                # wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+
+                print("This time wasn't an accident!")
+                time.sleep(4)
+
+            else:
+                print(job_link)
+                self.browser.get(job_link)
+                time.sleep(5)
+            
+            job_link = self.consolidate_job_links_by_company(job_link, job_links_organized_by_company)
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, self.init_users_job_search_requirements, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms)
+        print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
+        return
+
+
+
+
+
 
     def transition_link_into_selenium(self, job_link):
         element = self.browser.find_element(By.CSS_SELECTOR, f'a[href="{job_link}"]')
@@ -401,7 +465,7 @@ class Workflow():
         print("Accidently clamped my testicles b/c I needed to be punished")
 
         print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.todays_jobs_applied_to_info, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).test_this_pile_of_lard('https://www.google.com')
+        CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).test_this_pile_of_lard('https://www.google.com')
 
     def safe_click(self, element):
         print("safe_click()")

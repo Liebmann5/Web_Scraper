@@ -1285,9 +1285,9 @@ def company_job_openings(self, soup, div_main, application_company_name):
 
 
 
-
-
-
+#1)Put everything in the soup_elements necessary
+#2)Go into all the methods and take out the call to smaller methods
+#3)Fill them in accordingly
 
 
 
@@ -1521,6 +1521,8 @@ class CompanyWorkflow():
             
             if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
                 webpage_num = self.collect_companies_current_job_openings()
+            
+            self.init_reset_webpage_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
                 webpage_num = self.analyze_job_suitabililty()
             if self.job_application_webpage[webpage_num] == "Job-Application":
@@ -1606,28 +1608,31 @@ class CompanyWorkflow():
             print("User is applying to this lever.co tabajo!!")
             #This clicks for us
             self.bottom_has_application_or_button(self.application_company_name)
-            return self.job_application_webpage[2]
+            return 2
         # elif should_apply == False:
         #     return 
         else:
             print("\tHmmm that's weird ? it's neither button nor application")
-            return self.job_application_webpage[1]
+            return 1
         
     def apply_to_job(self):
         time.sleep(3)
         current_url = self.browser.current_url
+        #This is because lever has a new webpage for the job application but greenhouse doesn't
+        if self.application_company_name == "lever":
+            self.init_reset_webpage_soup_elements()
         #TODO: self.soup_elements  > > >  do something with the soup!!!
         self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
         self.form_input_details = self.get_form_input_details(current_url)
         self.insert_resume()
         self.process_form_inputs(self.form_input_details)
-        return self.job_application_webpage[3]
+        return 3
         
     #TODO: Because of this one all the pages need to be shifted! MOVE THIS TO 0! Then everything else + 1!!!
     def find_companys_internal_job_openings_URL(self):
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
         self.search_for_internal_jobs_link()
-        return self.job_application_webpage[1]
+        return 1
         
     
     # if (current_webpage == ApplicationOnly)   =>   attempt to find this companies CompanyJobOpenings url && if we do then go there and return "if not... idk I didn't get that far I guess"
@@ -1653,7 +1658,7 @@ class CompanyWorkflow():
                     'webpage_body': webpage_body,
                     'opening_link_application': opening_link_application
                 })
-                return self.job_application_webpage[1]
+                return 2
             
             elif opening_link_description:
                 print("-Job Description Page")
@@ -1662,7 +1667,7 @@ class CompanyWorkflow():
                     'webpage_body': webpage_body,
                     'opening_link_description': opening_link_description
                 })
-                return self.job_application_webpage[0]
+                return 1
 
             elif opening_link_company_jobs:
                 print('-Job Listings Page')
@@ -1671,7 +1676,7 @@ class CompanyWorkflow():
                     'webpage_body': webpage_body,
                     'opening_link_company_jobs': opening_link_company_jobs
                 })
-                return self.job_application_webpage[3]
+                return 0
             #This return represents the link was indeed a "lever" webpage but something went wrong
                 #TODO:Also returning job_link for logging purposes!
             return self.application_company_name, job_link
@@ -1683,15 +1688,15 @@ class CompanyWorkflow():
             while next_elem:    #NOTE: REMEBER THIS DOESN'T INCREMENT next_elem SO IT'S THE SAME VALUE AS ABOVE!!!!
                 if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
                     print('-Job Listings Page V.1')
-                    return self.job_application_webpage[3]
+                    return 0
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
                     print('-Job Listings Page V.2')
-                    return self.job_application_webpage[3]
+                    return 0
                 elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
                     print('-Company Job Openings Page')
                     print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
                     #TODO: for this one in the elif you have to look through all "level-0" sections!!
-                    return self.job_application_webpage[3]
+                    return 0
                 elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
                     app_body = next_elem
                     header = next_elem.find("div", id="header")
@@ -1706,7 +1711,7 @@ class CompanyWorkflow():
                             'header': header,
                             'content': content
                         })
-                        return self.job_application_webpage[0]
+                        return 1
 
                     break
                 else:

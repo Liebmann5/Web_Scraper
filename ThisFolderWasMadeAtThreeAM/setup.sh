@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Setup the Virtual Environment
-#1) python -m venv ../virtual_environments_smell_like_updog --prompt="virtual environment"
+#1) python3 -m venv ../virtual_environments_smell_like_updog --prompt="virtual environment"
 #2) source virtual_environments_smell_like_updog/bin/activate
 #3) pip install --upgrade pip
 #4) pip install -r requirements.txt
