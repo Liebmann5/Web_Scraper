@@ -31,6 +31,11 @@ class scraperGoogle():
         self.last_link_from_google_search = None
         
         
+        
+        self.users_job_search_requirements = {}
+        
+        
+        
         #! NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
         self.user_preferred_workplaceType = ["in-office", "hybrid", "remote"]
         self.user_preferred_locations = []
@@ -45,14 +50,18 @@ class scraperGoogle():
         
     
     #TODO:
-    # def init_users_job_search_requirements(self):
-    #     self.users_job_search_requirements = {
-    #         "user_desired_job_title": [],
-    #         "user_preferred_locations": [],
-    #         "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
-    #         "employment_type": [],  #Not really something I'm checking for
-    #         "entry_level": True, 
-    #     }
+    def fill_users_job_search_requirements(self, *args):
+        for i in *args:
+            self.users_job_search_requirements.append(i)
+        
+    def init_users_job_search_requirements(self):
+        self.users_job_search_requirements = {
+            "user_desired_job_title": [],
+            "user_preferred_locations": [],
+            "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+            "employment_type": [],  #Not really something I'm checking for
+            "entry_level": True, 
+        }
     
     
     
@@ -92,7 +101,8 @@ class scraperGoogle():
         self.new_new_print_google_search_results()
         print("Returning back to JobSearchWorkflow\n\n")
         time.sleep(2)
-        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType
+        #return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType
+        return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType, self.users_job_search_requirements
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
         job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work

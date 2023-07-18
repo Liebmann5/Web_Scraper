@@ -70,7 +70,7 @@ class CompanyWorkflow():
    
     def init_users_job_search_requirements(self):
         self.users_job_search_requirements = {
-            "user_desired_job_title": [],
+            "user_desired_job_titles": [],
             "user_preferred_locations": [],
             "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
             "employment_type": [],
@@ -301,6 +301,7 @@ class CompanyWorkflow():
             self.scroll_to_element(self.soup_elements['content'])
             current_url = self.browser.current_url
             should_apply = self
+    
     def apply_beautifulsoup(self, job_link, parser):
         if parser == "lxml":
             result = requests.get(job_link)
@@ -547,6 +548,7 @@ class CompanyWorkflow():
         if (self.company_open_positions_link == None):
             links_in_header[-1].click()
             time.sleep(3)
+    
     def search_for_internal_jobs_link(self):
         if self.application_company_name == "lever":
             links_in_header = []

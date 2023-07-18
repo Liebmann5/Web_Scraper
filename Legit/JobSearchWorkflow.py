@@ -129,7 +129,8 @@ class Workflow():
         
         
         # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser).user_requirements()
+        #google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser).user_requirements()
+        google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, users_job_search_requirements = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(self.google_search_results_links)
         print("DOPER")
@@ -137,7 +138,8 @@ class Workflow():
 
         self.google_search_results_links, job_links_organized_by_company = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
-        self.apply_to_jobs(last_link_from_google_search, self.google_search_results_links, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, job_links_organized_by_company)
+        #self.apply_to_jobs(last_link_from_google_search, self.google_search_results_links, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, job_links_organized_by_company)
+        self.refatored_apply_to_jobs(self, google_search_results_links, users_job_search_requirements, job_links_organized_by_company)
         
         
         
@@ -261,7 +263,7 @@ class Workflow():
     
     '''
     def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
-        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         # for job_link in self.google_search_results_links[::1]:
         for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
@@ -334,7 +336,7 @@ class Workflow():
     
     #TODO: Try the way ChatGPT suggested seemed better -> StaleElementReferenceException
     def apply_to_jobs(self, last_link_from_google_search, google_search_results_links, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, job_links_organized_by_company):
-        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        print("Begin the  Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(google_search_results_links) - 1, -1, -1):
             job_link = google_search_results_links[i]
@@ -392,15 +394,12 @@ class Workflow():
         return
 
 
-    def refatored_apply_to_jobs(self):
-        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+    def refatored_apply_to_jobs(self, google_search_results_links, users_job_search_requirements, job_links_organized_by_company):
+        print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(google_search_results_links) - 1, -1, -1):
             job_link = google_search_results_links[i]
             if not clicked_link_from_google_search:
-                # print(last_link_from_google_search)
-                # self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
-                
                 print("job_link = ", job_link)
                 job_link_element = self.transition_link_into_selenium(job_link)
                 print("job_link_element = ", job_link_element)
@@ -445,8 +444,8 @@ class Workflow():
             
             job_link = self.consolidate_job_links_by_company(job_link, job_links_organized_by_company)
             print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, self.init_users_job_search_requirements, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms)
+            #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
+            CompanyWorkflow(self, self.browser, self.users_information, self.users_job_search_requirements, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms)
         print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray you just applied to literally every job in america!")
         return
 
@@ -460,7 +459,7 @@ class Workflow():
         return element
     
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
-        print("Begin the sex Batman... Robin... I'll need an extra set of hands in a second so hang tight")
+        print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         self.load_users_information()
         print("Accidently clamped my testicles b/c I needed to be punished")
 
