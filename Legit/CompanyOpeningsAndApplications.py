@@ -67,6 +67,16 @@ class CompanyWorkflow():
 
     def init_reset_webpage_soup_elements(self):
         self.soup_elements = {}
+        
+
+    #TODO: Store miscellaneous variables that are meant to go from method to method in here!!!!
+        #NOTE: By doing this we consistently come back to the workflow method!!
+        #NOTE: Which ALSO prevents the need to call methods from inside the non-workflow methods!!
+    #TODO: ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+    def init_webpage_variable_elements(self):
+        self.webpage_variable_elements = {}
+
+
    
     def init_users_job_search_requirements(self):
         self.users_job_search_requirements = {
@@ -118,10 +128,11 @@ class CompanyWorkflow():
         else:
             print("Neither 'lever' nor 'greenhouse' ssooo...   idk")
                 
-        self.determine_current_page(self.current_url, self.application_company_name)
+        webpage_num = 0
+        self.determine_current_page(self.current_url)
         self.find_companys_internal_job_openings_URL()
         self.filter_companys_current_job_opening_urls()
-        webpage_num = 0
+        # webpage_num = 0
         
         for job_opening in self.list_of_links:
             if self.current_url != job_opening:
@@ -442,6 +453,80 @@ class CompanyWorkflow():
                 print(f"No search result found for: {google_search_name}")
                 continue
 
+    def search_for_internal_jobs_link(self):
+        if self.application_company_name == "lever":
+            links_in_header = []
+            current_url = self.browser.current_url
+            links_in_header.append(current_url)
+            webpage_header = self.soup_elements['webpage_body'].find('div', {"class": 'main-header-content'})
+            company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
+            try:
+                if company_open_positions_a['href']:
+                    company_open_positions_href = company_open_positions_a['href']
+                    links_in_header.append(company_open_positions_href)
+            except:
+                pass
+            links_in_header.append(company_open_positions_a)
+            self.check_banner_links(links_in_header)
+            return
+
+        elif self.application_company_name == "greenhouse":
+            a_fragment_identifier = None
+            company_other_openings_href = None
+            first_child = True
+            searched_all_a = False
+            string_tab = '\n'
+            for child in self.soup_elements['header'].children:
+                if first_child:
+                    first_child = False
+                    continue
+                elif child == string_tab:
+                    pass
+                if child.name == "h1" and "app-title" in child.get("class"):
+                    self.current_jobs_details["job_title"] = child.get_text().strip()
+                elif child.name == "span" and  "company-name" in child.get("class"):
+                    self.current_jobs_details["company_name"] = child.get_text().strip()
+                elif child.name == "a" and not searched_all_a:
+                    header_a_tags = self.soup_elements['header'].find_all('a')
+                    for head_a_tag in header_a_tags:
+                        if '/' in head_a_tag['href']:
+                            company_other_openings_href = head_a_tag
+                        elif '#' in head_a_tag['href']:
+                            a_fragment_identifier = head_a_tag
+                        elif head_a_tag == None:
+                            logo_container = self.soup_elements['app_body'].find('div', class_="logo-container")
+                            company_openings_a = logo_container.find('a')
+                            company_other_openings_href = company_openings_a['href']
+                            searched_all_a = True
+                elif child.name == "div" and "location" in child.get("class"):
+                    self.current_jobs_details["job_location"] = child.get_text().strip()
+            if company_other_openings_href == None:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
+            else:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
+            return
+    
+    def check_banner_links(self, links_in_header):
+        first_link = True
+        list_of_other_jobs_keyword = ''
+        for header_link in links_in_header[:-1]:
+            if first_link == True and "lever" == self.application_company_name:
+                self.try_adjusting_this_link(header_link)
+                list_of_other_jobs_keyword = 'list-page'
+                first_link = False
+            elif first_link == True and "greenhouse" in self.application_company_name:
+                list_of_other_jobs_keywords = ''
+                first_link == False
+            self.browser.execute_script("window.open('{}', '_blank');".format(header_link))
+            for handle in self.browser.window_handles:
+                self.browser.switch_to.window(handle)
+                if list_of_other_jobs_keyword in self.browser.page_source:
+                    self.company_open_positions_link = header_link
+                    return
+        if (self.company_open_positions_link == None):
+            links_in_header[-1].click()
+            time.sleep(3)
+    
     def collect_companies_current_job_openings(self, soup, div_main, application_company_name):
         current_url = self.browser.current_url
         if application_company_name == 'lever':
@@ -527,80 +612,6 @@ class CompanyWorkflow():
                 method_name = arg
         print('----------------------------------------------------------------------------------------------------')
         print('\n\n\n')
-
-    def check_banner_links(self, links_in_header):
-        first_link = True
-        list_of_other_jobs_keyword
-        for header_link in links_in_header[:-1]:
-            if first_link == True and "lever" == self.application_company_name:
-                self.try_adjusting_this_link(header_link)
-                list_of_other_jobs_keyword = 'list-page'
-                first_link = False
-            elif first_link == True and "greenhouse" in self.application_company_name:
-                list_of_other_jobs_keywords = ''
-                first_link == False
-            self.browser.execute_script("window.open('{}', '_blank');".format(header_link))
-            for handle in self.browser.window_handles:
-                self.browser.switch_to.window(handle)
-                if list_of_other_jobs_keyword in self.browser.page_source:
-                    self.company_open_positions_link = header_link
-                    return
-        if (self.company_open_positions_link == None):
-            links_in_header[-1].click()
-            time.sleep(3)
-    
-    def search_for_internal_jobs_link(self):
-        if self.application_company_name == "lever":
-            links_in_header = []
-            current_url = self.browser.current_url
-            links_in_header.append(current_url)
-            webpage_header = self.soup_elements['webpage_body'].find('div', {"class": 'main-header-content'})
-            company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
-            try:
-                if company_open_positions_a['href']:
-                    company_open_positions_href = company_open_positions_a['href']
-                    links_in_header.append(company_open_positions_href)
-            except:
-                pass
-            links_in_header.append(company_open_positions_a)
-            self.check_banner_links(links_in_header)
-            return
-
-        elif self.application_company_name == "greenhouse":
-            a_fragment_identifier = None
-            company_other_openings_href = None
-            first_child = True
-            searched_all_a = False
-            string_tab = '\n'
-            for child in self.soup_elements['header'].children:
-                if first_child:
-                    first_child = False
-                    continue
-                elif child == string_tab:
-                    pass
-                if child.name == "h1" and "app-title" in child.get("class"):
-                    self.current_jobs_details["job_title"] = child.get_text().strip()
-                elif child.name == "span" and  "company-name" in child.get("class"):
-                    self.current_jobs_details["company_name"] = child.get_text().strip()
-                elif child.name == "a" and not searched_all_a:
-                    header_a_tags = self.soup_elements['header'].find_all('a')
-                    for head_a_tag in header_a_tags:
-                        if '/' in head_a_tag['href']:
-                            company_other_openings_href = head_a_tag
-                        elif '#' in head_a_tag['href']:
-                            a_fragment_identifier = head_a_tag
-                        elif head_a_tag == None:
-                            logo_container = self.soup_elements['app_body'].find('div', class_="logo-container")
-                            company_openings_a = logo_container.find('a')
-                            company_other_openings_href = company_openings_a['href']
-                            searched_all_a = True
-                elif child.name == "div" and "location" in child.get("class"):
-                    self.current_jobs_details["job_location"] = child.get_text().strip()
-            if company_other_openings_href == None:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
-            else:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
-            return
 
 
 

@@ -28,10 +28,11 @@ class scraperGoogle():
         self.job_links_counter = 0
         self.results_from_search = []
         self.google_search_results_links = []
+        #TODO: No longer needed so get rid of this
         self.last_link_from_google_search = None
         
         
-        
+        #NOTE: NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
         self.users_job_search_requirements = {}
         
         
@@ -49,16 +50,19 @@ class scraperGoogle():
         
         
     
-    #TODO:
+    #TODO: Uhhhhh?  Maybe this should be added to ManageUserJobSearch.py?!?!?!
     def fill_users_job_search_requirements(self, *args):
-        for i in *args:
-            self.users_job_search_requirements.append(i)
+        for arg in args:
+            #Fairly certain this is absolutely wrong but it's just here as a Note...
+            self.users_job_search_requirements('user_desired_job_title').append(arg)
         
+    #TODO: ENSURE THIS IS CORRECT !!!!!
+        #TODO: Add variable  user_blacklisted_locations == self.bad_locations
     def init_users_job_search_requirements(self):
         self.users_job_search_requirements = {
-            "user_desired_job_title": [],
-            "user_preferred_locations": [],
-            "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+            "user_desired_job_title": self.user_desired_jobs,
+            "user_preferred_locations": self.user_preferred_locations,
+            "user_preferred_workplaceType": self.user_preferred_workplaceType,
             "employment_type": [],  #Not really something I'm checking for
             "entry_level": True, 
         }
@@ -102,6 +106,7 @@ class scraperGoogle():
         print("Returning back to JobSearchWorkflow\n\n")
         time.sleep(2)
         #return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType
+        self.init_users_job_search_requirements()
         return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType, self.users_job_search_requirements
 
     def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
@@ -328,15 +333,15 @@ class scraperGoogle():
             return False
 
     def end_of_search(self):
-            try:
-                no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-                if no_more_results:
-                    print("No more search results")
-                    time.sleep(2)
-                    return True
-            except NoSuchElementException:
-                pass
-            return False 
+        try:
+            no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+            if no_more_results:
+                print("No more search results")
+                time.sleep(2)
+                return True
+        except NoSuchElementException:
+            pass
+        return False 
     
     
     
