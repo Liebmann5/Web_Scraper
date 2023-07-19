@@ -31,6 +31,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException,
 
 import re
 import config
+import concurrent.futures
 
 
 
@@ -118,6 +119,8 @@ class CompanyWorkflow():
             self.sibling_company_job_links = incoming_link.copy()
         elif isinstance(incoming_link, str):
             self.current_url = incoming_link
+            
+        print("The current url is " + self.current_url)
         
         self.list_of_links.append(self.current_url)
 
@@ -140,7 +143,9 @@ class CompanyWorkflow():
             elif self.current_url == job_opening:
                 print("BOOM skipped click from Google visit! Should only be for the 1st iteration...")
                 pass
-                
+            
+            print("The current url is " + self.current_url)    
+            
             try:
                 self.current_url = self.browser.current_url
             except:
@@ -155,6 +160,7 @@ class CompanyWorkflow():
             if self.job_application_webpage[webpage_num] == "Job-Application":
                 webpage_num = self.apply_to_job()
             if self.job_application_webpage[webpage_num] == "Submitted-Application":
+                self.confirmation_webpage_proves_application_submitted()
                 self.reset_every_job_variable()
                 webpage_num = 0
             else:
@@ -184,6 +190,53 @@ class CompanyWorkflow():
             print("\tHmmm that's weird ? it's neither button nor application")
             return 1
 
+    #TODO: Figure out what needs to be returned here!?!?!?
+    #TODO: add variable => self.soup_elements
+    def confirmation_webpage_proves_application_submitted(self):
+        print("\nconfirmation_webpage_proves_application_submitted()")
+        self.current_url = self.browser.current_url
+        if self.application_company_name is "lever":            
+            #Check if the string "Application submitted!" is present
+            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
+            if 'Application submitted!' in soup.text:
+                print("Text 'Application submitted!' is present.")
+            else:
+                print("Text 'Application submitted!' is not present.")
+            
+            #Check if body element's class attribute has a 'thanks' value
+            body = soup.find('body', class_='thanks')
+            if body:
+                print("Body element with class 'thanks' is present.")
+            else:
+                print("Body element with class 'thanks' is not present.")
+            
+            #Check that the value 'thanks' is at the end of the URL
+            if self.current_url.endswith('thanks'):
+                print("URL ends with 'thanks'.")
+            else:
+                print("URL does not end with 'thanks'.")
+        elif self.application_company_name is "greenhouse":
+            #! HERE HERE HERE HERE HERE HERE+++Thank you for applying.
+            #Check if the string "Thank you for applying." is present
+            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
+            if 'Thank you for applying.' in soup.text:
+                print("Text 'Thank you for applying.' is present.")
+            else:
+                print("Text 'Thank you for applying.' is not present.")
+                        
+            #Check if div element's id attribute has a 'application_confirmation' value
+            div = soup.find('div', id='application_confirmation')
+            if div:
+                print("div element with id 'application_confirmation' is present.")
+            else:
+                print("div element with id 'application_confirmation' is not present.")
+            
+            #Check that the value 'thanks' is at the end of the URL
+            if self.current_url.endswith('confirmation'):
+                print("URL ends with 'confirmation'.")
+            else:
+                print("URL does not end with 'confirmation'.")
+    
     def apply_to_job(self):
         time.sleep(3)
         current_url = self.browser.current_url
@@ -313,6 +366,7 @@ class CompanyWorkflow():
             current_url = self.browser.current_url
             should_apply = self
     
+    #TODO: add variable => self.soup_elements
     def apply_beautifulsoup(self, job_link, parser):
         if parser == "lxml":
             result = requests.get(job_link)
@@ -506,26 +560,61 @@ class CompanyWorkflow():
                 self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
             return
     
+    #NOTE: Only the internal job openings webpage will have a filter dropdown!! So maybe use that!
     def check_banner_links(self, links_in_header):
         first_link = True
-        list_of_other_jobs_keyword = ''
+        #list_of_other_jobs_keyword = ''
         for header_link in links_in_header[:-1]:
             if first_link == True and "lever" == self.application_company_name:
                 self.try_adjusting_this_link(header_link)
-                list_of_other_jobs_keyword = 'list-page'
+                #list_of_other_jobs_keyword = 'list-page'
                 first_link = False
             elif first_link == True and "greenhouse" in self.application_company_name:
-                list_of_other_jobs_keywords = ''
+                #<div id="embedded_job_board_wrapper" style="padding: 20px;">
+                #<h2 id="board_title">Current Job Openings</h2>
+                self.try_adjusting_this_link(header_link)
+                #list_of_other_jobs_keyword = ''
                 first_link == False
-            self.browser.execute_script("window.open('{}', '_blank');".format(header_link))
-            for handle in self.browser.window_handles:
-                self.browser.switch_to.window(handle)
-                if list_of_other_jobs_keyword in self.browser.page_source:
-                    self.company_open_positions_link = header_link
-                    return
+        
+        #! Multithreading
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            #future_to_link = {executor.submit(self.check_link, header_link, list_of_other_jobs_keyword): header_link for header_link in links_in_header[:1]}
+            future_to_link = {executor.submit(self.check_link, header_link): header_link for header_link in links_in_header[:1]}
+            for future in concurrent.futures.as_completed(future_to_link):
+                link = future_to_link[future]
+                try:
+                    result = future.result()
+                    if result is not None:
+                        self.company_open_positions_link = result
+                        return
+                except Exception as exc:
+                    print(f'{link} generated an exception: {exc}')
+        
         if (self.company_open_positions_link == None):
+            #TODO: Make this a method
             links_in_header[-1].click()
             time.sleep(3)
+            current_url = self.browser.current_url
+            result = self.check_link(current_url)
+            if result is not None:
+                self.company_open_positions_link = result
+        return
+    
+    # def check_link(self, header_link, list_of_other_jobs_keyword):
+    #     #Make an HTTP request to the link and parse the HTML
+    #     soup = self.apply_beautifulsoup(header_link, 'lxml')
+        
+    #     # Check if the keyword 
+    #     if list_of_other_jobs_keyword in soup.text:
+    #         return header_link
+        
+    #     return None...
+    def check_link(self, header_link):
+        # Check if the link is the "Internal-Job-Listings" webpage
+        if self.determine_current_page(header_link) == 0:
+            return header_link
+        return None
+        
     
     def collect_companies_current_job_openings(self, soup, div_main, application_company_name):
         current_url = self.browser.current_url
@@ -647,6 +736,7 @@ class CompanyWorkflow():
         parsed_url = urlparse(href)
         return bool(parsed_url.netloc)
 
+    #TODO: Figure out if this is KEEP or DELETE
     def find_internal_job_listings_url(browser):
         html = browser.page_source
         soup = BeautifulSoup(html, 'html.parser')
