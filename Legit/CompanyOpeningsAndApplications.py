@@ -116,13 +116,12 @@ class CompanyWorkflow():
     def company_workflow(self, incoming_link):
         if isinstance(incoming_link, list):
             self.current_url = incoming_link[0]
-            self.sibling_company_job_links = incoming_link.copy()
+            self.list_of_links = incoming_link.copy()
         elif isinstance(incoming_link, str):
             self.current_url = incoming_link
+            self.list_of_links.append(incoming_link)
             
         print("The current url is " + self.current_url)
-        
-        self.list_of_links.append(self.current_url)
 
         if "jobs.lever.co" in self.current_url:
             self.application_company_name = "lever"
@@ -131,28 +130,32 @@ class CompanyWorkflow():
         else:
             print("Neither 'lever' nor 'greenhouse' ssooo...   idk")
                 
-        webpage_num = 0
-        self.determine_current_page(self.current_url)
-        self.find_companys_internal_job_openings_URL()
-        self.filter_companys_current_job_opening_urls()
-        # webpage_num = 0
-        
+        webpage_num = self.determine_current_page(self.current_url)
+
         for job_opening in self.list_of_links:
             if self.current_url != job_opening:
                 self.browser.get(job_opening)
             elif self.current_url == job_opening:
-                print("BOOM skipped click from Google visit! Should only be for the 1st iteration...")
+                print("Should only skip the 1st index as that will be the only current_url value that we assign to current_value prior to an iteration in this for loop")
                 pass
             
             print("The current url is " + self.current_url)    
             
             try:
+                time.sleep(3)
                 self.current_url = self.browser.current_url
             except:
                 continue
+                
+            if not self.companys_internal_job_openings_URL:
+                webpage_num = 0
             
             if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
+                self.find_companys_internal_job_openings_URL()
                 webpage_num = self.collect_companies_current_job_openings()
+                #This call would need to update to the self.list_of_lists value in the currently running for loop by adding all the newly discovered links, if any!
+                #If this isn't possible then we must figure out another way so that all these newly discovered links also try to apply for the user!
+                self.filter_companys_current_job_opening_urls()
             
             self.init_reset_webpage_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
@@ -162,10 +165,10 @@ class CompanyWorkflow():
             if self.job_application_webpage[webpage_num] == "Submitted-Application":
                 self.confirmation_webpage_proves_application_submitted()
                 self.reset_every_job_variable()
-                webpage_num = 0
+                webpage_num = 1
             else:
                 self.reset_every_job_variable()
-                webpage_num = 0
+                webpage_num = 1
         return
 
 

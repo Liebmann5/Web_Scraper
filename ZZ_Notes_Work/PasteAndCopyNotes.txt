@@ -3631,7 +3631,7 @@ self.soup_elements['webpage_body']       self.soup_elements['soup']       self.s
 
 
 
-
+The company_workflow() method is the main driver of the CompanyOpeningsAndApplications class. It's responsible for orchestrating the process of searching for job openings at a company and handling the application process. 
 
 
 
