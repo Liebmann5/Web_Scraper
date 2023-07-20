@@ -632,7 +632,7 @@ class CompanyWorkflow():
     #     if list_of_other_jobs_keyword in soup.text:
     #         return header_link
         
-    #     return None...
+    #     return None
     def check_link(self, header_link):
         print("\ncheck_link()")
         # Check if the link is the "Internal-Job-Listings" webpage
