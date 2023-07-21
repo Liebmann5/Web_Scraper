@@ -66,6 +66,21 @@ class CompanyWorkflow():
         self.job_application_webpage = ["Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"]
         self.soup_elements = {}
 
+    
+    
+    
+        #! NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
+        self.webpage_variable_elements = {}
+        self.current_jobs_details = {}
+        
+        #TODO:Think this is unedessary!?!?!? I thnk change 'init' to 'reset'?? DOUBLE CHECK THIS!!
+        self.init_webpage_variable_elements()
+        #self.init_users_job_search_requirements()
+        self.init_current_jobs_details()
+    
+    
+    
+    
     def init_reset_webpage_soup_elements(self):
         self.soup_elements = {}
         
@@ -78,15 +93,15 @@ class CompanyWorkflow():
         self.webpage_variable_elements = {}
 
 
-   
-    def init_users_job_search_requirements(self):
-        self.users_job_search_requirements = {
-            "user_desired_job_titles": [],
-            "user_preferred_locations": [],
-            "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
-            "employment_type": [],
-            "entry_level": True, 
-        }
+    # This was messing with the code
+    # def init_users_job_search_requirements(self):
+    #     self.users_job_search_requirements = {
+    #         "user_desired_job_titles": [],
+    #         "user_preferred_locations": [],
+    #         "user_preferred_workplaceType": ["in-office", "hybrid", "remote"],
+    #         "employment_type": [],
+    #         "entry_level": True, 
+    #     }
     
     def init_current_jobs_details(self):
         self.current_jobs_details = {
@@ -150,7 +165,12 @@ class CompanyWorkflow():
             if not self.companys_internal_job_openings_URL:
                 webpage_num = 0
             
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            #TODO: Make sure this portion doesn't change the current_url variable!!!!
+            #TODO: Cause if it does THEN that means 'incoming_link' is getting skipped!!
+            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
+                print("   >Internal-Job-Listings<")
                 self.find_companys_internal_job_openings_URL()
                 webpage_num = self.collect_companies_current_job_openings()
                 #This call would need to update to the self.list_of_lists value in the currently running for loop by adding all the newly discovered links, if any!
@@ -159,14 +179,18 @@ class CompanyWorkflow():
             
             self.init_reset_webpage_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
+                print("   >Job-Description<")
                 webpage_num = self.analyze_job_suitabililty()
             if self.job_application_webpage[webpage_num] == "Job-Application":
+                print("   >Job-Application<")
                 webpage_num = self.apply_to_job()
             if self.job_application_webpage[webpage_num] == "Submitted-Application":
+                print("   >Submitted-Application<")
                 self.confirmation_webpage_proves_application_submitted()
                 self.reset_every_job_variable()
                 webpage_num = 1
             else:
+                print("   >I honestly don't know how to even get here<")
                 self.reset_every_job_variable()
                 webpage_num = 1
         return
@@ -199,7 +223,7 @@ class CompanyWorkflow():
     def confirmation_webpage_proves_application_submitted(self):
         print("\nconfirmation_webpage_proves_application_submitted()")
         self.current_url = self.browser.current_url
-        if self.application_company_name is "lever":            
+        if self.application_company_name == "lever":            
             #Check if the string "Application submitted!" is present
             soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
             if 'Application submitted!' in soup.text:
@@ -219,7 +243,7 @@ class CompanyWorkflow():
                 print("URL ends with 'thanks'.")
             else:
                 print("URL does not end with 'thanks'.")
-        elif self.application_company_name is "greenhouse":
+        elif self.application_company_name == "greenhouse":
             #! HERE HERE HERE HERE HERE HERE+++Thank you for applying.
             #Check if the string "Thank you for applying." is present
             soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
@@ -418,20 +442,25 @@ class CompanyWorkflow():
 
     def filter_companys_current_job_opening_urls(self):
         print("\nfilter_companys_current_job_opening_urls()")
+        #I think this is 'a good error handling call', incase the COMPUTER makes an mistake!
         self.list_of_links = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.list_of_links)
-        if not self.sibling_company_job_links:
+        if not self.list_of_links:
             self.list_of_links = self.check_google_search_links()
         self.list_of_links = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.list_of_links, self.JobSearchWorkflow_instance.previously_applied_to_job_links)
 
+    #TODO: Change the name of this function!!!!
+    #TODO: The purpose/function of this method has changed and is now to check edge cases! (Ex.self.companys_internal_job_openings_URL 'not in' self.list_of_links) 
     def check_google_search_links(self):
         print("\ncheck_google_search_links()")
+        #The lol joke is b/c link_list here sounds a lot like linked lists but isn't and means something totally different! lol
         new_link_list_lol = []
-        for extra_google_links in self.sibling_company_job_links:
+        for extra_google_links in self.list_of_links:
             if self.companys_internal_job_openings_URL == extra_google_links:
                 continue
-            for company_internal_jobs in self.list_of_links:
-                if extra_google_links == company_internal_jobs:
-                    continue
+            #! This is basically filter_companys_current_job_opening_urls()
+            # for company_internal_jobs in self.list_of_links:
+            #     if extra_google_links == company_internal_jobs:
+            #         continue
             new_link_list_lol.append(extra_google_links)
         return (self.list_of_links + new_link_list_lol)
 
@@ -576,10 +605,28 @@ class CompanyWorkflow():
                 elif child.name == "div" and "location" in child.get("class"):
                     self.current_jobs_details["job_location"] = child.get_text().strip()
             if company_other_openings_href == None:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
             else:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.company_job_title, CompayName=self.company_name, JobLocation=self.company_job_location, JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
             return
+    
+    #TODO: Figure out HOW AND WHERE to implement this!!!!!
+    #NOTE: https://pypi.org/project/fasttext-langdetect/
+    #NOTE: pip install fasttext-langdetect
+    #NOTE: https://fasttext.cc/docs/en/language-identification.html
+    # def check_language_of_webpage(self, text):
+    def check_language_of_webpage(self):
+        import fasttext
+        soup = self.soup_elements['soup']
+        text = soup.get_text()
+        model = fasttext.load_model('lid.176.bin')
+        predictions = model.predict(text)
+        language_of_webpage = predictions[0][0].replace('__label__', '')
+        # if language_of_webpage == 'en':
+        #     return True
+        # else:
+        #     return False
+        return language_of_webpage
     
     #NOTE: Only the internal job openings webpage will have a filter dropdown!! So maybe use that!
     def check_banner_links(self, links_in_header):
@@ -2159,9 +2206,9 @@ class CompanyWorkflow():
     def keep_jobs_applied_to_info(self):
         self.sessions_applied_to_info.append({
             'Job_URL': self.current_url,
-            'Company_Name': self.company_name,
-            'Job_Title': self.company_job_title,
-            'Company_Job_Location': self.company_job_location,
+            'Company_Name': self.current_jobs_details["company_name"],
+            'Job_Title': self.current_jobs_details["job_title"],
+            'Company_Job_Location': self.current_jobs_details["job_location"],
             'Company_Department': self.company_job_department,
             'Job_ID_Number': self.job_id_number,
         })
