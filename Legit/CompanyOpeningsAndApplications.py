@@ -62,7 +62,6 @@ class CompanyWorkflow():
         self.q_and_a = q_and_a
         self.custom_synonyms = custom_synonyms
         self.env_path = '.env'
-        self.sibling_company_job_links = None
         self.job_application_webpage = ["Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"]
         self.soup_elements = {}
 
@@ -70,18 +69,18 @@ class CompanyWorkflow():
     
     
         #! NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
-        self.webpage_variable_elements = {}
+        self.variable_elements = {}
         self.current_jobs_details = {}
         
         #TODO:Think this is unedessary!?!?!? I thnk change 'init' to 'reset'?? DOUBLE CHECK THIS!!
-        self.init_webpage_variable_elements()
+        #self.reset_webpages_soup_elements()
         #self.init_users_job_search_requirements()
-        self.init_current_jobs_details()
+        #self.init_current_jobs_details()
     
     
     
     
-    def init_reset_webpage_soup_elements(self):
+    def reset_webpages_soup_elements(self):
         self.soup_elements = {}
         
 
@@ -89,8 +88,8 @@ class CompanyWorkflow():
         #NOTE: By doing this we consistently come back to the workflow method!!
         #NOTE: Which ALSO prevents the need to call methods from inside the non-workflow methods!!
     #TODO: ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
-    def init_webpage_variable_elements(self):
-        self.webpage_variable_elements = {}
+    def reset_webpages_variable_elements(self):
+        self.variable_elements = {}
 
 
     # This was messing with the code
@@ -124,45 +123,43 @@ class CompanyWorkflow():
     
     def reset_every_job_variable(self):
         self.init_current_jobs_details()
-        self.init_reset_webpage_soup_elements()
+        self.reset_webpages_soup_elements()
+        self.reset_webpages_variable_elements()
         self.form_input_details = {}
         self.form_input_extended = None
 
     def company_workflow(self, incoming_link):
         if isinstance(incoming_link, list):
-            self.current_url = incoming_link[0]
+            #self.current_url = incoming_link[0]
             self.list_of_links = incoming_link.copy()
         elif isinstance(incoming_link, str):
-            self.current_url = incoming_link
+            #self.current_url = incoming_link
             self.list_of_links.append(incoming_link)
-            
-        print("The current url is " + self.current_url)
 
-        if "jobs.lever.co" in self.current_url:
-            self.application_company_name = "lever"
-        elif "boards.greenhouse.io" in self.current_url:
-            self.application_company_name = "greenhouse"
-        else:
-            print("Neither 'lever' nor 'greenhouse' ssooo...   idk")
+        self.determine_application_company_name()
                 
         webpage_num = self.determine_current_page(self.current_url)
 
-        for job_opening in self.list_of_links:
-            if self.current_url != job_opening:
-                self.browser.get(job_opening)
-            elif self.current_url == job_opening:
+        for job_opening_link in self.list_of_links:
+            if self.current_url != job_opening_link:
+                self.change_page(job_opening_link)
+            else:
                 print("Should only skip the 1st index as that will be the only current_url value that we assign to current_value prior to an iteration in this for loop")
                 pass
             
-            print("The current url is " + self.current_url)    
+            print(f"The current url is {self.current_url}")    
             
-            try:
-                time.sleep(3)
-                self.current_url = self.browser.current_url
-            except:
-                continue
+            # try:
+            #     time.sleep(3)
+            #     self.current_url = self.browser.current_url
+            # except:
+            #     continue
                 
+            #TODO: refactor this!
             if not self.companys_internal_job_openings_URL:
+                #NOTE:So once the link is found we don't NEED to do this immediately!!! It can be done on the following iteration?? I think!?!?!?
+                #TODO: DOUBLE CHECK - what if its a list and we find self.companys_internal_job_openings_URL on the "Job-Application" page!?!?!?
+                self.find_companys_internal_job_openings_URL()
                 webpage_num = 0
             
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -171,13 +168,16 @@ class CompanyWorkflow():
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
                 print("   >Internal-Job-Listings<")
-                self.find_companys_internal_job_openings_URL()
+                #NOTE:This doesn't belong in HERE b/c it is NOT apart of the "Internal-Job-Listings" process!!! 
+                # self.search_for_internal_job_openings_URL()
+                # ==
+                # self.find_companys_internal_job_openings_URL()
                 webpage_num = self.collect_companies_current_job_openings()
                 #This call would need to update to the self.list_of_lists value in the currently running for loop by adding all the newly discovered links, if any!
                 #If this isn't possible then we must figure out another way so that all these newly discovered links also try to apply for the user!
                 self.filter_companys_current_job_opening_urls()
             
-            self.init_reset_webpage_soup_elements()
+            self.reset_webpages_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
                 print("   >Job-Description<")
                 webpage_num = self.analyze_job_suitabililty()
@@ -187,13 +187,37 @@ class CompanyWorkflow():
             if self.job_application_webpage[webpage_num] == "Submitted-Application":
                 print("   >Submitted-Application<")
                 self.confirmation_webpage_proves_application_submitted()
+                #TODO: get rid of this!
                 self.reset_every_job_variable()
                 webpage_num = 1
             else:
                 print("   >I honestly don't know how to even get here<")
+                #TODO: CHECK if this stays since it doesn't have another method it can be put in!
                 self.reset_every_job_variable()
                 webpage_num = 1
         return
+    
+    #! NOTE: "Single Responsibility Principle" - which states that a function should do one thing and do it well
+    def change_page(self, job_opening_link):
+        try:
+            self.browser.get(job_opening_link)
+            WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+            self.set_current_url()
+        except Exception as e:
+            print(f"An error occured while changing webpages: {e}")
+        
+    def set_current_url(self):
+        self.current_url = self.browser.current_url
+        
+    def determine_application_company_name(self):
+        self.set_current_url()
+        
+        if "jobs.lever.co" in self.current_url:
+            self.application_company_name = "lever"
+        elif "boards.greenhouse.io" in self.current_url:
+            self.application_company_name = "greenhouse"
+        else:
+            print("Neither 'lever' nor 'greenhouse' ssooo...   idk")
 
 
 
@@ -205,9 +229,12 @@ class CompanyWorkflow():
 
     def analyze_job_suitabililty(self):
         print("\nanalyze_job_suitabililty()")
+        #This part is about collecting info
         self.current_jobs_details["job_url"] = self.current_url
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-        self.handle_job_description_webpage()
+        self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
+        
+        #This part determines if user is fit for the job
         user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
         job_fits_users_criteria = self.fits_users_criteria()
         if user_fits_jobs_criteria and job_fits_users_criteria:
@@ -232,8 +259,7 @@ class CompanyWorkflow():
                 print("Text 'Application submitted!' is not present.")
             
             #Check if body element's class attribute has a 'thanks' value
-            body = soup.find('body', class_='thanks')
-            if body:
+            if body := soup.find('body', class_='thanks'):
                 print("Body element with class 'thanks' is present.")
             else:
                 print("Body element with class 'thanks' is not present.")
@@ -244,7 +270,6 @@ class CompanyWorkflow():
             else:
                 print("URL does not end with 'thanks'.")
         elif self.application_company_name == "greenhouse":
-            #! HERE HERE HERE HERE HERE HERE+++Thank you for applying.
             #Check if the string "Thank you for applying." is present
             soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
             if 'Thank you for applying.' in soup.text:
@@ -253,8 +278,7 @@ class CompanyWorkflow():
                 print("Text 'Thank you for applying.' is not present.")
                         
             #Check if div element's id attribute has a 'application_confirmation' value
-            div = soup.find('div', id='application_confirmation')
-            if div:
+            if div := soup.find('div', id='application_confirmation'):
                 print("div element with id 'application_confirmation' is present.")
             else:
                 print("div element with id 'application_confirmation' is not present.")
@@ -270,13 +294,14 @@ class CompanyWorkflow():
         time.sleep(3)
         current_url = self.browser.current_url
         if self.application_company_name == "lever":
-            self.init_reset_webpage_soup_elements()
+            self.reset_webpages_soup_elements()
         self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
         self.form_input_details = self.get_form_input_details(current_url)
         self.insert_resume()
         self.process_form_inputs(self.form_input_details)
         return 3
 
+    # def try_finding_internal_job_openings_URL
     def find_companys_internal_job_openings_URL(self):
         print("\nfind_companys_internal_job_openings_URL()")
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
@@ -294,27 +319,15 @@ class CompanyWorkflow():
             opening_link_company_jobs = soup.find('div', {"class": "list-page"})
             if opening_link_application:
                 print('-Application Page')
-                self.soup_elements.update({
-                    'soup': soup,
-                    'webpage_body': webpage_body,
-                    'opening_link_application': opening_link_application
-                })
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_application=opening_link_application)
                 return 2
             elif opening_link_description:
                 print("-Job Description Page")
-                self.soup_elements.update({
-                    'soup': soup,
-                    'webpage_body': webpage_body,
-                    'opening_link_description': opening_link_description
-                })
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_description=opening_link_description)
                 return 1
             elif opening_link_company_jobs:
                 print('-Job Listings Page')
-                self.soup_elements.update({
-                    'soup': soup,
-                    'webpage_body': webpage_body,
-                    'opening_link_company_jobs': opening_link_company_jobs
-                })
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_company_jobs=opening_link_company_jobs)
                 return 0
             return self.application_company_name, job_link
         elif self.application_company_name == "greenhouse":
@@ -337,13 +350,7 @@ class CompanyWorkflow():
                     content = next_elem.find("div", id="content")
                     if header and content:
                         print("-Job Description Page")
-                        self.soup_elements.update({
-                            'soup': soup,
-                            'div_main': div_main,
-                            'app_body': app_body,
-                            'header': header,
-                            'content': content
-                        })
+                        self.update_soup_elements(soup, div_main=div_main, app_body=app_body, header=header, content=content)
                         return 1
                     break
                 else:
@@ -354,6 +361,9 @@ class CompanyWorkflow():
         print("\tOPTION 1+1) Uhhhh either my code, the website, or my neighbor Roberto went crazy and there's absolutely no inbetween!")
         return
 
+    def update_soup_elements(self, soup, **kwargs):
+        self.soup_elements.update({'soup': soup, **kwargs})
+    
     def handle_application_webpage(self):
         print("\nhandle_application_webpage()")
         if self.application_company_name == "lever":
@@ -365,6 +375,7 @@ class CompanyWorkflow():
         elif self.application_company_name == "greenhouse":
             print("I should never see this message ever in my life!")
 
+    # search_for_internal_job_openings_URL() == This method looks at Header && checks the banner for URL!
     def handle_job_description_webpage(self):
         print("\nhandle_job_description_webpage()")
         if self.application_company_name == "lever":
@@ -556,8 +567,12 @@ class CompanyWorkflow():
                 print(f"No search result found for: {google_search_name}")
                 continue
 
+    #! "lever" is ONLY searching for "Internal-Job-Listings" URL
+    #! "greenhouse" is doing that and getting all the basic job info!(Consider it like the title or header)
+    #Click <a> elements | collect all links
     def search_for_internal_jobs_link(self):
         print("\nsearch_for_internal_jobs_link()")
+        #made from methods --> lever_co_header()
         if self.application_company_name == "lever":
             links_in_header = []
             current_url = self.browser.current_url
@@ -755,6 +770,7 @@ class CompanyWorkflow():
                 self.print_companies_internal_job_opening("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
         return
 
+    #TODO: def print_companies_internal_job_opening(self, *args, **kwargs):
     def print_companies_internal_job_opening(*args, **kwargs):
         print('\n\n\n')
         print('----------------------------------------------------------------------------------------------------')
@@ -806,11 +822,13 @@ class CompanyWorkflow():
         job_url = domain_name + job_path
         return job_url
 
+    #TODO: Figure out if this is KEEP or DELETE...  it has no home!!
     def is_absolute_path(self, href):
         parsed_url = urlparse(href)
         return bool(parsed_url.netloc)
 
     #TODO: Figure out if this is KEEP or DELETE...  it has no home!!
+    #! DELETE ChatGPT  DELETE ChatGPT  DELETE ChatGPT  DELETE ChatGPT
     def find_internal_job_listings_url(browser):
         html = browser.page_source
         soup = BeautifulSoup(html, 'html.parser')
@@ -838,6 +856,8 @@ class CompanyWorkflow():
             return True
 
     def bottom_has_application_or_button(self, application_company_name):
+        #TODO: Don't think this is neceessary OR IT MIGHT depending on where & when bottom_has_application_or_button()
+            #TODO: is called...  DUE to its change of webpage!
         soup = self.apply_beautifulsoup(self.browser.current_url, "html")
         if application_company_name == "lever":
             a_tag_butt = soup.find('a', {'data-qa': ['btn-apply-bottom', 'show-page-apply']})
@@ -874,6 +894,10 @@ class CompanyWorkflow():
                 time.sleep(3)
             return
 
+#!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#?xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    
     def get_input_tag_elements(self):
         input_elements = self.browser.find_elements(By.TAG_NAME, 'input')
         inputs_info = []
