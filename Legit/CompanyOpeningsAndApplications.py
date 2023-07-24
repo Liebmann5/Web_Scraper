@@ -92,7 +92,7 @@ class CompanyWorkflow():
         self.variable_elements = {}
 
 
-    # This was messing with the code
+    # HERE JUST AS A REMINDER!!!
     # def init_users_job_search_requirements(self):
     #     self.users_job_search_requirements = {
     #         "user_desired_job_titles": [],
@@ -142,6 +142,7 @@ class CompanyWorkflow():
 
         #! for loop didn't allow for us to directly update a list while iterating over it...  but while does!!!!!!!!!
         index = 0
+        #TODO: incorporate index into ==> self.current_jobs_details {MAYBE ensure order is all good!!}
         while index < len(self.list_of_links):
             link = self.list_of_links[link]
             if self.current_url != link:
@@ -214,6 +215,22 @@ class CompanyWorkflow():
         
     def set_current_url(self):
         self.current_url = self.browser.current_url
+            
+    def check_for_webpage_change(self):
+        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+        if self.check_if_webpage_changed():
+            self.adjust_for_new_webpage()
+            return True
+        return False
+    
+    def check_if_webpage_changed(self):
+        #WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+        return self.browser.current_url == self.current_url
+
+    def adjust_for_new_webpage(self):
+        self.set_current_url()
+        self.reset_webpages_soup_elements()
+        self.reset_webpages_variable_elements()
         
     def determine_application_company_name(self):
         self.set_current_url()
@@ -562,84 +579,6 @@ class CompanyWorkflow():
 #!==============================================
 
 
-#!==== handle each job_application_webpage =====
-    def analyze_job_suitabililty(self):
-        print("\nanalyze_job_suitabililty()")
-        #This part is about collecting info
-        self.current_jobs_details["job_url"] = self.current_url
-        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-        self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
-        
-        #This part determines if user is fit for the job
-        user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
-        job_fits_users_criteria = self.fits_users_criteria()
-        if user_fits_jobs_criteria and job_fits_users_criteria:
-            print("User is applying to this lever.co job!!")
-            self.bottom_has_application_or_button(self.application_company_name)
-            return 2
-        else:
-            print("\tHmmm that's weird ? it's neither button nor application")
-            return 1
-
-    #TODO: Figure out what needs to be returned here!?!?!?
-    #TODO: add variable => self.soup_elements
-    def confirmation_webpage_proves_application_submitted(self):
-        print("\nconfirmation_webpage_proves_application_submitted()")
-        self.current_url = self.browser.current_url
-        if self.application_company_name == "lever":            
-            #Check if the string "Application submitted!" is present
-            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
-            if 'Application submitted!' in soup.text:
-                print("Text 'Application submitted!' is present.")
-            else:
-                print("Text 'Application submitted!' is not present.")
-            
-            #Check if body element's class attribute has a 'thanks' value
-            if body := soup.find('body', class_='thanks'):
-                print("Body element with class 'thanks' is present.")
-            else:
-                print("Body element with class 'thanks' is not present.")
-            
-            #Check that the value 'thanks' is at the end of the URL
-            if self.current_url.endswith('thanks'):
-                print("URL ends with 'thanks'.")
-            else:
-                print("URL does not end with 'thanks'.")
-        elif self.application_company_name == "greenhouse":
-            #Check if the string "Thank you for applying." is present
-            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
-            if 'Thank you for applying.' in soup.text:
-                print("Text 'Thank you for applying.' is present.")
-            else:
-                print("Text 'Thank you for applying.' is not present.")
-                        
-            #Check if div element's id attribute has a 'application_confirmation' value
-            if div := soup.find('div', id='application_confirmation'):
-                print("div element with id 'application_confirmation' is present.")
-            else:
-                print("div element with id 'application_confirmation' is not present.")
-            
-            #Check that the value 'thanks' is at the end of the URL
-            if self.current_url.endswith('confirmation'):
-                print("URL ends with 'confirmation'.")
-            else:
-                print("URL does not end with 'confirmation'.")
-    
-    def apply_to_job(self):
-        print("\napply_to_job()")
-        time.sleep(3)
-        current_url = self.browser.current_url
-        if self.application_company_name == "lever":
-            self.reset_webpages_soup_elements()
-        self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
-        self.form_input_details = self.get_form_input_details(current_url)
-        self.insert_resume()
-        self.process_form_inputs(self.form_input_details)
-        return 3
-#!==============================================
-
-
-
 
 
     
@@ -802,7 +741,7 @@ class CompanyWorkflow():
     
     
     
-    
+    #TODO: What the heck is up with this (self, job_link) ? 
     def determine_current_page(self, job_link):
         print("\ndetermine_current_page()")
         soup = self.apply_beautifulsoup(job_link, "lxml")
@@ -824,6 +763,8 @@ class CompanyWorkflow():
                 print('-Job Listings Page')
                 self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_company_jobs=opening_link_company_jobs)
                 return 0
+            #TODO: elif - check for 'special' job expired webpage!
+            #TODO: else - blacklist_this_url(job_link)
             return self.application_company_name, job_link
         elif self.application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
@@ -949,6 +890,23 @@ class CompanyWorkflow():
     #!==============================================
     
     #!============= Job-Description ================
+    def analyze_job_suitabililty(self):
+        print("\nanalyze_job_suitabililty()")
+        #This part is about collecting info
+        self.current_jobs_details["job_url"] = self.current_url
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
+        self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
+        
+        #This part determines if user is fit for the job
+        user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
+        job_fits_users_criteria = self.fits_users_criteria()
+        if user_fits_jobs_criteria and job_fits_users_criteria:
+            print("User is applying to this lever.co job!!")
+            self.bottom_has_application_or_button(self.application_company_name)
+            return 2
+        else:
+            print("\tHmmm that's weird ? it's neither button nor application")
+            return 1
 
 
     def should_user_apply(self, job_description):
@@ -1000,11 +958,63 @@ class CompanyWorkflow():
     #!==============================================
     
     #!============= Job-Application ================
-        #Literally everything below this point!
+    def apply_to_job(self):
+        print("\napply_to_job()")
+        time.sleep(3)
+        current_url = self.browser.current_url
+        if self.application_company_name == "lever":
+            self.reset_webpages_soup_elements()
+        self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
+        self.form_input_details = self.get_form_input_details(current_url)
+        self.insert_resume()
+        self.process_form_inputs(self.form_input_details)
+        return 3
     #!==============================================
     
     #!=========== Submitted-Application ============
-    
+    #TODO: Figure out what needs to be returned here!?!?!?
+    #TODO: add variable => self.soup_elements
+    def confirmation_webpage_proves_application_submitted(self):
+        print("\nconfirmation_webpage_proves_application_submitted()")
+        self.current_url = self.browser.current_url
+        if self.application_company_name == "lever":            
+            #Check if the string "Application submitted!" is present
+            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
+            if 'Application submitted!' in soup.text:
+                print("Text 'Application submitted!' is present.")
+            else:
+                print("Text 'Application submitted!' is not present.")
+            
+            #Check if body element's class attribute has a 'thanks' value
+            if body := soup.find('body', class_='thanks'):
+                print("Body element with class 'thanks' is present.")
+            else:
+                print("Body element with class 'thanks' is not present.")
+            
+            #Check that the value 'thanks' is at the end of the URL
+            if self.current_url.endswith('thanks'):
+                print("URL ends with 'thanks'.")
+            else:
+                print("URL does not end with 'thanks'.")
+        elif self.application_company_name == "greenhouse":
+            #Check if the string "Thank you for applying." is present
+            soup = self.apply_beautifulsoup(self.current_url, 'html')  # or 'lxml', depending on your preference
+            if 'Thank you for applying.' in soup.text:
+                print("Text 'Thank you for applying.' is present.")
+            else:
+                print("Text 'Thank you for applying.' is not present.")
+                        
+            #Check if div element's id attribute has a 'application_confirmation' value
+            if div := soup.find('div', id='application_confirmation'):
+                print("div element with id 'application_confirmation' is present.")
+            else:
+                print("div element with id 'application_confirmation' is not present.")
+            
+            #Check that the value 'thanks' is at the end of the URL
+            if self.current_url.endswith('confirmation'):
+                print("URL ends with 'confirmation'.")
+            else:
+                print("URL does not end with 'confirmation'.")
     #!==============================================
     
 
