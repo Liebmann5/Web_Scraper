@@ -1025,7 +1025,7 @@ class Workflow():
         
         print("These are all the links you already applied to... ")
         print(previously_applied_links)
-        print("Swedish men... yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
+        print("Swedish men... yummy yummy " + str(len(Lake_Minnetonka_Purified_list)) + " timber logs.\n")
         #print(Lake_Minnetonka_Purified_list)
         return Lake_Minnetonka_Purified_list
     

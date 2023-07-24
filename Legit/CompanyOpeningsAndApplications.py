@@ -130,36 +130,33 @@ class CompanyWorkflow():
 
     def company_workflow(self, incoming_link):
         if isinstance(incoming_link, list):
-            #self.current_url = incoming_link[0]
+            self.current_url = incoming_link[0]
             self.list_of_links = incoming_link.copy()
         elif isinstance(incoming_link, str):
-            #self.current_url = incoming_link
+            self.current_url = incoming_link
             self.list_of_links.append(incoming_link)
 
         self.determine_application_company_name()
                 
         webpage_num = self.determine_current_page(self.current_url)
 
-        for job_opening_link in self.list_of_links:
-            if self.current_url != job_opening_link:
-                self.change_page(job_opening_link)
+        #! for loop didn't allow for us to directly update a list while iterating over it...  but while does!!!!!!!!!
+        index = 0
+        while index < len(self.list_of_links):
+            link = self.list_of_links[link]
+            if self.current_url != link:
+                self.change_page(link)
             else:
                 print("Should only skip the 1st index as that will be the only current_url value that we assign to current_value prior to an iteration in this for loop")
                 pass
             
-            print(f"The current url is {self.current_url}")    
-            
-            # try:
-            #     time.sleep(3)
-            #     self.current_url = self.browser.current_url
-            # except:
-            #     continue
+            print(f"The current url is {self.current_url}")
                 
             #TODO: refactor this!
             if not self.companys_internal_job_openings_URL:
                 #NOTE:So once the link is found we don't NEED to do this immediately!!! It can be done on the following iteration?? I think!?!?!?
                 #TODO: DOUBLE CHECK - what if its a list and we find self.companys_internal_job_openings_URL on the "Job-Application" page!?!?!?
-                self.find_companys_internal_job_openings_URL()
+                self.try_finding_internal_job_openings_URL()
                 webpage_num = 0
             
             #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -171,11 +168,18 @@ class CompanyWorkflow():
                 #NOTE:This doesn't belong in HERE b/c it is NOT apart of the "Internal-Job-Listings" process!!! 
                 # self.search_for_internal_job_openings_URL()
                 # ==
-                # self.find_companys_internal_job_openings_URL()
-                webpage_num = self.collect_companies_current_job_openings()
+                # self.try_finding_internal_job_openings_URL()
+                #? change webpage --> self.companys_internal_job_openings_URL
+                self.change_page(self.companys_internal_job_openings_URL)
+                
+                list_of_job_urls = self.collect_companies_current_job_openings()
+                
+                self.update_list_of_links(list_of_job_urls)
                 #This call would need to update to the self.list_of_lists value in the currently running for loop by adding all the newly discovered links, if any!
                 #If this isn't possible then we must figure out another way so that all these newly discovered links also try to apply for the user!
-                self.filter_companys_current_job_opening_urls()
+                #self.filter_companys_current_job_opening_urls()
+                self.filter_list_of_links()
+                self.change_page(link)
             
             self.reset_webpages_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
@@ -195,12 +199,14 @@ class CompanyWorkflow():
                 #TODO: CHECK if this stays since it doesn't have another method it can be put in!
                 self.reset_every_job_variable()
                 webpage_num = 1
+                
+            index += 1
         return
     
     #! NOTE: "Single Responsibility Principle" - which states that a function should do one thing and do it well
-    def change_page(self, job_opening_link):
+    def change_page(self, link):
         try:
-            self.browser.get(job_opening_link)
+            self.browser.get(link)
             WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
             self.set_current_url()
         except Exception as e:
@@ -227,6 +233,336 @@ class CompanyWorkflow():
 #print("\n()")
 
 
+    #TODO: add variable => self.soup_elements
+    def apply_beautifulsoup(self, job_link, parser):
+        print("\napply_beautifulsoup()")
+        if parser == "lxml":
+            result = requests.get(job_link)
+            content = result.text
+            soup = BeautifulSoup(content, "lxml")
+        elif parser == "html":
+            page = requests.get(job_link)
+            result = page.content
+            soup = BeautifulSoup(result, "html.parser")           
+        return soup
+    
+    #NOTE:How you add "key-value" pairs to soup_elements!!!
+    def update_soup_elements(self, soup, **kwargs):
+        self.soup_elements.update({'soup': soup, **kwargs})
+    
+    def update_list(self, list_of_new_values, list_to_update):
+        list_to_update.extend(list_of_new_values)
+        return list_to_update
+    
+    def update_list_of_links(self, list_of_job_urls):
+        self.list_of_links.extend(list_of_job_urls)
+        
+    def scroll_to_element(self, element):
+        print("\nscroll_to_element()")
+        if isinstance(element, Tag):
+            tag_name = element.name
+            attrs = element.attrs
+            css_selectors = [f"{tag_name}"]
+            for attr, value in attrs.items():
+                if isinstance(value, list):
+                    value = " ".join(value)
+                    css_selectors.append(f"[{attr}='{value}']")
+            css_selector = "".join(css_selectors)
+            element = self.browser.find_element(By.CSS_SELECTOR, css_selector)
+        self.browser.execute_script("arguments[0].scrollIntoView();", element)
+        time.sleep(3)
+        return
+
+    def dismiss_random_popups(self):
+        print("\ndismiss_random_popups()")
+        wait = WebDriverWait(self.browser, 10)
+        try:
+            overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.cc-desktop button.cc-dismiss')))
+            time.sleep(2)
+            if overlay_close_button.is_displayed() and overlay_close_button.is_enabled():
+                overlay_close_button.click()
+        except TimeoutException:
+            print("ok that took a while because I thought there would be a pop-up...     ONWARD I suppose!")
+        except ElementNotInteractableException:
+            print("Failed to click the 'Dismiss' button because it's not interactable.")
+
+#!===== companys_internal_job_openings_URL =====
+    def try_finding_internal_job_openings_URL(self):
+        print("\ntry_finding_internal_job_openings_URL()")
+        # Apply BeautifulSoup to the current URL
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
+
+        # Find all 'a' tags in the soup
+        possible_links = self.soup_elements['soup'].find_all('a')
+
+        # Process the links to find the internal job openings URL
+        link_to_internal_job_openings = self.process_links(possible_links)
+
+        # If no link was found, try the hard-coded link extraction method
+        if not link_to_internal_job_openings:
+            print("Normal link extraction failed, trying the hard-coded way")
+            possible_links = self.hard_coded_link_extraction(self.current_url)
+            link_to_internal_job_openings = self.process_links(possible_links)
+
+        # If a link was found, set it as the company's internal job openings URL
+        if link_to_internal_job_openings:
+            self.companys_internal_job_openings_URL = link_to_internal_job_openings
+
+        return
+    
+    #TODO:
+    def hard_coded_link_extraction(self):
+        """
+        Obtain links with hard coding.
+        """
+        # Placeholder for your hard-coded link extraction code
+        return []
+    
+    def process_links(self, possible_links):
+        print("\nprocess_links()")
+        all_links = []
+        for link in possible_links:
+            href = link.get('href')
+            # Skip if href is None
+            if href is None:
+                continue
+            # Construct the full URL
+            job_url = self.construct_url_to_job(self.current_url, href)
+            # Adjust the URL if necessary
+            adjusted_url = self.try_adjusting_this_link(job_url)
+            all_links.append(adjusted_url)
+        # Ensure no duplicates
+        unique_possible_links = self.remove_duplicates_from_list(all_links)
+        # Check if links are internal job openings URL
+        link = self.test_links_if_internal_job_openings_URL(unique_possible_links)
+        return link if self.test_links_if_internal_job_openings_URL(link) else None
+    
+    def construct_url_to_job(self, current_url, job_opening_href):
+        print("\nconstruct_url_to_job()")
+        button_to_job_description = job_opening_href
+        job_link = job_opening_href.get('href')
+        domain_name = self.try_adjusting_this_link(current_url)
+        job_path = job_opening_href.get('href')
+        job_url = domain_name + job_path
+        return job_url
+    
+    def try_adjusting_this_link(self, adjust_this_link):
+        if self.application_company_name == 'lever':
+            adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
+            adjust_this_link = link_adjusted
+        if self.application_company_name == 'greenhouse':
+            adjusting_link = adjust_this_link.find('greenhouse.io/') + len('greenhouse.io/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
+            adjust_this_link = link_adjusted
+        #time.sleep(1)
+        return adjust_this_link
+    
+    def test_links_if_internal_job_openings_URL(self, unique_possible_links):
+        print("\ncheck_banner_links()")
+        # Multithreading
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_link = {executor.submit(self.check_if_internal_job_openings_URL, possible_link): possible_link for possible_link in unique_possible_links}
+            for future in concurrent.futures.as_completed(future_to_link):
+                link = future_to_link[future]
+                try:
+                    result = future.result()
+                    if result is True:
+                        return link
+                except Exception as exc:
+                    print(f'{link} generated an exception: {exc}')
+        return None
+
+    def check_if_internal_job_openings_URL(self, possible_link):
+        print("\ncheck_link()")
+        # Check if the link is the "Internal-Job-Listings" webpage
+        if self.determine_current_page(possible_link) == 0:
+            return True
+        return False
+    
+    '''
+    # def try_finding_internal_job_openings_URL
+    def find_companys_internal_job_openings_URL(self):
+        print("\nfind_companys_internal_job_openings_URL()")
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
+        self.search_for_internal_jobs_link()
+        return 1
+    '''
+
+    '''
+    # search_for_internal_job_openings_URL() == This method looks at Header && checks the banner for URL!
+    def handle_job_description_webpage(self):
+        print("\nhandle_job_description_webpage()")
+        if self.application_company_name == "lever":
+            company_open_positions = self.soup_elements['soup'].find('a', {"class": "main-header-logo"})
+            application_webpage_html = self.soup_elements['soup'].find("div", {"class": "application-page"})
+            if not self.companys_internal_job_openings_URL:
+                try:
+                    self.lever_co_banner(self.soup_elements['webpage_body'], self.soup_elements['soup'])
+                except:
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+            self.scroll_to_element(self.soup_elements['opening_link_description'])
+            apply_to_job = self.should_user_apply(self.soup_elements['opening_link_description'])
+            if apply_to_job:
+                print("User is applying to this lever.co job!!")
+                self.bottom_has_application_or_button(self.application_company_name)
+                time.sleep(3)
+                current_url = self.browser.current_url
+                self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
+                self.form_input_details = self.get_form_input_details(current_url)
+                self.insert_resume()
+                self.process_form_inputs(self.form_input_details)
+            else:
+                print("\tHmmm that's weird ? it's neither button nor application")
+        elif self.application_company_name == "greenhouse":
+            if not self.companys_internal_job_openings_URL:
+                try:
+                    self.greenhouse_io_banner(self.soup_elements['app_body'], self.soup_elements['header'], self.soup_elements['content'])
+                except:
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+            self.scroll_to_element(self.soup_elements['content'])
+            current_url = self.browser.current_url
+            should_apply = self
+    '''
+
+    '''
+    #! "lever" is ONLY searching for "Internal-Job-Listings" URL
+    #! "greenhouse" is doing that and getting all the basic job info!(Consider it like the title or header)
+    #Click <a> elements | collect all links
+    def search_for_internal_jobs_link(self):
+        print("\nsearch_for_internal_jobs_link()")
+        #made from methods --> lever_co_header()
+        if self.application_company_name == "lever":
+            links_in_header = []
+            current_url = self.browser.current_url
+            links_in_header.append(current_url)
+            webpage_header = self.soup_elements['webpage_body'].find('div', {"class": 'main-header-content'})
+            company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
+            try:
+                if company_open_positions_a['href']:
+                    company_open_positions_href = company_open_positions_a['href']
+                    links_in_header.append(company_open_positions_href)
+            except:
+                pass
+            links_in_header.append(company_open_positions_a)
+            self.check_banner_links(links_in_header)
+            return
+
+        elif self.application_company_name == "greenhouse":
+            a_fragment_identifier = None
+            company_other_openings_href = None
+            first_child = True
+            searched_all_a = False
+            string_tab = '\n'
+            for child in self.soup_elements['header'].children:
+                if first_child:
+                    first_child = False
+                    continue
+                elif child == string_tab:
+                    pass
+                if child.name == "h1" and "app-title" in child.get("class"):
+                    self.current_jobs_details["job_title"] = child.get_text().strip()
+                elif child.name == "span" and  "company-name" in child.get("class"):
+                    self.current_jobs_details["company_name"] = child.get_text().strip()
+                elif child.name == "a" and not searched_all_a:
+                    header_a_tags = self.soup_elements['header'].find_all('a')
+                    for head_a_tag in header_a_tags:
+                        if '/' in head_a_tag['href']:
+                            company_other_openings_href = head_a_tag
+                        elif '#' in head_a_tag['href']:
+                            a_fragment_identifier = head_a_tag
+                        elif head_a_tag == None:
+                            logo_container = self.soup_elements['app_body'].find('div', class_="logo-container")
+                            company_openings_a = logo_container.find('a')
+                            company_other_openings_href = company_openings_a['href']
+                            searched_all_a = True
+                elif child.name == "div" and "location" in child.get("class"):
+                    self.current_jobs_details["job_location"] = child.get_text().strip()
+            if company_other_openings_href == None:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
+            else:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
+            return
+    '''
+
+    '''
+    #NOTE: Only the internal job openings webpage will have a filter dropdown!! So maybe use that!
+    def check_banner_links(self, links_in_header):
+        print("\ncheck_banner_links()")
+        first_link = True
+        #list_of_other_jobs_keyword = ''
+        for header_link in links_in_header[:-1]:
+            if first_link == True and "lever" == self.application_company_name:
+                self.try_adjusting_this_link(header_link)
+                #list_of_other_jobs_keyword = 'list-page'
+                first_link = False
+            elif first_link == True and "greenhouse" in self.application_company_name:
+                #<div id="embedded_job_board_wrapper" style="padding: 20px;">
+                #<h2 id="board_title">Current Job Openings</h2>
+                    #NOTE: Ex)<h1 id="board_title">Current Job Openings at Charles River Associates</h1>
+                    #^NOTE: Ex)'Current Job Openings at Charles River Associates' ssoooo instead do if "Current Job Openings" in h# elements' text value!!!
+                self.try_adjusting_this_link(header_link)
+                #list_of_other_jobs_keyword = ''
+                first_link == False
+        
+        #! Multithreading
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            #future_to_link = {executor.submit(self.check_link, header_link, list_of_other_jobs_keyword): header_link for header_link in links_in_header[:1]}
+            future_to_link = {executor.submit(self.check_link, header_link): header_link for header_link in links_in_header[:1]}
+            for future in concurrent.futures.as_completed(future_to_link):
+                link = future_to_link[future]
+                try:
+                    result = future.result()
+                    if result is not None:
+                        self.company_open_positions_link = result
+                        return
+                except Exception as exc:
+                    print(f'{link} generated an exception: {exc}')
+        
+        if (self.company_open_positions_link == None):
+            #TODO: Make this a method
+            links_in_header[-1].click()
+            time.sleep(3)
+            current_url = self.browser.current_url
+            result = self.check_link(current_url)
+            if result is not None:
+                self.company_open_positions_link = result
+        return
+    '''
+
+
+
+    '''
+    def try_adjusting_this_link(self, adjust_this_link):
+        if self.application_company_name == 'lever':
+            adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
+            adjust_this_link = link_adjusted
+        if self.application_company_name == 'greenhouse':
+            adjusting_link = adjust_this_link.find('greenhouse.io/') + len('greenhouse.io/')
+            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
+            link_adjusted = adjust_this_link[:still_adjusting]
+            adjust_this_link = link_adjusted
+        time.sleep(2)
+        return adjust_this_link
+    '''
+
+    '''
+    def construct_url_to_job(self, current_url, job_opening_href):
+        button_to_job_description = job_opening_href
+        job_link = job_opening_href.get('href')
+        domain_name = self.try_adjusting_this_link(current_url)
+        job_path = job_opening_href.get('href')
+        job_url = domain_name + job_path
+        return job_url
+    '''
+#!==============================================
+
+
+#!==== handle each job_application_webpage =====
     def analyze_job_suitabililty(self):
         print("\nanalyze_job_suitabililty()")
         #This part is about collecting info
@@ -300,13 +636,8 @@ class CompanyWorkflow():
         self.insert_resume()
         self.process_form_inputs(self.form_input_details)
         return 3
+#!==============================================
 
-    # def try_finding_internal_job_openings_URL
-    def find_companys_internal_job_openings_URL(self):
-        print("\nfind_companys_internal_job_openings_URL()")
-        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-        self.search_for_internal_jobs_link()
-        return 1
 
     def determine_current_page(self, job_link):
         print("\ndetermine_current_page()")
@@ -361,8 +692,7 @@ class CompanyWorkflow():
         print("\tOPTION 1+1) Uhhhh either my code, the website, or my neighbor Roberto went crazy and there's absolutely no inbetween!")
         return
 
-    def update_soup_elements(self, soup, **kwargs):
-        self.soup_elements.update({'soup': soup, **kwargs})
+
     
     def handle_application_webpage(self):
         print("\nhandle_application_webpage()")
@@ -374,107 +704,37 @@ class CompanyWorkflow():
                     raise ConnectionError("ERROR: Companies other open positions are not present")
         elif self.application_company_name == "greenhouse":
             print("I should never see this message ever in my life!")
-
-    # search_for_internal_job_openings_URL() == This method looks at Header && checks the banner for URL!
-    def handle_job_description_webpage(self):
-        print("\nhandle_job_description_webpage()")
-        if self.application_company_name == "lever":
-            company_open_positions = self.soup_elements['soup'].find('a', {"class": "main-header-logo"})
-            application_webpage_html = self.soup_elements['soup'].find("div", {"class": "application-page"})
-            if not self.companys_internal_job_openings_URL:
-                try:
-                    self.lever_co_banner(self.soup_elements['webpage_body'], self.soup_elements['soup'])
-                except:
-                    raise ConnectionError("ERROR: Companies other open positions are not present")
-            self.scroll_to_element(self.soup_elements['opening_link_description'])
-            apply_to_job = self.should_user_apply(self.soup_elements['opening_link_description'])
-            if apply_to_job:
-                print("User is applying to this lever.co job!!")
-                self.bottom_has_application_or_button(self.application_company_name)
-                time.sleep(3)
-                current_url = self.browser.current_url
-                self.soup_elements['soup'] = self.apply_beautifulsoup(current_url, "html")
-                self.form_input_details = self.get_form_input_details(current_url)
-                self.insert_resume()
-                self.process_form_inputs(self.form_input_details)
-            else:
-                print("\tHmmm that's weird ? it's neither button nor application")
-        elif self.application_company_name == "greenhouse":
-            if not self.companys_internal_job_openings_URL:
-                try:
-                    self.greenhouse_io_banner(self.soup_elements['app_body'], self.soup_elements['header'], self.soup_elements['content'])
-                except:
-                    raise ConnectionError("ERROR: Companies other open positions are not present")
-            self.scroll_to_element(self.soup_elements['content'])
-            current_url = self.browser.current_url
-            should_apply = self
     
-    #TODO: add variable => self.soup_elements
-    def apply_beautifulsoup(self, job_link, parser):
-        print("\napply_beautifulsoup()")
-        if parser == "lxml":
-            result = requests.get(job_link)
-            content = result.text
-            soup = BeautifulSoup(content, "lxml")
-        elif parser == "html":
-            page = requests.get(job_link)
-            result = page.content
-            soup = BeautifulSoup(result, "html.parser")           
-        return soup
 
-    def scroll_to_element(self, element):
-        print("\nscroll_to_element()")
-        if isinstance(element, Tag):
-            tag_name = element.name
-            attrs = element.attrs
-            css_selectors = [f"{tag_name}"]
-            for attr, value in attrs.items():
-                if isinstance(value, list):
-                    value = " ".join(value)
-                    css_selectors.append(f"[{attr}='{value}']")
-            css_selector = "".join(css_selectors)
-            element = self.browser.find_element(By.CSS_SELECTOR, css_selector)
-        self.browser.execute_script("arguments[0].scrollIntoView();", element)
-        time.sleep(3)
-        return
 
-    def dismiss_random_popups(self):
-        print("\ndismiss_random_popups()")
-        wait = WebDriverWait(self.browser, 10)
-        try:
-            overlay_close_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.cc-desktop button.cc-dismiss')))
-            time.sleep(2)
-            if overlay_close_button.is_displayed() and overlay_close_button.is_enabled():
-                overlay_close_button.click()
-        except TimeoutException:
-            print("ok that took a while because I thought there would be a pop-up... ONWARD I suppose!")
-        except ElementNotInteractableException:
-            print("Failed to click the 'Dismiss' button because it's not interactable.")
 
-    def filter_companys_current_job_opening_urls(self):
-        print("\nfilter_companys_current_job_opening_urls()")
+
+
+#!============ filter list of links ============
+    def filter_list_of_links(self):
+        print("\nfilter_list_of_links()")
         #I think this is 'a good error handling call', incase the COMPUTER makes an mistake!
-        self.list_of_links = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.list_of_links)
+        #self.list_of_links = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.list_of_links)
+        self.list_of_links = self.remove_duplicates_from_list(self.list_of_links)
         if not self.list_of_links:
-            self.list_of_links = self.check_google_search_links()
+            print("self.list_of_links is empty!")
+            return
+        self.list_of_links = self.remove_allocated_links()
         self.list_of_links = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.list_of_links, self.JobSearchWorkflow_instance.previously_applied_to_job_links)
 
-    #TODO: Change the name of this function!!!!
-    #TODO: The purpose/function of this method has changed and is now to check edge cases! (Ex.self.companys_internal_job_openings_URL 'not in' self.list_of_links) 
-    def check_google_search_links(self):
-        print("\ncheck_google_search_links()")
-        #The lol joke is b/c link_list here sounds a lot like linked lists but isn't and means something totally different! lol
-        new_link_list_lol = []
-        for extra_google_links in self.list_of_links:
-            if self.companys_internal_job_openings_URL == extra_google_links:
-                continue
-            #! This is basically filter_companys_current_job_opening_urls()
-            # for company_internal_jobs in self.list_of_links:
-            #     if extra_google_links == company_internal_jobs:
-            #         continue
-            new_link_list_lol.append(extra_google_links)
-        return (self.list_of_links + new_link_list_lol)
+    def remove_duplicates_from_list(self, list_to_filter):
+        print("\nremove_duplicates()")
+        return list(dict.fromkeys(list_to_filter))
+    
+    def remove_allocated_links(self):
+        print("\nremove_allocated_links()")
+        if self.companys_internal_job_openings_URL in self.list_of_links:
+            self.list_of_links.remove(self.companys_internal_job_openings_URL)
+        return self.list_of_links
+#!==============================================
 
+
+#!=========== filter by requirements ===========
     def fits_users_criteria(test_elements_uniqueness, *args):
         print("\nfits_users_criteria()")
         ultimate_lists_checker = []
@@ -539,6 +799,7 @@ class CompanyWorkflow():
                 return False
         print("Yo dog something went wrong or somethin dog")
         return False
+#!==============================================
 
 
 
@@ -566,64 +827,6 @@ class CompanyWorkflow():
             except NoSuchElementException:
                 print(f"No search result found for: {google_search_name}")
                 continue
-
-    #! "lever" is ONLY searching for "Internal-Job-Listings" URL
-    #! "greenhouse" is doing that and getting all the basic job info!(Consider it like the title or header)
-    #Click <a> elements | collect all links
-    def search_for_internal_jobs_link(self):
-        print("\nsearch_for_internal_jobs_link()")
-        #made from methods --> lever_co_header()
-        if self.application_company_name == "lever":
-            links_in_header = []
-            current_url = self.browser.current_url
-            links_in_header.append(current_url)
-            webpage_header = self.soup_elements['webpage_body'].find('div', {"class": 'main-header-content'})
-            company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
-            try:
-                if company_open_positions_a['href']:
-                    company_open_positions_href = company_open_positions_a['href']
-                    links_in_header.append(company_open_positions_href)
-            except:
-                pass
-            links_in_header.append(company_open_positions_a)
-            self.check_banner_links(links_in_header)
-            return
-
-        elif self.application_company_name == "greenhouse":
-            a_fragment_identifier = None
-            company_other_openings_href = None
-            first_child = True
-            searched_all_a = False
-            string_tab = '\n'
-            for child in self.soup_elements['header'].children:
-                if first_child:
-                    first_child = False
-                    continue
-                elif child == string_tab:
-                    pass
-                if child.name == "h1" and "app-title" in child.get("class"):
-                    self.current_jobs_details["job_title"] = child.get_text().strip()
-                elif child.name == "span" and  "company-name" in child.get("class"):
-                    self.current_jobs_details["company_name"] = child.get_text().strip()
-                elif child.name == "a" and not searched_all_a:
-                    header_a_tags = self.soup_elements['header'].find_all('a')
-                    for head_a_tag in header_a_tags:
-                        if '/' in head_a_tag['href']:
-                            company_other_openings_href = head_a_tag
-                        elif '#' in head_a_tag['href']:
-                            a_fragment_identifier = head_a_tag
-                        elif head_a_tag == None:
-                            logo_container = self.soup_elements['app_body'].find('div', class_="logo-container")
-                            company_openings_a = logo_container.find('a')
-                            company_other_openings_href = company_openings_a['href']
-                            searched_all_a = True
-                elif child.name == "div" and "location" in child.get("class"):
-                    self.current_jobs_details["job_location"] = child.get_text().strip()
-            if company_other_openings_href == None:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
-            else:
-                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobTitle=self.current_jobs_details["job_title"], CompayName=self.current_jobs_details["company_name"], JobLocation=self.current_jobs_details["job_location"], JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
-            return
     
     #TODO: Figure out HOW AND WHERE to implement this!!!!!
     #NOTE: https://pypi.org/project/fasttext-langdetect/
@@ -637,75 +840,35 @@ class CompanyWorkflow():
         model = fasttext.load_model('lid.176.bin')
         predictions = model.predict(text)
         language_of_webpage = predictions[0][0].replace('__label__', '')
+        #TODO: Determine whether this should go here or somewhere else!!
         # if language_of_webpage == 'en':
         #     return True
         # else:
         #     return False
         return language_of_webpage
     
-    #NOTE: Only the internal job openings webpage will have a filter dropdown!! So maybe use that!
-    def check_banner_links(self, links_in_header):
-        print("\ncheck_banner_links()")
-        first_link = True
-        #list_of_other_jobs_keyword = ''
-        for header_link in links_in_header[:-1]:
-            if first_link == True and "lever" == self.application_company_name:
-                self.try_adjusting_this_link(header_link)
-                #list_of_other_jobs_keyword = 'list-page'
-                first_link = False
-            elif first_link == True and "greenhouse" in self.application_company_name:
-                #<div id="embedded_job_board_wrapper" style="padding: 20px;">
-                #<h2 id="board_title">Current Job Openings</h2>
-                    #NOTE: Ex)<h1 id="board_title">Current Job Openings at Charles River Associates</h1>
-                    #^NOTE: Ex)'Current Job Openings at Charles River Associates' ssoooo instead do if "Current Job Openings" in h# elements' text value!!!
-                self.try_adjusting_this_link(header_link)
-                #list_of_other_jobs_keyword = ''
-                first_link == False
-        
-        #! Multithreading
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            #future_to_link = {executor.submit(self.check_link, header_link, list_of_other_jobs_keyword): header_link for header_link in links_in_header[:1]}
-            future_to_link = {executor.submit(self.check_link, header_link): header_link for header_link in links_in_header[:1]}
-            for future in concurrent.futures.as_completed(future_to_link):
-                link = future_to_link[future]
-                try:
-                    result = future.result()
-                    if result is not None:
-                        self.company_open_positions_link = result
-                        return
-                except Exception as exc:
-                    print(f'{link} generated an exception: {exc}')
-        
-        if (self.company_open_positions_link == None):
-            #TODO: Make this a method
-            links_in_header[-1].click()
-            time.sleep(3)
-            current_url = self.browser.current_url
-            result = self.check_link(current_url)
-            if result is not None:
-                self.company_open_positions_link = result
-        return
+    #!=========== Internal-Job-Listings ============
     
-    # def check_link(self, header_link, list_of_other_jobs_keyword):
-    #     #Make an HTTP request to the link and parse the HTML
-    #     soup = self.apply_beautifulsoup(header_link, 'lxml')
-        
-    #     # Check if the keyword 
-    #     if list_of_other_jobs_keyword in soup.text:
-    #         return header_link
-        
-    #     return None
-    def check_link(self, header_link):
-        print("\ncheck_link()")
-        # Check if the link is the "Internal-Job-Listings" webpage
-        if self.determine_current_page(header_link) == 0:
-            return header_link
-        return None
-        
+    #!==============================================
+    
+    #!============= Job-Description ================
+    
+    #!==============================================
+    
+    #!============= Job-Application ================
+    
+    #!==============================================
+    
+    #!=========== Submitted-Application ============
+    
+    #!==============================================
+    
+
     
     def collect_companies_current_job_openings(self, soup, div_main, application_company_name):
         print("\ncollect_companies_current_job_openings()")
         current_url = self.browser.current_url
+        list_of_job_urls = []
         if application_company_name == 'lever':
             postings_wrapper = soup.find('div', class_="postings-wrapper")
             postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
@@ -736,7 +899,7 @@ class CompanyWorkflow():
                         'job_workplaceType': job_workplaceType
                     })
                     if not experience_level:
-                        self.list_of_links.append(job_url)
+                        list_of_job_urls.append(job_url)
                 self.print_companies_internal_job_opening("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_url, ButtonToJob=button_to_job_description)
         elif application_company_name == 'greenhouse':
             sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
@@ -766,11 +929,11 @@ class CompanyWorkflow():
                         'job_workplaceType': job_workplaceType
                     })
                     if not experience_level:
-                        self.list_of_links.append(job_url)
+                        list_of_job_urls.append(job_url)
                 self.print_companies_internal_job_opening("company_job_openings", application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
-        return
+        return list_of_job_urls
 
-    #TODO: def print_companies_internal_job_opening(self, *args, **kwargs):
+    #TODO: def print_companys_internal_job_opening(self, *args, **kwargs):
     def print_companies_internal_job_opening(*args, **kwargs):
         print('\n\n\n')
         print('----------------------------------------------------------------------------------------------------')
@@ -799,53 +962,6 @@ class CompanyWorkflow():
 
 
 
-
-    def try_adjusting_this_link(self, adjust_this_link):
-        if self.application_company_name == 'lever':
-            adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
-            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
-            link_adjusted = adjust_this_link[:still_adjusting]
-            adjust_this_link = link_adjusted
-        if self.application_company_name == 'greenhouse':
-            adjusting_link = adjust_this_link.find('greenhouse.io/') + len('greenhouse.io/')
-            still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
-            link_adjusted = adjust_this_link[:still_adjusting]
-            adjust_this_link = link_adjusted
-        time.sleep(2)
-        return adjust_this_link
-
-    def construct_url_to_job(self, current_url, job_opening_href):
-        button_to_job_description = job_opening_href
-        job_link = job_opening_href.get('href')
-        domain_name = self.try_adjusting_this_link(current_url)
-        job_path = job_opening_href.get('href')
-        job_url = domain_name + job_path
-        return job_url
-
-    #TODO: Figure out if this is KEEP or DELETE...  it has no home!!
-    def is_absolute_path(self, href):
-        parsed_url = urlparse(href)
-        return bool(parsed_url.netloc)
-
-    #TODO: Figure out if this is KEEP or DELETE...  it has no home!!
-    #! DELETE ChatGPT  DELETE ChatGPT  DELETE ChatGPT  DELETE ChatGPT
-    def find_internal_job_listings_url(browser):
-        html = browser.page_source
-        soup = BeautifulSoup(html, 'html.parser')
-        header = soup.find('div', {'id': 'header'})
-        logo_container = soup.find('div', {'class': 'logo-container'})
-        link = None
-        if header:
-            link = header.find('a', href=True)
-        elif logo_container:
-            link = logo_container.find('a', href=True)
-        if link:
-            href = link['href']
-            if not href.startswith('http'):
-                base_url = browser.current_url
-                href = urljoin(base_url, href)
-            return href
-        return None
 
     def should_user_apply(self, job_description):
         everything_about_job = job_description.get_text()

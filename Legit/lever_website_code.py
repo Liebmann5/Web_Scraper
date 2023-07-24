@@ -708,6 +708,35 @@
     
     
     
+    def filter_companys_current_job_opening_urls(self):     # refactor (1.1)
+        print("\nfilter_companys_current_job_opening_urls()")
+        #I think this is 'a good error handling call', incase the COMPUTER makes an mistake!
+        self.list_of_links = self.JobSearchWorkflow_instance.ensure_no_duplicates(self.list_of_links)
+        if not self.list_of_links:
+            self.list_of_links = self.check_google_search_links()
+        self.list_of_links = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.list_of_links, self.JobSearchWorkflow_instance.previously_applied_to_job_links)
+    
+    #TODO: Change the METHOD NAME of this function!!!!
+    #TODO: The purpose/function of this method has changed and is now to check edge cases! (Ex.self.companys_internal_job_openings_URL 'not in' self.list_of_links) 
+    def check_google_search_links(self):     # refactor (1.2)
+        print("\ncheck_google_search_links()")
+            if self.companys_internal_job_openings_URL in self.list_of_links:
+                #remove all occurrances of self.companys_internal_job_openings_URL inside of self.list_of_links
+                self.list_of_links.remove
+        return (self.list_of_links + new_link_list_lol)
+    
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -735,27 +764,83 @@
      
     
     
+def try_finding_internal_job_openings_URL(self):
+    print("\ntry_finding_internal_job_openings_URL()")
+    # Apply BeautifulSoup to the current URL
+    self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
+
+    # Find all 'a' tags in the soup
+    possible_links = self.soup_elements['soup'].find_all('a')
+
+    # Process the links to find the internal job openings URL
+    link_to_internal_job_openings = self.process_links(possible_links)
+
+    # If no link was found, try the hard-coded link extraction method
+    if not link_to_internal_job_openings:
+        print("Normal link extraction failed, trying hard-coded method")
+        possible_links = self.hard_coded_link_extraction(self.current_url)
+        link_to_internal_job_openings = self.process_links(possible_links)
+
+    # If a link was found, set it as the company's internal job openings URL
+    if link_to_internal_job_openings:
+        self.companys_internal_job_openings_URL = link_to_internal_job_openings
+
+    return
+
+def hard_coded_link_extraction(self):
+    """
+    Obtain links with hard coding.
+    """
+    # Placeholder for your hard-coded link extraction code
+    return []
+
+def process_links(self, possible_links):
+    print("\nprocess_links()")
+    all_links = []
+    for link in possible_links:
+        href = link.get('href')
+        # Skip if href is None
+        if href is None:
+            continue
+        # Construct the full URL
+        job_url = self.construct_url_to_job(self.current_url, href)
+        # Adjust the URL if necessary
+        adjusted_url = self.try_adjusting_this_link(job_url)
+        all_links.append(adjusted_url)
+    # Ensure no duplicates
+    unique_links = self.ensure_no_duplicates(all_links)
+    # Check banner links
+    for link in unique_links:
+        if self.check_banner_links(link):
+            return link
+    return None
+
+def construct_url_to_job(self, current_url, job_opening_href):
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     
-    
-    
-    
-    
-    
-    
-    
+def try_adjusting_this_link(self, adjust_this_link):
+
+def check_banner_links(self, links_in_header):
+    print("\ncheck_banner_links()")
+    # Multithreading
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_link = {executor.submit(self.check_link, header_link): header_link for header_link in links_in_header}
+        for future in concurrent.futures.as_completed(future_to_link):
+            link = future_to_link[future]
+            try:
+                result = future.result()
+                if result is True:
+                    return link
+            except Exception as exc:
+                print(f'{link} generated an exception: {exc}')
+    return None
+
+def check_link(self, header_link):
+    print("\ncheck_link()")
+    # Check if the link is the "Internal-Job-Listings" webpage
+    if self.determine_current_page(header_link) == 0:
+        return True
+    return False
+
     
     
     
