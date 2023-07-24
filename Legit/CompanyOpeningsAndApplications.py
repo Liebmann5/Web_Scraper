@@ -639,58 +639,7 @@ class CompanyWorkflow():
 #!==============================================
 
 
-    def determine_current_page(self, job_link):
-        print("\ndetermine_current_page()")
-        soup = self.apply_beautifulsoup(job_link, "lxml")
-        print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-        if self.application_company_name == "lever":
-            webpage_body = soup.find('body')
-            opening_link_application = soup.find('div', {"class": 'application-page'})
-            opening_link_description = soup.find('div', {"class": 'posting-page'})
-            opening_link_company_jobs = soup.find('div', {"class": "list-page"})
-            if opening_link_application:
-                print('-Application Page')
-                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_application=opening_link_application)
-                return 2
-            elif opening_link_description:
-                print("-Job Description Page")
-                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_description=opening_link_description)
-                return 1
-            elif opening_link_company_jobs:
-                print('-Job Listings Page')
-                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_company_jobs=opening_link_company_jobs)
-                return 0
-            return self.application_company_name, job_link
-        elif self.application_company_name == "greenhouse":
-            div_main = soup.find("div", id="main")
-            next_elem = div_main.find_next()
-            while next_elem:
-                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
-                    print('-Job Listings Page V.1')
-                    return 0
-                elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
-                    print('-Job Listings Page V.2')
-                    return 0
-                elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
-                    print('-Company Job Openings Page')
-                    print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
-                    return 0
-                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
-                    app_body = next_elem
-                    header = next_elem.find("div", id="header")
-                    content = next_elem.find("div", id="content")
-                    if header and content:
-                        print("-Job Description Page")
-                        self.update_soup_elements(soup, div_main=div_main, app_body=app_body, header=header, content=content)
-                        return 1
-                    break
-                else:
-                    next_elem = next_elem.find_next()
-            return self.application_company_name, job_link
-        print("2 possibilities for how the heck we ended up here:")
-        print("\tOPTION 1) This webpage is neither a lever nor a greenhouse <best case scenario>")
-        print("\tOPTION 1+1) Uhhhh either my code, the website, or my neighbor Roberto went crazy and there's absolutely no inbetween!")
-        return
+
 
 
     
@@ -847,24 +796,67 @@ class CompanyWorkflow():
         #     return False
         return language_of_webpage
     
+    
+    
+    
+    
+    
+    
+    
+    def determine_current_page(self, job_link):
+        print("\ndetermine_current_page()")
+        soup = self.apply_beautifulsoup(job_link, "lxml")
+        print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+        if self.application_company_name == "lever":
+            webpage_body = soup.find('body')
+            opening_link_application = soup.find('div', {"class": 'application-page'})
+            opening_link_description = soup.find('div', {"class": 'posting-page'})
+            opening_link_company_jobs = soup.find('div', {"class": "list-page"})
+            if opening_link_application:
+                print('-Application Page')
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_application=opening_link_application)
+                return 2
+            elif opening_link_description:
+                print("-Job Description Page")
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_description=opening_link_description)
+                return 1
+            elif opening_link_company_jobs:
+                print('-Job Listings Page')
+                self.update_soup_elements(soup, webpage_body=webpage_body, opening_link_company_jobs=opening_link_company_jobs)
+                return 0
+            return self.application_company_name, job_link
+        elif self.application_company_name == "greenhouse":
+            div_main = soup.find("div", id="main")
+            next_elem = div_main.find_next()
+            while next_elem:
+                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
+                    print('-Job Listings Page V.1')
+                    return 0
+                elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):
+                    print('-Job Listings Page V.2')
+                    return 0
+                elif (next_elem.name == "section" and next_elem.get("class") == "level-0"):
+                    print('-Company Job Openings Page')
+                    print("A while loop for this is perfect for this because there can be multiple <section class='level-0'>")
+                    return 0
+                elif next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
+                    app_body = next_elem
+                    header = next_elem.find("div", id="header")
+                    content = next_elem.find("div", id="content")
+                    if header and content:
+                        print("-Job Description Page")
+                        self.update_soup_elements(soup, div_main=div_main, app_body=app_body, header=header, content=content)
+                        return 1
+                    break
+                else:
+                    next_elem = next_elem.find_next()
+            return self.application_company_name, job_link
+        print("2 possibilities for how the heck we ended up here:")
+        print("\tOPTION 1) This webpage is neither a lever nor a greenhouse <best case scenario>")
+        print("\tOPTION 1+1) Uhhhh either my code, the website, or my neighbor Roberto went crazy and there's absolutely no inbetween!")
+        return
+    
     #!=========== Internal-Job-Listings ============
-    
-    #!==============================================
-    
-    #!============= Job-Description ================
-    
-    #!==============================================
-    
-    #!============= Job-Application ================
-    
-    #!==============================================
-    
-    #!=========== Submitted-Application ============
-    
-    #!==============================================
-    
-
-    
     def collect_companies_current_job_openings(self, soup, div_main, application_company_name):
         print("\ncollect_companies_current_job_openings()")
         current_url = self.browser.current_url
@@ -954,13 +946,9 @@ class CompanyWorkflow():
                 method_name = arg
         print('----------------------------------------------------------------------------------------------------')
         print('\n\n\n')
-
-
-
-
-#============================ PART 3 =================================================================================================
-
-
+    #!==============================================
+    
+    #!============= Job-Description ================
 
 
     def should_user_apply(self, job_description):
@@ -970,7 +958,7 @@ class CompanyWorkflow():
             return False
         else:
             return True
-
+    
     def bottom_has_application_or_button(self, application_company_name):
         #TODO: Don't think this is neceessary OR IT MIGHT depending on where & when bottom_has_application_or_button()
             #TODO: is called...  DUE to its change of webpage!
@@ -1009,6 +997,31 @@ class CompanyWorkflow():
                 apply_button.click()
                 time.sleep(3)
             return
+    #!==============================================
+    
+    #!============= Job-Application ================
+        #Literally everything below this point!
+    #!==============================================
+    
+    #!=========== Submitted-Application ============
+    
+    #!==============================================
+    
+
+    
+    
+
+
+
+
+#============================ PART 3 =================================================================================================
+
+
+
+
+
+
+    
 
 #!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 #*xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
