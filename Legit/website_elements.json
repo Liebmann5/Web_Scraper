@@ -1,0 +1,45 @@
+{
+    "greenhouse": {
+        "Internal-Job-Listings": {
+            "elements": {
+                "content": [
+                    {"tag": "div", "id": "flash-wrapper"},
+                    {"tag": "div", "id": "flash_wrapper"},
+                    {"tag": "div", "id": "embedded_job_board_wrapper"},
+                    {"tag": "section", "class": "level-0"}
+                ]
+            }
+        },
+        "Job-Description": {
+            "elements": {
+                "app_body": [
+                    {"tag": "div", "id": "app-body"},
+                    {"tag": "div", "id": "app_body"}
+                ],
+                "header": [
+                    {"tag": "div", "id": "header"}
+                ],
+                "content": [
+                    {"tag": "div", "id": "content"}
+                ],
+                "application": [
+                    {"tag": "div", "id": "application"}
+                ],
+                "apply_button": [
+                    {"tag": "button", "text": "Apply Here"}
+                    {"tag": "button", "text": ["Apply Here", "Apply Now", "Apply for this job"]}
+                ]
+            }
+        },
+        "Job-Application": {},
+        "Submitted-Application": {}
+    },
+    "lever": {
+        "Internal-Job-Listings": {
+        },
+        "Job-Description": {
+        },
+        "Job-Application": {},
+        "Submitted-Application": {}
+    }
+}
