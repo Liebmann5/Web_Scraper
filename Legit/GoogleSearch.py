@@ -1,3 +1,5 @@
+import time
+import contextlib
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -8,7 +10,6 @@ from selenium.webdriver.safari.options import Options as SafariOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 from selenium.common.exceptions import NoSuchElementException
-import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
@@ -109,9 +110,9 @@ class scraperGoogle():
         self.init_users_job_search_requirements()
         return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType, self.users_job_search_requirements
 
-    def search_for_jobs(self):     #! (self, self.browser) -> self.browser as parameter is dumb b/c arguments are meant to accept values from other places and self.browser's value was set in the constructor so... piece the stuff together Nick
+    def search_for_jobs(self):
         job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
-        
+
         print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
         search_bar = self.browser.find_element(By.NAME, "q")
         search_bar.clear()
@@ -121,9 +122,9 @@ class scraperGoogle():
         job_titles_string = ' ("'
         for i, job in enumerate(job_titles):
             if i == len(job_titles)-1 or len(job_titles) == 0:
-                job_titles_string += (job + '")')
+                job_titles_string += f'{job}")'
             else:
-                job_titles_string += (job + '" | "')
+                job_titles_string += f'{job}" | "'
         search_bar.send_keys(job_titles_string)
         print('2/2')
         print("Searching google for...       adult films?")
@@ -139,53 +140,28 @@ class scraperGoogle():
     #         search_bar.send_keys(('-'.join(self.avoid_these_job_titles) + ' '))
     '''
     
-    #NOTE: Ok so because google can't do it's job the locations are more so just suggestions!! At least
-        #for all the jobs in this 'returned list' from the 'google search'... once I get to the internal
-        #company job list I can prioritize location!!!
     #TODO       -   -   -   -   - > user_preferred_locations
     def search_locations(self, search_bar):
         requested_job_locations = None
         if not self.user_preferred_locations:
             self.filter_search_time_frame(search_bar)
-            #?????? Adding a return right here cause if I don't then won't the rest of this method run?????
+            #TODO: remove this 'return' when ready Forest
             return
         else:
             requested_job_locations = self.user_preferred_locations
-        
-        print("Specifying search to only return job's within the " + ", ".join(requested_job_locations) + " area")
+
+        print("Specifying search to only return job's within the " + ", ".join(requested_job_locations) + " area...  maybe")
         print("1/2")
         time.sleep(1)
+        print("most likely not though")
         job_locations_string = ' ("'
         for i, location in enumerate(requested_job_locations):
             if i == len(requested_job_locations):
-                job_locations_string += (location + '") ')
+                job_locations_string += f'{location}") '
             else:
-                job_locations_string += (location + '" | "')
+                job_locations_string += f'{location}" | "'
         search_bar.send_keys(job_locations_string)
         print("2/2")
-        
-        
-
-
-
-
-        
-        # #NOTE: [if not variable] checks if the length of variable is = to 0; variable here is a 'list[]' too!! 
-        # if not self.good_locations and not self.bad_locations:
-        #     self.filter_search_time_frame(search_bar)
-        #     return 
-        
-        # #NOTE: HERE add SPACE to the BEGININNG because we don't care about the end!!!
-        # search_location = " & "
-        # for count, add_location in enumerate(self.good_locations):
-        #     if count == len(self.good_locations):
-        #         search_location += (" near=" + add_location + " ")
-        #         #! ADD: Find out how to add more location!!!!!                
-        # for count, exclude_location in self.bad_locations:
-        #     if count == len(self.bad_locations):
-        #         search_location += ("!(near=" + exclude_location + ")")
-        
-        # search_bar.send_keys(search_location)
         self.filter_search_time_frame(search_bar)
         return
     
@@ -196,14 +172,14 @@ class scraperGoogle():
         self.adjust_viewport()
         print("GET SUCKED WIZARD!")
         time.sleep(1)
-        
+
         tools_butt = self.browser.find_element(By.XPATH, "//div[text()='Tools']")
         tools_butt.click()
-        
+
         any_time_butt = self.browser.find_element(By.XPATH, "//div[text()='Any time']")
         any_time_butt.click()
         decisi = "24"
-        
+
         if decisi == "24":
             past_24 = self.browser.find_element(By.XPATH, "//a[text()='Past 24 hours']")
             past_24.click()
@@ -212,7 +188,7 @@ class scraperGoogle():
             past_week.click()
         else:
             raise TypeError('ERROR: Didnt pick a registered time!')
-        print("Filtering by past " + decisi)
+        print(f"Filtering by past {decisi}")
         time.sleep(1)
         #self.search_results(self.list_first_index, self.list_last_index)
         #self.job_search_workflow()
@@ -237,23 +213,15 @@ class scraperGoogle():
         print('\n\n\n')
         print("increment_search_results")
         print("****************************************************************")
-        print("Current Height == " + str(prev_height))
-        
+        print(f"Current Height == {str(prev_height)}")
+
         #! This is what does the actual scrolling!!!
         self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        #------------------------------------------------------------------------------------------------------
-        #     self.browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        # ============
-        #     # Scroll down in smaller increments
-        #     scroll_increment = current_height // 5
-        #     for _ in range(5):
-        #         self.browser.execute_script(f"window.scrollBy(0, {scroll_increment});")
-        #         time.sleep(1)
         time.sleep(1)
         print("Scrolled...")
-        
+
         new_height = self.browser.execute_script("return document.body.scrollHeight")
-        print("New Height == " + str(new_height))
+        print(f"New Height == {str(new_height)}")
         return new_height != prev_height
 
     def process_search_results(self):
@@ -270,11 +238,10 @@ class scraperGoogle():
                 if not self.get_more_results():
                     print("I'm the issue 3")
                     break
-            # else:
-            #     list_first_index = list_last_index
         print("I'm the issue 4")
             
     def search_results(self, list_first_index, list_last_index):
+        #TODO: I forgot where this was supposed to be applied?!?!?!?!
         # Wait for the last result from the previous search to appear on the page
         # if self.results_from_search:
         #     last_result = self.results_from_search[-1]
@@ -282,43 +249,43 @@ class scraperGoogle():
         #         EC.visibility_of(last_result)
         #     )
         initial_length = len(self.results_from_search)
-        
+
         if list_first_index == 0:
             self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index})")
             list_last_index = len(self.results_from_search)
         else:
             self.results_from_search = self.browser.find_elements(By.CSS_SELECTOR, f"div.g:nth-child(n+{list_first_index+1})")
-            #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! vvvvvvvvvvvvvvvvvvvvvvv  IF THERE ARE ANY ISSUES ITS B/C OF THIS !!!!!!!!!!!!!
             list_last_index = list_first_index + len(self.results_from_search)
 
         for count, results_link in enumerate(self.results_from_search[initial_length:], initial_length):
             print('--------------------------------')
-            print(str(count+1) + "/" + str(list_last_index))
+            print(f"{str(count + 1)}/{str(list_last_index)}")
             print(results_link)
             link = results_link.find_element(By.CSS_SELECTOR, "a")  #"h3.LC201b > a"
             print(f"Here is link #{count+1}: ", end="")
             job_link = link.get_attribute("href")
             print(job_link)
             self.google_search_results_links.append(job_link)
-            
+
             if (count+1) == list_last_index:
                 self.last_link_from_google_search = results_link
                 print("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
                 print(self.last_link_from_google_search)
                 print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n")
-            
-            #TODO: I have no effing idea what the heck this is supposed to do or it's purpose... I'm dumb
+
+            #TODO: I believe I got rid of this
             if count == list_last_index:
                 list_first_index = list_last_index
                 break
         print("\nI am at end of search_results()...")
-        print("First Index = " + str(list_first_index) + " && Last Index = " + str(list_last_index))
+        print(
+            f"First Index = {str(list_first_index)} && Last Index = {str(list_last_index)}"
+        )
         return list_last_index
 
     def get_more_results(self):
         try:
-            more_results = self.browser.find_element(By.XPATH, "//span[text()='More results']")
-            if more_results:
+            if more_results := self.browser.find_element(By.XPATH, "//span[text()='More results']"):
                 print("Found the more_results button")
                 more_results.click()
                 print("Clicked 'More results' button")
@@ -333,14 +300,19 @@ class scraperGoogle():
             return False
 
     def end_of_search(self):
-        try:
-            no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-            if no_more_results:
+        # try:
+        #     no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
+        #     if no_more_results:
+        #         print("No more search results")
+        #         time.sleep(2)
+        #         return True
+        # except NoSuchElementException:
+        #     pass
+        with contextlib.suppress(NoSuchElementException):
+            if no_more_results := self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']"):
                 print("No more search results")
                 time.sleep(2)
                 return True
-        except NoSuchElementException:
-            pass
         return False 
     
     
@@ -357,7 +329,6 @@ class scraperGoogle():
             print("\tLink to Job: ", end="")
             print(self.links_to_jobs[i])
         print('--------------------------------------------')
-        #time.sleep(30)
         return
     
     def new_print_google_search_results(self):
@@ -371,7 +342,6 @@ class scraperGoogle():
             print("\tLink to Job: ", end="")
             print(self.links_to_jobs[i])
         print('--------------------------------------------')
-        #time.sleep(30)
         return
     
     def new_new_print_google_search_results(self):
@@ -385,7 +355,6 @@ class scraperGoogle():
             print("\tLink to Job: ", end="")
             print(self.google_search_results_links[i])
         print('--------------------------------------------')
-        #time.sleep(30)
         return
 
 
