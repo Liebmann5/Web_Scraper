@@ -27,4 +27,4 @@ setuptools
 #-U spacy
 #torch==1.10.0
 #-U transformers
-#NOTE: In code ':='(walrus operator) needs Python 3.8 to work
+#NOTE: In code ':='(walrus operator) needs Python 3.8 to work!!

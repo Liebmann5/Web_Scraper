@@ -72,6 +72,9 @@ from urllib.parse import urlparse, urlunparse
 #! EXTRACT JOB_TYPE AS LIST OD len()=3 | {DESIRED_LOCATION, HYBRID, REMOTE}
 #! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
 #! SINCE I SWITCHED TO A VIRTUAL ENVIRONMENT FIGURE OUT HOW TO USE "python-dotenv"!!!
+#NOTE: When sending data to Google Sheets for total of anything just do (self.jobs_applied_to_this_session + self.current_jobs_details)
+
+
 
 class Workflow():
        

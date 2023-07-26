@@ -600,7 +600,7 @@ class CompanyWorkflow():
 
 
 
-#!============ filter list of links ============
+#!=========== filter list of links =============
     def filter_list_of_links(self):
         print("\nfilter_list_of_links()")
         #I think this is 'a good error handling call', incase the COMPUTER makes an mistake!
@@ -893,6 +893,7 @@ class CompanyWorkflow():
     
     #!============= Job-Description ================
     def analyze_job_suitabililty(self):
+        print("\n    ---- Job-Description ----    \n")
         print("\nanalyze_job_suitabililty()")
         #This part is about collecting info
         self.current_jobs_details["job_url"] = self.current_url
@@ -1023,9 +1024,18 @@ class CompanyWorkflow():
     
     
     
+    #print("\n()")
+    
+    # ':=' (walrus operator)
+    # if body := soup.find('body', class_='thanks'):
     
     "Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"
     
+    #TODO: Confirm this & maybe just get these with soup?!?!?!
+    # "greenhouse" = soup.find("div", id="main")
+    #   "lever"    = soup.find('body')
+    #TODO:              ^ body doesn't need attrName-attrVal in JSON plus we ONLY NEED the 1st OCCURANCE!!!
+    #NOTE: "lever" -> logo element = <a>{aka: button too} + <a href=''> + logo{duhh}
     
     
     #Welcome to the Holy Land my child... we've been waiting for you
@@ -1057,62 +1067,108 @@ class CompanyWorkflow():
     
 
     
-    def job_description_webpage(self):
-        print("\nJob-Description")
+    def job_description_webpage_navigation(self):
+        print("\njob_description_webpage_navigation()")
+        print("Welcome fair maiden!")
+        self.process_webpage(self.job_application_webpage[1])
         if self.application_company_name == "lever":
             print("The Noble Man")
+            next_elem = self.soup_elements['banner_job_info']
+            while next_elem:
+                if next_elem.name == "h2" and (job_title := next_elem.get_text().strip()):
+                    self.current_jobs_details["job_title"] = job_title
+                if next_elem.name == "div" and next_elem.get("class") == "location" and (job_location := next_elem.get_text().strip()):
+                    self.current_jobs_details["job_location"] = job_location
+                if next_elem.name == "div" and next_elem.get("class") == "department" and (company_department := next_elem.get_text().strip()):
+                    self.current_jobs_details["company_department"] = company_department
+                if next_elem.name == "div" and next_elem.get("class") == "commitment" and (employment_type := next_elem.get_text().strip()):
+                    self.current_jobs_details["employment_type"] = employment_type
+                if next_elem.name == "div" and next_elem.get("class") == "workplaceTypes" and (job_workplaceType := next_elem.get_text().strip()):
+                    self.current_jobs_details["job_workplaceType"] = job_workplaceType
+                next_elem = next_elem.find_next()
+        elif self.application_company_name == "greenhouse":
+            #TODO: These need to be called and set earlier!!! BEFORE self.process_webpage(self.job_application_webpage[1]) IS CALLED!!!!
+            #self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'html.parser')
+            #self.soup_elements['div_main'] = self.soup_elements['soup'].find("div", id="main")
+            
+            next_elem = self.soup_elements['div_main'].find_next()
+
+            while next_elem:
+                #This if statement should test the identifiable/unique element that represents that was are in fact on the "Job-Description" page!!
+                  #Ex. For "greenhouse" that would be - (next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"])
+                #!!! This is literally the purpose determine_current_page() !!!
+                if self.application_company_name == "greenhouse" and self.soup_elements["app_body]:
+                    if 'header' in self.soup_elements and 'content' in self.soup_elements:
+                          header = self.soup_elements['header']
+                          content = self.soup_elements['content']
+
+                          if job_title_elem := header.find("h1", class_="app-title").get_text().strip():
+                              self.current_jobs_details["job_title"] = job_title_elem
+
+                          # Extract company name
+                          if company_name_elem := header.find("span", class_="company-name").get_text().strip():
+                              self.current_jobs_details["company_name"] = company_name_elem
+
+                          # Extract job location
+                          if job_location_elem := header.find("div", class_="location").get_text().strip():
+                              self.current_jobs_details["job_location"] = job_location_elem
+                      else:
+                          print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
+                  elif self.application_company_name == "lever" and self.soup_elements["app_body]:
+                    if 'header' in self.soup_elements and 'content' in self.soup_elements:
+                next_elem = next_elem.find_next()
+                    
+    #NOTE: REMEMBER!!!! This part is basically {just get links} and basic information about the job!!!
+    def job_description_webpage_navigation(self):
+        print("\njob_description_webpage_navigation()")
+        print("Welcome fair maiden!")
+        if self.application_company_name == "lever":
+            print("The Noble Man")
+            self.current_jobs_details["employment_type"] = j
         elif self.application_company_name == "greenhouse":
             self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'html.parser')
             self.soup_elements['div_main'] = self.soup_elements['soup'].find("div", id="main")
-            process_webpage(self.job_application_webpage[1], self.soup_elements['soup'])
+            webpage_data = self.get_webpage_data("Job Description Page")
             next_elem = self.soup_elements['div_main'].find_next()
+
             while next_elem:
-                if next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"]:
-                if page["class"] and next_elem.name == "section" and next_elem.get("class") == page["class"]):
-                    return
-                    
-                    
-    def job_description_webpage_navigation(self):
-        print("Welcome fair maiden!")
-        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'html.parser')
-        self.soup_elements['div_main'] = self.soup_elements['soup'].find("div", id="main")
-        webpage_data = self.get_webpage_data("Job Description Page")
-        next_elem = self.soup_elements['div_main'].find_next()
+                if webpage_data:
+                    elements = webpage_data.get("elements", {})
+                    for element_name, element_info in elements.items():
+                        tag = element_info.get("tag")
+                        attr_name = element_info.get("attrName")
+                        attr_value = element_info.get("attrValue")
+                        if next_elem.name == tag and next_elem.get(attr_name) == attr_value:
+                            self.soup_elements[element_name] = next_elem
+                            print(f"Found {element_name}")
+                            
+                        if 'header' in self.soup_elements and 'content' in self.soup_elements:
+                            print("Job Description Page")
+                            header = self.soup_elements['header']
+                            content = self.soup_elements['content']
 
-        while next_elem:
-            if webpage_data:
-                elements = webpage_data.get("elements", {})
-                for element_name, element_info in elements.items():
-                    tag = element_info.get("tag")
-                    attr_name = element_info.get("attrName")
-                    attr_value = element_info.get("attrValue")
-                    if next_elem.name == tag and next_elem.get(attr_name) == attr_value:
-                        self.soup_elements[element_name] = next_elem
-                        print(f"Found {element_name}")
-                        
-                    if 'header' in self.soup_elements and 'content' in self.soup_elements:
-                        print("Job Description Page")
-                        header = self.soup_elements['header']
-                        content = self.soup_elements['content']
+                            # Extract job title
+                            # ?????  WORKS  ?????
+                            # job_title_elem = header.find("h1", class_="app-title")
+                            # if job_title_elem:
+                            #     self.current_jobs_details["job_title"] = job_title_elem.get_text().strip()
+                            # !!!!!  DOESN'T WORK  !!!!!
+                            # if self.current_jobs_details["job_title"] := header.find("h1", class_="app-title").get_text().strip():
+                            # *****  WORKS BEST  *****
+                            if job_title_elem := header.find("h1", class_="app-title").get_text().strip():
+                                self.current_jobs_details["job_title"] = job_title_elem
 
-                        # Extract job title
-                        job_title_elem = header.find("h1", class_="app-title")
-                        if job_title_elem:
-                            self.current_jobs_details["job_title"] = job_title_elem.get_text().strip()
+                            # Extract company name
+                            if company_name_elem := header.find("span", class_="company-name").get_text().strip():
+                                self.current_jobs_details["company_name"] = company_name_elem
 
-                        # Extract company name
-                        company_name_elem = header.find("span", class_="company-name")
-                        if company_name_elem:
-                            self.current_jobs_details["company_name"] = company_name_elem.get_text().strip()
-
-                        # Extract job location
-                        job_location_elem = header.find("div", class_="location")
-                        if job_location_elem:
-                            self.current_jobs_details["job_location"] = job_location_elem.get_text().strip()
-                    else:
-                        print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
-                        
-            next_elem = next_elem.find_next()
+                            # Extract job location
+                            if job_location_elem := header.find("div", class_="location").get_text().strip():
+                                self.current_jobs_details["job_location"] = job_location_elem
+                        else:
+                            print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
+                            
+                next_elem = next_elem.find_next()
     #!==============================================
     
     

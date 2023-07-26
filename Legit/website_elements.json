@@ -26,20 +26,113 @@
                     {"tag": "div", "id": "application"}
                 ],
                 "apply_button": [
-                    {"tag": "button", "text": "Apply Here"}
-                    {"tag": "button", "text": ["Apply Here", "Apply Now", "Apply for this job"]}
+                    {"tag": "button", "text": "Apply Here"},
+                    {"tag": "button", "text": "Apply Now"},
+                    {"tag": "button", "text": "Apply for this job"}
                 ]
             }
         },
-        "Job-Application": {},
-        "Submitted-Application": {}
+        "Job-Application": {
+            "elements": {
+                "header": [
+                    {"tag": "div", "id": "header"}
+                ],
+                "content": [
+                    {"tag": "div", "id": "content"}
+                ],
+                "app_body": [
+                    {"tag": "div", "id": "app-body"},
+                    {"tag": "div", "id": "app_body"}
+                ]
+            }
+        },
+        "Submitted-Application": {
+            "elements": {
+                "header": [
+                    {"tag": "div", "id": "header"}
+                ],
+                "content": [
+                    {"tag": "div", "id": "content"}
+                ],
+                "app_body": [
+                    {"tag": "div", "id": "app-body"},
+                    {"tag": "div", "id": "app_body"}
+                ]
+            }
+        }
     },
     "lever": {
         "Internal-Job-Listings": {
+            "elements": {
+                "header": [
+                    {"tag": "div", "class": "main-header"}
+                ],
+                "content": [
+                    {"tag": "div", "class": "list-page"}
+                ],
+                "app_body": [
+                    {"tag": "div", "class": "postings-wrapper"}
+                ]
+            }
         },
         "Job-Description": {
+            "elements": {
+                "body": [
+                    {"tag": "body", "class": "show"}
+                ],
+                "header": [
+                    {"tag": "div", "class": "page"}
+                ],
+                "logo": [
+                    {"tag": "a", "class": "main-header-logo"}
+                ],
+                "content": [
+                    {"tag": "div", "class": "posting-page"}
+                ],
+                "banner": [
+                    {"tag": "div", "class": "posting-header"}
+                ],
+                "banner_job_info": [
+                    {"tag": "div", "class": "posting-headline"}
+                ],
+                "banner_apply_button": [
+                    {"tag": "a", "class": "postings-btn"}
+                ]
+            }
         },
-        "Job-Application": {},
-        "Submitted-Application": {}
+        "Job-Application": {
+            "elements": {
+                "header": [
+                    {"tag": "div", "class": "page"}
+                ],
+                "logo": [
+                    {"tag": "a", "class": "main-header-logo"}
+                ],
+                "content": [
+                    {"tag": "div", "class": "application-page"}
+                ],
+                "banner_job_info": [
+                    {"tag": "div", "class": "posting-header"}
+                ],
+                "form": [
+                    {"tag": "form", "id": "application-form"},
+                    {"tag": "form", "method": "POST"}
+                ]
+            }
+        },
+        "Submitted-Application": {
+            "elements": {
+                "header": [
+                    {"tag": "div", "id": "header"}
+                ],
+                "content": [
+                    {"tag": "div", "id": "content"}
+                ],
+                "app_body": [
+                    {"tag": "div", "id": "app-body"},
+                    {"tag": "div", "id": "app_body"}
+                ]
+            }
+        }
     }
 }

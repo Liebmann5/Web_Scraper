@@ -1757,7 +1757,7 @@ class CompanyWorkflow():
             
             self.scroll_to_element(self.soup_elements['opening_link_description'])
             #! TESTING  analyze_job_suitabililty  TESTING  analyze_job_suitabililty  TESTING  analyze_job_suitabililty
-            return self.job_application_webpage[1]
+            #!return self.job_application_webpage[1]
             apply_to_job = self.should_user_apply(self.soup_elements['opening_link_description'])
             if apply_to_job == True:
                 print("User is applying to this lever.co tabajo!!")
