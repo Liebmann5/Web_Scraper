@@ -166,7 +166,7 @@ class Workflow():
             else:
                 print("That's kinda messed up dog... I give you an opportunity to pick and you pick nothing.")
                 print("You've squandered any further opportunities to decide stuff. I hope you are happy with yourself.")
-                print("Don't worry fool I'll pick for you!")
+                print("Don't worry, the council shall discuss and provide a pick for you!")
                 #TODO: Make else just check OS and return number of that OS's web browser!!!
                 #! THIS IS A while loop.... so it runs until false
         return users_browser_choice, browser_name
@@ -862,7 +862,7 @@ class Workflow():
         print(csv_to_list)
         return csv_to_list
     
-    #TODO: You are a doofus implement better way!
+    #TODO: You are a doofus implement THE BETTER WAY!
     def ensure_no_duplicates(self, list_to_filter):
         print("\nensure_no_duplicates()")
         
@@ -921,7 +921,7 @@ class Workflow():
         #Purely for testing
         count = 0
 
-        for i, indexed_job in enumerate(list_to_filter):
+        for indexed_job in list_to_filter:
             parsed_url = urlparse(indexed_job)
             base_url = urlunparse((parsed_url.scheme, parsed_url.netloc, '', '', '', ''))
             company_url = '/'.join(parsed_url.path.strip('/').split('/')[:1])
@@ -933,7 +933,7 @@ class Workflow():
                 company_filtered_list = [url for url in list_to_filter if company_base_url in url]
                 if len(company_filtered_list) > 1:
                     count=count+1
-                    print(str(count) + ") company_filtered_list = ", company_filtered_list)
+                    print(f"{str(count)}) company_filtered_list = {company_filtered_list}")
                     job_links_organized_by_company.append(company_filtered_list)
 
         self.print_lists_side_by_side(list_to_filter, updated_google_search_results_links)

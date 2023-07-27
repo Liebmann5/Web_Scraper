@@ -608,8 +608,7 @@ class CompanyWorkflow():
                     company_department = section.text
                 if section.name == 'h4':
                     pass
-                job_opening = section.find('div', {'class': 'opening'})
-                if job_opening:
+                if job_opening := section.find('div', {'class': 'opening'}):
                     job_opening_href = job_opening.find('a')
                     button_to_job_description = job_opening_href
                     if job_opening_href:

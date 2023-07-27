@@ -113,7 +113,7 @@ class scraperGoogle():
     def search_for_jobs(self):
         job_titles = self.user_desired_jobs  #TODO: < Ummmm does that work
 
-        print('Searching for ' + ", ".join(job_titles) + ' jobs...    you lazy son of 21 guns')
+        print('Searching for ' + ", ".join(job_titles) + ' jobs...')
         search_bar = self.browser.find_element(By.NAME, "q")
         search_bar.clear()
         search_bar.send_keys('site:lever.co | site:greenhouse.io')     #('site:lever.co | site:greenhouse.io | site:workday.com')
