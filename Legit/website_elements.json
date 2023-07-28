@@ -8,6 +8,23 @@
                     {"tag": "div", "id": "embedded_job_board_wrapper"},
                     {"tag": "section", "class": "level-0"}
                 ]
+            },
+            "data": {
+                "html_company_department": [
+                    {"tag": "div", "class": "large-category-header"}
+                ],
+                "html_job_opening": [
+                    {"tag": "div", "class": "opening"}
+                ],
+                "html_job_opening_href": [
+                    {"tag": "a"}
+                ],
+                "html_job_location": [
+                    {"tag": "span", "class": "location"}
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "span", "class": "workplaceType"}
+                ]
             }
         },
         "Job-Description": {
@@ -30,6 +47,23 @@
                     {"tag": "button", "text": "Apply Now"},
                     {"tag": "button", "text": "Apply for this job"}
                 ]
+            },
+            "data": {
+                "html_job_title": [
+                    {"tag": "h1", "class": "app-title"}
+                ],
+                "html_job_location": [
+                    {"tag": "div", "class": "location"}
+                ],
+                "html_company_name": [
+                    {"tag": "span", "class": "company-name"}
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "div", "class": "workplaceTypes"}
+                ],
+                "html_application": [
+                    {"tag": "div", "id": "application"}
+                ]
             }
         },
         "Job-Application": {
@@ -48,8 +82,8 @@
         },
         "Submitted-Application": {
             "elements": {
-                "header": [
-                    {"tag": "div", "id": "header"}
+                "confirmation": [
+                    {"tag": "div", "id": "application_confirmation"}
                 ],
                 "content": [
                     {"tag": "div", "id": "content"}
@@ -64,14 +98,28 @@
     "lever": {
         "Internal-Job-Listings": {
             "elements": {
-                "header": [
-                    {"tag": "div", "class": "main-header"}
-                ],
-                "content": [
-                    {"tag": "div", "class": "list-page"}
-                ],
-                "app_body": [
+                "postings_wrapper": [
                     {"tag": "div", "class": "postings-wrapper"}
+                ]
+            },
+            "data": {
+                "html_company_department": [
+                    {"tag": "div", "class": "large-category-header"}
+                ],
+                "html_job_opening_href": [
+                    {"tag": "div", "class": "posting-apply"}
+                ],
+                "html_button_to_job_description": [
+                    {"tag": "a", "class": "posting-title"}
+                ],
+                "html_job_title": [
+                    {"tag": "h5"}
+                ],
+                "html_job_location": [
+                    {"tag": "span", "class": "sort-by-location"}
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "span", "class": "workplaceType"}
                 ]
             }
         },
@@ -98,6 +146,39 @@
                 "banner_apply_button": [
                     {"tag": "a", "class": "postings-btn"}
                 ]
+            },
+            "data": {
+                "html_job_title": [
+                    {"tag": "h2"}
+                ],
+                "html_job_location": [
+                    {"tag": "div", "class": "location"}
+                ],
+                "html_company_department": [
+                    {"tag": "div", "class": "department"}
+                ],
+                "html_employment_type": [
+                    {"tag": "div", "class": "commitment"}{data-qa: btn-apply-bottom}div_tag_butt
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "div", "class": "workplaceTypes"}
+                ],
+                "html_a_tag_butt": [
+                    {"tag": "a", "data-qa": "btn-apply-bottom"},
+                    {"tag": "a", "data-qa": "show-page-apply"}
+                ],
+                "html_div_tag_butt": [
+                    {"tag": "div", "data-qa": "btn-apply-bottom"}
+                ],
+                "html_application_at_bottom": [
+                    {"tag": "div", "id": "application"}
+                ],
+                "html_application": [
+                    {"tag": "div", "id": "application"}{'data-qa': 'btn-apply-bottom'}div_tag_butt
+                ],
+                "html_employment_type": [
+                    {"tag": "div", "class": "commitment"}{'data-qa': 'btn-apply-bottom'}div_tag_butt
+                ]
             }
         },
         "Job-Application": {
@@ -122,8 +203,8 @@
         },
         "Submitted-Application": {
             "elements": {
-                "header": [
-                    {"tag": "div", "id": "header"}
+                "thanks": [
+                    {"tag": "body", "class": "thanks"}
                 ],
                 "content": [
                     {"tag": "div", "id": "content"}
@@ -131,6 +212,72 @@
                 "app_body": [
                     {"tag": "div", "id": "app-body"},
                     {"tag": "div", "id": "app_body"}
+                ]
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+if next_elem.name == "h2" and (job_title := next_elem.get_text().strip()):
+self.current_jobs_details["job_title"] = job_title
+if next_elem.name == "div" and next_elem.get("class") == "location" and (job_location := next_elem.get_text().strip()):
+self.current_jobs_details["job_location"] = job_location
+if next_elem.name == "div" and next_elem.get("class") == "department" and (company_department := next_elem.get_text().strip()):
+self.current_jobs_details["company_department"] = company_department
+if next_elem.name == "div" and next_elem.get("class") == "commitment" and (employment_type := next_elem.get_text().strip()):
+self.current_jobs_details["employment_type"] = employment_type
+if next_elem.name == "div" and next_elem.get("class") == "workplaceTypes" and (job_workplaceType := next_elem.get_text().strip()):
+self.current_jobs_details["job_workplaceType"] = job_workplaceType
+
+
+
+"html_": [
+    {"tag": "h2", "id": "flashwrapper"},
+    {"tag": "div", "class": "location"}
+],
+
+
+job_title
+
+
+html_
+
+
+{
+    "greenhouse": {
+        "Internal-Job-Listings": {
+            "elements": {
+                "content": [
+                    {"tag": "div", "id": "flash-wrapper"},
+                    {"tag": "div", "id": "flash_wrapper"},
+                    {"tag": "div", "id": "embedded_job_board_wrapper"},
+                    {"tag": "section", "class": "level-0"}
+                ]
+            },
+            "data": {
+                "html_job_title": [
+                    {"tag": "h2"}
+                ],
+                "html_job_location": [
+                    {"tag": "div", "class": "location"}
+                ],
+                "html_company_department": [
+                    {"tag": "div", "class": "department"}
+                ],
+                "html_employment_type": [
+                    {"tag": "div", "class": "commitment"}
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "div", "class": "workplaceTypes"}
                 ]
             }
         }
