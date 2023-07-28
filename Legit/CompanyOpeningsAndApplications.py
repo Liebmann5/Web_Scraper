@@ -71,16 +71,20 @@ class CompanyWorkflow():
 
     
     def keep_jobs_applied_to_info(self):
+        print("\nkeep_jobs_applied_to_info()")
         self.jobs_applied_to_this_session.append(self.current_jobs_details)
         
     def reset_webpages_soup_elements(self):
+        print("\nreset_webpages_soup_elements()")
         self.soup_elements = {}
 
     #!TODO: Look into JSON for this stuff!!
     def reset_webpages_variable_elements(self):
+        print("\nreset_webpages_variable_elements()")
         self.variable_elements = {}
 
     def reset_every_job_variable(self):
+        print("\nreset_every_job_variable()")
         self.init_current_jobs_details()
         self.reset_webpages_soup_elements()
         self.reset_webpages_variable_elements()
@@ -98,6 +102,7 @@ class CompanyWorkflow():
     #     }
     
     def init_current_jobs_details(self):
+        print("\ninit_current_jobs_details()")
         self.current_jobs_details = {
             "job_url": None,
             "job_title": None,
@@ -115,6 +120,7 @@ class CompanyWorkflow():
     
 
     def company_workflow(self, incoming_link):
+        print("\ncompany_workflow()")
         if isinstance(incoming_link, list):
             self.current_url = incoming_link[0]
             self.list_of_links = incoming_link.copy()
@@ -128,8 +134,10 @@ class CompanyWorkflow():
         index = 0
         #TODO: incorporate index into ==> self.current_jobs_details {MAYBE ensure order is all good!!}!!!!!!!!!
         while index < len(self.list_of_links):
-            link = self.list_of_links[link]
-            if self.current_url != link:
+            # link = self.list_of_links[link]
+            link = self.list_of_links[index]
+            # if self.current_url != link:
+            if self.check_if_webpage_changed():
                 self.change_page(link)
             else:
                 print("Should only skip the 1st index as that will be the only current_url value that we assign to current_value prior to an iteration in this for loop")
@@ -339,6 +347,7 @@ class CompanyWorkflow():
     
     #TODO: fill this in 
     def hard_coded_link_extraction(self):
+        print("\nhard_coded_link_extraction()")
         """
         Obtain links with hard coding.
         """
@@ -366,10 +375,19 @@ class CompanyWorkflow():
     
     def construct_url_to_job(self, current_url, job_opening_href):
         print("\nconstruct_url_to_job()")
+        
+        print(f'current_url = {current_url}\njob_opening_href = {job_opening_href}')
+        
         button_to_job_description = job_opening_href
-        job_link = job_opening_href.get('href')
+        print(f'button_to_job_description = {button_to_job_description}') #True
+        # job_link = job_opening_href.get('href')
+        job_link = job_opening_href
+        print(f'job_link = {job_link}')
         domain_name = self.try_adjusting_this_link(current_url)
-        job_path = job_opening_href.get('href')
+        print(f'domain_name = {domain_name}')
+        # job_path = job_opening_href.get('href')
+        job_path = job_opening_href
+        print(f'job_path = {job_path}')
         job_url = domain_name + job_path
         return job_url
     

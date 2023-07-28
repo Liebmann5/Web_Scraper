@@ -138,8 +138,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        users_browser_choice, browser_name = 1, " Firefox "
-        #users_browser_choice, browser_name = 2, " Safari "
+        #users_browser_choice, browser_name = 1, " Firefox "
+        users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -413,7 +413,7 @@ class Workflow():
                 time.sleep(5)
             
             job_link = self.consolidate_job_links_by_company(job_link, job_links_organized_by_company)
-            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
+            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyOpeningsAndApplications")
             #CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
             CompanyWorkflow(self, self.browser, self.users_information, users_job_search_requirements, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).company_workflow(job_link)
         print("Hip Hip Hooray  Hip Hip Hooray  Hip Hip Hooray  you should hear back from these companies in like 8+ months or so")
