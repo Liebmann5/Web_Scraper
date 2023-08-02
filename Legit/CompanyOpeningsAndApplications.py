@@ -6,12 +6,12 @@ import csv
 import bs4
 from bs4 import Tag
 from bs4.element import NavigableString
-#import spacy
+import spacy
 from fuzzywuzzy import fuzz
 import nltk
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
-#from transformers import GPTNeoForCausalLM, GPT2Tokenizer
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 import torch
 import time
 
@@ -47,6 +47,9 @@ import json
 # tp-link POE switch TL-SG105MPE
 # https://practicaldatascience.co.uk/data-science/how-to-parse-url-structures-using-python
 
+# https://www.codementor.io/blog/python-web-scraping-63l2v9sf2q
+# https://gist.github.com/magicznyleszek/809a69dd05e1d5f12d01
+
 class CompanyWorkflow():
 
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, init_users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
@@ -79,6 +82,8 @@ class CompanyWorkflow():
         self.variable_elements = {}
         self.current_jobs_details = {}
         self.website_data = {}
+        
+        self.website_elements_relative_path = r'Legit/website_elements.json'
 
     
     def keep_jobs_applied_to_info(self):
@@ -132,6 +137,7 @@ class CompanyWorkflow():
 
     def company_workflow(self, incoming_link):
         print("\ncompany_workflow()")
+        #! self.current_url HERE AND ONLY HERE is different becuase this link comes from google_search_results!!!!!
         if isinstance(incoming_link, list):
             self.current_url = incoming_link[0]
             self.list_of_links = incoming_link.copy()
@@ -143,6 +149,8 @@ class CompanyWorkflow():
         webpage_num = self.determine_current_page(self.current_url)
         if webpage_num == 0:
             self.companys_internal_job_openings_URL = self.current_url
+        else:
+            self.is_internal_job_openings_URL_present(self.current_url)
 
         index = 0
         #TODO: incorporate index into ==> self.current_jobs_details {MAYBE ensure order is all good!!}!!!!!!!!!
@@ -194,7 +202,7 @@ class CompanyWorkflow():
                 webpage_num = 1
                 
             index += 1
-        return
+        return print("--------------------------------------------\nTransferring power to JobSearchWorkflow")
     
     #print("\n()")
 #!======= company_workflow variables ==========
@@ -368,36 +376,51 @@ class CompanyWorkflow():
         }
         
         return elements
+    
+    def recognized_pattern_based_url(self, link):
+        elements = self.url_parser(link)
+    
+        # Keep only the first segment of the path
+        new_path = elements['directories'][0] if elements['directories'] else ''
+        
+        # Reconstruct the URL with the new path
+        new_url = f"{elements['scheme']}://{elements['netloc']}/{new_path}"
 
+        return new_url
+    
     def try_finding_internal_job_openings_URL(self):
         print("\ntry_finding_internal_job_openings_URL()")
-        #Call self.url_parser()
-        #links_that_normally_work = self.url_parser()
-        #link_to_internal_job_openings = self.process_links(links_that_normally_work)
-        #if link_to_internal_job_openings:
-            #self.companys_internal_job_openings_URL = link_to_internal_job_openings
-        
+
+        # List of methods that return possible links
+        link_methods = [
+            lambda: self.soup_elements['soup'].find_all('a'),
+            lambda: self.hard_coded_link_extraction(self.current_url)
+        ]
+
         # Apply BeautifulSoup to the current URL
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
 
-        # Find all 'a' tags in the soup
-        possible_links = self.soup_elements['soup'].find_all('a')
-
-        # Process the links to find the internal job openings URL
-        link_to_internal_job_openings = self.process_links(possible_links)
-
-        # If no link was found, try the hard-coded link extraction method
-        if not link_to_internal_job_openings:
-            print("Normal link extraction failed, trying the hard-coded way")
-            #TODO: Implement these!
-            #possible_links = self.hard_coded_link_extraction(self.current_url)
-            #link_to_internal_job_openings = self.process_links(possible_links)
-
-        # If a link was found, set it as the company's internal job openings URL
+        # Iterate through the link methods and process the links
+        for link_method in link_methods:
+            possible_links = link_method()
+            if self.is_internal_job_openings_URL_present(possible_links):
+                print("Found the internal job openings URL")
+                break
+        return
+    
+    def is_internal_job_openings_URL_present(self, viable_link):
+        print("\nis_internal_job_openings_URL_present()")
+        if isinstance(viable_link, list):
+            link_to_internal_job_openings = self.process_links(viable_link)
+        #TODO: Just make this a list full of all the possible URL's utilizing each unique directory ending!!!
+        elif isinstance(viable_link, str):
+            link_to_internal_job_openings = self.recognized_pattern_based_url(viable_link)
+            
+        # Assign the value to the global variable and return True if found
         if link_to_internal_job_openings:
             self.companys_internal_job_openings_URL = link_to_internal_job_openings
-
-        return
+            return True
+        return False
     
     #TODO: fill this in 
     def hard_coded_link_extraction(self):
@@ -654,43 +677,6 @@ class CompanyWorkflow():
         else:
             raise ValueError("At least one URL must be absolute")
     
-    # def collect_companies_current_job_openings(self, soup):
-    #     print("\ncollect_companies_current_job_openings()")
-    #     current_url = self.browser.current_url
-    #     list_of_job_urls = []
-    #     if self.application_company_name == 'lever':
-    #         postings_wrapper = soup.find('div', class_="postings-wrapper")
-    #         postings_group_apply = postings_wrapper.find_all('div', class_=lambda x: x and ('postings-group' in x or 'posting-apply' in x))
-    #         for section in postings_group_apply:
-    #             self.init_current_jobs_details()
-    #             company_department = section.find('div', class_='large-category-header').text
-    #             if section.name == 'div' and section.get('class') == 'posting-apply':
-    #                 job_opening_href = section.next_sibling
-    #                 #if job_opening_href.name == 'a' and job_opening_href.get('class') == 'posting-title':
-    #                     button_to_job_description = job_opening_href
-    #                     job_url = self.construct_url_to_job(current_url, job_opening_href)
-    #                     job_title = job_opening_href.find('h5').text
-    #                     if self.users_basic_requirements_job_title(job_title) == False:
-    #                         continue
-    #                     #TODO: These ALL need to be in try-except incase nothing is found!
-    #                     experience_level = self.get_experience_level(job_title)
-    #                     span_tag_location = job_opening_href.find('span', {'class', 'sort-by-location'})
-    #                     span_tag_workplaceType = job_opening_href.find('span', {'class': 'workplaceTypes'})
-    #                     job_location = span_tag_location.text if span_tag_location else None
-    #                     job_workplaceType = span_tag_workplaceType.text if span_tag_workplaceType else None
-    #             if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
-    #                 self.current_jobs_details.update({
-    #                     'company_department': company_department,
-    #                     'job_url': job_url,
-    #                     'job_title': job_title,
-    #                     'experience_level': experience_level,
-    #                     'job_location': job_location,
-    #                     'job_workplaceType': job_workplaceType
-    #                 })
-    #                 if not experience_level:
-    #                     list_of_job_urls.append(job_url)
-    #             # self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=span_tag_company_team, JobHREF=job_url, ButtonToJob=button_to_job_description)
-    #             self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobHREF=job_url, ButtonToJob=button_to_job_description)
     def collect_companies_current_job_openings(self, soup):
         print("\ncollect_companies_current_job_openings()")
         current_url = self.browser.current_url
@@ -701,14 +687,14 @@ class CompanyWorkflow():
             for postings_group in self.soup_elements["postings_groups"]:
                 # Extracting large-category-header if present
                 #TODO - company_department[Design]
-                large_category_header = postings_group.find('div', class_="large-category-header")
-                if large_category_header:
-                    print("Large Category Header:", large_category_header.text)
+                department = postings_group.find('div', class_="large-category-header")
+                if department:
+                    print("Large Category Header:", department.text)
                 # Extracting posting-category-title if present
                 #TODO - company_department[App-Design]
-                posting_category_title = postings_group.find('div', class_="posting-category-title large-category-label")
-                if posting_category_title:
-                    print("Posting Category Title:", posting_category_title.text)
+                specialization = postings_group.find('div', class_="posting-category-title large-category-label")
+                if specialization:
+                    print("Posting Category Title:", specialization.text)
 
                 # Extracting all posting elements
                 postings = postings_group.find_all('div', class_="posting")
@@ -717,43 +703,56 @@ class CompanyWorkflow():
                     #TODO: Pick one!
                     # job_opening_href = apply_button
                     apply_button = posting.find('a', text='Apply')
-                    if apply_button:
+                    if not apply_button:
                         print("Apply Button URL:", apply_button['href'])
 
                     # Finding the title button and extracting job title
                     #TODO: Pick one!
                     # button_to_job_description = title_button
                     title_button = posting.find('a', class_="posting-title")
-                    if title_button:
-                        job_title = title_button.find('h5', {'data-qa': 'posting-name'})
-                        if job_title:
-                            print("Job Title:", job_title.text)
+                    if not title_button:
+                        job_title = title_button.find('h5', {'data-qa': 'posting-name'}).get_text().strip()
+                        if self.users_basic_requirements_job_title(job_title) == False:
+                            continue
+                        experience_level = self.get_experience_level(job_title)
                             
+                    #TODO:-----------------------------------------------------------------------
                     #Error Handling: Confirm apply_button and title_button links are = !!!
                     apply_href = apply_button['href']
                     title_href = title_button['href']
                     
-                    absolute_apply_href = self.get_absolute_url(apply_href)
-                    absolute_title_href = self.get_absolute_url(title_href)
+                    absolute_apply_href, absolute_title_href = self.get_absolute_url(apply_href, title_href)
                     
                     if absolute_apply_href == absolute_title_href:
-                        link_to_job = absolute_apply_href
+                        job_url = absolute_apply_href
+                    else:
+                        job_url = absolute_apply_href
+                    #TODO:-----------------------------------------------------------------------    
 
                     # Extracting other details
                     posting_categories = posting.find('div', class_="posting-categories")
-                    if posting_categories:
-                        location = posting_categories.find('span', class_='location')
-                        #TODO - company_department[Design - App-Design]
-                        department = posting_categories.find('span', class_='department')
-                        commitment = posting_categories.find('span', class_='commitment')
-                        workplaceTypes = posting_categories.find('span', class_='workplaceTypes')
+                    if not posting_categories:
+                        job_location = posting_categories.find('span', class_='location').get_text().strip() if posting_categories.find('span', class_='location') else None
+                        company_department = posting_categories.find('span', class_='department').get_text().strip() if posting_categories.find('span', class_='department') else None
+                        employment_type = posting_categories.find('span', class_='commitment').get_text().strip() if posting_categories.find('span', class_='commitment') else None
+                        job_workplaceType = posting_categories.find('span', class_='workplaceTypes').get_text().strip() if posting_categories.find('span', class_='workplaceTypes') else None
 
-                        print("Location:", location.text if location else None)
-                        print("Department:", department.text if department else None)
-                        print("Commitment:", commitment.text if commitment else None)
-                        print("Workplace Types:", workplaceTypes.text if workplaceTypes else None)
+                    if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                        #TODO: company_name
+                        self.current_jobs_details.update({
+                            'job_url': job_url,
+                            'job_title': job_title,
+                            'job_location': job_location,
+                            'experience_level': experience_level,
+                            'job_workplaceType': job_workplaceType,
+                            'company_department': company_department,
+                            'employment_type': employment_type,
+                            'experience_level': experience_level
+                        })
+                        if not experience_level:
+                            list_of_job_urls.append(job_url)
 
-                    print()  # Separate postings with a blank line
+                    self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
         elif self.application_company_name == 'greenhouse':
             div_main = soup.find("div", id="main")
             sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
@@ -816,7 +815,8 @@ class CompanyWorkflow():
         #This part is about collecting info
         self.current_jobs_details["job_url"] = self.current_url
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-        self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
+        #self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
+        self.job_description_webpage_navigation()
         
         #This part determines if user is fit for the job
         user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
@@ -961,10 +961,12 @@ class CompanyWorkflow():
     
     #Welcome to the Holy Land my child... we've been waiting for you
     #!======= Blueprints to Navigate Webpage =======
+    #*These 3 methods deal with fetting the json file stuff!!
     def get_website_data(self):
-        with open('website_elements.json') as websites_data_json_file:
+        with open(self.website_elements_relative_path) as websites_data_json_file:
             data = json.load(websites_data_json_file)
-            return data.get(self.application_company_name, None)
+            self.website_data = data.get(self.application_company_name, None)
+            return
 
     def get_webpage_data(self, job_application_webpage):
         return self.website_data.get(job_application_webpage, None)
@@ -977,7 +979,13 @@ class CompanyWorkflow():
         # Process each element defined in the page info.
         for element_name, element_infos in page_info["elements"].items():
             for element_info in element_infos:
-                element = soup.find(element_info["tag"], **{element_info.get("attr"): element_info.get("value")})
+                attr_name = element_info.get("attr")
+                attr_value = element_info.get("value")
+                if attr_name and attr_value:
+                    element = soup.find(element_info["tag"], **{attr_name: attr_value})
+                else:
+                    element = soup.find(element_info["tag"])
+                
                 if element:
                     self.update_soup_elements(soup, **{element_name: element})
                     break
@@ -990,7 +998,8 @@ class CompanyWorkflow():
     def job_description_webpage_navigation(self):
         print("\njob_description_webpage_navigation()")
         print("Welcome fair maiden!")
-        self.process_webpage(self.job_application_webpage[1])
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'lxml')
+        self.process_webpage(self.job_application_webpage[1], self.soup_elements['soup'])
         if self.application_company_name == "lever":
             next_elem = self.soup_elements['banner_job_info']
             while next_elem:
@@ -2402,6 +2411,51 @@ class CompanyWorkflow():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @property
+    def companys_internal_job_openings_URL(self):
+        return self._companys_internal_job_openings_URL
+
+    @companys_internal_job_openings_URL.setter
+    def companys_internal_job_openings_URL(self, value):
+        print(f"self._companys_internal_job_openings_URL = {value}")  # Print statement here
+        self._companys_internal_job_openings_URL = value
+        if value not in (None, 'null', ''):
+            self.method_to_execute_on_set()
+
+    def method_to_execute_on_set(self):
+        print("Method executed when companys_internal_job_openings_URL is set!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class BreakLoopException(Exception):
     pass
 
@@ -2598,4 +2652,58 @@ class BreakLoopException(Exception):
         job_path = job_opening_href.get('href')
         job_url = domain_name + job_path
         return job_url
+    '''
+    
+    
+    
+    
+    '''
+        "lever": {
+        "Internal-Job-Listings": {
+            "elements": {
+                "postings_wrapper": [
+                    {"tag": "div", "class_": "postings-wrapper"}
+                ],
+                "postings_groups": [
+                    {"tag": "div", "class_": "postings-group"}
+                ],
+                "postings": [
+                    {"tag": "div", "class_": "posting"}
+                ],
+                "posting_categories": [
+                    {"tag": "div", "class_": "posting-categories"}
+                ]
+            },
+            "data": {
+                "html_department": [
+                    {"tag": "div", "class_": "large-category-header"}
+                ],
+                "html_specialization": [
+                    {"tag": "div", "class_": "posting-category-title"}
+                ],
+                "html_department_specialization": [
+                    {"tag": "span", "class": "department"}
+                ],
+                "html_job_opening_href": [
+                    {"tag": "div", "class": "posting-apply"},
+                    {"tag": "a", "text": "Apply"}
+                ],
+                "html_button_to_job_description": [
+                    {"tag": "a", "class": "posting-title"}
+                ],
+                "html_job_title": [
+                    {"tag": "h5", "data-qa": "posting-name"},
+                    {"tag": "h5"}
+                ],
+                "html_job_location": [
+                    #!!!!  THIS HAS THIS NAME FOR THE FILTER TAB AT THE TOP !!!!!
+                    {"tag": "span", "class": "sort-by-location"},
+                    {"tag": "span", "class_": "location"}
+                ],
+                "html_job_workplaceType": [
+                    {"tag": "span", "class": "workplaceType"},
+                    {"tag": "span", "class_": "workplaceTypes"}
+                ]
+            }
+        },
     '''

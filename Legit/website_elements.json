@@ -99,27 +99,26 @@
         "Internal-Job-Listings": {
             "elements": {
                 "postings_wrapper": [
-                    {"tag": "div", "class_": "postings-wrapper"}
+                    {"tag": "div", "class": "postings-wrapper"}
                 ],
                 "postings_groups": [
-                    {"tag": "div", "class_": "postings-group"}
+                    {"tag": "div", "class": "postings-group"}
                 ],
                 "postings": [
-                    {"tag": "div", "class_": "posting"}
+                    {"tag": "div", "class": "posting"}
                 ],
                 "posting_categories": [
-                    {"tag": "div", "class_": "posting-categories"}
+                    {"tag": "div", "class": "posting-categories"}
                 ]
             },
             "data": {
-                "html_large_category_header": [
-                    {"tag": "div", "class_": "large-category-header"}
+                "html_department": [
+                    {"tag": "div", "class": "large-category-header"}
                 ],
-                "html_posting_category_title": [
-                    {"tag": "div", "class_": "posting-category-title"}
+                "html_specialization": [
+                    {"tag": "div", "class": "posting-category-title"}
                 ],
-                "html_company_department": [
-                    {"tag": "div", "class": "large-category-header"},
+                "html_department_specialization": [
                     {"tag": "span", "class": "department"}
                 ],
                 "html_job_opening_href": [
@@ -134,13 +133,12 @@
                     {"tag": "h5"}
                 ],
                 "html_job_location": [
-                    #!!!!  THIS HAS THIS NAME FOR THE FILTER TAB AT THE TOP !!!!!
                     {"tag": "span", "class": "sort-by-location"},
-                    {"tag": "span", "class_": "location"}
+                    {"tag": "span", "class": "location"}
                 ],
                 "html_job_workplaceType": [
                     {"tag": "span", "class": "workplaceType"},
-                    {"tag": "span", "class_": "workplaceTypes"}
+                    {"tag": "span", "class": "workplaceTypes"}
                 ]
             }
         },
