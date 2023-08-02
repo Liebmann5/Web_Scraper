@@ -6,10 +6,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Debug Workflow",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            // "program": "${file}",
+            "program": "${workspaceFolder}\\Legit\\JobSearchWorkflow.py",
             "console": "integratedTerminal"
             //"justMyCode": true
         },
@@ -17,7 +18,8 @@
             "name": "Python: Run and Pause on Every Line",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            // "program": "${file}",
+            "program": "${workspaceFolder}\\Legit\\JobSearchWorkflow.py",
             "console": "integratedTerminal",
             "stopOnEntry": true,
             //"autoAttachChildProcesses": true

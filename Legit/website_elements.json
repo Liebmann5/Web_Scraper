@@ -99,27 +99,48 @@
         "Internal-Job-Listings": {
             "elements": {
                 "postings_wrapper": [
-                    {"tag": "div", "class": "postings-wrapper"}
+                    {"tag": "div", "class_": "postings-wrapper"}
+                ],
+                "postings_groups": [
+                    {"tag": "div", "class_": "postings-group"}
+                ],
+                "postings": [
+                    {"tag": "div", "class_": "posting"}
+                ],
+                "posting_categories": [
+                    {"tag": "div", "class_": "posting-categories"}
                 ]
             },
             "data": {
+                "html_large_category_header": [
+                    {"tag": "div", "class_": "large-category-header"}
+                ],
+                "html_posting_category_title": [
+                    {"tag": "div", "class_": "posting-category-title"}
+                ],
                 "html_company_department": [
-                    {"tag": "div", "class": "large-category-header"}
+                    {"tag": "div", "class": "large-category-header"},
+                    {"tag": "span", "class": "department"}
                 ],
                 "html_job_opening_href": [
-                    {"tag": "div", "class": "posting-apply"}
+                    {"tag": "div", "class": "posting-apply"},
+                    {"tag": "a", "text": "Apply"}
                 ],
                 "html_button_to_job_description": [
                     {"tag": "a", "class": "posting-title"}
                 ],
                 "html_job_title": [
+                    {"tag": "h5", "data-qa": "posting-name"},
                     {"tag": "h5"}
                 ],
                 "html_job_location": [
-                    {"tag": "span", "class": "sort-by-location"}
+                    #!!!!  THIS HAS THIS NAME FOR THE FILTER TAB AT THE TOP !!!!!
+                    {"tag": "span", "class": "sort-by-location"},
+                    {"tag": "span", "class_": "location"}
                 ],
                 "html_job_workplaceType": [
-                    {"tag": "span", "class": "workplaceType"}
+                    {"tag": "span", "class": "workplaceType"},
+                    {"tag": "span", "class_": "workplaceTypes"}
                 ]
             }
         },
@@ -157,9 +178,6 @@
                 "html_company_department": [
                     {"tag": "div", "class": "department"}
                 ],
-                "html_employment_type": [
-                    {"tag": "div", "class": "commitment"}{data-qa: btn-apply-bottom}div_tag_butt
-                ],
                 "html_job_workplaceType": [
                     {"tag": "div", "class": "workplaceTypes"}
                 ],
@@ -174,10 +192,10 @@
                     {"tag": "div", "id": "application"}
                 ],
                 "html_application": [
-                    {"tag": "div", "id": "application"}{'data-qa': 'btn-apply-bottom'}div_tag_butt
+                    {"tag": "div", "id": "application"}
                 ],
                 "html_employment_type": [
-                    {"tag": "div", "class": "commitment"}{'data-qa': 'btn-apply-bottom'}div_tag_butt
+                    {"tag": "div", "class": "commitment"}
                 ]
             }
         },

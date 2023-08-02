@@ -7,13 +7,13 @@ import config
 
 import nltk
 import torch
-import spacy
+#import spacy
 import warnings
 from fuzzywuzzy import fuzz
 from datetime import datetime
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
-from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
+#from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
 
 from dotenv import load_dotenv
 from urllib.parse import urlparse, urlunparse
@@ -138,8 +138,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -618,7 +618,7 @@ class Workflow():
         print(self.custom_rules)
         print(self.q_and_a)
         
-        self.nlp_load()
+        # self.nlp_load()
         print("  Loaded Users Information...")
         
         # model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
