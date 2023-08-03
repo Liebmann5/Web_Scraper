@@ -52,7 +52,7 @@ import json
 
 class CompanyWorkflow():
 
-    def __init__(self, JobSearchWorkflow_instance, browser, users_information, init_users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
+    def __init__(self, JobSearchWorkflow_instance, browser, users_information, users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
         if JobSearchWorkflow_instance is None or browser is None:
             raise ValueError("JobSearchWorkflow_instance and browser cannot be None.")
         
@@ -61,7 +61,7 @@ class CompanyWorkflow():
         self.current_url = None
         self.list_of_links = []
         self.users_information = users_information
-        self.init_users_job_search_requirements = init_users_job_search_requirements
+        self.users_job_search_requirements = users_job_search_requirements
         self.application_company_name = None
         self.companys_internal_job_openings_URL = None
         self.prior_experience_keywords = ["senior", "sr", "principal", "lead", "manager"]
@@ -84,7 +84,12 @@ class CompanyWorkflow():
         self.website_data = {}
         
         self.website_elements_relative_path = r'Legit/website_elements.json'
-
+        
+        
+        #TODO: FIGURE THIS OUT FIGURE THIS OUT
+        self.companys_every_job_detail = {}
+        #TODO: FIGURE THIS OUT FIGURE THIS OUT
+    
     
     def keep_jobs_applied_to_info(self):
         print("\nkeep_jobs_applied_to_info()")
@@ -108,7 +113,7 @@ class CompanyWorkflow():
         self.form_input_extended = None
 
     # HERE JUST AS A REMINDER!!!
-    # def init_users_job_search_requirements(self):
+    # def init_users_job_search_requirements(self): = = =>  users_job_search_requirements
     #     self.users_job_search_requirements = {
     #         "user_desired_job_titles": [],
     #         "user_preferred_locations": [],
@@ -155,8 +160,10 @@ class CompanyWorkflow():
         index = 0
         #TODO: incorporate index into ==> self.current_jobs_details {MAYBE ensure order is all good!!}!!!!!!!!!
         while index < len(self.list_of_links):
-            # link = self.list_of_links[link]
             link = self.list_of_links[index]
+            if self.companys_every_job_detail:
+                self.fetch_matching_current_jobs_details(link)
+            
             # if self.current_url != link:
             if self.check_if_webpage_changed():
                 print("DIDN'T WORK!!!!")
@@ -189,13 +196,14 @@ class CompanyWorkflow():
             if self.job_application_webpage[webpage_num] == "Job-Description":
                 print("   >Job-Description<")
                 webpage_num = self.analyze_job_suitabililty()
-            if self.job_application_webpage[webpage_num] == "Job-Application":
-                print("   >Job-Application<")
-                webpage_num = self.apply_to_job()
-            if self.job_application_webpage[webpage_num] == "Submitted-Application":
-                print("   >Submitted-Application<")
-                self.confirmation_webpage_proves_application_submitted()
-                webpage_num = 1
+                # Did this because if determine_current_page() returns 2 it cant be accessed and the while will just skip to the next link!
+                if self.job_application_webpage[webpage_num] == "Job-Application":
+                    print("   >Job-Application<")
+                    webpage_num = self.apply_to_job()
+                if self.job_application_webpage[webpage_num] == "Submitted-Application":
+                    print("   >Submitted-Application<")
+                    self.confirmation_webpage_proves_application_submitted()
+                    webpage_num = 1
             else:
                 print("   >I honestly don't know how to even get here<")
                 self.reset_every_job_variable()
@@ -251,14 +259,16 @@ class CompanyWorkflow():
         try:
             self.browser.get(link)
             WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
-            self.set_current_url()
+            # self.set_current_url()
+            self.adjust_for_new_webpage()
         except Exception as e:
             print(f"An error occured while changing webpages: {e}")
         
     def set_current_url(self):
         print("\nset_current_url()")
         self.current_url = self.browser.current_url
-            
+    
+    # Mainly just for clicking buuttons!!  Like last job in "Internal-Job-Listings" and clicking submit, etc.
     def check_for_webpage_change(self):
         print("\ncheck_for_webpage_change()")
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
@@ -270,7 +280,8 @@ class CompanyWorkflow():
     def check_if_webpage_changed(self):
         print("\ncheck_if_webpage_changed()")
         #TODO: Is there a need for this here or is check_for_webpage_change() good enough!!
-        #WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
+            #?? I think so cause then I can just click then call this method immediately and this method will do the waiting!
+        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))
         return self.browser.current_url != self.current_url
 
     def adjust_for_new_webpage(self):
@@ -284,6 +295,19 @@ class CompanyWorkflow():
 
 
 #!============== misc tools ====================
+    #TODO: Make sure that if I update the values in self.current_jobs_details after running this they'll affect the ones in self.all_job_details
+    def fetch_matching_current_jobs_details(self, link):
+        for correct_current_jobs_details in self.companys_every_job_detail:
+            if correct_current_jobs_details['job_url'] == link:
+                self.current_jobs_details = correct_current_jobs_details
+    
+    def click_this_button(self, button):
+        self.scroll_to_element(button)
+        button.click()
+        if self.check_for_webpage_change():
+            #Do stuff
+            pass
+    
     def scroll_to_element(self, element):
         print("\nscroll_to_element()")
         if isinstance(element, Tag):
@@ -531,6 +555,7 @@ class CompanyWorkflow():
 
 
 #!=========== filter by requirements ===========
+    #TODO: ?? DELETE ??  I think this might have been how I originally checked experience in the job_title?!?!?!
     def fits_users_criteria(self, test_elements_uniqueness, *args):
         print("\nfits_users_criteria()")
         ultimate_lists_checker = []
@@ -541,53 +566,54 @@ class CompanyWorkflow():
                 return False
         return True
 
-    def check_users_basic_requirements(self, company_job_title, job_location, job_workplaceType):
+    def users_basic_requirements_job_title(self, job_title):
+        print("\nusers_basic_requirements_job_title()")
+        return any(desired_job in job_title for desired_job in self.users_job_search_requirements['job_title'])
+    
+    def get_experience_level(self, job_title):
+        print("\nget_experience_level()")
+        for experience_keyword in self.prior_experience_keywords:
+            if experience_keyword in job_title:
+                return experience_keyword
+    
+    def check_users_basic_requirements(self, job_title, job_location, job_workplaceType):
         print("\ncheck_users_basic_requirements()")
-        if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(company_job_title) == False:
+        if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(job_title) == False:
             return False
         if self.user_basic_requirements_location_workplaceType(job_location, job_workplaceType):
             return False
+        return True
 
-    def users_basic_requirements_job_title(self, company_job_title):
-        print("\nusers_basic_requirements_job_title()")
-        return any(desired_job in company_job_title for desired_job in self.users_job_search_requirements['job_title'])
-
-    def users_basic_requirements_experience_level(self, company_job_title):
+    def users_basic_requirements_experience_level(self, job_title):
         print("\nusers_basic_requirements_experience_level()")
-        return any(experience_keyword in company_job_title for experience_keyword in self.prior_experience_keywords)
+        return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
 
-    def get_experience_level(self, company_job_title):
-        print("\nget_experience_level()")
-        for experience_keyword in self.prior_experience_keywords:
-            if experience_keyword in company_job_title:
-                return experience_keyword
-
-    def user_basic_requirements_location_workplaceType(self, company_job_location, company_job_workplaceType):
+    def user_basic_requirements_location_workplaceType(self, job_location, job_workplaceType):
         print("\nuser_basic_requirements_location_workplaceType()")
-        if not company_job_location or company_job_location.lower().country() not in self.users_job_search_requirements['user_preferred_locations']:
+        if not job_location or job_location.lower().country() not in self.users_job_search_requirements['user_preferred_locations']:
             return False
-        if company_job_location not in self.users_job_search_requirements['user_preferred_locations']:
+        if job_location not in self.users_job_search_requirements['user_preferred_locations']:
             return False
-        if not company_job_workplaceType or company_job_workplaceType.lower() == "unknown":
+        if not job_workplaceType or job_workplaceType.lower() == "unknown":
             return False
-        if company_job_workplaceType.lower() == 'in-office with occasional remote':
+        if job_workplaceType.lower() == 'in-office with occasional remote':
             if 'in-office' in self.users_job_search_requirements['user_preferred_workplaceType'] or 'remote' in self.users_job_search_requirements['user_preferred_workplaceType']:
                 return True
             else:
                 return False
-        if company_job_workplaceType.lower() == 'hybrid with rare in-office':
+        if job_workplaceType.lower() == 'hybrid with rare in-office':
             if 'hybrid' in self.users_job_search_requirements['user_preferred_workplaceType'] or 'remote' in self.users_job_search_requirements['user_preferred_workplaceType']:
                 return True
             else:
                 return False
-        if company_job_workplaceType.lower() == 'remote':
+        if job_workplaceType.lower() == 'remote':
             return True
-        if company_job_workplaceType.lower() == 'hybrid':
+        if job_workplaceType.lower() == 'hybrid':
             if 'hybrid' in self.users_job_search_requirements['user_preferred_workplaceType'] and 'in-office' in self.users_job_search_requirements['user_preferred_workplaceType']:
                 return True
             else:
                 return False
-        if company_job_workplaceType.lower() == 'in-office':
+        if job_workplaceType.lower() == 'in-office':
             if 'in-office' in self.users_job_search_requirements['user_preferred_workplaceType']:
                 return True
             else:
@@ -677,6 +703,15 @@ class CompanyWorkflow():
         else:
             raise ValueError("At least one URL must be absolute")
     
+    #NOTE: Maybe you can do a while loop as confirmation and setting variables!! Like in job_description_webpage_navigation()
+    #NOTE: OR...  or 2 methods with whiles where the 1st methods' while checks and confirms variables and the 2nd methods' while sets variables if present -> exactly like in job_description_webpage_navigation()!!! (The 2nd method can utilize the next_elem thing!?)
+    #! GET RID OF ALL --- filter by requirements --- {except for get_experience_level()}
+    #? JK JK  "if self.users_basic_requirements_job_title(job_title) == False:" just checks if job_title matches users_job_title!! {This checks and confirms user should not add 'accountant' job details to current_job_details!!!}
+        #! THIS METHOD IS ALL ABOUT COLLECTING ALL MATCHING job_title STRINGS !!REGARDLESS!! OF EXPERIENCE!!!!
+        #! CHECK ALL THAT STUFF AFTER THIS METHOD -> IF THEY FIT ADD current_jobs_details TO  
+            #! total_company_jobs_available  <= add all 
+            #! possibly_qualified_for_jobs   <= 
+            #! jobs_applied_to_this_session  <= submitted application
     def collect_companies_current_job_openings(self, soup):
         print("\ncollect_companies_current_job_openings()")
         current_url = self.browser.current_url
@@ -739,11 +774,11 @@ class CompanyWorkflow():
 
                     if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
                         #TODO: company_name
+                            #! ^  ^  ^  ^ b/c I organize links in JobSearchWorkflow.py that variable only needs to be set once!!!
                         self.current_jobs_details.update({
                             'job_url': job_url,
                             'job_title': job_title,
                             'job_location': job_location,
-                            'experience_level': experience_level,
                             'job_workplaceType': job_workplaceType,
                             'company_department': company_department,
                             'employment_type': employment_type,
@@ -751,7 +786,6 @@ class CompanyWorkflow():
                         })
                         if not experience_level:
                             list_of_job_urls.append(job_url)
-
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
         elif self.application_company_name == 'greenhouse':
             div_main = soup.find("div", id="main")
@@ -810,19 +844,30 @@ class CompanyWorkflow():
     
     #!============= Job-Description ================
     def analyze_job_suitabililty(self):
-        print("\n    ---- Job-Description ----    \n")
+        #print("\n    ---- Job-Description ----    \n")
         print("\nanalyze_job_suitabililty()")
         #This part is about collecting info
         self.current_jobs_details["job_url"] = self.current_url
-        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-        #self.handle_job_description_webpage()   #  ==  try_finding_internal_job_openings_URL() + collect_basic_job_details()->[lever_io_dat()+handle_job_description_webpage()]
+        
+        if self.application_company_name == "lever":
+            parser = 'lxml'
+        elif self.application_company_name == "greenhouse":
+            parser = 'html.parser'
+        
+        self.fetch_and_fill_variables(self.job_application_webpage[1], parser)
         self.job_description_webpage_navigation()
         
+        
+        
         #This part determines if user is fit for the job
-        user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
-        job_fits_users_criteria = self.fits_users_criteria()
+        #user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['opening_link_description'])
+        user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['content'])
+        print(f"content = \n{self.soup_elements['content'].get_text()}\n")
+        #job_fits_users_criteria = self.fits_users_criteria()
+        job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], self.current_jobs_details['job_workplaceType'])
         if user_fits_jobs_criteria and job_fits_users_criteria:
-            print("User is applying to this lever.co job!!")
+            print("User is applying to this job!!")
+            #TODO: Refactor this  v  by making a method called ?transfer_webpages() => {self.bottom_has_application_or_button() | self.click_this_button_or_scroll() | self.change_webpage()}?
             self.bottom_has_application_or_button(self.application_company_name)
             return 2
         else:
@@ -839,6 +884,8 @@ class CompanyWorkflow():
         else:
             return True
     
+    #TODO: call self.click_this_button(button)
+    #NOTE: ^  ^  ^ Maybe rename to  self.click_this_button_or_scroll() {Better encapsulates all scenarios here}
     def bottom_has_application_or_button(self, application_company_name):
         soup = self.apply_beautifulsoup(self.browser.current_url, "html")
         if application_company_name == "lever":
@@ -956,12 +1003,21 @@ class CompanyWorkflow():
     
     
     
-    
+    def fetch_and_fill_variables(self, job_application_webpage, parser):
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, parser)
+        self.process_webpage(job_application_webpage, self.soup_elements['soup'])
+        self.print_soup_elements()
+        
+    def print_soup_elements(self):
+        print("{")
+        for key, value in self.soup_elements.items():
+            print(f"    {key}: {value},")
+        print("}")
     
     
     #Welcome to the Holy Land my child... we've been waiting for you
     #!======= Blueprints to Navigate Webpage =======
-    #*These 3 methods deal with fetting the json file stuff!!
+    #*These 3 methods deal with getting the json file stuff!!
     def get_website_data(self):
         with open(self.website_elements_relative_path) as websites_data_json_file:
             data = json.load(websites_data_json_file)
@@ -990,16 +1046,15 @@ class CompanyWorkflow():
                     self.update_soup_elements(soup, **{element_name: element})
                     break
 
-        return self.soup_elements.get('content')
-    
+        #return self.soup_elements.get('content')
+        return
+    #********************************************************
 
     #NOTE: REMEMBER!!!! This part is basically {just get links} and basic information about the job!!!
     #TODO: FIX THIS ABSOLUTE MESS!  Good Lord Janice...
     def job_description_webpage_navigation(self):
         print("\njob_description_webpage_navigation()")
         print("Welcome fair maiden!")
-        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'lxml')
-        self.process_webpage(self.job_application_webpage[1], self.soup_elements['soup'])
         if self.application_company_name == "lever":
             next_elem = self.soup_elements['banner_job_info']
             while next_elem:
@@ -1015,17 +1070,13 @@ class CompanyWorkflow():
                     self.current_jobs_details["job_workplaceType"] = job_workplaceType
                 next_elem = next_elem.find_next()
         elif self.application_company_name == "greenhouse":
-            #TODO: These need to be called and set earlier!!! BEFORE self.process_webpage(self.job_application_webpage[1]) IS CALLED!!!!
-            #self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, 'html.parser')
-            #self.soup_elements['div_main'] = self.soup_elements['soup'].find("div", id="main")
-    
             next_elem = self.soup_elements['div_main'].find_next()
-
             while next_elem:
                 next_elem = next_elem.find_next()
                 #This if statement should test the identifiable/unique element that represents that we are in fact on the "Job-Description" page!!
                   #Ex. For "greenhouse" that would be - (next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"])
                 #!!! This is literally the purpose determine_current_page() !!!
+                #TODO: ^ ^ ^ Look into this father...
                 if self.application_company_name == "greenhouse" and self.soup_elements["app_body"]:
                     if 'header' in self.soup_elements and 'content' in self.soup_elements:
                           header = self.soup_elements['header']
@@ -1033,11 +1084,9 @@ class CompanyWorkflow():
 
                           if job_title_elem := header.find("h1", class_="app-title").get_text().strip():
                               self.current_jobs_details["job_title"] = job_title_elem
-
                           # Extract company name
                           if company_name_elem := header.find("span", class_="company-name").get_text().strip():
                               self.current_jobs_details["company_name"] = company_name_elem
-
                           # Extract job location
                           if job_location_elem := header.find("div", class_="location").get_text().strip():
                               self.current_jobs_details["job_location"] = job_location_elem
