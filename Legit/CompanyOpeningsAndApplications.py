@@ -446,14 +446,120 @@ class CompanyWorkflow():
             return True
         return False
     
-    #TODO: fill this in 
-    def hard_coded_link_extraction(self):
+    # #TODO: fill this in 
+    # def hard_coded_link_extraction(self):
+    #     print("\nhard_coded_link_extraction()")
+    #     """
+    #     Obtain links with hard coding.
+    #     """
+    #     # Placeholder for your hard-coded link extraction code
+    #     return []
+    
+    def hard_coded_link_extraction(self, url):
         print("\nhard_coded_link_extraction()")
-        """
-        Obtain links with hard coding.
-        """
-        # Placeholder for your hard-coded link extraction code
-        return []
+        webpage_currently = self.browser.current_url
+        self.soup_elements['soup'] = self.apply_beautifulsoup(webpage_currently, "lxml")
+        if self.application_company_name == "lever":
+            company_open_positions = self.soup_elements['soup'].find('a', {"class": "main-header-logo"})
+            application_webpage_html = self.soup_elements['soup'].find("div", {"class": "application-page"})
+            if not self.companys_internal_job_openings_URL:
+                try:
+                    self.soup_elements['webpage_body'] = self.soup_elements['soup'].find('body')
+                    links_in_header = []
+                    links_in_header.append(webpage_currently)
+                    webpage_header = self.soup_elements['webpage_body'].find('div', {"class": 'main-header-content'})
+                    company_open_positions_a = webpage_header.find('a', {"class": "main-header-logo"})
+                    try:
+                        if company_open_positions_a['href']:
+                            company_open_positions_href = company_open_positions_a['href']
+                            links_in_header.append(company_open_positions_href)
+                    except:
+                        pass
+                    links_in_header.append(company_open_positions_a)
+                    self.check_banner_links(links_in_header)
+                except:
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+        elif self.application_company_name == "greenhouse":
+            # webpage_currently = self.browser.current_url
+            if not self.companys_internal_job_openings_URL:
+                try:
+                    self.soup_elements['soup'] = self.apply_beautifulsoup(webpage_currently, 'html.parser')
+                    self.soup_elements['div_main'] = self.soup_elements['soup'].find("div", id="main")
+                    self.soup_elements['header'] = self.soup_elements['soup'].find('header')
+                    self.soup_elements['app_body'] = self.soup_elements['div_main'].find('div', id=lambda x: x in ["app-body", "app_body"])
+                    
+                except:
+                    raise ConnectionError("ERROR: Companies other open positions are not present")
+                    
+            a_fragment_identifier = None
+            company_other_openings_href = None
+            first_child = True
+            searched_all_a = False
+            string_tab = '\n'
+            for child in self.soup_elements['header'].children:
+                if first_child:
+                    first_child = False
+                    continue
+                elif child == string_tab:
+                    pass
+                elif child.name == "a" and not searched_all_a:
+                    header_a_tags = self.soup_elements['header'].find_all('a')
+                    for head_a_tag in header_a_tags:
+                        if '/' in head_a_tag['href']:
+                            company_other_openings_href = head_a_tag
+                        elif '#' in head_a_tag['href']:
+                            a_fragment_identifier = head_a_tag
+                        elif head_a_tag == None:
+                            logo_container = self.soup_elements['app_body'].find('div', class_="logo-container")
+                            company_openings_a = logo_container.find('a')
+                            company_other_openings_href = company_openings_a['href']
+                            searched_all_a = True
+            if company_other_openings_href == None:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobHREF="Couldnt Find", LinkToApplication_OnPageID=a_fragment_identifier)
+            else:
+                self.print_companies_internal_job_opening("greenhouse_io_banner()", "greenhouse", JobHREF=company_other_openings_href, LinkToApplication_OnPageID=a_fragment_identifier)
+                
+    def check_banner_links(self, links_in_header):
+        print("\ncheck_banner_links()")
+        first_link = True
+        #list_of_other_jobs_keyword = ''
+        for header_link in links_in_header[:-1]:
+            if first_link == True and "lever" == self.application_company_name:
+                self.try_adjusting_this_link(header_link)
+                #list_of_other_jobs_keyword = 'list-page'
+                first_link = False
+            elif first_link == True and "greenhouse" in self.application_company_name:
+                #<div id="embedded_job_board_wrapper" style="padding: 20px;">
+                #<h2 id="board_title">Current Job Openings</h2>
+                    #NOTE: Ex)<h1 id="board_title">Current Job Openings at Charles River Associates</h1>
+                    #^NOTE: Ex)'Current Job Openings at Charles River Associates' ssoooo instead do if "Current Job Openings" in h# elements' text value!!!
+                self.try_adjusting_this_link(header_link)
+                #list_of_other_jobs_keyword = ''
+                first_link == False
+        
+        #! Multithreading
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            #future_to_link = {executor.submit(self.check_link, header_link, list_of_other_jobs_keyword): header_link for header_link in links_in_header[:1]}
+            future_to_link = {executor.submit(self.check_link, header_link): header_link for header_link in links_in_header[:1]}
+            for future in concurrent.futures.as_completed(future_to_link):
+                link = future_to_link[future]
+                try:
+                    result = future.result()
+                    if result is not None:
+                        self.company_open_positions_link = result
+                        return
+                except Exception as exc:
+                    print(f'{link} generated an exception: {exc}')
+        
+        if (self.company_open_positions_link == None):
+            #TODO: Make this a method
+            links_in_header[-1].click()
+            time.sleep(3)
+            current_url = self.browser.current_url
+            result = self.check_link(current_url)
+            if result is not None:
+                self.company_open_positions_link = result
+        return
     
     def process_links(self, possible_links):
         print("\nprocess_links()")
