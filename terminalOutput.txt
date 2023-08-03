@@ -1,0 +1,1826 @@
+Here's some info about sys.executable:  /Users/nliebmann/Desktop/GitHub/Web_Scraper/virtual_environments_smell_like_updog/bin/python3
+This program began running at 2023-08-03 14:12:56
+Execution Started -- Opening Safari Browser
+Searching for software engineer jobs...
+1/2
+2/2
+Searching google for...       adult films?
+TAAAA DDDAAAAAA
+GET SUCKED WIZARD!
+Filtering by past 24
+--------------------------------
+1/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-EA2224D4-3B75-42BE-94CA-A0AB8C99F55C")>
+Here is link #1: https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322
+--------------------------------
+2/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-810D17C0-06DC-42BD-ADBA-A28FAD8573B4")>
+Here is link #2: https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002
+--------------------------------
+3/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A96BCBC9-773B-4C13-91FD-2DA670D3B0E8")>
+Here is link #3: https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002
+--------------------------------
+4/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E19E1E3B-2F5E-4E4A-9D7E-7992D021C050")>
+Here is link #4: https://boards.eu.greenhouse.io/optimove/jobs/4201600101
+--------------------------------
+5/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C8E162D6-A584-41CA-8DEC-06166FDAAB0A")>
+Here is link #5: https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002
+--------------------------------
+6/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-AB8E649B-6BB7-459F-96C6-A75D8A115095")>
+Here is link #6: https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002
+--------------------------------
+7/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-0E148A19-CDE4-4A45-A4D2-DD2F1EC0BFC5")>
+Here is link #7: https://boards.greenhouse.io/angi/jobs/6872830002
+--------------------------------
+8/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-DAF5B6BE-AA5B-4B36-8855-CA39DD44C252")>
+Here is link #8: https://boards.greenhouse.io/purestorage
+--------------------------------
+9/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1F13D4BF-4260-4EE1-B7B8-C324E7305390")>
+Here is link #9: https://boards.greenhouse.io/torcrobotics/jobs/6867126002
+--------------------------------
+10/10
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-7E752E51-56A3-4742-A0B4-BE9B29893040")>
+Here is link #10: https://boards.greenhouse.io/horizon3/jobs/4938633004
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-7E752E51-56A3-4742-A0B4-BE9B29893040")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 10
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 1937
+Scrolled...
+New Height == 3411
+--------------------------------
+11/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D6A93CBC-418B-4660-A1BD-FCF04B6E686A")>
+Here is link #11: https://boards.greenhouse.io/mineral/jobs/4263271006
+--------------------------------
+12/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C0064B8A-B9D6-422F-8BA2-E94838B1B1AC")>
+Here is link #12: https://boards.greenhouse.io/reddit/jobs/5231486
+--------------------------------
+13/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A9BC559D-F217-4D6C-A3CE-B8D466D98B49")>
+Here is link #13: https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002
+--------------------------------
+14/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C41B444D-532F-4BBE-8485-B2A81E46548C")>
+Here is link #14: https://boards.greenhouse.io/twilio
+--------------------------------
+15/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A428746A-61DC-43F2-8DC3-63EAF64276A3")>
+Here is link #15: https://boards.greenhouse.io/ezcaterinc/jobs/4047288007
+--------------------------------
+16/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C7F16076-4566-4969-A5C1-457B9ADE3015")>
+Here is link #16: https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta
+--------------------------------
+17/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-6644BAA1-14AF-45AB-B975-3884E2FB8D69")>
+Here is link #17: https://boards.greenhouse.io/humane/jobs/4946389004
+--------------------------------
+18/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-26AEB7B5-605B-4B51-9E08-CB06BE380D52")>
+Here is link #18: https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions
+--------------------------------
+19/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-ED6449D0-05CC-4B26-AD8C-D0FDDA7A85BD")>
+Here is link #19: https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002
+--------------------------------
+20/20
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A3AEFF3C-C332-41F0-B00D-36904964C36E")>
+Here is link #20: https://boards.greenhouse.io/excelity/jobs/5576381003
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A3AEFF3C-C332-41F0-B00D-36904964C36E")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 20
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 3411
+Scrolled...
+New Height == 4885
+--------------------------------
+21/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-24C15BF8-F50C-401E-8DCD-F8A8BC510345")>
+Here is link #21: https://boards.greenhouse.io/kaizengaming/jobs/5702151003
+--------------------------------
+22/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B32948FE-EA7E-4B0A-8775-4EE08CFE1C95")>
+Here is link #22: https://boards.greenhouse.io/blueconic/jobs/6866826002
+--------------------------------
+23/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F5813BD7-07AE-4E89-AC04-212B269332E1")>
+Here is link #23: https://boards.greenhouse.io/mighty
+--------------------------------
+24/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-95FD21FD-312E-42B7-9C54-D3B39684C970")>
+Here is link #24: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c
+--------------------------------
+25/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1380EA78-53A2-43BD-9DC4-179938B4C532")>
+Here is link #25: https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85
+--------------------------------
+26/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-410DA7CB-B8BA-426F-8053-E320F89B2D04")>
+Here is link #26: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31
+--------------------------------
+27/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-607FAA26-6EA0-4C8B-9E72-68023306EA30")>
+Here is link #27: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926
+--------------------------------
+28/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-46EABB71-5A63-4267-95AD-B78C8A567E85")>
+Here is link #28: https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407
+--------------------------------
+29/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-554D9C7C-F67C-4555-958A-91FCDE5533B0")>
+Here is link #29: https://boards.greenhouse.io/redcellpartners/jobs/4044912007
+--------------------------------
+30/30
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-021AF9CA-35ED-4459-9A88-EC36C77FE5D2")>
+Here is link #30: https://boards.greenhouse.io/poshmark/jobs/5267627
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-021AF9CA-35ED-4459-9A88-EC36C77FE5D2")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 30
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 4885
+Scrolled...
+New Height == 6359
+--------------------------------
+31/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-9A4F86BA-0D03-4516-B0F1-D891034D0F89")>
+Here is link #31: https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002
+--------------------------------
+32/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F803E6BF-C08C-4123-B19F-AEC953097948")>
+Here is link #32: https://boards.greenhouse.io/phaidra/jobs/4300516005
+--------------------------------
+33/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-48EBB6AD-2954-4BB2-8ADE-2BB951837F2E")>
+Here is link #33: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154
+--------------------------------
+34/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E46CC72A-74BE-4146-B634-EE442D32D1D4")>
+Here is link #34: https://boards.eu.greenhouse.io/leapwork/jobs/4202346101
+--------------------------------
+35/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B210CCA5-890D-4087-B6F4-1B4FBB16E02D")>
+Here is link #35: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83
+--------------------------------
+36/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-90603D75-2B62-469C-8090-5E7EDA5FBD32")>
+Here is link #36: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670
+--------------------------------
+37/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-32B7835B-FBEC-4CDD-9EF5-F79A9BF255D3")>
+Here is link #37: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1
+--------------------------------
+38/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-7C6D90E2-D12C-4240-9424-2B80FADDAE5D")>
+Here is link #38: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18
+--------------------------------
+39/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-AC3B4BC6-4509-4D55-AD86-1FE89771991A")>
+Here is link #39: https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply
+--------------------------------
+40/40
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-44A7C3CE-79AF-4C73-BCBF-50466B7C7807")>
+Here is link #40: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-44A7C3CE-79AF-4C73-BCBF-50466B7C7807")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 40
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 6359
+Scrolled...
+New Height == 7833
+--------------------------------
+41/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A4A5750B-E7EA-42C6-9D58-C7A3AB43C900")>
+Here is link #41: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d
+--------------------------------
+42/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-68B1B6B2-4904-4A83-8B19-F80F16F5D781")>
+Here is link #42: https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7
+--------------------------------
+43/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E1C95C70-5929-41DF-B053-584680A4D711")>
+Here is link #43: https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858
+--------------------------------
+44/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-2D4DE74C-78C8-45D5-A590-1C499F0A5D9B")>
+Here is link #44: https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply
+--------------------------------
+45/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B3F9E33C-1948-4489-B389-6A234A38FE3B")>
+Here is link #45: https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail
+--------------------------------
+46/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E77828B2-BFF3-4DC7-AF0C-F35ED6D9C2D7")>
+Here is link #46: https://boards.greenhouse.io/poshmark/jobs/5269111
+--------------------------------
+47/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-FE8B895E-A1F8-4FC8-BD1C-492E86A23A8C")>
+Here is link #47: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64
+--------------------------------
+48/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B7BC92A9-D3A2-4F61-A63D-ACD8CB0E51F1")>
+Here is link #48: https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b
+--------------------------------
+49/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1D14D595-2F74-4CFE-8AB3-AB3AEEA9A0CB")>
+Here is link #49: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply
+--------------------------------
+50/50
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-394B5846-FE44-4709-B450-5B36D81BBF31")>
+Here is link #50: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-394B5846-FE44-4709-B450-5B36D81BBF31")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 50
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 7833
+Scrolled...
+New Height == 9421
+--------------------------------
+51/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-388AA165-0158-4B1D-837E-A1ECE906CB38")>
+Here is link #51: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply
+--------------------------------
+52/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-0898CBB7-C869-44AD-80F2-ED31AFA77698")>
+Here is link #52: https://boards.greenhouse.io/g2crowd/jobs/5268926
+--------------------------------
+53/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B626B7A6-665E-4818-B13C-84421B1E3AC4")>
+Here is link #53: https://boards.greenhouse.io/aetion/jobs/5267264
+--------------------------------
+54/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B35A9EF9-576C-481C-AC62-C5CCD466E820")>
+Here is link #54: https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c
+--------------------------------
+55/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-CBD9394B-6117-4C25-A264-EAC08BF170D5")>
+Here is link #55: https://boards.greenhouse.io/twinhealth/jobs/4946271004
+--------------------------------
+56/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-945DC118-70CB-4CC2-8D4D-CF136C492B03")>
+Here is link #56: https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply
+--------------------------------
+57/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-368F9FDC-FE0D-4559-BEA3-4342496CF3DC")>
+Here is link #57: https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+--------------------------------
+58/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C755F782-E04B-4680-BC52-6D2D9830E04C")>
+Here is link #58: https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply
+--------------------------------
+59/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-EC9AC4CE-28A2-4860-825F-8B5705AC4FA1")>
+Here is link #59: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply
+--------------------------------
+60/60
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1FCA3C07-ADE3-4F18-9683-3F74F3E764E2")>
+Here is link #60: https://boards.greenhouse.io/tusimple/jobs/6871574002
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1FCA3C07-ADE3-4F18-9683-3F74F3E764E2")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 60
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 9421
+Scrolled...
+New Height == 9421
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+61/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E8C9E741-C828-49C3-B501-7AD0F9074214")>
+Here is link #61: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply
+--------------------------------
+62/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B042FCB5-BEDB-43AA-9389-BD7C2097C1BF")>
+Here is link #62: https://boards.greenhouse.io/magicleapinc/jobs/5267549
+--------------------------------
+63/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BE662672-66C1-4C78-A927-CBFBE3B6AADA")>
+Here is link #63: https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply
+--------------------------------
+64/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-945CF152-38D0-47EC-8AE3-3EEC7C3A9F99")>
+Here is link #64: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply
+--------------------------------
+65/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-027E4851-5C70-4362-8B70-F84084DCD19E")>
+Here is link #65: https://boards.greenhouse.io/twilio/jobs/5265532
+--------------------------------
+66/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F0091FC2-7C2E-435F-AF3B-55ADA00834A9")>
+Here is link #66: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5
+--------------------------------
+67/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-ED275F80-9DF0-491C-B3E5-CED8933B6F40")>
+Here is link #67: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7
+--------------------------------
+68/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-8B23F599-AA99-403B-B72A-B34CDA6FCD71")>
+Here is link #68: https://boards.greenhouse.io/dialpad/jobs/6860058002
+--------------------------------
+69/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-3FB70496-C3B8-47FE-BA46-3A6FC40FF53E")>
+Here is link #69: https://boards.greenhouse.io/alertinnovation/jobs/4299414005
+--------------------------------
+70/70
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D609ECA8-2903-4D64-8F3A-2E70BD989796")>
+Here is link #70: https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D609ECA8-2903-4D64-8F3A-2E70BD989796")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 70
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 10895
+Scrolled...
+New Height == 10895
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+71/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-CA815088-2095-4125-A9CC-EEFB14245C80")>
+Here is link #71: https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply
+--------------------------------
+72/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A9B55FBD-C968-4420-950C-55E4E6D4FD17")>
+Here is link #72: https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348
+--------------------------------
+73/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F9339860-9BD3-4CF3-AC91-695444A8A72E")>
+Here is link #73: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75
+--------------------------------
+74/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A978F15D-2E9C-4708-A314-D900CA8CC66E")>
+Here is link #74: https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com
+--------------------------------
+75/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C34FF8AB-E896-4334-A04A-DFE7F544FF4A")>
+Here is link #75: https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002
+--------------------------------
+76/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-41FEFBF8-6D53-4115-879B-8304CE4642F0")>
+Here is link #76: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c
+--------------------------------
+77/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B9C7AB41-19B5-4AD4-AE8D-4D7A42DDBC52")>
+Here is link #77: https://boards.greenhouse.io/taepwm
+--------------------------------
+78/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-5DE7120B-9308-414C-AE61-9D832F5A4D93")>
+Here is link #78: https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply
+--------------------------------
+79/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-7E754032-8D44-435F-B4A3-383803F0B46C")>
+Here is link #79: https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+--------------------------------
+80/80
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E4D67B9A-7C4A-487E-8E20-812832C9D856")>
+Here is link #80: https://boards.greenhouse.io/reltio/jobs/4938888004
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-E4D67B9A-7C4A-487E-8E20-812832C9D856")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 80
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 12369
+Scrolled...
+New Height == 12369
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+81/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-996B4C2D-A7D9-48F1-9B00-2CC127DEECE4")>
+Here is link #81: https://boards.greenhouse.io/opendoor/jobs/4255202006
+--------------------------------
+82/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BF607FA3-5A10-4E3F-B636-6DF9ED5B4CAE")>
+Here is link #82: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply
+--------------------------------
+83/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B8CDE0FA-AE8E-4343-88EF-67153EA68C2A")>
+Here is link #83: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply
+--------------------------------
+84/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-696BE9E6-8556-4B2B-A06C-D4147288C528")>
+Here is link #84: https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003
+--------------------------------
+85/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B946CBE0-2FA3-4191-AEFB-FA3652303ECE")>
+Here is link #85: https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us
+--------------------------------
+86/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-4EB61184-C3B2-47B9-B1AE-188CA9FE40B0")>
+Here is link #86: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply
+--------------------------------
+87/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-9C37F381-BB45-40B6-B342-9E34354CA983")>
+Here is link #87: https://boards.greenhouse.io/rocketlab/jobs/5701424003
+--------------------------------
+88/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-39E3219B-4A60-47CC-AD5F-B20A951E2981")>
+Here is link #88: https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood
+--------------------------------
+89/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A3431399-028E-4698-9535-915407713CC1")>
+Here is link #89: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply
+--------------------------------
+90/90
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F0D9F41A-2BBE-418B-B9DE-1742AE7E2DB9")>
+Here is link #90: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F0D9F41A-2BBE-418B-B9DE-1742AE7E2DB9")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 90
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 13843
+Scrolled...
+New Height == 13843
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+91/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BEFE331F-51D2-439B-B9E8-201072E19EEA")>
+Here is link #91: https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004
+--------------------------------
+92/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-C999726F-0478-4009-AC43-70FC08A5B3CA")>
+Here is link #92: https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html
+--------------------------------
+93/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-EA9F20B7-F0B5-4A6A-AE89-91A2D76A8E92")>
+Here is link #93: https://boards.greenhouse.io/oanda/jobs/5699808003
+--------------------------------
+94/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-5646110C-EFE7-4E7B-8686-6F6AD014D634")>
+Here is link #94: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884
+--------------------------------
+95/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-0178A8DD-93DA-434C-BB0B-795336D92F63")>
+Here is link #95: https://boards.greenhouse.io/neocybernetica/jobs/4301497005
+--------------------------------
+96/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F569B732-0F59-41EA-AB53-244AF3E4C562")>
+Here is link #96: https://boards.greenhouse.io/ezcaterinc
+--------------------------------
+97/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-82BE039C-8B52-4C79-A958-7DF873C2C43E")>
+Here is link #97: https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs
+--------------------------------
+98/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-EEA2B7CA-1221-4E9F-A865-2975677FDBDF")>
+Here is link #98: https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e
+--------------------------------
+99/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-556F8AC1-A027-42C6-BCF7-BA92296352B9")>
+Here is link #99: https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31
+--------------------------------
+100/100
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B5E47D4E-36A9-42EC-AAF5-2733A24A3B19")>
+Here is link #100: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B5E47D4E-36A9-42EC-AAF5-2733A24A3B19")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 100
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 15317
+Scrolled...
+New Height == 15317
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+101/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-98548023-3144-41A6-8DA8-6DCABA624654")>
+Here is link #101: https://boards.greenhouse.io/varismexico/jobs/4061993005
+--------------------------------
+102/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-AAB20F4E-E4D8-4E14-9247-8ECC8C84C5EA")>
+Here is link #102: https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028
+--------------------------------
+103/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-7141A99C-E5B1-4C8F-BE43-59314F834620")>
+Here is link #103: https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142
+--------------------------------
+104/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A6259C9F-A4FB-4272-AD4B-480172F30FB7")>
+Here is link #104: https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459
+--------------------------------
+105/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-5D675E79-A3EB-49E6-8571-D3F95B2FA97B")>
+Here is link #105: https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f
+--------------------------------
+106/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1BD2F81B-197F-4D3F-A97C-58E096A43AEC")>
+Here is link #106: https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply
+--------------------------------
+107/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-EA156607-0EDA-4623-89D4-D3E9E0769DBC")>
+Here is link #107: https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply
+--------------------------------
+108/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-2314927B-E717-4DFA-B835-61D160A0D305")>
+Here is link #108: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply
+--------------------------------
+109/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F40024F3-14F1-409A-B418-A5A2FAAD3371")>
+Here is link #109: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply
+--------------------------------
+110/110
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-45385C01-ED84-4D1D-90EF-D51BBA2B2140")>
+Here is link #110: https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-45385C01-ED84-4D1D-90EF-D51BBA2B2140")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 110
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 16791
+Scrolled...
+New Height == 16791
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+111/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-81E12052-A46D-4F0A-BD55-153E1D5B5298")>
+Here is link #111: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply
+--------------------------------
+112/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-43655471-E745-4DC0-B7FA-57B2C0CE5F44")>
+Here is link #112: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply
+--------------------------------
+113/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-95028F87-687C-4FAF-8280-A05CB526F3CC")>
+Here is link #113: https://boards.greenhouse.io/embed/job_board?for=Databricks
+--------------------------------
+114/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-6A52564D-423C-4CA6-A5F3-BB789920CA83")>
+Here is link #114: https://boards.greenhouse.io/schonfeld/jobs/5268396
+--------------------------------
+115/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-82F5FF67-12B2-4282-8155-6930BCF55EA5")>
+Here is link #115: https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply
+--------------------------------
+116/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-31FD4831-CF9B-4440-8AF6-9AE4D5AF6AAC")>
+Here is link #116: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f
+--------------------------------
+117/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A3D022E4-4FB0-4D41-8E1E-7BE7B46741B7")>
+Here is link #117: https://boards.greenhouse.io/embed/job_board?for=Coinbase
+--------------------------------
+118/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-708ABA2A-9E5A-4C70-BE06-D40739AC25B2")>
+Here is link #118: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163
+--------------------------------
+119/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-93CF9C94-2121-43D9-810E-2C9B820E89D9")>
+Here is link #119: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7
+--------------------------------
+120/120
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BFB3C963-AF50-43EF-89E0-CC89D817633B")>
+Here is link #120: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BFB3C963-AF50-43EF-89E0-CC89D817633B")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 120
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 18460
+Scrolled...
+New Height == 18460
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+121/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-685C74DB-804F-478A-95C9-EDADD2A9A770")>
+Here is link #121: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply
+--------------------------------
+122/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-5A03EC88-ECC8-4654-BD7B-A6112B9EA73E")>
+Here is link #122: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply
+--------------------------------
+123/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F449B6B6-FA73-49AD-A0E8-AC2553BB00EC")>
+Here is link #123: https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6
+--------------------------------
+124/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-A2D4A38D-A9D4-469B-801C-0B36EC8680EA")>
+Here is link #124: https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply
+--------------------------------
+125/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-51E8F0FC-9C6F-4737-B27F-E6C1C979B05E")>
+Here is link #125: https://boards.greenhouse.io/discord/jobs/6873236002
+--------------------------------
+126/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-30F8A93D-2ADE-4AA7-A693-3C28CD2F5A4B")>
+Here is link #126: https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002
+--------------------------------
+127/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-3AE14D81-C25F-4663-84E4-DB3B4BBFF8C3")>
+Here is link #127: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69
+--------------------------------
+128/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-3672D7BE-237D-414C-8687-B039E678EC01")>
+Here is link #128: https://boards.greenhouse.io/celonis/jobs/5695969003
+--------------------------------
+129/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BFCF095B-2089-4B9C-9B4F-36659F47AC18")>
+Here is link #129: https://boards.greenhouse.io/celonis/jobs/5703199003
+--------------------------------
+130/130
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D58330A8-1781-42E9-8525-D9D55693CD36")>
+Here is link #130: https://boards.greenhouse.io/celonis/jobs/5656487003
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D58330A8-1781-42E9-8525-D9D55693CD36")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 130
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 19934
+Scrolled...
+New Height == 19934
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+131/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F7947198-807D-408F-A767-38EC45A5F08E")>
+Here is link #131: https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235
+--------------------------------
+132/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-1CA16402-FD1B-4B8F-9156-CEA4E48C8957")>
+Here is link #132: https://boards.greenhouse.io/embed/job_board?for=CockroachLabs
+--------------------------------
+133/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-3690BBF5-7AE6-4E58-AA60-768A66B7BC4A")>
+Here is link #133: https://boards.greenhouse.io/yprime/jobs/4263471006
+--------------------------------
+134/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F4676BD6-1EB7-490E-A461-8A7C7F7249F8")>
+Here is link #134: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply
+--------------------------------
+135/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-30DD9F70-C566-47D2-BF68-F8B5A225ACBC")>
+Here is link #135: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc
+--------------------------------
+136/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-75920228-9E94-46B4-BFBB-02B5C2B14D56")>
+Here is link #136: https://boards.greenhouse.io/atlassand
+--------------------------------
+137/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-DFAF4D83-D108-4B47-B09E-71835BD1FF36")>
+Here is link #137: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply
+--------------------------------
+138/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-CCC64EA3-80DC-4DB9-940D-FCBEC551B64A")>
+Here is link #138: https://boards.greenhouse.io/smartbear/jobs/5698359003
+--------------------------------
+139/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-3E35ED78-99D2-4421-A2A6-3657E1BB30E7")>
+Here is link #139: https://boards.greenhouse.io/impact
+--------------------------------
+140/140
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-FB8F8E1F-33AE-4126-8CFB-336AD3E603D8")>
+Here is link #140: https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-FB8F8E1F-33AE-4126-8CFB-336AD3E603D8")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 140
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 21408
+Scrolled...
+New Height == 21408
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+141/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-0B200D19-621F-4F2C-963B-70E26063D8B8")>
+Here is link #141: https://boards.greenhouse.io/embed/job_board?for=natera
+--------------------------------
+142/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-88A103A2-A76C-4813-9F28-7CD1F5436D96")>
+Here is link #142: https://boards.greenhouse.io/financialtimes33
+--------------------------------
+143/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-98BDF216-1E34-4E0B-82C7-E038E1F7BAF9")>
+Here is link #143: https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002
+--------------------------------
+144/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-38C5C8F7-E2E0-418E-8AE8-26A5563BD8D5")>
+Here is link #144: https://boards.eu.greenhouse.io/aeguana/jobs/4202254101
+--------------------------------
+145/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-14BC41FC-32F4-44DB-8408-C889BB5046EA")>
+Here is link #145: https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006
+--------------------------------
+146/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-2EF460DC-8E7E-441C-B2F0-C2009D54C3E3")>
+Here is link #146: https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b
+--------------------------------
+147/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-BAD8874F-C681-48F0-8064-28598A31823B")>
+Here is link #147: https://boards.greenhouse.io/vouchinsurance
+--------------------------------
+148/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-89F5CE12-3412-47F7-A88F-EB68CFF04E21")>
+Here is link #148: https://boards.eu.greenhouse.io/darktracelimited
+--------------------------------
+149/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-843D6E4B-2931-49DA-A517-6F9C5EE14D45")>
+Here is link #149: https://boards.eu.greenhouse.io/mangopay/jobs/4202214101
+--------------------------------
+150/150
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D3853E3F-5A1D-4537-8E35-5DC8C742C054")>
+Here is link #150: https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-D3853E3F-5A1D-4537-8E35-5DC8C742C054")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 150
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 22882
+Scrolled...
+New Height == 22882
+Found the more_results button
+Clicked 'More results' button
+--------------------------------
+151/154
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-6E3826AB-38E2-4B2F-B3D1-7532747A4BFA")>
+Here is link #151: https://boards.greenhouse.io/sonymusic
+--------------------------------
+152/154
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-F0D91CD6-7C9F-4C88-AD71-893430A1F5D3")>
+Here is link #152: https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us
+--------------------------------
+153/154
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-B9FCF76E-DC06-4633-AE7D-D7DB50CA509E")>
+Here is link #153: https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8
+--------------------------------
+154/154
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-6E5B4380-BA26-42C6-B7F9-16861D6EC7F5")>
+Here is link #154: https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+<selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-6E5B4380-BA26-42C6-B7F9-16861D6EC7F5")>
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+I am at end of search_results()...
+First Index = 0 && Last Index = 154
+
+
+
+
+increment_search_results
+****************************************************************
+Current Height == 23550
+Scrolled...
+New Height == 23550
+No more search results
+I'm the issue 2
+I'm the issue 4
+--------------------------------------------
+Results from this Google Search: 
+Result #1 from Google Seaech
+	Job Title: https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322
+	Link to Job: https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322
+Result #2 from Google Seaech
+	Job Title: https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002
+	Link to Job: https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002
+Result #3 from Google Seaech
+	Job Title: https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002
+	Link to Job: https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002
+Result #4 from Google Seaech
+	Job Title: https://boards.eu.greenhouse.io/optimove/jobs/4201600101
+	Link to Job: https://boards.eu.greenhouse.io/optimove/jobs/4201600101
+Result #5 from Google Seaech
+	Job Title: https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002
+	Link to Job: https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002
+Result #6 from Google Seaech
+	Job Title: https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002
+	Link to Job: https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002
+Result #7 from Google Seaech
+	Job Title: https://boards.greenhouse.io/angi/jobs/6872830002
+	Link to Job: https://boards.greenhouse.io/angi/jobs/6872830002
+Result #8 from Google Seaech
+	Job Title: https://boards.greenhouse.io/purestorage
+	Link to Job: https://boards.greenhouse.io/purestorage
+Result #9 from Google Seaech
+	Job Title: https://boards.greenhouse.io/torcrobotics/jobs/6867126002
+	Link to Job: https://boards.greenhouse.io/torcrobotics/jobs/6867126002
+Result #10 from Google Seaech
+	Job Title: https://boards.greenhouse.io/horizon3/jobs/4938633004
+	Link to Job: https://boards.greenhouse.io/horizon3/jobs/4938633004
+Result #11 from Google Seaech
+	Job Title: https://boards.greenhouse.io/mineral/jobs/4263271006
+	Link to Job: https://boards.greenhouse.io/mineral/jobs/4263271006
+Result #12 from Google Seaech
+	Job Title: https://boards.greenhouse.io/reddit/jobs/5231486
+	Link to Job: https://boards.greenhouse.io/reddit/jobs/5231486
+Result #13 from Google Seaech
+	Job Title: https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002
+	Link to Job: https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002
+Result #14 from Google Seaech
+	Job Title: https://boards.greenhouse.io/twilio
+	Link to Job: https://boards.greenhouse.io/twilio
+Result #15 from Google Seaech
+	Job Title: https://boards.greenhouse.io/ezcaterinc/jobs/4047288007
+	Link to Job: https://boards.greenhouse.io/ezcaterinc/jobs/4047288007
+Result #16 from Google Seaech
+	Job Title: https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta
+	Link to Job: https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta
+Result #17 from Google Seaech
+	Job Title: https://boards.greenhouse.io/humane/jobs/4946389004
+	Link to Job: https://boards.greenhouse.io/humane/jobs/4946389004
+Result #18 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions
+Result #19 from Google Seaech
+	Job Title: https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002
+	Link to Job: https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002
+Result #20 from Google Seaech
+	Job Title: https://boards.greenhouse.io/excelity/jobs/5576381003
+	Link to Job: https://boards.greenhouse.io/excelity/jobs/5576381003
+Result #21 from Google Seaech
+	Job Title: https://boards.greenhouse.io/kaizengaming/jobs/5702151003
+	Link to Job: https://boards.greenhouse.io/kaizengaming/jobs/5702151003
+Result #22 from Google Seaech
+	Job Title: https://boards.greenhouse.io/blueconic/jobs/6866826002
+	Link to Job: https://boards.greenhouse.io/blueconic/jobs/6866826002
+Result #23 from Google Seaech
+	Job Title: https://boards.greenhouse.io/mighty
+	Link to Job: https://boards.greenhouse.io/mighty
+Result #24 from Google Seaech
+	Job Title: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c
+	Link to Job: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c
+Result #25 from Google Seaech
+	Job Title: https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85
+	Link to Job: https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85
+Result #26 from Google Seaech
+	Job Title: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31
+	Link to Job: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31
+Result #27 from Google Seaech
+	Job Title: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926
+	Link to Job: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926
+Result #28 from Google Seaech
+	Job Title: https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407
+	Link to Job: https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407
+Result #29 from Google Seaech
+	Job Title: https://boards.greenhouse.io/redcellpartners/jobs/4044912007
+	Link to Job: https://boards.greenhouse.io/redcellpartners/jobs/4044912007
+Result #30 from Google Seaech
+	Job Title: https://boards.greenhouse.io/poshmark/jobs/5267627
+	Link to Job: https://boards.greenhouse.io/poshmark/jobs/5267627
+Result #31 from Google Seaech
+	Job Title: https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002
+	Link to Job: https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002
+Result #32 from Google Seaech
+	Job Title: https://boards.greenhouse.io/phaidra/jobs/4300516005
+	Link to Job: https://boards.greenhouse.io/phaidra/jobs/4300516005
+Result #33 from Google Seaech
+	Job Title: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154
+	Link to Job: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154
+Result #34 from Google Seaech
+	Job Title: https://boards.eu.greenhouse.io/leapwork/jobs/4202346101
+	Link to Job: https://boards.eu.greenhouse.io/leapwork/jobs/4202346101
+Result #35 from Google Seaech
+	Job Title: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83
+	Link to Job: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83
+Result #36 from Google Seaech
+	Job Title: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670
+	Link to Job: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670
+Result #37 from Google Seaech
+	Job Title: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1
+	Link to Job: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1
+Result #38 from Google Seaech
+	Job Title: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18
+	Link to Job: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18
+Result #39 from Google Seaech
+	Job Title: https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply
+	Link to Job: https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply
+Result #40 from Google Seaech
+	Job Title: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060
+	Link to Job: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060
+Result #41 from Google Seaech
+	Job Title: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d
+	Link to Job: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d
+Result #42 from Google Seaech
+	Job Title: https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7
+	Link to Job: https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7
+Result #43 from Google Seaech
+	Job Title: https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858
+	Link to Job: https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858
+Result #44 from Google Seaech
+	Job Title: https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply
+	Link to Job: https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply
+Result #45 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail
+Result #46 from Google Seaech
+	Job Title: https://boards.greenhouse.io/poshmark/jobs/5269111
+	Link to Job: https://boards.greenhouse.io/poshmark/jobs/5269111
+Result #47 from Google Seaech
+	Job Title: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64
+	Link to Job: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64
+Result #48 from Google Seaech
+	Job Title: https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b
+	Link to Job: https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b
+Result #49 from Google Seaech
+	Job Title: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply
+	Link to Job: https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply
+Result #50 from Google Seaech
+	Job Title: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply
+	Link to Job: https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply
+Result #51 from Google Seaech
+	Job Title: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply
+	Link to Job: https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply
+Result #52 from Google Seaech
+	Job Title: https://boards.greenhouse.io/g2crowd/jobs/5268926
+	Link to Job: https://boards.greenhouse.io/g2crowd/jobs/5268926
+Result #53 from Google Seaech
+	Job Title: https://boards.greenhouse.io/aetion/jobs/5267264
+	Link to Job: https://boards.greenhouse.io/aetion/jobs/5267264
+Result #54 from Google Seaech
+	Job Title: https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c
+	Link to Job: https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c
+Result #55 from Google Seaech
+	Job Title: https://boards.greenhouse.io/twinhealth/jobs/4946271004
+	Link to Job: https://boards.greenhouse.io/twinhealth/jobs/4946271004
+Result #56 from Google Seaech
+	Job Title: https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply
+	Link to Job: https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply
+Result #57 from Google Seaech
+	Job Title: https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+	Link to Job: https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+Result #58 from Google Seaech
+	Job Title: https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply
+	Link to Job: https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply
+Result #59 from Google Seaech
+	Job Title: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply
+	Link to Job: https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply
+Result #60 from Google Seaech
+	Job Title: https://boards.greenhouse.io/tusimple/jobs/6871574002
+	Link to Job: https://boards.greenhouse.io/tusimple/jobs/6871574002
+Result #61 from Google Seaech
+	Job Title: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply
+	Link to Job: https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply
+Result #62 from Google Seaech
+	Job Title: https://boards.greenhouse.io/magicleapinc/jobs/5267549
+	Link to Job: https://boards.greenhouse.io/magicleapinc/jobs/5267549
+Result #63 from Google Seaech
+	Job Title: https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply
+	Link to Job: https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply
+Result #64 from Google Seaech
+	Job Title: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply
+	Link to Job: https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply
+Result #65 from Google Seaech
+	Job Title: https://boards.greenhouse.io/twilio/jobs/5265532
+	Link to Job: https://boards.greenhouse.io/twilio/jobs/5265532
+Result #66 from Google Seaech
+	Job Title: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5
+	Link to Job: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5
+Result #67 from Google Seaech
+	Job Title: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7
+	Link to Job: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7
+Result #68 from Google Seaech
+	Job Title: https://boards.greenhouse.io/dialpad/jobs/6860058002
+	Link to Job: https://boards.greenhouse.io/dialpad/jobs/6860058002
+Result #69 from Google Seaech
+	Job Title: https://boards.greenhouse.io/alertinnovation/jobs/4299414005
+	Link to Job: https://boards.greenhouse.io/alertinnovation/jobs/4299414005
+Result #70 from Google Seaech
+	Job Title: https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply
+	Link to Job: https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply
+Result #71 from Google Seaech
+	Job Title: https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply
+	Link to Job: https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply
+Result #72 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348
+Result #73 from Google Seaech
+	Job Title: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75
+	Link to Job: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75
+Result #74 from Google Seaech
+	Job Title: https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com
+	Link to Job: https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com
+Result #75 from Google Seaech
+	Job Title: https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002
+	Link to Job: https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002
+Result #76 from Google Seaech
+	Job Title: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c
+	Link to Job: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c
+Result #77 from Google Seaech
+	Job Title: https://boards.greenhouse.io/taepwm
+	Link to Job: https://boards.greenhouse.io/taepwm
+Result #78 from Google Seaech
+	Job Title: https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply
+	Link to Job: https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply
+Result #79 from Google Seaech
+	Job Title: https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+	Link to Job: https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+Result #80 from Google Seaech
+	Job Title: https://boards.greenhouse.io/reltio/jobs/4938888004
+	Link to Job: https://boards.greenhouse.io/reltio/jobs/4938888004
+Result #81 from Google Seaech
+	Job Title: https://boards.greenhouse.io/opendoor/jobs/4255202006
+	Link to Job: https://boards.greenhouse.io/opendoor/jobs/4255202006
+Result #82 from Google Seaech
+	Job Title: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply
+	Link to Job: https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply
+Result #83 from Google Seaech
+	Job Title: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply
+	Link to Job: https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply
+Result #84 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003
+Result #85 from Google Seaech
+	Job Title: https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us
+	Link to Job: https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us
+Result #86 from Google Seaech
+	Job Title: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply
+	Link to Job: https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply
+Result #87 from Google Seaech
+	Job Title: https://boards.greenhouse.io/rocketlab/jobs/5701424003
+	Link to Job: https://boards.greenhouse.io/rocketlab/jobs/5701424003
+Result #88 from Google Seaech
+	Job Title: https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood
+	Link to Job: https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood
+Result #89 from Google Seaech
+	Job Title: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply
+	Link to Job: https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply
+Result #90 from Google Seaech
+	Job Title: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply
+	Link to Job: https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply
+Result #91 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004
+Result #92 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html
+	Link to Job: https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html
+Result #93 from Google Seaech
+	Job Title: https://boards.greenhouse.io/oanda/jobs/5699808003
+	Link to Job: https://boards.greenhouse.io/oanda/jobs/5699808003
+Result #94 from Google Seaech
+	Job Title: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884
+	Link to Job: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884
+Result #95 from Google Seaech
+	Job Title: https://boards.greenhouse.io/neocybernetica/jobs/4301497005
+	Link to Job: https://boards.greenhouse.io/neocybernetica/jobs/4301497005
+Result #96 from Google Seaech
+	Job Title: https://boards.greenhouse.io/ezcaterinc
+	Link to Job: https://boards.greenhouse.io/ezcaterinc
+Result #97 from Google Seaech
+	Job Title: https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs
+	Link to Job: https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs
+Result #98 from Google Seaech
+	Job Title: https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e
+	Link to Job: https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e
+Result #99 from Google Seaech
+	Job Title: https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31
+	Link to Job: https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31
+Result #100 from Google Seaech
+	Job Title: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply
+	Link to Job: https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply
+Result #101 from Google Seaech
+	Job Title: https://boards.greenhouse.io/varismexico/jobs/4061993005
+	Link to Job: https://boards.greenhouse.io/varismexico/jobs/4061993005
+Result #102 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028
+Result #103 from Google Seaech
+	Job Title: https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142
+	Link to Job: https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142
+Result #104 from Google Seaech
+	Job Title: https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459
+	Link to Job: https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459
+Result #105 from Google Seaech
+	Job Title: https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f
+	Link to Job: https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f
+Result #106 from Google Seaech
+	Job Title: https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply
+	Link to Job: https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply
+Result #107 from Google Seaech
+	Job Title: https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply
+	Link to Job: https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply
+Result #108 from Google Seaech
+	Job Title: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply
+	Link to Job: https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply
+Result #109 from Google Seaech
+	Job Title: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply
+	Link to Job: https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply
+Result #110 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa
+Result #111 from Google Seaech
+	Job Title: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply
+	Link to Job: https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply
+Result #112 from Google Seaech
+	Job Title: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply
+	Link to Job: https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply
+Result #113 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_board?for=Databricks
+	Link to Job: https://boards.greenhouse.io/embed/job_board?for=Databricks
+Result #114 from Google Seaech
+	Job Title: https://boards.greenhouse.io/schonfeld/jobs/5268396
+	Link to Job: https://boards.greenhouse.io/schonfeld/jobs/5268396
+Result #115 from Google Seaech
+	Job Title: https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply
+	Link to Job: https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply
+Result #116 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f
+	Link to Job: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f
+Result #117 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_board?for=Coinbase
+	Link to Job: https://boards.greenhouse.io/embed/job_board?for=Coinbase
+Result #118 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163
+	Link to Job: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163
+Result #119 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7
+	Link to Job: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7
+Result #120 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply
+	Link to Job: https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply
+Result #121 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply
+	Link to Job: https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply
+Result #122 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply
+	Link to Job: https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply
+Result #123 from Google Seaech
+	Job Title: https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6
+	Link to Job: https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6
+Result #124 from Google Seaech
+	Job Title: https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply
+	Link to Job: https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply
+Result #125 from Google Seaech
+	Job Title: https://boards.greenhouse.io/discord/jobs/6873236002
+	Link to Job: https://boards.greenhouse.io/discord/jobs/6873236002
+Result #126 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002
+Result #127 from Google Seaech
+	Job Title: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69
+	Link to Job: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69
+Result #128 from Google Seaech
+	Job Title: https://boards.greenhouse.io/celonis/jobs/5695969003
+	Link to Job: https://boards.greenhouse.io/celonis/jobs/5695969003
+Result #129 from Google Seaech
+	Job Title: https://boards.greenhouse.io/celonis/jobs/5703199003
+	Link to Job: https://boards.greenhouse.io/celonis/jobs/5703199003
+Result #130 from Google Seaech
+	Job Title: https://boards.greenhouse.io/celonis/jobs/5656487003
+	Link to Job: https://boards.greenhouse.io/celonis/jobs/5656487003
+Result #131 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235
+Result #132 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_board?for=CockroachLabs
+	Link to Job: https://boards.greenhouse.io/embed/job_board?for=CockroachLabs
+Result #133 from Google Seaech
+	Job Title: https://boards.greenhouse.io/yprime/jobs/4263471006
+	Link to Job: https://boards.greenhouse.io/yprime/jobs/4263471006
+Result #134 from Google Seaech
+	Job Title: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply
+	Link to Job: https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply
+Result #135 from Google Seaech
+	Job Title: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc
+	Link to Job: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc
+Result #136 from Google Seaech
+	Job Title: https://boards.greenhouse.io/atlassand
+	Link to Job: https://boards.greenhouse.io/atlassand
+Result #137 from Google Seaech
+	Job Title: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply
+	Link to Job: https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply
+Result #138 from Google Seaech
+	Job Title: https://boards.greenhouse.io/smartbear/jobs/5698359003
+	Link to Job: https://boards.greenhouse.io/smartbear/jobs/5698359003
+Result #139 from Google Seaech
+	Job Title: https://boards.greenhouse.io/impact
+	Link to Job: https://boards.greenhouse.io/impact
+Result #140 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002
+Result #141 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_board?for=natera
+	Link to Job: https://boards.greenhouse.io/embed/job_board?for=natera
+Result #142 from Google Seaech
+	Job Title: https://boards.greenhouse.io/financialtimes33
+	Link to Job: https://boards.greenhouse.io/financialtimes33
+Result #143 from Google Seaech
+	Job Title: https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002
+	Link to Job: https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002
+Result #144 from Google Seaech
+	Job Title: https://boards.eu.greenhouse.io/aeguana/jobs/4202254101
+	Link to Job: https://boards.eu.greenhouse.io/aeguana/jobs/4202254101
+Result #145 from Google Seaech
+	Job Title: https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006
+Result #146 from Google Seaech
+	Job Title: https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b
+	Link to Job: https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b
+Result #147 from Google Seaech
+	Job Title: https://boards.greenhouse.io/vouchinsurance
+	Link to Job: https://boards.greenhouse.io/vouchinsurance
+Result #148 from Google Seaech
+	Job Title: https://boards.eu.greenhouse.io/darktracelimited
+	Link to Job: https://boards.eu.greenhouse.io/darktracelimited
+Result #149 from Google Seaech
+	Job Title: https://boards.eu.greenhouse.io/mangopay/jobs/4202214101
+	Link to Job: https://boards.eu.greenhouse.io/mangopay/jobs/4202214101
+Result #150 from Google Seaech
+	Job Title: https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas
+	Link to Job: https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas
+Result #151 from Google Seaech
+	Job Title: https://boards.greenhouse.io/sonymusic
+	Link to Job: https://boards.greenhouse.io/sonymusic
+Result #152 from Google Seaech
+	Job Title: https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us
+	Link to Job: https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us
+Result #153 from Google Seaech
+	Job Title: https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8
+	Link to Job: https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8
+Result #154 from Google Seaech
+	Job Title: https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+	Link to Job: https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+--------------------------------------------
+Returning back to JobSearchWorkflow
+
+
+DOPE
+['https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322', 'https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002', 'https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002', 'https://boards.eu.greenhouse.io/optimove/jobs/4201600101', 'https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002', 'https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002', 'https://boards.greenhouse.io/angi/jobs/6872830002', 'https://boards.greenhouse.io/purestorage', 'https://boards.greenhouse.io/torcrobotics/jobs/6867126002', 'https://boards.greenhouse.io/horizon3/jobs/4938633004', 'https://boards.greenhouse.io/mineral/jobs/4263271006', 'https://boards.greenhouse.io/reddit/jobs/5231486', 'https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002', 'https://boards.greenhouse.io/twilio', 'https://boards.greenhouse.io/ezcaterinc/jobs/4047288007', 'https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta', 'https://boards.greenhouse.io/humane/jobs/4946389004', 'https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions', 'https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002', 'https://boards.greenhouse.io/excelity/jobs/5576381003', 'https://boards.greenhouse.io/kaizengaming/jobs/5702151003', 'https://boards.greenhouse.io/blueconic/jobs/6866826002', 'https://boards.greenhouse.io/mighty', 'https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c', 'https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85', 'https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31', 'https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926', 'https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407', 'https://boards.greenhouse.io/redcellpartners/jobs/4044912007', 'https://boards.greenhouse.io/poshmark/jobs/5267627', 'https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002', 'https://boards.greenhouse.io/phaidra/jobs/4300516005', 'https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154', 'https://boards.eu.greenhouse.io/leapwork/jobs/4202346101', 'https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83', 'https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670', 'https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1', 'https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18', 'https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply', 'https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060', 'https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d', 'https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7', 'https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858', 'https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply', 'https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail', 'https://boards.greenhouse.io/poshmark/jobs/5269111', 'https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64', 'https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b', 'https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply', 'https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply', 'https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply', 'https://boards.greenhouse.io/g2crowd/jobs/5268926', 'https://boards.greenhouse.io/aetion/jobs/5267264', 'https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c', 'https://boards.greenhouse.io/twinhealth/jobs/4946271004', 'https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply', 'https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com', 'https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply', 'https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply', 'https://boards.greenhouse.io/tusimple/jobs/6871574002', 'https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply', 'https://boards.greenhouse.io/magicleapinc/jobs/5267549', 'https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply', 'https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply', 'https://boards.greenhouse.io/twilio/jobs/5265532', 'https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5', 'https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7', 'https://boards.greenhouse.io/dialpad/jobs/6860058002', 'https://boards.greenhouse.io/alertinnovation/jobs/4299414005', 'https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply', 'https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply', 'https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348', 'https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75', 'https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com', 'https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002', 'https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c', 'https://boards.greenhouse.io/taepwm', 'https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply', 'https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com', 'https://boards.greenhouse.io/reltio/jobs/4938888004', 'https://boards.greenhouse.io/opendoor/jobs/4255202006', 'https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply', 'https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply', 'https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003', 'https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us', 'https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply', 'https://boards.greenhouse.io/rocketlab/jobs/5701424003', 'https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood', 'https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply', 'https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply', 'https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004', 'https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html', 'https://boards.greenhouse.io/oanda/jobs/5699808003', 'https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884', 'https://boards.greenhouse.io/neocybernetica/jobs/4301497005', 'https://boards.greenhouse.io/ezcaterinc', 'https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs', 'https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e', 'https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31', 'https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply', 'https://boards.greenhouse.io/varismexico/jobs/4061993005', 'https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028', 'https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142', 'https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459', 'https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f', 'https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply', 'https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply', 'https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply', 'https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply', 'https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa', 'https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply', 'https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply', 'https://boards.greenhouse.io/embed/job_board?for=Databricks', 'https://boards.greenhouse.io/schonfeld/jobs/5268396', 'https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply', 'https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f', 'https://boards.greenhouse.io/embed/job_board?for=Coinbase', 'https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163', 'https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7', 'https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply', 'https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply', 'https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply', 'https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6', 'https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply', 'https://boards.greenhouse.io/discord/jobs/6873236002', 'https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002', 'https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69', 'https://boards.greenhouse.io/celonis/jobs/5695969003', 'https://boards.greenhouse.io/celonis/jobs/5703199003', 'https://boards.greenhouse.io/celonis/jobs/5656487003', 'https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235', 'https://boards.greenhouse.io/embed/job_board?for=CockroachLabs', 'https://boards.greenhouse.io/yprime/jobs/4263471006', 'https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply', 'https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc', 'https://boards.greenhouse.io/atlassand', 'https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply', 'https://boards.greenhouse.io/smartbear/jobs/5698359003', 'https://boards.greenhouse.io/impact', 'https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002', 'https://boards.greenhouse.io/embed/job_board?for=natera', 'https://boards.greenhouse.io/financialtimes33', 'https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002', 'https://boards.eu.greenhouse.io/aeguana/jobs/4202254101', 'https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006', 'https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b', 'https://boards.greenhouse.io/vouchinsurance', 'https://boards.eu.greenhouse.io/darktracelimited', 'https://boards.eu.greenhouse.io/mangopay/jobs/4202214101', 'https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas', 'https://boards.greenhouse.io/sonymusic', 'https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us', 'https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8', 'https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736']
+DOPER
+filter_through_google_search_results()
+
+convert_csv_data() =
+[['https://boards.greenhouse.io/mill/jobs/4001487005', 'Mill', 'Software Engineer', 'San Bruno , California', '', '75893-6969', '2023-03-14 08:14:32']]
+
+ensure_no_duplicates()
+
+get_job_links_users_applied_to() =
+If my calculations are correct this should print a link MUAH HA HA... https://boards.greenhouse.io/mill/jobs/4001487005
+These are all the links you already applied to... Tom
+['https://boards.greenhouse.io/mill/jobs/4001487005']
+And this is when you last applied... Tom
+2023-03-14 08:14:32
+
+filter_out_jobs_user_previously_applied_to()
+
+encapsulate_companies_urls()
+1) company_filtered_list = ['https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002', 'https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002', 'https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002', 'https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002', 'https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002']
+2) company_filtered_list = ['https://boards.greenhouse.io/twilio', 'https://boards.greenhouse.io/twilio/jobs/5265532']
+3) company_filtered_list = ['https://boards.greenhouse.io/ezcaterinc/jobs/4047288007', 'https://boards.greenhouse.io/ezcaterinc']
+4) company_filtered_list = ['https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions', 'https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail', 'https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348', 'https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003', 'https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004', 'https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html', 'https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028', 'https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa', 'https://boards.greenhouse.io/embed/job_board?for=Databricks', 'https://boards.greenhouse.io/embed/job_board?for=Coinbase', 'https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002', 'https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235', 'https://boards.greenhouse.io/embed/job_board?for=CockroachLabs', 'https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002', 'https://boards.greenhouse.io/embed/job_board?for=natera', 'https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006']
+5) company_filtered_list = ['https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c', 'https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply']
+6) company_filtered_list = ['https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31', 'https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply', 'https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply']
+7) company_filtered_list = ['https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926', 'https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply']
+8) company_filtered_list = ['https://boards.greenhouse.io/poshmark/jobs/5267627', 'https://boards.greenhouse.io/poshmark/jobs/5269111']
+9) company_filtered_list = ['https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154', 'https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply']
+10) company_filtered_list = ['https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83', 'https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply']
+11) company_filtered_list = ['https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670', 'https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply', 'https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply']
+12) company_filtered_list = ['https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1', 'https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64', 'https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply', 'https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply', 'https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply']
+13) company_filtered_list = ['https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18', 'https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply']
+14) company_filtered_list = ['https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060', 'https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply']
+15) company_filtered_list = ['https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d', 'https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply']
+16) company_filtered_list = ['https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5', 'https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply']
+17) company_filtered_list = ['https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7', 'https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply']
+18) company_filtered_list = ['https://boards.greenhouse.io/dialpad/jobs/6860058002', 'https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com']
+19) company_filtered_list = ['https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75', 'https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply']
+20) company_filtered_list = ['https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c', 'https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply']
+21) company_filtered_list = ['https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us', 'https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us']
+22) company_filtered_list = ['https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884', 'https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply']
+23) company_filtered_list = ['https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs', 'https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e', 'https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31']
+24) company_filtered_list = ['https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459', 'https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f']
+25) company_filtered_list = ['https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f', 'https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163', 'https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7', 'https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply', 'https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply', 'https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply', 'https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply']
+26) company_filtered_list = ['https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69', 'https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply', 'https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc', 'https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply']
+27) company_filtered_list = ['https://boards.greenhouse.io/celonis/jobs/5695969003', 'https://boards.greenhouse.io/celonis/jobs/5703199003', 'https://boards.greenhouse.io/celonis/jobs/5656487003']
+
+
+    Sup Norrington
+Index | List to Filter URL | Updated Google Search Results URL
+------|-------------------|-----------------------------------
+    0 | https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322 | https://boards.greenhouse.io/justworks/jobs/5204322?gh_jid=5204322
+    1 | https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002 | https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002
+    2 | https://boards.greenhouse.io/spacex/jobs/6871208002?gh_jid=6871208002 | https://boards.eu.greenhouse.io/optimove/jobs/4201600101
+    3 | https://boards.eu.greenhouse.io/optimove/jobs/4201600101 | https://boards.greenhouse.io/angi/jobs/6872830002
+    4 | https://boards.greenhouse.io/spacex/jobs/6865614002?gh_jid=6865614002 | https://boards.greenhouse.io/purestorage
+    5 | https://boards.greenhouse.io/spacex/jobs/6860320002?gh_jid=6860320002 | https://boards.greenhouse.io/torcrobotics/jobs/6867126002
+    6 | https://boards.greenhouse.io/angi/jobs/6872830002 | https://boards.greenhouse.io/horizon3/jobs/4938633004
+    7 | https://boards.greenhouse.io/purestorage | https://boards.greenhouse.io/mineral/jobs/4263271006
+    8 | https://boards.greenhouse.io/torcrobotics/jobs/6867126002 | https://boards.greenhouse.io/reddit/jobs/5231486
+    9 | https://boards.greenhouse.io/horizon3/jobs/4938633004 | https://boards.greenhouse.io/twilio
+   10 | https://boards.greenhouse.io/mineral/jobs/4263271006 | https://boards.greenhouse.io/ezcaterinc/jobs/4047288007
+   11 | https://boards.greenhouse.io/reddit/jobs/5231486 | https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta
+   12 | https://boards.greenhouse.io/spacex/jobs/6860345002?gh_jid=6860345002 | https://boards.greenhouse.io/humane/jobs/4946389004
+   13 | https://boards.greenhouse.io/twilio | https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions
+   14 | https://boards.greenhouse.io/ezcaterinc/jobs/4047288007 | https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002
+   15 | https://boards.greenhouse.io/phantomai/jobs/4060942006?utm_source=Otta | https://boards.greenhouse.io/excelity/jobs/5576381003
+   16 | https://boards.greenhouse.io/humane/jobs/4946389004 | https://boards.greenhouse.io/kaizengaming/jobs/5702151003
+   17 | https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions | https://boards.greenhouse.io/blueconic/jobs/6866826002
+   18 | https://boards.greenhouse.io/aquaticcapitalmanagement/jobs/6842906002 | https://boards.greenhouse.io/mighty
+   19 | https://boards.greenhouse.io/excelity/jobs/5576381003 | https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c
+   20 | https://boards.greenhouse.io/kaizengaming/jobs/5702151003 | https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85
+   21 | https://boards.greenhouse.io/blueconic/jobs/6866826002 | https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31
+   22 | https://boards.greenhouse.io/mighty | https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926
+   23 | https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c | https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407
+   24 | https://jobs.lever.co/smithmicro/cb6b084b-0da9-41a0-b454-256019581f85 | https://boards.greenhouse.io/redcellpartners/jobs/4044912007
+   25 | https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31 | https://boards.greenhouse.io/poshmark/jobs/5267627
+   26 | https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926 | https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002
+   27 | https://jobs.lever.co/caremessage/2093c5ea-c0f4-4d21-9608-50f790c73407 | https://boards.greenhouse.io/phaidra/jobs/4300516005
+   28 | https://boards.greenhouse.io/redcellpartners/jobs/4044912007 | https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154
+   29 | https://boards.greenhouse.io/poshmark/jobs/5267627 | https://boards.eu.greenhouse.io/leapwork/jobs/4202346101
+   30 | https://boards.greenhouse.io/relativity/jobs/6749992002?gh_jid=6749992002 | https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83
+   31 | https://boards.greenhouse.io/phaidra/jobs/4300516005 | https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670
+   32 | https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154 | https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1
+   33 | https://boards.eu.greenhouse.io/leapwork/jobs/4202346101 | https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18
+   34 | https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83 | https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply
+   35 | https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670 | https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060
+   36 | https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1 | https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d
+   37 | https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18 | https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7
+   38 | https://jobs.lever.co/mechanism-2/6bf3924f-78f5-4dfe-bf8e-061c979a13ab/apply | https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858
+   39 | https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060 | https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply
+   40 | https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d | https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b
+   41 | https://jobs.lever.co/weride/752dee2b-50d8-4276-97cc-ec1e1f0e1fb7 | https://boards.greenhouse.io/g2crowd/jobs/5268926
+   42 | https://boards.greenhouse.io/samsara/jobs/5265858?gh_jid=5265858 | https://boards.greenhouse.io/aetion/jobs/5267264
+   43 | https://jobs.lever.co/NimbleAI/54984d92-bc3e-4544-b12b-2a6bb4ce200e/apply | https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c
+   44 | https://boards.greenhouse.io/embed/job_app?for=otterai&t=null&token=5693892003&b=https%3A%2F%2Fstaging-feature-03.otter.ai%2Fjob-detail | https://boards.greenhouse.io/twinhealth/jobs/4946271004
+   45 | https://boards.greenhouse.io/poshmark/jobs/5269111 | https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com
+   46 | https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64 | https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply
+   47 | https://jobs.lever.co/talentwerx.io/e958b6de-3cb1-4159-9add-45d39eb2624b | https://boards.greenhouse.io/tusimple/jobs/6871574002
+   48 | https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154/apply | https://boards.greenhouse.io/magicleapinc/jobs/5267549
+   49 | https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d/apply | https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5
+   50 | https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670/apply | https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7
+   51 | https://boards.greenhouse.io/g2crowd/jobs/5268926 | https://boards.greenhouse.io/dialpad/jobs/6860058002
+   52 | https://boards.greenhouse.io/aetion/jobs/5267264 | https://boards.greenhouse.io/alertinnovation/jobs/4299414005
+   53 | https://jobs.lever.co/zuru/6f4168d6-bfba-4c6d-a94b-a1403bb43a5c | https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply
+   54 | https://boards.greenhouse.io/twinhealth/jobs/4946271004 | https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply
+   55 | https://jobs.lever.co/txidigital/6dc2b40c-6759-4b30-9875-882ddc4093f6/apply | https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75
+   56 | https://boards.greenhouse.io/gleanwork/jobs/4006735005?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com | https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com
+   57 | https://jobs.lever.co/GoToGroup/eadd4c1f-100e-4d1c-8276-27a65d8dd114/apply | https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002
+   58 | https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83/apply | https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c
+   59 | https://boards.greenhouse.io/tusimple/jobs/6871574002 | https://boards.greenhouse.io/taepwm
+   60 | https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1/apply | https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply
+   61 | https://boards.greenhouse.io/magicleapinc/jobs/5267549 | https://boards.greenhouse.io/reltio/jobs/4938888004
+   62 | https://jobs.lever.co/techteams/407a4ff2-6b16-4ec3-9565-7a03a304e29d/apply | https://boards.greenhouse.io/opendoor/jobs/4255202006
+   63 | https://jobs.lever.co/techteams/0367f081-9284-457c-8694-e4e086189b64/apply | https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us
+   64 | https://boards.greenhouse.io/twilio/jobs/5265532 | https://boards.greenhouse.io/rocketlab/jobs/5701424003
+   65 | https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5 | https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood
+   66 | https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7 | https://boards.greenhouse.io/oanda/jobs/5699808003
+   67 | https://boards.greenhouse.io/dialpad/jobs/6860058002 | https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884
+   68 | https://boards.greenhouse.io/alertinnovation/jobs/4299414005 | https://boards.greenhouse.io/neocybernetica/jobs/4301497005
+   69 | https://jobs.lever.co/reebelo/2aa486ad-887d-4ebd-b8f9-97384bff93a8/apply | https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs
+   70 | https://jobs.lever.co/marquetteassociates/33203e22-c782-4f04-a85e-470c6bcd47d9/apply | https://boards.greenhouse.io/varismexico/jobs/4061993005
+   71 | https://boards.greenhouse.io/embed/job_app?for=careportalinc&token=5266348 | https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142
+   72 | https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75 | https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459
+   73 | https://boards.greenhouse.io/acquia/jobs/5243848?utm_source=newsletter&utm_medium=email&utm_campaign=nocommute.substack.com | https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply
+   74 | https://boards.greenhouse.io/samsungresearchamerica/jobs/6868789002 | https://boards.greenhouse.io/schonfeld/jobs/5268396
+   75 | https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c | https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply
+   76 | https://boards.greenhouse.io/taepwm | https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f
+   77 | https://jobs.lever.co/shopback-2/a1dd98d9-9016-4f1a-816c-181889c07f87/apply | https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6
+   78 | https://boards.greenhouse.io/dialpad/jobs/6864941002?utm_source=bestaijobs.com&ref=bestaijobs.com&src=bestaijobs.com&source=bestaijobs.com | https://boards.greenhouse.io/discord/jobs/6873236002
+   79 | https://boards.greenhouse.io/reltio/jobs/4938888004 | https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69
+   80 | https://boards.greenhouse.io/opendoor/jobs/4255202006 | https://boards.greenhouse.io/celonis/jobs/5695969003
+   81 | https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5/apply | https://boards.greenhouse.io/yprime/jobs/4263471006
+   82 | https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18/apply | https://boards.greenhouse.io/atlassand
+   83 | https://boards.greenhouse.io/embed/job_app?for=postman&token=5698379003 | https://boards.greenhouse.io/smartbear/jobs/5698359003
+   84 | https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us | https://boards.greenhouse.io/impact
+   85 | https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060/apply | https://boards.greenhouse.io/financialtimes33
+   86 | https://boards.greenhouse.io/rocketlab/jobs/5701424003 | https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002
+   87 | https://boards.greenhouse.io/thealleninstitute/jobs/5230719gh_src=techjobsforgood | https://boards.eu.greenhouse.io/aeguana/jobs/4202254101
+   88 | https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926/apply | https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b
+   89 | https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c/apply | https://boards.greenhouse.io/vouchinsurance
+   90 | https://boards.greenhouse.io/embed/job_app?for=collectorsuniverse&token=4943143004 | https://boards.eu.greenhouse.io/darktracelimited
+   91 | https://boards.greenhouse.io/embed/job_board?for=jamf&b=http%3A%2F%2Fwww.cokerumm.org%2Findex-983.html | https://boards.eu.greenhouse.io/mangopay/jobs/4202214101
+   92 | https://boards.greenhouse.io/oanda/jobs/5699808003 | https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas
+   93 | https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884 | https://boards.greenhouse.io/sonymusic
+   94 | https://boards.greenhouse.io/neocybernetica/jobs/4301497005 | https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8
+   95 | https://boards.greenhouse.io/ezcaterinc | https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+   96 | https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs | N/A
+   97 | https://jobs.lever.co/veeva/cb4aa107-6140-4aba-8080-b379375d210e | N/A
+   98 | https://jobs.lever.co/veeva/5ada1cf4-548f-4a78-a312-cdb61853ec31 | N/A
+   99 | https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7/apply | N/A
+  100 | https://boards.greenhouse.io/varismexico/jobs/4061993005 | N/A
+  101 | https://boards.greenhouse.io/embed/job_app?for=cruise&token=5221028 | N/A
+  102 | https://boards.greenhouse.io/mlmultiplecareerlocations/jobs/5268142 | N/A
+  103 | https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459 | N/A
+  104 | https://jobs.lever.co/granicus/cae0828d-d0d6-4598-865c-971a2575ff2f | N/A
+  105 | https://jobs.lever.co/dodmg/b63a216b-9af8-4bc0-a1f8-a0e69bbea19e/apply | N/A
+  106 | https://jobs.lever.co/angel/85ded972-790b-443f-aac2-f80dca8ae563/apply | N/A
+  107 | https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31/apply | N/A
+  108 | https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c/apply | N/A
+  109 | https://boards.greenhouse.io/embed/job_app?for=riotgames&token=5267946&b=https%3A%2F%2Fwww.riotgames.com%2Fes%2Ftrabaja-con-nosotros%2Fjob%2F5267946%2Fstaff-software-engineer-tech-foundations-league-studio-game-engine-team-los-angeles-usa | N/A
+  110 | https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75/apply | N/A
+  111 | https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884/apply | N/A
+  112 | https://boards.greenhouse.io/embed/job_board?for=Databricks | N/A
+  113 | https://boards.greenhouse.io/schonfeld/jobs/5268396 | N/A
+  114 | https://jobs.lever.co/fanatics/0885fff7-41aa-4d26-b6b1-3790ce5dd0b6/apply | N/A
+  115 | https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f | N/A
+  116 | https://boards.greenhouse.io/embed/job_board?for=Coinbase | N/A
+  117 | https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163 | N/A
+  118 | https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7 | N/A
+  119 | https://jobs.lever.co/xepelin/7420f58a-2a08-4d76-acda-f47f544554d7/apply | N/A
+  120 | https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f/apply | N/A
+  121 | https://jobs.lever.co/xepelin/8c60bb5c-fbc1-48ac-aa51-99b6ffcee163/apply | N/A
+  122 | https://jobs.lever.co/atlassian/a10ae7e3-edc9-4c59-81d0-b87921417bd6 | N/A
+  123 | https://jobs.lever.co/xepelin/b6badc92-2d1b-4e5a-95a5-625cd9691d0c/apply | N/A
+  124 | https://boards.greenhouse.io/discord/jobs/6873236002 | N/A
+  125 | https://boards.greenhouse.io/embed/job_app?for=discord&token=6873236002 | N/A
+  126 | https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69 | N/A
+  127 | https://boards.greenhouse.io/celonis/jobs/5695969003 | N/A
+  128 | https://boards.greenhouse.io/celonis/jobs/5703199003 | N/A
+  129 | https://boards.greenhouse.io/celonis/jobs/5656487003 | N/A
+  130 | https://boards.greenhouse.io/embed/job_app?for=coinbase&token=4905235 | N/A
+  131 | https://boards.greenhouse.io/embed/job_board?for=CockroachLabs | N/A
+  132 | https://boards.greenhouse.io/yprime/jobs/4263471006 | N/A
+  133 | https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69/apply | N/A
+  134 | https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc | N/A
+  135 | https://boards.greenhouse.io/atlassand | N/A
+  136 | https://jobs.lever.co/neon/2c728338-928c-4d2a-966b-310cf57e0bbc/apply | N/A
+  137 | https://boards.greenhouse.io/smartbear/jobs/5698359003 | N/A
+  138 | https://boards.greenhouse.io/impact | N/A
+  139 | https://boards.greenhouse.io/embed/job_app?for=techstars57&token=6667319002 | N/A
+  140 | https://boards.greenhouse.io/embed/job_board?for=natera | N/A
+  141 | https://boards.greenhouse.io/financialtimes33 | N/A
+  142 | https://boards.greenhouse.io/xpincmlhr3/jobs/6858022002 | N/A
+  143 | https://boards.eu.greenhouse.io/aeguana/jobs/4202254101 | N/A
+  144 | https://boards.greenhouse.io/embed/job_app?for=interfaceai&token=4254966006 | N/A
+  145 | https://jobs.lever.co/veepee/a274e675-4961-4a1b-b373-207b25d8685b | N/A
+  146 | https://boards.greenhouse.io/vouchinsurance | N/A
+  147 | https://boards.eu.greenhouse.io/darktracelimited | N/A
+  148 | https://boards.eu.greenhouse.io/mangopay/jobs/4202214101 | N/A
+  149 | https://jobs.lever.co/shyftlabs?location=Austin%2C%20Texas | N/A
+  150 | https://boards.greenhouse.io/sonymusic | N/A
+  151 | https://boards.greenhouse.io/canonicaljobs/jobs/5263954?gh_src=8d98b1241us | N/A
+  152 | https://jobs.lever.co/margo-group/8b4c79b9-182b-421b-96e0-a2abf683f1c8 | N/A
+  153 | https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736 | N/A
+load_company_resources()
+  Loaded Users Information...
+load_custom_rules()
+dir(config) =  ['CUSTOM_RULES', 'CUSTOM_SYNONYMS', 'Q_AND_A', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__']
+Attribute: CUSTOM_RULES
+Key: Full name, Value: ['FIRST_NAME', ' ', 'MIDDLE_NAME', ' ', 'LAST_NAME']
+Key: Signature, Value: ['FIRST_NAME', ' ', 'LAST_NAME']
+Key: Address, Value: ['91293 Reje Ct.', ' ', 'USERS_CITY', ', ', 'USERS_STATE', ' ', 'USERS_ZIP_CODE']
+Key: Start Availability, Value: ['self.time_program_ran add 2 weeks']
+Key: Name and Date, Value: ['FIRST_NAME', ' ', 'LAST_NAME', ' ', 'self.time_program_ran']
+Attribute: CUSTOM_SYNONYMS
+Key: phone, Value: ['PHONE_NUMBER', 'PERSONAL_CELL', 'CELLPHONE', 'PHONE']
+Key: linkedIn profile, Value: ['LINKEDIN_PROFILE']
+Key: website, Value: ['GITHUB_URL']
+Key: github, Value: ['GITHUB_URL']
+Key: portfolio, Value: ['GITHUB_URL']
+Key: require immigration sponsorship, Value: ['US_CITIZEN']
+Key: hear about job, Value: ['COME_ACROSS_HOW']
+Attribute: Q_AND_A
+Key: summary, Value: ["I'm a hard worker. I'm always trying to learn some new topic or idea in computer science. I'm a good leader. I was a Division 1 runner so my work ethic is top-tier!"]
+  Loaded Custom Rules...
+{'Full name': ['FIRST_NAME', ' ', 'MIDDLE_NAME', ' ', 'LAST_NAME'], 'Signature': ['FIRST_NAME', ' ', 'LAST_NAME'], 'Address': ['91293 Reje Ct.', ' ', 'USERS_CITY', ', ', 'USERS_STATE', ' ', 'USERS_ZIP_CODE'], 'Start Availability': ['self.time_program_ran add 2 weeks'], 'Name and Date': ['FIRST_NAME', ' ', 'LAST_NAME', ' ', 'self.time_program_ran']}
+{'summary': ["I'm a hard worker. I'm always trying to learn some new topic or idea in computer science. I'm a good leader. I was a Division 1 runner so my work ethic is top-tier!"]}
+  Loaded Users Information...
+  Initialized nltk...
+  Loaded WordNetLemmatizer()...
+Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight
+job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+job_link_element =  <selenium.webdriver.remote.webelement.WebElement (session="39F95EED-585B-4FAD-9A38-F92E1EF63817", element="node-08F14190-247B-4559-A959-3DC82B85187B")>
+Scrolled to this place...
+
+Present in DOM: No, Error: Message: 
+
+Displayed: Yes
+Enabled: Yes
+Scroll Into View: Success
+Normal Click: Error: Message: 
+
+JavaScript Click: Success
+Has Children: Yes, count: 11
+Covered by another element: No
+safe_click()
+1) Normal click attempt
+This dumb thing didn't work!
+2) Waiting for element to be clickable attempt
+Safe click failed: Message: 
+
+Accidently clicked whoops...
+wait_for_element_explicitly()
+Or was it an accident!
+
+consolidate_job_links_by_company()
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/spacex/jobs/6860249002?gh_jid=6860249002
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/twilio
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/ezcaterinc/jobs/4047288007
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/embed/job_app?for=xendee&token=5264880&b=https%3A%2F%2Fxendee.com%2Fopen-positions
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/RaptorMaps/e2845018-aa14-4add-892d-826e1276132c
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/dodmg/af802f7f-4e44-4457-9e49-14bc47bd8b31
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/belvederetrading/d9f4b08a-322a-4097-88d9-a1a5f8222926
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/poshmark/jobs/5267627
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/PDQ/f98026ab-d90d-4d96-b33c-9ac07b946154
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/lucidmotors/63a37853-252f-4e91-b71a-d87f17881c83
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/txidigital/befeb761-5237-4536-adf4-d99e29e78670
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/techteams/3980187f-4de3-4b8e-bcb0-f9b6b7343df1
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/plaid/f39eb638-1c51-4829-b699-204dc8defb18
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/dnb/abb71508-bc06-497c-9ff7-44061ba3c060
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/gopuff/9e12773c-2a35-4ca1-9e54-39b5f4e8353d
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/gravie/4b886e45-d0e5-40f0-bf74-a1be7a7858c5
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/contentsquare/5d4eb1b8-edf1-4a5b-8281-1083a292dfb7
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/dialpad/jobs/6860058002
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/arsiem/2f24662f-9fa0-4a41-ad59-ba3286525c75
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/coupa/7f8a6d67-6b68-4aca-b0fb-0fec3337f21c
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/canonicaljobs/jobs/5160354?gh_src=0747a6631us
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/ion/7357b70e-aa47-4bc5-8750-30f9766c3884
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/veeva/47f3d956-a14f-48eb-bb38-2ed4c5bfbc0e/?lever-source%5B%5D=Diversityjobs
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/granicus/a2742274-a7da-46c5-9009-492862009459
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/xepelin/fe46122c-6ca4-4a54-83d0-bef78700035f
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://jobs.lever.co/neon/97cea82d-70dd-4549-b22a-06f56c376f69
+
+--------------------------------
+
+	job_link =  https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/celonis/jobs/5695969003
+
+--------------------------------
+
+
+
+--------------------------------------------
+Transferring power to CompanyOpeningsAndApplications
+self._companys_internal_job_openings_URL = None
+
+company_workflow()
+
+determine_application_company_name()
+
+determine_current_page()
+
+apply_beautifulsoup()
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+-Job Description Page

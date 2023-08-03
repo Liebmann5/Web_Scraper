@@ -153,8 +153,11 @@
                 "logo": [
                     {"tag": "a", "class": "main-header-logo"}
                 ],
-                "content": [
+                "job_description_page": [
                     {"tag": "div", "class": "posting-page"}
+                ],
+                "content": [
+                    {"tag": "div", "class": "content"}
                 ],
                 "banner": [
                     {"tag": "div", "class": "posting-header"}
@@ -164,6 +167,9 @@
                 ],
                 "banner_apply_button": [
                     {"tag": "a", "class": "postings-btn"}
+                ],
+                "popup_button": [
+                    {"tag": "button", "class": "cc-dismiss"}
                 ]
             },
             "data": {

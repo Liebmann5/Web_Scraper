@@ -50,6 +50,14 @@ import json
 # https://www.codementor.io/blog/python-web-scraping-63l2v9sf2q
 # https://gist.github.com/magicznyleszek/809a69dd05e1d5f12d01
 
+
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!
+# Make a method called stamp_variable() that before going to the next iteration in the index applies the 'status' key-value input to self.current_job_details!!!
+#!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 class CompanyWorkflow():
 
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
@@ -1133,6 +1141,7 @@ class CompanyWorkflow():
     def get_webpage_data(self, job_application_webpage):
         return self.website_data.get(job_application_webpage, None)
     
+    '''
     def process_webpage(self, job_application_webpage, soup):
         if not self.website_data:
             self.get_website_data()
@@ -1154,6 +1163,89 @@ class CompanyWorkflow():
 
         #return self.soup_elements.get('content')
         return
+    '''
+    
+    def process_webpage(self, job_application_webpage, soup):
+        if not self.website_data:
+            self.get_website_data()
+        page_info = self.get_webpage_data(job_application_webpage)
+
+        # Define relationships based on page_info
+        relationships = self.build_relationships(page_info)
+
+        # Extract elements based on relationships
+        extracted_elements = self.extract_elements(soup, relationships)
+
+        # Update soup elements
+        self.update_soup_elements(extracted_elements)
+
+        return
+    
+    def build_relationships(self, page_info):
+        relationships = {}
+        for element_name, element_infos in page_info["elements"].items():
+            for element_info in element_infos:
+                relationships[element_name] = {
+                    'tag': element_info.get("tag"),
+                    'class': element_info.get("class"),
+                    'id': element_info.get("id"),
+                    'data_attr': element_info.get("data_attr"),
+                    'starts_with': element_info.get("starts_with"),
+                    'ends_with': element_info.get("ends_with"),
+                    'not_equal': element_info.get("not_equal"),
+                    'contains_text': element_info.get("contains_text"),
+                    'attribute_exists': element_info.get("attribute_exists"),
+                    'relationship': element_info.get("relationship")
+                }
+        return relationships
+    
+    #Used shell here as 'regex type thing'
+    def extract_elements(self, soup, relationships):
+        elements = {}
+        for element_name, relationship in relationships.items():
+            query = {}
+            if relationship['tag']:
+                query['name'] = relationship['tag']
+            if relationship['class']:
+                query['class_'] = relationship['class']
+            if relationship['id']:
+                query['id'] = relationship['id']
+            if relationship['data_attr']:
+                query['data-*'] = relationship['data_attr']
+            if relationship['starts_with']:
+                query['*^'] = relationship['starts_with']
+            if relationship['ends_with']:
+                query['*$'] = relationship['ends_with']
+            if relationship['not_equal']:
+                query['*!='] = relationship['not_equal']
+            if relationship['contains_text']:
+                query['*~'] = relationship['contains_text']
+            if relationship['attribute_exists']:
+                query['*'] = relationship['attribute_exists']
+
+            element = soup.find(**query)
+
+            if relationship['relationship'] == 'children':
+                elements[element_name] = element.findChildren()
+            elif relationship['relationship'] == 'ancestors':
+                elements[element_name] = element.findParents()
+            elif relationship['relationship'] == 'following_siblings':
+                elements[element_name] = element.findNextSiblings()
+            elif relationship['relationship'] == 'preceding_siblings':
+                elements[element_name] = element.findPreviousSiblings()
+            else:
+                elements[element_name] = element
+
+        return elements
+    
+    def update_soup_elements(self, extracted_elements):
+        for key, element in extracted_elements.items():
+            if element and element.text:
+                # Strip leading and trailing whitespace from the text content
+                formatted_text = element.text.strip()
+                self.soup_elements[key] = formatted_text
+            else:
+                self.soup_elements[key] = element
     #********************************************************
 
     #NOTE: REMEMBER!!!! This part is basically {just get links} and basic information about the job!!!
@@ -1166,13 +1258,13 @@ class CompanyWorkflow():
             while next_elem:
                 if next_elem.name == "h2" and (job_title := next_elem.get_text().strip()):
                     self.current_jobs_details["job_title"] = job_title
-                if next_elem.name == "div" and next_elem.get("class") == "location" and (job_location := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "location" in next_elem.get("class", []) and (job_location := next_elem.get_text().strip()):
                     self.current_jobs_details["job_location"] = job_location
-                if next_elem.name == "div" and next_elem.get("class") == "department" and (company_department := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "department" in next_elem.get("class", []) and (company_department := next_elem.get_text().strip()):
                     self.current_jobs_details["company_department"] = company_department
-                if next_elem.name == "div" and next_elem.get("class") == "commitment" and (employment_type := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "commitment" in next_elem.get("class", []) and (employment_type := next_elem.get_text().strip()):
                     self.current_jobs_details["employment_type"] = employment_type
-                if next_elem.name == "div" and next_elem.get("class") == "workplaceTypes" and (job_workplaceType := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "workplaceTypes" in next_elem.get("class", []) and (job_workplaceType := next_elem.get_text().strip()):
                     self.current_jobs_details["job_workplaceType"] = job_workplaceType
                 next_elem = next_elem.find_next()
         elif self.application_company_name == "greenhouse":
@@ -2462,7 +2554,7 @@ class CompanyWorkflow():
         print("submit_element_idk = ", submit_element_idk)
         time.sleep(1)
         self.keep_jobs_applied_to_info()
-        self.sessions_applied_to_info
+        #self.sessions_applied_to_info
         return
         
         
@@ -2862,3 +2954,327 @@ class BreakLoopException(Exception):
             }
         },
     '''
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #TODO: Check out this code! Has cookies, CAPTCHA's, scripts!!! Lot's of good code!
+    '''
+<!DOCTYPE html>
+<html>
+    <head prefix="og: http://ogp.me/ns#">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <title>PhysicsX - Principal Product Designer</title>
+        <meta name="twitter:card" value="summary" />
+        <meta content="PhysicsX - Principal Product Designer" name="twitter:title" />
+        <meta
+            content="Introduction PhysicsX is a deep-tech company of scientists and engineers, developing machine learning applications to massively accelerate physics simulations and enable a new frontier of optimization opportunities in design and engineering. Born out of numerical physics and proven in Formula One, we help our customers radically improve their concepts and designs, transform their engineering processes and drive operational product performance. We do this in some of the most advanced and important industries of our time – including Space, Aerospace, Medical Devices, Additive Manufacturing, Electric Vehicles, Motorsport, and Renewables. Our work creates positive impact for society, be it by improving the design of artificial hearts, reducing CO2 emissions from aircraft and road vehicles, and increasing the performance of wind turbines. We are a rapidly growing and profitable company but prefer to fly under the radar to protect our customers’ confidentiality. We are about to take t"
+            name="twitter:description"
+        />
+        <meta name="twitter:label1" value="Location" />
+        <meta name="twitter:data1" value="Shoreditch, London" />
+        <meta name="twitter:label2" value="Team" />
+        <meta name="twitter:data2" value="Product" />
+        <meta content="https://lever-client-logos.s3.us-west-2.amazonaws.com/7d94404d-aac8-47b9-9f74-94368b53a325-1673458529981.png" name="twitter:image" />
+        <meta content="PhysicsX - Principal Product Designer" property="og:title" />
+        <meta
+            content="Introduction PhysicsX is a deep-tech company of scientists and engineers, developing machine learning applications to massively accelerate physics simulations and enable a new frontier of optimization opportunities in design and engineering. Born out of numerical physics and proven in Formula One, we help our customers radically improve their concepts and designs, transform their engineering processes and drive operational product performance. We do this in some of the most advanced and important industries of our time – including Space, Aerospace, Medical Devices, Additive Manufacturing, Electric Vehicles, Motorsport, and Renewables. Our work creates positive impact for society, be it by improving the design of artificial hearts, reducing CO2 emissions from aircraft and road vehicles, and increasing the performance of wind turbines. We are a rapidly growing and profitable company but prefer to fly under the radar to protect our customers’ confidentiality. We are about to take t"
+            property="og:description"
+        />
+        <meta content="https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736" property="og:url" />
+        <meta content="https://lever-client-logos.s3.us-west-2.amazonaws.com/7d94404d-aac8-47b9-9f74-94368b53a325-1673459191848.png" property="og:image" />
+        <meta content="630" property="og:image:height" />
+        <meta content="1200" property="og:image:width" />
+    </head>
+    <body class="show header-comfortable">
+        <div class="page show">
+            <div class="main-header page-full-width section-wrapper">
+                <div class="main-header-content page-centered narrow-section page-full-width">
+                    <a class="main-header-logo" href="https://jobs.lever.co/physicsx.ai"><img alt="PhysicsX logo" src="https://lever-client-logos.s3.us-west-2.amazonaws.com/7d94404d-aac8-47b9-9f74-94368b53a325-1673459176686.png" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="content-wrapper posting-page">
+            <div class="content">
+                <div class="section-wrapper accent-section page-full-width">
+                    <div class="section page-centered posting-header">
+                        <div class="posting-headline">
+                            <h2>Principal Product Designer</h2>
+                            <div class="posting-categories">
+                                <div class="sort-by-time posting-category medium-category-label location" href="#">Shoreditch, London /</div>
+                                <div class="sort-by-team posting-category medium-category-label department" href="#">Product /</div>
+                                <div class="sort-by-commitment posting-category medium-category-label commitment" href="#">Full-time</div>
+                                <div class="sort-by-time posting-category medium-category-label workplaceTypes" href="#">/ Hybrid</div>
+                            </div>
+                        </div>
+                        <div class="postings-btn-wrapper"><a class="postings-btn template-btn-submit shamrock" href="https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736/apply">Apply for this job</a></div>
+                    </div>
+                </div>
+                <div class="section-wrapper page-full-width">
+                    <div class="section page-centered" data-qa="job-description">
+                        <div><b style="font-size: 12pt;">Introduction</b></div>
+                        <div>
+                            <span style="font-size: 12pt;">
+                                PhysicsX is a deep-tech company of scientists and engineers, developing machine learning applications to massively accelerate physics simulations and enable a new frontier of optimization opportunities in
+                                design and engineering.
+                            </span>
+                        </div>
+                        <div><span style="font-size: 12pt;"></span></div>
+                        <div>
+                            <span style="font-size: 12pt;">
+                                Born out of numerical physics and proven in Formula One, we help our customers radically improve their concepts and designs, transform their engineering processes and drive operational product performance. We
+                                do this in some of the most advanced and important industries of our time – including Space, Aerospace, Medical Devices, Additive Manufacturing, Electric Vehicles, Motorsport, and Renewables. Our work creates
+                                positive impact for society, be it by improving the design of artificial hearts, reducing CO2 emissions from aircraft and road vehicles, and increasing the performance of wind turbines.
+                            </span>
+                        </div>
+                        <div><span style="font-size: 12pt;"></span></div>
+                        <div>
+                            <span style="font-size: 12pt;">
+                                We are a rapidly growing and profitable company but prefer to fly under the radar to protect our customers’ confidentiality. We are about to take the next leap in building out our technology platform and
+                                product offering. In this context, we are looking for a capable and enthusiastic software engineer to join our team. If all of this sounds exciting to you, we would love to talk (even if you don't tick all
+                                the boxes).
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section page-centered">
+                        <div>
+                            <h3>What you will do</h3>
+                            <ul class="posting-requirements plain-list">
+                                <ul>
+                                    <li>Collaborate with cross-functional teams including product management, engineering, and user research to understand product requirements and identify design challenges</li>
+                                    <li>Develop user flows, wireframes, prototypes, and high-fidelity mockups to effectively communicate product concepts</li>
+                                    <li>Run usability studies, gather feedback from users, and iterate on designs</li>
+                                    <li>Maintain and update style guides, design systems, and component libraries</li>
+                                    <li>Work closely with engineers to ensure designs are implemented accurately in the final product</li>
+                                    <li>Advocate for the end-user throughout the design process to ensure product utility and usability</li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="section page-centered">
+                        <div>
+                            <h3>What you bring to the table</h3>
+                            <ul class="posting-requirements plain-list">
+                                <ul>
+                                    <li>Enthusiasm about building machine learning products for science and engineering</li>
+                                    <li>Degree in Design, Human-Computer Interaction, or related fields</li>
+                                    <li>7+ years’ experience in a product role, with exposure to:</li>
+                                    <li>Proficiency in design tools such as Sketch, Figma, Adobe XD, or similar</li>
+                                    <li>Strong understanding of user-centered design principles and methodologies</li>
+                                    <li>Familiarity with design systems and creating scalable UI components</li>
+                                    <li>Ability to create engaging and visually appealing designs</li>
+                                    <li>Excellent communication and collaboration skills</li>
+                                    <li>Experience with user research techniques and usability testing</li>
+                                    <li>Knowledge of front-end development technologies and their impact on design is a plus</li>
+                                    <li>Experience in data science / machine learning is a plus</li>
+                                    <li>Experience in CAD/CFD/FEA is a plus</li>
+                                    <li>Excellent collaboration and communication skills - with teams and users</li>
+                                    <li>Passion and track record of mentoring and coaching more junior colleagues</li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="section page-centered">
+                        <div>
+                            <h3>What we offer</h3>
+                            <ul class="posting-requirements plain-list">
+                                <ul>
+                                    <li>Be part of something larger: Make an impact and meaningfully shape an early-stage company. Work on some of the most exciting and important topics there are. Do something you can be proud of</li>
+                                    <li>
+                                        Work with a fun group of colleagues that support you, challenge you and help you grow. We come from many different backgrounds, but what we have in common is the desire to operate at the very top of
+                                        our fields and solve truly challenging problems in science and engineering. If you are similarly capable, caring and driven, you'll find yourself at home here
+                                    </li>
+                                    <li>Experience a truly flat hierarchy. Voicing your ideas is not only welcome but encouraged, especially when they challenge the status quo</li>
+                                    <li>Work sustainably, striking the right balance between work and personal life. Be able to properly switch off in the evening and during weekends. What matters is the quality of our work</li>
+                                    <li>Receive a competitive compensation and equity package, in addition to plenty of perks such as generous vacation and parental leave, complimentary office food, as well as fun outings and events</li>
+                                    <li>
+                                        Work in a flexible setting, with your choice of either our lovely London Shoreditch or Bicester Heritage offices to collaborate in, and a good proportion from home if so desired. Get the opportunity
+                                        to occasionally visit our customers' engineering sites and experience first-hand how our work is transforming their ways of working
+                                    </li>
+                                    <li>Use first-class equipment for working in-office or remotely, including HPC</li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--[2022-11-28] [GOLD-2535] Remove payTransparencyV1 when feature flag is fully removed-->
+                    <div class="section page-centered" data-qa="closing-description">
+                        <div><b style="font-size: 12pt;">Our stance</b></div>
+                        <div>
+                            <span style="font-size: 12pt;">
+                                We value diversity and are committed to equal employment opportunity regardless of sex, race, religion, ethnicity, nationality, disability, age, sexual orientation or gender identity. We strongly encourage
+                                individuals from groups traditionally underrepresented in tech to apply. To help make a change, we sponsor bright women from disadvantaged backgrounds through their university degrees in science and
+                                mathematics.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="section page-centered last-section-apply" data-qa="btn-apply-bottom">
+                        <a class="postings-btn template-btn-submit shamrock" data-qa="show-page-apply" href="https://jobs.lever.co/physicsx.ai/9feadb59-31c1-4634-8998-032403030736/apply">Apply for this job</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-footer page-full-width">
+            <div class="main-footer-text page-centered">
+                <p><a href="https://www.physicsx.ai/">PhysicsX Home Page</a></p>
+                <a class="image-link" href="https://lever.co/"><span>Jobs powered by </span><img alt="Lever logo" src="/img/lever-logo-full.svg" /></a>
+            </div>
+        </div>
+        <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "JobPosting",
+                "title": "Principal Product Designer",
+                "hiringOrganization": { "@type": "Organization", "name": "PhysicsX", "logo": "https://lever-client-logos.s3.us-west-2.amazonaws.com/7d94404d-aac8-47b9-9f74-94368b53a325-1673459176686.png" },
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Shoreditch, London", "addressRegion": null, "addressCountry": null, "postalCode": null } },
+                "employmentType": "Full-time",
+                "datePosted": "2023-08-02",
+                "description": "<p><b style=\"font-size: 12pt\">Introduction</b></p><p><span style=\"font-size: 12pt\">PhysicsX is a deep-tech company of scientists and engineers, developing machine learning applications to massively accelerate physics simulations and enable a new frontier of optimization opportunities in design and engineering.&nbsp;</span></p><p><span style=\"font-size: 12pt\">&nbsp;</span></p><p><span style=\"font-size: 12pt\">Born out of numerical physics and proven in Formula One, we help our customers radically improve their concepts and designs, transform their engineering processes and drive operational product performance. We do this in some of the most advanced and important industries of our time – including Space, Aerospace, Medical Devices, Additive Manufacturing, Electric Vehicles, Motorsport, and Renewables. Our work creates positive impact for society, be it by improving the design of artificial hearts, reducing CO2 emissions from aircraft and road vehicles, and increasing the performance of wind turbines.&nbsp;&nbsp;</span></p><p><span style=\"font-size: 12pt\">&nbsp;</span></p><p><span style=\"font-size: 12pt\">We are a rapidly growing and profitable company but prefer to fly under the radar to protect our customers’ confidentiality. We are about to take the next leap in building out our technology platform and product offering. In this context, we are looking for a capable and enthusiastic software engineer to join our team. If all of this sounds exciting to you, we would love to talk (even if you don't tick all the boxes).</span></p>\\n<p><p><br></p><b>What you will do</b><ul><li>Collaborate with cross-functional teams including product management, engineering, and user research to understand product requirements and identify design challenges</li><li>Develop user flows, wireframes, prototypes, and high-fidelity mockups to effectively communicate product concepts</li><li>Run usability studies, gather feedback from users, and iterate on designs</li><li>Maintain and update style guides, design systems, and component libraries</li><li>Work closely with engineers to ensure designs are implemented accurately in the final product</li><li>Advocate for the end-user throughout the design process to ensure product utility and usability</li></ul><p><br></p><b>What you bring to the table</b><ul><li>Enthusiasm about building machine learning products for science and engineering</li><li>Degree in Design, Human-Computer Interaction, or related fields</li><li>7+ years’ experience in a product role, with exposure to:</li><li>Proficiency in design tools such as Sketch, Figma, Adobe XD, or similar</li><li>Strong understanding of user-centered design principles and methodologies</li><li>Familiarity with design systems and creating scalable UI components</li><li>Ability to create engaging and visually appealing designs</li><li>Excellent communication and collaboration skills</li><li>Experience with user research techniques and usability testing</li><li>Knowledge of front-end development technologies and their impact on design is a plus</li><li>Experience in data science / machine learning is a plus</li><li>Experience in CAD/CFD/FEA is a plus</li><li>Excellent collaboration and communication skills - with teams and users</li><li>Passion and track record of mentoring and coaching more junior colleagues</li></ul><p><br></p><b>What we offer</b><ul><li>Be part of something larger: Make an impact and meaningfully shape an early-stage company. Work on some of the most exciting and important topics there are. Do something you can be proud of</li><li>Work with a fun group of colleagues that support you, challenge you and help you grow. We come from many different backgrounds, but what we have in common is the desire to operate at the very top of our fields and solve truly challenging problems in science and engineering. If you are similarly capable, caring and driven, you'll find yourself at home here</li><li>Experience a truly flat hierarchy. Voicing your ideas is not only welcome but encouraged, especially when they challenge the status quo</li><li>Work sustainably, striking the right balance between work and personal life. Be able to properly switch off in the evening and during weekends. What matters is the quality of our work</li><li>Receive a competitive compensation and equity package, in addition to plenty of perks such as generous vacation and parental leave, complimentary office food, as well as fun outings and events&nbsp;</li><li>Work in a flexible setting, with your choice of either our lovely London Shoreditch or Bicester Heritage offices to collaborate in, and a good proportion from home if so desired. Get the opportunity to occasionally visit our customers' engineering sites and experience first-hand how our work is transforming their ways of working&nbsp;&nbsp;</li><li>Use first-class equipment for working in-office or remotely, including HPC</li></ul><p><br></p></p>\\n<p><b style=\"font-size: 12pt\">Our stance</b></p><p><span style=\"font-size: 12pt\">We value diversity and are committed to equal employment opportunity regardless of sex, race, religion, ethnicity, nationality, disability, age, sexual orientation or gender identity. We strongly encourage individuals from groups traditionally underrepresented in tech to apply. To help make a change, we sponsor bright women from disadvantaged backgrounds through their university degrees in science and mathematics. &nbsp;</span></p>"
+            }
+        </script>
+        <script type="text/javascript">
+            var subDomain = document.location.hostname;
+            var rootDomain = subDomain.split(".").reverse().splice(0, 2).reverse().join(".");
+            function removeCookie(cookieName) {
+                document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + subDomain + ";";
+                document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + rootDomain + ";";
+            }
+            var GA_COOKIES = ["_gid", "_ga", "_gat_customer"];
+            GA_COOKIES.forEach(function (cookie) {
+                removeCookie(cookie);
+            });
+        </script>
+        <script data-apikey="6a247c6ff13012d02fde17377f0b857b" data-appversion="0.0.1690834621" data-endpoint="https://bugs.lever.co/js" data-releasestage="production" src="/js/bug-snag.js"></script>
+        <script>
+            var gaCode = "";
+        </script>
+        <script>
+            var gaAllowLinker = false;
+        </script>
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id="></script>
+        <script>
+            if (gaCode.startsWith("UA")) {
+                window.initializeGoogleAnalytics = function () {
+                    (function (i, s, o, g, r, a, m) {
+                        i["GoogleAnalyticsObject"] = r;
+                        (i[r] =
+                            i[r] ||
+                            function () {
+                                (i[r].q = i[r].q || []).push(arguments);
+                            }),
+                            (i[r].l = 1 * new Date());
+                        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+                        a.async = 1;
+                        a.src = g;
+                        m.parentNode.insertBefore(a, m);
+                    })(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
+                    ga("create", gaCode, { name: "customer", allowLinker: gaAllowLinker });
+                    ga("customer.send", "pageview");
+                };
+            } else {
+                window.initializeGoogleAnalytics = function () {
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag() {
+                        dataLayer.push(arguments);
+                    }
+                    gtag("js", new Date());
+                    gtag("config", gaCode);
+                    if (gaAllowLinker) {
+                        gtag("set", "linker", "lever.co");
+                    }
+                };
+            }
+        </script>
+        <script type="text/javascript">
+            /*We only want to not initialize Google Analytics and Segment on load if the following is true:- `gdpr` is enabled for the account- the account has the `cookieBanner` enabled- the account has the `optIn` cookieBanner typeThis is the only case where an applicant has to explicitly opt-in to the cookie consent before we can load GA/Segment*/
+        </script>
+        <script src="/js/cookieconsent.min.js"></script>
+        <script>
+            window.addEventListener("load", () => {
+                window.cookieconsent.initialise({
+                    enabled: true,
+                    content: {
+                        allow: "Accept",
+                        deny: "Deny",
+                        dismiss: "Dismiss",
+                        message: "This website uses cookies to improve your web experience. By using the site, you agree to the use of cookies.",
+                        link: " PhysicsX Cookie Policy",
+                        href: "",
+                        target: "_blank",
+                    },
+                    cookie: { path: "/physicsx.ai" },
+                    type: "info",
+                    layout: "lever-layout",
+                    layouts: {
+                        "lever-layout": `<div class="momentum-body"><div class="message message-inverse flex-column"><div class="icon">&#127850;</div><div class="message-buttons cc-desktop"><button class="button button-sm cc-btn cc-dismiss" href="#">Dismiss</button></div><h4 class='text-white'>Privacy Notice</h4><p>This website uses cookies to improve your web experience. By using the site, you agree to the use of cookies.</p><div class="self-end cc-mobile m1"><button class="button button-sm cc-btn cc-dismiss" href="#" >Dismiss</button></div></div></div>`,
+                    },
+                    showLink: false,
+                    onInitialise: function (status) {
+                        /* `onInitialise` is *only* called when cookie consent is set to `allow`/`deny`/`dismiss`,but not when the user has not indicated any consent. Thus, we cannot expect this to be calledon every page load.We check if `window.hasInitializedAnalytics` is true (which means analytics has already been initialized on page load)because double-loading Segment throws errors in the console (and potentially double-counts tracking visits).*/ var hasConsentedToCookie = this.hasConsented();
+                        if (hasConsentedToCookie && !window.hasInitializedAnalytics) {
+                            /* 2022-03-08 Disabling segment tracking due to an explosion in MAU after removing identify call */
+                        }
+                    },
+                    onStatusChange: function (status) {
+                        var hasConsentedToCookie = this.hasConsented();
+                        var trackCookieBannerDismissed = function () {
+                            var segmentProperties = { status: "accepted", bannerType: "info", service: "postings2", accountId: "7d94404d-aac8-47b9-9f74-94368b53a325" };
+                            ("");
+                            segmentProperties.postingId = "9feadb59-31c1-4634-8998-032403030736";
+                            (""); /* 2022-03-08 Disabling segment tracking due to an explosion in MAU after removing identify call. */
+                        };
+                        if (hasConsentedToCookie) {
+                            /* 2022-03-08: Disabling segment tracking due to an explosion in MAU after removing identify call */
+                        } else {
+                            var subDomain = document.location.hostname;
+                            /* We want to also get the rootDomain because some of the cookies (e.g. Segment cookies) setthe cookie on the rootDomain instead of the subdomain (lever.co instead of jobs.lever.co),so we have to be more specific in order to delete it.*/ var rootDomain = subDomain
+                                .split(".")
+                                .reverse()
+                                .splice(0, 2)
+                                .reverse()
+                                .join(".");
+                            function removeCookie(cookieName) {
+                                document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + subDomain + ";";
+                                document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + rootDomain + ";";
+                            }
+                            var GA_COOKIES = ["_gid", "_ga", "_gat_customer"];
+                            var SEGMENT_COOKIES = ["ajs_user_id", "ajs_anonymous_id", "ajs_group_id"];
+                            GA_COOKIES.forEach(function (cookie) {
+                                removeCookie(cookie);
+                            });
+                            SEGMENT_COOKIES.forEach(function (cookie) {
+                                removeCookie(cookie);
+                            });
+                        }
+                    },
+                });
+            });
+        </script>
+    </body>
+</html>
+
+    '''
+    
+    
+    
