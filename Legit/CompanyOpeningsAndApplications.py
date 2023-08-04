@@ -243,7 +243,9 @@ class CompanyWorkflow():
         elif parser == "html":
             page = requests.get(job_link)
             result = page.content
-            soup = BeautifulSoup(result, "html.parser")           
+            soup = BeautifulSoup(result, "html.parser")
+            
+        # Convert the soup object to a string and handle encoding issues
         return soup
 
     def update_soup_elements(self, soup, **kwargs):
@@ -742,11 +744,13 @@ class CompanyWorkflow():
 
 
 
-    
+    # print(f"------\n {}\n------")
     #TODO: Please get rid of -> (self, job_link) ? 
     def determine_current_page(self, job_link):
         print("\ndetermine_current_page()")
+        print(f" job_link = {job_link}")
         soup = self.apply_beautifulsoup(job_link, "lxml")
+        print(f"------\n {soup}\n------")
         print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         if self.application_company_name == "lever":
             webpage_body = soup.find('body')
@@ -770,9 +774,11 @@ class CompanyWorkflow():
             return self.application_company_name, job_link
         elif self.application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
+            print(f"------\n {div_main}\n------")
             next_elem = div_main.find_next()
             while next_elem:
-                if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
+                # if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
+                if next_elem.name == "div" and next_elem.get("id") in ["flash-wrapper", "flash_wrapper"]:
                     print('-Job Listings Page V.1')
                     return 0
                 elif (next_elem.name == "div" and next_elem.get("id") == "embedded_job_board_wrapper"):

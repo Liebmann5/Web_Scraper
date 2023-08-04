@@ -21,4 +21,5 @@ def sign_data(data, private_key_path):
         hashes.SHA256()
     )
     
+    # return signature.hex()    #used this when I didn't have any default_backend code!!! 
     return signature
