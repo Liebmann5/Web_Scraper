@@ -54,7 +54,10 @@ import json
 
 
 #!!!!!!!!!!!!!!!!!!!!!!!!
+# TODO
 # Make a method called stamp_variable() that before going to the next iteration in the index applies the 'status' key-value input to self.current_job_details!!!
+# Unicode - these give me ERRORS; figure out a way to either fix this or bypass it!!
+    # Ex) <span class="s1">💰</span>
 #!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -149,6 +152,7 @@ class CompanyWorkflow():
     
 
     def company_workflow(self, incoming_link):
+        # sourcery skip: remove-redundant-pass
         print("\ncompany_workflow()")
         #! self.current_url HERE AND ONLY HERE is different becuase this link comes from google_search_results!!!!!
         if isinstance(incoming_link, list):
@@ -684,7 +688,8 @@ class CompanyWorkflow():
 
     def users_basic_requirements_job_title(self, job_title):
         print("\nusers_basic_requirements_job_title()")
-        return any(desired_job in job_title for desired_job in self.users_job_search_requirements['job_title'])
+        return any(desired_job in job_title for desired_job in self.users_job_search_requirements['user_desired_job_titles'])
+                    #TODO: ^ Check and see if these need to switched!?!?
     
     def get_experience_level(self, job_title):
         print("\nget_experience_level()")
@@ -750,7 +755,7 @@ class CompanyWorkflow():
         print("\ndetermine_current_page()")
         print(f" job_link = {job_link}")
         soup = self.apply_beautifulsoup(job_link, "lxml")
-        print(f"------\n {soup}\n------")
+        print(f"------ soup:\n {soup}\n------")
         print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         if self.application_company_name == "lever":
             webpage_body = soup.find('body')
@@ -774,7 +779,7 @@ class CompanyWorkflow():
             return self.application_company_name, job_link
         elif self.application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
-            print(f"------\n {div_main}\n------")
+            print(f"------ div_main:\n {div_main}\n------")
             next_elem = div_main.find_next()
             while next_elem:
                 # if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
@@ -909,6 +914,7 @@ class CompanyWorkflow():
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
         elif self.application_company_name == 'greenhouse':
             div_main = soup.find("div", id="main")
+            #NOTE: The lambda function takes x as an argument, where x is the value of the class_ attribute for a given <section> tag!!!
             sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
             for section in sections:
                 if section.name == 'h3':
@@ -1129,9 +1135,9 @@ class CompanyWorkflow():
         self.print_soup_elements()
         
     def print_soup_elements(self):
-        print("{")
+        print("soup_elements = {")
         for key, value in self.soup_elements.items():
-            print(f"    {key}: {value},")
+            print(f"    {key}: {value},\n")
         print("}")
     
     
@@ -1172,6 +1178,7 @@ class CompanyWorkflow():
     '''
     
     def process_webpage(self, job_application_webpage, soup):
+        print("\nprocess_webpage()")
         if not self.website_data:
             self.get_website_data()
         page_info = self.get_webpage_data(job_application_webpage)
@@ -1187,7 +1194,9 @@ class CompanyWorkflow():
 
         return
     
+    #print("\n()")
     def build_relationships(self, page_info):
+        print("\nbuild_relationships()")
         relationships = {}
         for element_name, element_infos in page_info["elements"].items():
             for element_info in element_infos:
@@ -1203,10 +1212,14 @@ class CompanyWorkflow():
                     'attribute_exists': element_info.get("attribute_exists"),
                     'relationship': element_info.get("relationship")
                 }
+        print(f"{relationships}")
+        print("*******************************************************\n\n")
         return relationships
     
-    #Used shell here as 'regex type thing'
+    #Used shell thinking here as 'regex type thing'
+    #NOTE:  "metacharacters"
     def extract_elements(self, soup, relationships):
+        print("\nextract_elements()")
         elements = {}
         for element_name, relationship in relationships.items():
             query = {}
@@ -1242,9 +1255,12 @@ class CompanyWorkflow():
             else:
                 elements[element_name] = element
 
+        print(f"{elements}")
+        print("*******************************************************\n\n")
         return elements
     
     def update_soup_elements(self, extracted_elements):
+        print("\nupdate_soup_elements()")
         for key, element in extracted_elements.items():
             if element and element.text:
                 # Strip leading and trailing whitespace from the text content
@@ -1252,6 +1268,8 @@ class CompanyWorkflow():
                 self.soup_elements[key] = formatted_text
             else:
                 self.soup_elements[key] = element
+        print(f"{self.soup_elements}")
+        print("*******************************************************\n\n")
     #********************************************************
 
     #NOTE: REMEMBER!!!! This part is basically {just get links} and basic information about the job!!!
@@ -1305,7 +1323,17 @@ class CompanyWorkflow():
 
 
 
-
+    #TODO:
+    # {
+    # "greenhouse": {
+    #     "Internal-Job-Listings": {
+    #         "elements": {
+    #             "content": [
+    #                 {"tag": "div", "id": "flash-wrapper"},
+    #                 {"tag": "div", "id": "flash_wrapper"},
+    #                 {"tag": "div", "id": "embedded_job_board_wrapper"},
+    #                 {"tag": "section", "class": "level-0"}
+                                                    #    ^ try and see if you can do * instead of a number!!
     
 
 
@@ -2727,7 +2755,7 @@ class BreakLoopException(Exception):
 
 
 
-
+# https://stackoverflow.com/questions/13897896/unexpected-keyword-argument-when-using-kwargs-in-constructor
 
     '''
     # def try_finding_internal_job_openings_URL

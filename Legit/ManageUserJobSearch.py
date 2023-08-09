@@ -1,5 +1,7 @@
 class UntouchedUser():
     
+    #TODO: THIS SHOULD BE FOR THE USER TO CHANGE ANY VALUES OR ALTER ANY FILES!!!
+    
     def __init__():
         print("Rodeo")
         

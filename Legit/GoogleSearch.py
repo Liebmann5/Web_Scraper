@@ -15,6 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotInteractableException
 
+
+from UsersFirstUse import UntouchedUser
+
 class scraperGoogle():
     
     def __init__(self, browser):
@@ -33,7 +36,6 @@ class scraperGoogle():
         self.last_link_from_google_search = None
         
         
-        #NOTE: NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW  NEW
         self.users_job_search_requirements = {}
         
         
@@ -61,7 +63,7 @@ class scraperGoogle():
         #TODO: Add variable  user_blacklisted_locations == self.bad_locations
     def init_users_job_search_requirements(self):
         self.users_job_search_requirements = {
-            "user_desired_job_title": self.user_desired_jobs,
+            "user_desired_job_titles": self.user_desired_jobs,
             "user_preferred_locations": self.user_preferred_locations,
             "user_preferred_workplaceType": self.user_preferred_workplaceType,
             "employment_type": [],  #Not really something I'm checking for
@@ -100,14 +102,17 @@ class scraperGoogle():
         return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs
     
     def user_requirements(self):
-        self.ludacris_speed()
+        #self.ludacris_speed()
+        self.users_job_search_requirements = UntouchedUser().setup_test()
+        self.user_desired_jobs = self.users_job_search_requirements["user_desired_job_titles"]
+        #self.bad_locations = self.users_job_search_requirements["user_preferred_locations"]
         
         self.search_for_jobs()
         self.new_new_print_google_search_results()
         print("Returning back to JobSearchWorkflow\n\n")
         time.sleep(2)
         #return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType
-        self.init_users_job_search_requirements()
+        #self.init_users_job_search_requirements()
         return self.google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, self.user_preferred_workplaceType, self.users_job_search_requirements
 
     def search_for_jobs(self):
