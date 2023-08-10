@@ -3,6 +3,47 @@
 class UntouchedUser():
     
     def __init__(self):
+        self.user_data = {
+            'UNTOUCHED_USER': 'False',
+            'LAST_APPLIED': '',
+            'LINKEDIN_USERNAME': '',
+            'LINKEDIN_PASSWORD': '',
+            'WINDOWS_RESUME_PATH': '',
+            'MAC_RESUME_PATH': '',
+            'FIRST_NAME': '',
+            'MIDDLE_INITIAL': '',
+            'LAST_NAME': '',
+            'EMAIL': '',
+            'PHONE_NUMBER': '',
+            'HOME_PHONE': '',
+            'LOCATION_CITY': '',
+            'ZIP_CODE': '',
+            'SCHOOL': '',
+            'DEGREE': '',
+            'DISCIPLINE': '',
+            'SCHOOL_START_DATE_YEAR': '',
+            'SCHOOL_END_DATE_YEAR': '',
+            'GPA': '',
+            'CURRENT_COMPANY': '',
+            'CURRENT_TITLE': '',
+            'COMPANY_START_DATE': '',
+            'CURRENT_EMPLOYEE': '',
+            'COMPANY_END_DATE': '',
+            'LINKEDIN_PROFILE': '',
+            'GITHUB_URL': '',
+            'PERSONAL_URL': '',
+            'US_CITIZEN': '',
+            'GENDER': '',
+            'PRONOUNS': '',
+            'SEXUAL_ORIENTATION': '',
+            'RACE': '',
+            'VETERAN': '',
+            'DISABILITY': '',
+            'SALARY_EXPECTATIONS': '',
+            'NON_COMPETE_AGREEMENT': '',
+            'COME_ACROSS_HOW': 'indeed',
+            'JOB_TYPE': ''
+        }
         self.users_job_search_requirements = {}
         self.init_users_job_search_requirements()
         
@@ -195,3 +236,163 @@ class UntouchedUser():
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #print("\n()")
+    def ohhh_helen_knows_the_owner(self):
+        print("\nohhh_helen_knows_the_owner()")
+        self.collect_personal_info()
+        self.collect_education_info()
+        self.collect_professional_info()
+        self.collect_job_search_info()
+        self.collect_social_info()
+        self.collect_eelo_info()
+        self.write_to_env_file()
+        self.collect_job_search_requirements()
+        
+    def collect_personal_info(self):
+        print("\ncollect_personal_info()")
+        self.user_data['FIRST_NAME'] = input("Enter your first name: ")
+        self.user_data['MIDDLE INITIAL'] = input("Enter your middle initial: ")
+        self.user_data['LAST_NAME'] = input("Enter your last name: ")
+        self.user_data['EMAIL'] = input("Enter your email: ")
+        self.user_data['PHONE_NUMBER'] = input("Enter your phone number: ")
+        self.user_data['HOME_PHONE'] = input("Enter your home phone: ")
+        self.user_data['LOCATION_CITY'] = input("Enter your city: ")
+        self.user_data['ZIP_CODE'] = input("Enter your zip code: ")
+    
+    def collect_education_info(self):
+        print("\ncollect_education_info()")
+        self.user_data['SCHOOL'] = input("Enter your school: ")
+        self.user_data['DEGREE'] = input("Enter your degree: ")
+        self.user_data['DISCIPLINE'] = input("Enter your discipline: ")
+        self.user_data['SCHOOL_START_DATE_YEAR'] = input("Enter your school start date year: ")
+        self.user_data['SCHOOL_END_DATE_YEAR'] = input("Enter your school end date year: ")
+        self.user_data['GPA'] = input("Enter your GPA: ")
+        
+    def collect_professional_info(self):
+        print("\ncollect_professional_info()")
+        self.user_data['CURRENT_COMPANY'] = input("Enter your current company: ")
+        self.user_data['CURRENT_TITLE'] = input("Enter your current title: ")
+        self.user_data['COMPANY_START_DATE'] = input("Enter your company start date: ")
+        self.user_data['CURRENT_EMPLOYEE'] = input("Are you a current employee? (Yes/No): ")
+        self.user_data['COMPANY_END_DATE'] = input("Enter your company end date (if applicable): ")
+        self.user_data['LINKEDIN_PROFILE'] = input("Enter your LinkedIn profile URL: ")
+        self.user_data['GITHUB_URL'] = input("Enter your GitHub URL: ")
+        self.user_data['PERSONAL_URL'] = input("Enter your personal website URL: ")
+        
+    def collect_job_search_info(self):
+        print("\ncollect_job_search_info()")
+        self.user_data['JOB_TYPE'] = input("Enter the job type you're looking for (Full-time, Contract, etc.): ")
+        self.user_data['SALARY_EXPECTATIONS'] = input("Enter your salary expectations: ")
+        self.user_data['NON_COMPETE_AGREEMENT'] = input("Do you have a non-compete agreement? (Yes/No): ")
+        self.user_data['COME_ACROSS_HOW'] = input("How did you come across this job? (e.g., indeed): ")
+
+    def collect_social_info(self):
+        print("\ncollect_social_info()")
+        self.user_data['LINKEDIN_USERNAME'] = input("Enter your LinkedIn username: ")
+        self.user_data['LINKEDIN_PASSWORD'] = input("Enter your LinkedIn password: ")
+        self.user_data['WINDOWS_RESUME_PATH'] = input("Enter your resume path for Windows: ")
+        self.user_data['MAC_RESUME_PATH'] = input("Enter your resume path for Mac: ")
+        self.user_data['LINKEDIN_PROFILE'] = input("Enter your LinkedIn profile URL: ")
+        self.user_data['GITHUB_URL'] = input("Enter your GitHub URL: ")
+        self.user_data['PERSONAL_URL'] = input("Enter your personal website URL: ")
+
+    #TODO: Update these to the actual 'EELO' Questions!!!!
+    def collect_eelo_info(self):
+        print("\ncollect_eelo_info()")
+        self.user_data['US_CITIZEN'] = input("Are you a U.S. citizen? (Yes/No): ")
+        self.user_data['GENDER'] = input("Enter your gender: ")
+        self.user_data['PRONOUNS'] = input("Enter your pronouns: ")
+        self.user_data['SEXUAL_ORIENTATION'] = input("Enter your sexual orientation: ")
+        self.user_data['RACE'] = input("Enter your race: ")
+        self.user_data['VETERAN'] = input("Are you a veteran? (Yes/No): ")
+        self.user_data['DISABILITY'] = input("Do you have a disability? (Yes/No): ")
+        
+    #TODO: Add this to module file!!
+    def write_to_env_file(self):
+        print("\nwrite_to_env_file()")
+        with open('.env', 'r') as file:
+            lines = file.readlines()
+            
+        updated_lines = []
+        for line in lines:
+            key, env_value = line.strip().split('=', 1)
+            if key in self.user_data and env_value != (f"'{self.user_data[key]}'"):
+                new_env_value = (f"'{self.user_data[key]}'\n")
+                updated_lines.append(line.replace(env_value, new_env_value))
+            else:
+                updated_lines.append(line)
+                
+        with open('.env', 'w') as file:
+            file.writelines(updated_lines)
+            
+        return print("User data collected and written to .env file.")
+        
+    def collect_job_search_requirements(self):
+        print("\ncollect_job_search_requirements()")
+        # Collect desired job titles
+        self.users_job_search_requirements["user_desired_job_titles"] = input("Enter desired job titles (comma-separated): ").split(',')
+
+        # Collect preferred locations
+        self.users_job_search_requirements["user_preferred_locations"] = input("Enter preferred locations (comma-separated): ").split(',')
+
+        # Collect preferred workplace type
+        print("Select preferred workplace types (comma-separated):")
+        print("1) in-office")
+        print("2) hybrid")
+        print("3) remote")
+        workplace_type_choices = input("Enter your choices (e.g., 1,2,3): ").split(',')
+        workplace_type_map = {
+            "1": "in-office",
+            "2": "hybrid",
+            "3": "remote"
+        }
+        selected_workplace_types = [workplace_type_map[choice.strip()] for choice in workplace_type_choices if choice.strip() in workplace_type_map]
+        self.users_job_search_requirements["user_preferred_workplaceType"] = selected_workplace_types
+
+        # Collect employment type
+        self.users_job_search_requirements["employment_type"] = input("Enter employment type (e.g., Full-time, Contract, Internship): ")
+
+        # Collect entry level preference
+        entry_level_choice = input("Is this an entry-level position? (Yes/No): ")
+        self.users_job_search_requirements["entry_level"] = entry_level_choice.lower() == 'yes'
+
+        print(self.users_job_search_requirements)
+        return print("Job search requirements collected successfully.")
