@@ -55,9 +55,10 @@ import json
 
 #!!!!!!!!!!!!!!!!!!!!!!!!
 # TODO
-# Make a method called stamp_variable() that before going to the next iteration in the index applies the 'status' key-value input to self.current_job_details!!!
+# Make a method called stamp_variable() that before going to the next iteration in the index applies the 'status' key-value input to self.current_jobs_details!!!
 # Unicode - these give me ERRORS; figure out a way to either fix this or bypass it!!
     # Ex) <span class="s1">💰</span>
+# Add lookout for 'Secret' keywords!!  (Ex. Top Secret Clearance, Secret Clearance, etc.)
 #!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -223,6 +224,8 @@ class CompanyWorkflow():
                 
             index += 1
         return print("--------------------------------------------\nTransferring power to JobSearchWorkflow")
+    
+    
     
     #print("\n()")
 #!======= company_workflow variables ==========
@@ -393,9 +396,9 @@ class CompanyWorkflow():
         return language_of_webpage
 #!==============================================
 
-
-
-
+#??????????? FIX
+#*********** FIX
+#TODO TODO   FIX
 #!===== companys_internal_job_openings_URL =====
     def url_parser(self, url):
         parts = urlparse(url)
@@ -416,6 +419,7 @@ class CompanyWorkflow():
         return elements
     
     def recognized_pattern_based_url(self, link):
+        print(f"\nrecognized_pattern_based_url()")
         elements = self.url_parser(link)
     
         # Keep only the first segment of the path
@@ -446,6 +450,7 @@ class CompanyWorkflow():
                 break
         return
     
+    #TODO: HERE HERE HERE
     def is_internal_job_openings_URL_present(self, viable_link):
         print("\nis_internal_job_openings_URL_present()")
         if isinstance(viable_link, list):
@@ -453,21 +458,13 @@ class CompanyWorkflow():
         #TODO: Just make this a list full of all the possible URL's utilizing each unique directory ending!!!
         elif isinstance(viable_link, str):
             link_to_internal_job_openings = self.recognized_pattern_based_url(viable_link)
+            #link_to_internal_job_openings = self.test_links_if_internal_job_openings_URL(link_to_internal_job_openings)
             
         # Assign the value to the global variable and return True if found
         if link_to_internal_job_openings:
             self.companys_internal_job_openings_URL = link_to_internal_job_openings
             return True
         return False
-    
-    # #TODO: fill this in 
-    # def hard_coded_link_extraction(self):
-    #     print("\nhard_coded_link_extraction()")
-    #     """
-    #     Obtain links with hard coding.
-    #     """
-    #     # Placeholder for your hard-coded link extraction code
-    #     return []
     
     def hard_coded_link_extraction(self, url):
         print("\nhard_coded_link_extraction()")
@@ -613,6 +610,7 @@ class CompanyWorkflow():
         return job_url
     
     def try_adjusting_this_link(self, adjust_this_link):
+        print(f"\ntry_adjusting_this_link()")
         if self.application_company_name == 'lever':
             adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
             still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
@@ -647,8 +645,6 @@ class CompanyWorkflow():
         if self.determine_current_page(possible_link) == 0:
             return True
         return False
-    
-    #NOTE: Added the "hard-code" to the end!
 #!==============================================
 
 
@@ -673,7 +669,10 @@ class CompanyWorkflow():
         return self.list_of_links
 #!==============================================
 
-
+#?????????
+#*********
+#TODO TODO
+# Add !!! location_check!!! Make sure countries are equal!!
 #!=========== filter by requirements ===========
     #TODO: ?? DELETE ??  I think this might have been how I originally checked experience in the job_title?!?!?!
     def fits_users_criteria(self, test_elements_uniqueness, *args):
@@ -699,6 +698,10 @@ class CompanyWorkflow():
     
     def check_users_basic_requirements(self, job_title, job_location, job_workplaceType):
         print("\ncheck_users_basic_requirements()")
+        
+        print(f"self.current_jobs_details = {self.current_jobs_details}\n")
+        print(f"job_title = {job_title}\njob_location = {job_location}\njob_workplaceType = {job_workplaceType}\n\n")
+        
         if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(job_title) == False:
             return False
         if self.user_basic_requirements_location_workplaceType(job_location, job_workplaceType):
@@ -707,6 +710,7 @@ class CompanyWorkflow():
 
     def users_basic_requirements_experience_level(self, job_title):
         print("\nusers_basic_requirements_experience_level()")
+        print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords))
         return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
 
     def user_basic_requirements_location_workplaceType(self, job_location, job_workplaceType):
@@ -755,7 +759,7 @@ class CompanyWorkflow():
         print("\ndetermine_current_page()")
         print(f" job_link = {job_link}")
         soup = self.apply_beautifulsoup(job_link, "lxml")
-        print(f"------ soup:\n {soup}\n------")
+        #print(f"------ soup:\n {soup}\n------")
         print("\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         if self.application_company_name == "lever":
             webpage_body = soup.find('body')
@@ -831,7 +835,7 @@ class CompanyWorkflow():
     #NOTE: Maybe you can do a while loop as confirmation and setting variables!! Like in job_description_webpage_navigation()
     #NOTE: OR...  or 2 methods with whiles where the 1st methods' while checks and confirms variables and the 2nd methods' while sets variables if present -> exactly like in job_description_webpage_navigation()!!! (The 2nd method can utilize the next_elem thing!?)
     #! GET RID OF ALL --- filter by requirements --- {except for get_experience_level()}
-    #? JK JK  "if self.users_basic_requirements_job_title(job_title) == False:" just checks if job_title matches users_job_title!! {This checks and confirms user should not add 'accountant' job details to current_job_details!!!}
+    #? JK JK  "if self.users_basic_requirements_job_title(job_title) == False:" just checks if job_title matches users_job_title!! {This checks and confirms user should not add 'accountant' job details to current_jobs_details!!!}
         #! THIS METHOD IS ALL ABOUT COLLECTING ALL MATCHING job_title STRINGS !!REGARDLESS!! OF EXPERIENCE!!!!
         #! CHECK ALL THAT STUFF AFTER THIS METHOD -> IF THEY FIT ADD current_jobs_details TO  
             #! total_company_jobs_available  <= add all 
@@ -863,14 +867,14 @@ class CompanyWorkflow():
                     #TODO: Pick one!
                     # job_opening_href = apply_button
                     apply_button = posting.find('a', text='Apply')
-                    if not apply_button:
+                    if apply_button:
                         print("Apply Button URL:", apply_button['href'])
 
                     # Finding the title button and extracting job title
                     #TODO: Pick one!
                     # button_to_job_description = title_button
                     title_button = posting.find('a', class_="posting-title")
-                    if not title_button:
+                    if title_button:
                         job_title = title_button.find('h5', {'data-qa': 'posting-name'}).get_text().strip()
                         if self.users_basic_requirements_job_title(job_title) == False:
                             continue
@@ -891,7 +895,7 @@ class CompanyWorkflow():
 
                     # Extracting other details
                     posting_categories = posting.find('div', class_="posting-categories")
-                    if not posting_categories:
+                    if posting_categories:
                         job_location = posting_categories.find('span', class_='location').get_text().strip() if posting_categories.find('span', class_='location') else None
                         company_department = posting_categories.find('span', class_='department').get_text().strip() if posting_categories.find('span', class_='department') else None
                         employment_type = posting_categories.find('span', class_='commitment').get_text().strip() if posting_categories.find('span', class_='commitment') else None
@@ -978,7 +982,7 @@ class CompanyWorkflow():
         if self.application_company_name == "lever":
             parser = 'lxml'
         elif self.application_company_name == "greenhouse":
-            parser = 'html.parser'
+            parser = 'html'
         
         self.fetch_and_fill_variables(self.job_application_webpage[1], parser)
         self.job_description_webpage_navigation()
@@ -991,6 +995,7 @@ class CompanyWorkflow():
         print(f"content = \n{self.soup_elements['content'].get_text()}\n")
         #job_fits_users_criteria = self.fits_users_criteria()
         job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], self.current_jobs_details['job_workplaceType'])
+        print(f"user_fits_jobs_criteria = {user_fits_jobs_criteria}\njob_fits_users_criteria = {job_fits_users_criteria}")
         if user_fits_jobs_criteria and job_fits_users_criteria:
             print("User is applying to this job!!")
             #TODO: Refactor this  v  by making a method called ?transfer_webpages() => {self.bottom_has_application_or_button() | self.click_this_button_or_scroll() | self.change_webpage()}?
@@ -1190,7 +1195,7 @@ class CompanyWorkflow():
         extracted_elements = self.extract_elements(soup, relationships)
 
         # Update soup elements
-        self.update_soup_elements(extracted_elements)
+        self.update_extracted_soup_elements(extracted_elements)
 
         return
     
@@ -1212,7 +1217,7 @@ class CompanyWorkflow():
                     'attribute_exists': element_info.get("attribute_exists"),
                     'relationship': element_info.get("relationship")
                 }
-        print(f"{relationships}")
+        #print(f"{relationships}")
         print("*******************************************************\n\n")
         return relationships
     
@@ -1255,22 +1260,18 @@ class CompanyWorkflow():
             else:
                 elements[element_name] = element
 
-        print(f"{elements}")
+        #print(f"{elements}")
         print("*******************************************************\n\n")
         return elements
     
-    def update_soup_elements(self, extracted_elements):
-        print("\nupdate_soup_elements()")
+    def update_extracted_soup_elements(self, extracted_elements):
+        print("\nupdate_extracted_soup_elements()")
         for key, element in extracted_elements.items():
-            if element and element.text:
-                # Strip leading and trailing whitespace from the text content
-                formatted_text = element.text.strip()
-                self.soup_elements[key] = formatted_text
-            else:
-                self.soup_elements[key] = element
-        print(f"{self.soup_elements}")
+            self.soup_elements[key] = element
+        #print(f"{self.soup_elements}")
         print("*******************************************************\n\n")
     #********************************************************
+
 
     #NOTE: REMEMBER!!!! This part is basically {just get links} and basic information about the job!!!
     #TODO: FIX THIS ABSOLUTE MESS!  Good Lord Janice...
@@ -1278,17 +1279,19 @@ class CompanyWorkflow():
         print("\njob_description_webpage_navigation()")
         print("Welcome fair maiden!")
         if self.application_company_name == "lever":
-            next_elem = self.soup_elements['banner_job_info']
+            next_elem = self.soup_elements['banner_job_info'].find_next()
             while next_elem:
-                if next_elem.name == "h2" and (job_title := next_elem.get_text().strip()):
+                # .strip("/ \\") = remove leading and trailing slashes, backslashes, and spaces from the text
+                # .strip() = remove leading and trailing whitespace (including spaces, tabs, and newline characters) from the text
+                if next_elem.name == "h2" and (job_title := next_elem.get_text().strip("/ \\").strip()):
                     self.current_jobs_details["job_title"] = job_title
-                if next_elem.name == "div" and "location" in next_elem.get("class", []) and (job_location := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "location" in next_elem.get("class", []) and (job_location := next_elem.get_text().strip("/ \\").strip()):
                     self.current_jobs_details["job_location"] = job_location
-                if next_elem.name == "div" and "department" in next_elem.get("class", []) and (company_department := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "department" in next_elem.get("class", []) and (company_department := next_elem.get_text().strip("/ \\").strip()):
                     self.current_jobs_details["company_department"] = company_department
-                if next_elem.name == "div" and "commitment" in next_elem.get("class", []) and (employment_type := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "commitment" in next_elem.get("class", []) and (employment_type := next_elem.get_text().strip("/ \\").strip()):
                     self.current_jobs_details["employment_type"] = employment_type
-                if next_elem.name == "div" and "workplaceTypes" in next_elem.get("class", []) and (job_workplaceType := next_elem.get_text().strip()):
+                if next_elem.name == "div" and "workplaceTypes" in next_elem.get("class", []) and (job_workplaceType := next_elem.get_text().strip("/ \\").strip()):
                     self.current_jobs_details["job_workplaceType"] = job_workplaceType
                 next_elem = next_elem.find_next()
         elif self.application_company_name == "greenhouse":
@@ -1304,13 +1307,13 @@ class CompanyWorkflow():
                           header = self.soup_elements['header']
                           content = self.soup_elements['content']
 
-                          if job_title_elem := header.find("h1", class_="app-title").get_text().strip():
+                          if job_title_elem := header.find("h1", class_="app-title").get_text().strip("/ \\").strip():
                               self.current_jobs_details["job_title"] = job_title_elem
                           # Extract company name
-                          if company_name_elem := header.find("span", class_="company-name").get_text().strip():
+                          if company_name_elem := header.find("span", class_="company-name").get_text().strip("/ \\").strip():
                               self.current_jobs_details["company_name"] = company_name_elem
                           # Extract job location
-                          if job_location_elem := header.find("div", class_="location").get_text().strip():
+                          if job_location_elem := header.find("div", class_="location").get_text().strip("/ \\").strip():
                               self.current_jobs_details["job_location"] = job_location_elem
                     else:
                         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
