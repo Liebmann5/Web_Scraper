@@ -3,6 +3,23 @@ import hashlib
 # Module for signing my data
 from .signature_helper import sign_data
 
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+class JobData(BaseModel):
+    job_url: str
+    job_title: str
+    job_location: str
+    company_name: str
+    job_workplaceType: str
+    company_department: str
+    job_id_number: str
+    job_release_date: str
+    employment_type: str
+    experience_level: str
+    years_of_experience: int
+    company_industry: str
+
 class DataSender:
     def __init__(self, jobs_applied_to_this_session, raspberry_pi_address):
         self.jobs_applied_to_this_session = jobs_applied_to_this_session
