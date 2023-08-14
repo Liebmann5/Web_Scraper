@@ -137,8 +137,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -614,8 +614,8 @@ class Workflow():
         self.load_custom_rules()
         print("  Loaded Custom Rules...")
         
-        print(self.custom_rules)
-        print(self.q_and_a)
+        # print(self.custom_rules)
+        # print(self.q_and_a)
         
         # self.nlp_load()
         print("  Loaded Users Information...")
@@ -654,7 +654,7 @@ class Workflow():
     
     #!------------ config -------------------
     def load_custom_rules(self):
-        print("load_custom_rules()")
+        print("\nload_custom_rules()")
         print("dir(config) = ", dir(config))
         
         for attr in dir(config):
@@ -668,10 +668,10 @@ class Workflow():
                 
                 if isinstance(value, dict):
                     setattr(self, attr.lower(), value)
-                    for key, val in value.items():
-                        print(f"Key: {key}, Value: {val}")
-                else:
-                    print(f"Value: {value}")
+                #     for key, val in value.items():
+                #         print(f"Key: {key}, Value: {val}")
+                # else:
+                #     print(f"Value: {value}")
 
         
         # attributes = [attr for attr in dir(config) if not attr.startswith("__")]
@@ -933,6 +933,7 @@ class Workflow():
                 if len(company_filtered_list) > 1:
                     count=count+1
                     print(f"{str(count)}) company_filtered_list = {company_filtered_list}")
+                    print(f"                         = {len(company_filtered_list)}")
                     job_links_organized_by_company.append(company_filtered_list)
 
         self.print_lists_side_by_side(list_to_filter, updated_google_search_results_links)

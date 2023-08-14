@@ -34,6 +34,9 @@ import config
 import concurrent.futures
 import json
 
+
+import sys
+
 # https://www.sqlitetutorial.net/sqlite-insert/
 # https://www.w3resource.com/sqlite/sqlite-update.php
 # https://www.pythontutorial.net/python-basics/python-write-csv-file/
@@ -59,6 +62,7 @@ import json
 # Unicode - these give me ERRORS; figure out a way to either fix this or bypass it!!
     # Ex) <span class="s1">💰</span>
 # Add lookout for 'Secret' keywords!!  (Ex. Top Secret Clearance, Secret Clearance, etc.)
+# The meta information retrieved from the page includes an Open Graph (OG) URL: https://boards.greenhouse.io/cruise/jobs/5285116
 #!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -67,6 +71,17 @@ class CompanyWorkflow():
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
         if JobSearchWorkflow_instance is None or browser is None:
             raise ValueError("JobSearchWorkflow_instance and browser cannot be None.")
+        
+        #***************************************************
+        #* This hopefully takes care of the unicode errors *
+        oiginal_get_text = BeautifulSoup.get_text
+
+        def new_get_text(self, *args, **kwargs):
+            text = oiginal_get_text(self, *args, **kwargs)
+            return text.encode('utf-8')
+
+        BeautifulSoup.get_text = new_get_text
+        #***************************************************
         
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         self.browser = browser
@@ -152,9 +167,12 @@ class CompanyWorkflow():
         }
     
 
+    #Get length of list and in the while have an if count < length run self.determine_current_page()
+    #TODO: ^ Needs to be implemented because if a job is only up for 30 seconds then whenn we visit it we'll get redirected back to internal job openings
     def company_workflow(self, incoming_link):
         # sourcery skip: remove-redundant-pass
         print("\ncompany_workflow()")
+        print(f">>>>>  {incoming_link}")
         #! self.current_url HERE AND ONLY HERE is different becuase this link comes from google_search_results!!!!!
         if isinstance(incoming_link, list):
             self.current_url = incoming_link[0]
@@ -164,11 +182,15 @@ class CompanyWorkflow():
             self.list_of_links.append(incoming_link)
 
         self.determine_application_company_name()
-        webpage_num = self.determine_current_page(self.current_url)
+        og_webpage_num = self.determine_current_page(self.current_url)
+        webpage_num = og_webpage_num
+        initial_link_processed_internal_job_listings = False
         if webpage_num == 0:
             self.companys_internal_job_openings_URL = self.current_url
-        else:
-            self.is_internal_job_openings_URL_present(self.current_url)
+        elif self.is_internal_job_openings_URL_present(self.current_url):
+            webpage_num = 0
+            # Flag to control one-time execution
+            initial_link_processed_internal_job_listings = True
 
         index = 0
         #TODO: incorporate index into ==> self.current_jobs_details {MAYBE ensure order is all good!!}!!!!!!!!!
@@ -194,22 +216,17 @@ class CompanyWorkflow():
                 webpage_num = 0
             if self.job_application_webpage[webpage_num] == "Internal-Job-Listings":
                 print("   >Internal-Job-Listings<")
-                #TODO: change webpage --> self.companys_internal_job_openings_URL
-                    #??? What if already on this page??? Like what if it is the initial link!?!?!?
-                if self.browser.current_url != self.companys_internal_job_openings_URL:
-                    self.change_page(self.companys_internal_job_openings_URL)
-                self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
-                list_of_job_urls = self.collect_companies_current_job_openings(self.soup_elements['soup'])
-                self.update_list_of_links(list_of_job_urls)
-                self.filter_list_of_links()
-                self.change_page(link)
+                self.check_companies_other_job_openings(link)
+                if initial_link_processed_internal_job_listings:
+                    webpage_num = og_webpage_num
+                else:
+                    webpage_num = 1
             
             #TODO: FIGURE THIS FLOW OUT!!!!
             self.reset_webpages_soup_elements()
             if self.job_application_webpage[webpage_num] == "Job-Description":
                 print("   >Job-Description<")
                 webpage_num = self.analyze_job_suitabililty()
-                # Did this because if determine_current_page() returns 2 it cant be accessed and the while will just skip to the next link!
                 if self.job_application_webpage[webpage_num] == "Job-Application":
                     print("   >Job-Application<")
                     webpage_num = self.apply_to_job()
@@ -218,10 +235,11 @@ class CompanyWorkflow():
                     self.confirmation_webpage_proves_application_submitted()
                     webpage_num = 1
             else:
-                print("   >I honestly don't know how to even get here<")
+                print("   >If determine_current_page() returns 2 it cant be accessed and the while will just skip to the next link!<")
                 self.reset_every_job_variable()
                 webpage_num = 1
-                
+            
+            print(f"WHILE WHILE\n   self.list_of_links = {self.list_of_links}\n")    
             index += 1
         return print("--------------------------------------------\nTransferring power to JobSearchWorkflow")
     
@@ -398,9 +416,10 @@ class CompanyWorkflow():
 
 #??????????? FIX
 #*********** FIX
-#TODO TODO   FIX
+# TODO TODO  FIX
 #!===== companys_internal_job_openings_URL =====
     def url_parser(self, url):
+        print("url_parser()")
         parts = urlparse(url)
         directories = parts.path.strip('/').split('/')
         queries = parts.query.strip('&').split('&')
@@ -783,7 +802,7 @@ class CompanyWorkflow():
             return self.application_company_name, job_link
         elif self.application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
-            print(f"------ div_main:\n {div_main}\n------")
+            #print(f"------ div_main:\n {div_main}\n------")
             next_elem = div_main.find_next()
             while next_elem:
                 # if next_elem.name == "div" and (next_elem.get("id") == "flash-wrapper" or next_elem.get("id") == "flash_wrapper"):
@@ -815,6 +834,27 @@ class CompanyWorkflow():
         return
     
     #!=========== Internal-Job-Listings ============
+    def check_companies_other_job_openings(self, link):
+        print("\ncheck_companies_other_job_openings()")
+        #TODO: change webpage --> self.companys_internal_job_openings_URL
+         #??? What if already on this page??? Like what if it is the initial link!?!?!?
+        if self.browser.current_url != self.companys_internal_job_openings_URL:
+            self.change_page(self.companys_internal_job_openings_URL)
+        self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, "lxml")
+        list_of_job_urls = self.collect_companies_current_job_openings(self.soup_elements['soup'])
+        
+        print(f"Internal-Job-Listings\n   BRAND NEW list_of_job_urls = {list_of_job_urls}\n")
+        print(f"Internal-Job-Listings\n   ORIGINAL self.list_of_links = {self.list_of_links}\n")
+        self.print_matching_job_details(list_of_job_urls)
+        
+        self.update_list_of_links(list_of_job_urls)
+        self.filter_list_of_links()
+        
+        print(f"Internal-Job-Listings\n   NEW self.list_of_links = {self.list_of_links}\n")
+        self.print_current_jobs_details()
+        
+        self.change_page(link)
+    
     def get_absolute_url(self, url1, url2):
         parsed_url1 = urlparse(url1)
         parsed_url2 = urlparse(url2)
@@ -831,6 +871,22 @@ class CompanyWorkflow():
             return absolute_url1, url2
         else:
             raise ValueError("At least one URL must be absolute")
+    
+    def print_current_jobs_details(self):
+        print("\nprint_current_jobs_details()")
+        for key, value in self.current_jobs_details.items():
+            print(f"{key}: {value}")
+    
+    def print_matching_job_details(self, list_of_job_urls):
+        print("\nprint_matching_job_details()")
+        for url in list_of_job_urls:
+            # Check if the URL exists in self.current_jobs_details
+            if url == self.current_jobs_details.get("job_url"):
+                print("**" + url + "**\n") # Print the matching URL
+                # Print all the key-value pairs in the dictionary
+                for key, value in self.current_jobs_details.items():
+                    print(f"{key}: {value}")
+                print("\n") # Print a newline for separation
     
     #NOTE: Maybe you can do a while loop as confirmation and setting variables!! Like in job_description_webpage_navigation()
     #NOTE: OR...  or 2 methods with whiles where the 1st methods' while checks and confirms variables and the 2nd methods' while sets variables if present -> exactly like in job_description_webpage_navigation()!!! (The 2nd method can utilize the next_elem thing!?)
@@ -901,6 +957,12 @@ class CompanyWorkflow():
                         employment_type = posting_categories.find('span', class_='commitment').get_text().strip() if posting_categories.find('span', class_='commitment') else None
                         job_workplaceType = posting_categories.find('span', class_='workplaceTypes').get_text().strip() if posting_categories.find('span', class_='workplaceTypes') else None
 
+                    
+                    #***
+                    self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+                    #***
+                    
+                    
                     if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
                         #TODO: company_name
                             #! ^  ^  ^  ^ b/c I organize links in JobSearchWorkflow.py that variable only needs to be set once!!!
@@ -913,8 +975,9 @@ class CompanyWorkflow():
                             'employment_type': employment_type,
                             'experience_level': experience_level
                         })
-                        if not experience_level:
+                        if experience_level == None:
                             list_of_job_urls.append(job_url)
+                    # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
         elif self.application_company_name == 'greenhouse':
             div_main = soup.find("div", id="main")
@@ -925,7 +988,11 @@ class CompanyWorkflow():
                     company_department = section.text
                 if section.name == 'h4':
                     pass
-                if job_opening := section.find('div', {'class': 'opening'}):
+                #if job_opening := section.find('div', {'class': 'opening'}):
+                job_openings = section.find_all('div', {'class': 'opening'})
+                number_of_elements = len(job_openings)
+                print("Number of elements with class 'opening':", number_of_elements)
+                for job_opening in job_openings:
                     job_opening_href = job_opening.find('a')
                     button_to_job_description = job_opening_href
                     if job_opening_href:
@@ -936,20 +1003,49 @@ class CompanyWorkflow():
                         job_url = self.construct_url_to_job(current_url, job_opening_href)
                         span_tag_location = job_opening.find('span', {'class', 'location'})
                         job_location = span_tag_location.text if span_tag_location else None
-                if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
-                    self.current_jobs_details.update({
-                        'job_url': job_url,
-                        'job_title': job_title,
-                        'experience_level': experience_level,
-                        'job_location': job_location,
-                        'job_workplaceType': job_workplaceType
-                    })
-                    if not experience_level:
-                        list_of_job_urls.append(job_url)
-                self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
+                        
+                        
+                        
+                        #***
+                        self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+                        #***
+                        
+                        
+                # v this was here
+                        if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                            self.current_jobs_details.update({
+                                'job_url': job_url,
+                                'job_title': job_title,
+                                'experience_level': experience_level,
+                                'job_location': job_location,
+                                'job_workplaceType': job_workplaceType
+                            })
+                            if experience_level == None:
+                                list_of_job_urls.append(job_url)
+                # v was here
+                        self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
         return list_of_job_urls
+    
+    
+    
+    def print_job_details(self, job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level=None):
+        print("\nprint_job_details()")
+        print("Job URL:", job_url)
+        print("Job Title:", job_title)
+        print("Job Location:", job_location)
+        print("Company Department:", company_department)
+        print("Employment Type:", employment_type)
+        print("Job Workplace Type:", job_workplaceType)
+        if experience_level is not None:
+            print("Experience Level:", experience_level)
+        print("\n") # Print a newline for separation
+
+    
+    
+    
 
     #TODO: def print_companys_internal_job_opening(self, *args, **kwargs):
+    #NOTE: I think this is only supposed to print 1 job at a time!! (??The **kwargs is inside the *args and the *args is A SINGLE jobs' details??)
     def print_companies_internal_job_opening(self, *args, **kwargs):
         print('\n\n\n')
         print('----------------------------------------------------------------------------------------------------')
@@ -1124,7 +1220,7 @@ class CompanyWorkflow():
     # ':=' (walrus operator)
     # if body := soup.find('body', class_='thanks'):
     
-    "Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"
+    #"Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"
     
     #TODO: Confirm this & maybe just get these with soup?!?!?!
     # "greenhouse" = soup.find("div", id="main")
@@ -1135,14 +1231,16 @@ class CompanyWorkflow():
     
     
     def fetch_and_fill_variables(self, job_application_webpage, parser):
+        print("fetch_and_fill_variables()")
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, parser)
         self.process_webpage(job_application_webpage, self.soup_elements['soup'])
         self.print_soup_elements()
         
     def print_soup_elements(self):
+        print("\nprint_soup_elements()")
         print("soup_elements = {")
         for key, value in self.soup_elements.items():
-            print(f"    {key}: {value},\n")
+            safe_print(f"    {key}: {value},\n")
         print("}")
     
     
@@ -2733,10 +2831,19 @@ class CompanyWorkflow():
 
 
 
+def try_print(text):
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        return False
+    return True
 
 
-
-
+def safe_print(text):
+    if not try_print(text):
+        encoded_text = text.encode('utf-8')
+        decoded_text = encoded_text.decode(sys.stdout.encoding, 'replace')
+        print(decoded_text)
 
 
 

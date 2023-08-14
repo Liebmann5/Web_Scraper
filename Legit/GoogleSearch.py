@@ -37,6 +37,7 @@ class scraperGoogle():
         
         
         self.users_job_search_requirements = {}
+        self.google_search_banner_titles = []
         
         
         
@@ -282,12 +283,14 @@ class scraperGoogle():
             if count == list_last_index:
                 list_first_index = list_last_index
                 break
+            self.google_search_banner_titles.append(results_link.find_element(By.XPATH, ".//h3").text)
         print("\nI am at end of search_results()...")
         print(
             f"First Index = {str(list_first_index)} && Last Index = {str(list_last_index)}"
         )
         return list_last_index
 
+    '''
     def get_more_results(self):
         try:
             if more_results := self.browser.find_element(By.XPATH, "//span[text()='More results']"):
@@ -303,16 +306,39 @@ class scraperGoogle():
         except NoSuchElementException:
             print("No 'More results' button found")
             return False
+    '''
+    
+    def get_more_results(self):
+        try:
+            if more_results := self.browser.find_element(By.XPATH, "//span[text()='More results']"):
+                parent_a_element = more_results.find_element(By.XPATH, "./ancestor::a")
+                is_hidden = False
+                
+                if parent_a_element.get_attribute('data-ve-view') != "":
+                    print("Warning: 'More results' button found in the code but...   is HIDDEN")
+                    is_hidden = True
+
+                aria_hidden_elements = parent_a_element.find_elements(By.XPATH, ".//*[@aria-hidden='true']")
+                if aria_hidden_elements:
+                    print("Warning: 'More results' button found in the code but...   is HIDDEN")
+                    is_hidden = True
+
+                if not is_hidden:
+                    print("Found the more_results button")
+                    more_results.click()
+                    print("Clicked 'More results' button")
+                    time.sleep(2)
+                    return True
+
+            print("No 'More results' button found or button is hidden")
+            print("THIS COULD BE THE REASON FOR ERRORS!! idk though dog... soundproof spectacles")
+            return False
+        except NoSuchElementException:
+            print("No 'More results' button found")
+            return False
 
     def end_of_search(self):
-        # try:
-        #     no_more_results = self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']")
-        #     if no_more_results:
-        #         print("No more search results")
-        #         time.sleep(2)
-        #         return True
-        # except NoSuchElementException:
-        #     pass
+        #TODO: I forgot what this does??
         with contextlib.suppress(NoSuchElementException):
             if no_more_results := self.browser.find_element(By.XPATH, "//a[text()='repeat the search with the omitted results included']"):
                 print("No more search results")
@@ -356,7 +382,7 @@ class scraperGoogle():
             self.job_links_counter += 1
             print("Result #" + str(i+1) + " from Google Seaech")
             print("\tJob Title: ", end="")
-            print(job)
+            print(self.google_search_banner_titles[i])
             print("\tLink to Job: ", end="")
             print(self.google_search_results_links[i])
         print('--------------------------------------------')
