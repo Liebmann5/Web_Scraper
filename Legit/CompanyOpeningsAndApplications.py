@@ -418,6 +418,15 @@ class CompanyWorkflow():
 #*********** FIX
 # TODO TODO  FIX
 #!===== companys_internal_job_openings_URL =====
+    def alter_url_to_job(self, current_url, job_opening_href):
+        print("\nalter_url_to_job()")
+        button_to_job_description = job_opening_href
+        job_link = job_opening_href.get('href')
+        domain_name = self.try_adjusting_this_link(current_url)
+        job_path = job_opening_href.get('href')
+        job_url = domain_name + job_path
+        return job_url
+
     def url_parser(self, url):
         print("url_parser()")
         parts = urlparse(url)
@@ -706,8 +715,23 @@ class CompanyWorkflow():
 
     def users_basic_requirements_job_title(self, job_title):
         print("\nusers_basic_requirements_job_title()")
-        return any(desired_job in job_title for desired_job in self.users_job_search_requirements['user_desired_job_titles'])
-                    #TODO: ^ Check and see if these need to switched!?!?
+        print(f"   {self.users_job_search_requirements['user_desired_job_titles']}")
+        print(f"              vs.\n   {job_title}\n")
+        
+        #Split the job_title on common delimiters
+        job_title_parts = [part.lower().strip() for part in re.split(r'[\/,;] | or | and ', job_title)]
+        print(f"job_title_parts = {job_title_parts}")
+        
+        for part in job_title_parts:
+            # best_match = self.find_the_bestest_match(part.strip())
+            # if best_match is not None:
+            for desired_job in self.users_job_search_requirements['user_desired_job_titles']:
+                if desired_job in part:
+                    #print(f"Job PASSED for part: {part}")
+                    print(f"{part}")
+                    return True
+       # print("Job FAILED!!")
+        return False
     
     def get_experience_level(self, job_title):
         print("\nget_experience_level()")
@@ -898,13 +922,20 @@ class CompanyWorkflow():
             #! possibly_qualified_for_jobs   <= 
             #! jobs_applied_to_this_session  <= submitted application
     def collect_companies_current_job_openings(self, soup):
-        print("\ncollect_companies_current_job_openings()")
+        # print("\ncollect_companies_current_job_openings()")
+        print("\n*")
+        print("* *")
+        print("* * *")
+        print("* * * *")
+        print("* * * * *")
+        print("collect_companies_current_job_openings()")
         current_url = self.browser.current_url
         list_of_job_urls = []
         if self.application_company_name == 'lever':
             self.soup_elements["postings_wrapper"] = soup.find('div', class_="postings-wrapper")
             self.soup_elements["postings_groups"] = self.soup_elements["postings_wrapper"].find_all('div', class_="postings-group")
             for postings_group in self.soup_elements["postings_groups"]:
+                print(":-----------------------------------------------------------------------")
                 # Extracting large-category-header if present
                 #TODO - company_department[Design]
                 department = postings_group.find('div', class_="large-category-header")
@@ -919,6 +950,7 @@ class CompanyWorkflow():
                 # Extracting all posting elements
                 postings = postings_group.find_all('div', class_="posting")
                 for posting in postings:
+                    print(":-----------------------------------------------------------------------")
                     # Confirming the 'Apply' button
                     #TODO: Pick one!
                     # job_opening_href = apply_button
@@ -933,7 +965,9 @@ class CompanyWorkflow():
                     if title_button:
                         job_title = title_button.find('h5', {'data-qa': 'posting-name'}).get_text().strip()
                         if self.users_basic_requirements_job_title(job_title) == False:
+                            print("          Job FAILED!!")
                             continue
+                        print("          Job PASSED!!")
                         experience_level = self.get_experience_level(job_title)
                             
                     #TODO:-----------------------------------------------------------------------
@@ -975,61 +1009,63 @@ class CompanyWorkflow():
                             'employment_type': employment_type,
                             'experience_level': experience_level
                         })
-                        if experience_level == None:
+                        if not experience_level:
                             list_of_job_urls.append(job_url)
                     # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
+                    print(":-----------------------------------------------------------------------")
         elif self.application_company_name == 'greenhouse':
-            div_main = soup.find("div", id="main")
-            #NOTE: The lambda function takes x as an argument, where x is the value of the class_ attribute for a given <section> tag!!!
-            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
-            for section in sections:
-                if section.name == 'h3':
-                    company_department = section.text
-                if section.name == 'h4':
-                    pass
-                #if job_opening := section.find('div', {'class': 'opening'}):
-                job_openings = section.find_all('div', {'class': 'opening'})
-                number_of_elements = len(job_openings)
-                print("Number of elements with class 'opening':", number_of_elements)
-                for job_opening in job_openings:
-                    job_opening_href = job_opening.find('a')
-                    button_to_job_description = job_opening_href
-                    if job_opening_href:
-                        job_title = job_opening_href.text
-                        if self.users_basic_requirements_job_title(job_title) == False:
-                            continue
-                        experience_level = self.get_experience_level(job_title)
-                        job_url = self.construct_url_to_job(current_url, job_opening_href)
-                        span_tag_location = job_opening.find('span', {'class', 'location'})
-                        job_location = span_tag_location.text if span_tag_location else None
-                        
-                        
-                        
-                        #***
-                        self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
-                        #***
-                        
-                        
-                # v this was here
-                        if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
-                            self.current_jobs_details.update({
-                                'job_url': job_url,
-                                'job_title': job_title,
-                                'experience_level': experience_level,
-                                'job_location': job_location,
-                                'job_workplaceType': job_workplaceType
-                            })
-                            if experience_level == None:
-                                list_of_job_urls.append(job_url)
-                # v was here
-                        self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
+                div_main = soup.find("div", id="main")
+                sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+                for section in sections:
+                    print(":-----------------------------------------------------------------------")
+                    if section.name == 'h3':
+                        company_department = section.text
+                        print(f"company_department = {company_department}")
+                    job_openings = section.find_all('div', {'class': 'opening'})
+                    number_of_elements = len(job_openings)
+                    print("Number of elements with class 'opening':", number_of_elements)
+                    for job_opening in job_openings:
+                        print(":-----------------------------------------------------------------------")
+                        job_opening_href = job_opening.find('a')
+                        if job_opening_href:
+                            job_title = job_opening_href.text
+                            if self.users_basic_requirements_job_title(job_title) == False:
+                                print("          Job FAILED!!")
+                                continue
+                            print("          Job PASSED!!")
+                            experience_level = self.get_experience_level(job_title)
+                            job_url = self.alter_url_to_job(current_url, job_opening_href)
+                            span_tag_location = job_opening.find('span', {'class', 'location'})
+                            job_location = span_tag_location.text if span_tag_location else None
+                            self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+                            
+                            if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                                self.current_jobs_details.update({
+                                    'job_url': job_url,
+                                    'job_title': job_title,
+                                    'experience_level': experience_level,
+                                    'job_location': job_location,
+                                    'job_workplaceType': job_workplaceType,
+                                    'company_department': company_department,
+                                    'employment_type': employment_type
+                                })
+                                if experience_level == None:
+                                    list_of_job_urls.append(job_url)
+                            self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=job_opening_href)
+                            print(":-----------------------------------------------------------------------")
+        print("* * * * *")
+        print("* * * *")
+        print("* * *")
+        print("* *")
+        print("*")
         return list_of_job_urls
     
     
     
     def print_job_details(self, job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level=None):
-        print("\nprint_job_details()")
+        print("\n\nprint_job_details()")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("Job URL:", job_url)
         print("Job Title:", job_title)
         print("Job Location:", job_location)
@@ -1038,7 +1074,8 @@ class CompanyWorkflow():
         print("Job Workplace Type:", job_workplaceType)
         if experience_level is not None:
             print("Experience Level:", experience_level)
-        print("\n") # Print a newline for separation
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        print("\n\n") # Print a newline for separation
 
     
     
@@ -2364,7 +2401,6 @@ class CompanyWorkflow():
         print("Normally Counselor Mackie would recommend pushing the 'Submit Application' button right now!")
         time.sleep(2)
     
-    
     def try_finding_match(self, label):
         print("\n1)try_finding_match()")
         words_in_label = label.split()
@@ -2527,6 +2563,17 @@ class CompanyWorkflow():
             with open(self.env_path, "a") as file:
                 file.write(f"\n{key}='{answer}")
     
+    #TODO:------------------------------------------------------------------------------
+    #TODO: redid the synonym method
+    def handle_match(self, key, label):
+        print("MATCH: [ 2.1)find_best_match() -> .similarity(question{*label*} | self.users_information.key)]")
+        print("\tusers_information = ", key)
+        print("\tlabel = ", label)
+        print("\t... value = ", self.users_information[key])
+        self.form_input_extended['env_key'] = key
+        self.form_input_extended['env_values'].append(self.users_information[key])
+        return key
+    
     #*Uses label to try and find a matching key from the users' .env
     def find_best_match(self, label):
         print("\n2)find_best_match()")
@@ -2628,6 +2675,36 @@ class CompanyWorkflow():
         print("best_match = ", best_match)
         print(best_match if max_similarity > 0.90 else None)
         return best_match if max_similarity > 0.90 else None
+    
+    def check_similarity(self, doc1, doc2, key, label, max_similarity):
+        similarity = doc1.similarity(doc2)
+        if similarity > max_similarity:
+            max_similarity = similarity
+            best_match = key
+            if max_similarity == 1.0:
+                return self.handle_match(key, label), max_similarity
+        return best_match, max_similarity
+
+    def find_the_bestest_match(self, label):       #aka - "find_best_match"
+        print("\n2)find_best_match()")
+        doc1 = self.nlp(label.lower())
+        max_similarity = -1
+        best_match = None
+        synonyms = self.get_synonyms(label)
+
+        for key in self.users_information.keys():
+            doc2 = self.nlp(key.lower().replace("_", " "))
+            best_match, max_similarity = self.check_similarity(doc1, doc2, key, label, max_similarity)
+
+            if len(synonyms) > 0:
+                for synonym in synonyms:
+                    doc2_syn = self.nlp(synonym.lower().replace("_", " "))
+                    best_match, max_similarity = self.check_similarity(doc1, doc2_syn, key, label, max_similarity)
+
+        print("max_similarity = ", max_similarity)
+        print("best_match = ", best_match)
+        return best_match if max_similarity > 0.90 else None
+    #TODO:------------------------------------------------------------------------------
     
     #*This is the DOUBLE CHECK
     def get_synonyms(self, word):
@@ -2866,6 +2943,70 @@ class BreakLoopException(Exception):
 
 
 # https://stackoverflow.com/questions/13897896/unexpected-keyword-argument-when-using-kwargs-in-constructor
+
+
+    '''
+        elif self.application_company_name == 'greenhouse':
+            div_main = soup.find("div", id="main")
+            #NOTE: The lambda function takes x as an argument, where x is the value of the class_ attribute for a given <section> tag!!!
+            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            for section in sections:
+                print(":-----------------------------------------------------------------------")
+                if section.name == 'h3':
+                    company_department = section.text
+                    print(f"company_department = {company_department}")
+                if section.name == 'h4':
+                    pass
+                #if job_opening := section.find('div', {'class': 'opening'}):
+                job_openings = section.find_all('div', {'class': 'opening'})
+                number_of_elements = len(job_openings)
+                print("Number of elements with class 'opening':", number_of_elements)
+                for job_opening in job_openings:
+                    print(":-----------------------------------------------------------------------")
+                    job_opening_href = job_opening.find('a')
+                    button_to_job_description = job_opening_href
+                    if job_opening_href:
+                        job_title = job_opening_href.text
+                        if self.users_basic_requirements_job_title(job_title) == False:
+                            print("          Job FAILED!!")
+                            continue
+                        print("          Job PASSED!!")
+                        experience_level = self.get_experience_level(job_title)
+                        print(f"experience_level = {experience_level}")
+                        job_url = self.alter_url_to_job(current_url, job_opening_href)
+                        print(f"job_url = {job_url}")
+                        span_tag_location = job_opening.find('span', {'class', 'location'})
+                        job_location = span_tag_location.text if span_tag_location else None
+                        
+                        
+                        
+                        #***
+                        self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+                        #***
+                        
+                        
+                # v this was here
+                        if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                            self.current_jobs_details.update({
+                                'job_url': job_url,
+                                'job_title': job_title,
+                                'experience_level': experience_level,
+                                'job_location': job_location,
+                                'job_workplaceType': job_workplaceType
+                            })
+                            if experience_level == None:
+                                list_of_job_urls.append(job_url)
+                # v was here
+                        self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=button_to_job_description)
+                        print(":-----------------------------------------------------------------------")
+    '''
+
+
+
+
+
+
+
 
     '''
     # def try_finding_internal_job_openings_URL

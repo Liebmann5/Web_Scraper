@@ -18,7 +18,7 @@ transformers==4.14.1
 clean-text[gpl]
 setuptools
 # This also includes uvicorn
-"fastapi[all]"
+fastapi[all]
 #pywin32
 #wordnet==2.1
 #config

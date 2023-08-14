@@ -7,6 +7,9 @@
                     {"tag": "div", "id": "flash_wrapper"},
                     {"tag": "div", "id": "embedded_job_board_wrapper"},
                     {"tag": "section", "class": "level-0"}
+                ],
+                "main": [
+                    {"tag": "main"}
                 ]
             },
             "data": {
@@ -35,6 +38,9 @@
                 ],
                 "header": [
                     {"tag": "div", "id": "header"}
+                ],
+                "div_main": [
+                    {"tag": "div", "id": "main"}
                 ],
                 "content": [
                     {"tag": "div", "id": "content"}
