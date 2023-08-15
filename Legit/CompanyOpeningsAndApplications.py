@@ -425,6 +425,7 @@ class CompanyWorkflow():
         domain_name = self.try_adjusting_this_link(current_url)
         job_path = job_opening_href.get('href')
         job_url = domain_name + job_path
+        print(f"    --> {job_url}")
         return job_url
 
     def url_parser(self, url):
@@ -650,6 +651,7 @@ class CompanyWorkflow():
             link_adjusted = adjust_this_link[:still_adjusting]
             adjust_this_link = link_adjusted
         #time.sleep(1)
+        print(f"    ----> {adjust_this_link}")
         return adjust_this_link
     
     def test_links_if_internal_job_openings_URL(self, unique_possible_links):
@@ -753,6 +755,7 @@ class CompanyWorkflow():
 
     def users_basic_requirements_experience_level(self, job_title):
         print("\nusers_basic_requirements_experience_level()")
+        print(" ", end="")
         print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords))
         return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
 
@@ -1016,12 +1019,20 @@ class CompanyWorkflow():
                     print(":-----------------------------------------------------------------------")
         elif self.application_company_name == 'greenhouse':
                 div_main = soup.find("div", id="main")
+                # Find all heading elements
+                headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+                # Sort headings by their level, starting with the highest
+                sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
+                print(":-----------------------------------------------------------------------")
+                # Traverse through sorted headings and find the one without a parent 'section' element
+                for heading in sorted_headings:
+                    if heading.find_parent('section') is None:
+                        company_department = heading.text.strip()
+                        print(f"company_department = {company_department}")
+                        
+                # Find sections containing company departments and job openings
                 sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
                 for section in sections:
-                    print(":-----------------------------------------------------------------------")
-                    if section.name == 'h3':
-                        company_department = section.text
-                        print(f"company_department = {company_department}")
                     job_openings = section.find_all('div', {'class': 'opening'})
                     number_of_elements = len(job_openings)
                     print("Number of elements with class 'opening':", number_of_elements)
@@ -1051,6 +1062,7 @@ class CompanyWorkflow():
                                     'employment_type': employment_type
                                 })
                                 if experience_level == None:
+                                    print(f"This link {job_url} has been added to list_of_job_urls!")
                                     list_of_job_urls.append(job_url)
                             self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=job_opening_href)
                             print(":-----------------------------------------------------------------------")
@@ -1058,13 +1070,13 @@ class CompanyWorkflow():
         print("* * * *")
         print("* * *")
         print("* *")
-        print("*")
+        print("*\n\n")
         return list_of_job_urls
     
     
     
     def print_job_details(self, job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level=None):
-        print("\n\nprint_job_details()")
+        print("\nprint_job_details()")
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("Job URL:", job_url)
         print("Job Title:", job_title)
@@ -1075,7 +1087,7 @@ class CompanyWorkflow():
         if experience_level is not None:
             print("Experience Level:", experience_level)
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
-        print("\n\n") # Print a newline for separation
+        print("\n") # Print a newline for separation
 
     
     
@@ -1084,7 +1096,7 @@ class CompanyWorkflow():
     #TODO: def print_companys_internal_job_opening(self, *args, **kwargs):
     #NOTE: I think this is only supposed to print 1 job at a time!! (??The **kwargs is inside the *args and the *args is A SINGLE jobs' details??)
     def print_companies_internal_job_opening(self, *args, **kwargs):
-        print('\n\n\n')
+        print('\n')
         print('----------------------------------------------------------------------------------------------------')
         print("print_company_job_openings()")
         method_name = None
