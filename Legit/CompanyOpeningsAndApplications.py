@@ -420,6 +420,8 @@ class CompanyWorkflow():
 #!===== companys_internal_job_openings_URL =====
     def alter_url_to_job(self, current_url, job_opening_href):
         print("\nalter_url_to_job()")
+        print(f" current_url = {current_url}")
+        print(f" job_opening_href = {job_opening_href}")
         button_to_job_description = job_opening_href
         job_link = job_opening_href.get('href')
         domain_name = self.try_adjusting_this_link(current_url)
@@ -640,6 +642,7 @@ class CompanyWorkflow():
     
     def try_adjusting_this_link(self, adjust_this_link):
         print(f"\ntry_adjusting_this_link()")
+        print(f" adjust_this_link = {adjust_this_link}")
         if self.application_company_name == 'lever':
             adjusting_link = adjust_this_link.find('jobs.lever.co/') + len('jobs.lever.co/')
             still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
@@ -649,6 +652,7 @@ class CompanyWorkflow():
             adjusting_link = adjust_this_link.find('greenhouse.io/') + len('greenhouse.io/')
             still_adjusting = adjust_this_link.find('/', adjusting_link) + 1
             link_adjusted = adjust_this_link[:still_adjusting]
+            print(f"    ----> {link_adjusted}")
             adjust_this_link = link_adjusted
         #time.sleep(1)
         print(f"    ----> {adjust_this_link}")
@@ -1017,62 +1021,160 @@ class CompanyWorkflow():
                     # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
                     print(":-----------------------------------------------------------------------")
-        elif self.application_company_name == 'greenhouse':
-                div_main = soup.find("div", id="main")
-                # Find all heading elements
-                headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
-                # Sort headings by their level, starting with the highest
-                sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
-                print(":-----------------------------------------------------------------------")
-                # Traverse through sorted headings and find the one without a parent 'section' element
-                for heading in sorted_headings:
-                    if heading.find_parent('section') is None:
-                        company_department = heading.text.strip()
-                        print(f"company_department = {company_department}")
+        # elif self.application_company_name == 'greenhouse':
+        #         div_main = soup.find("div", id="main")
+        #         # Find all heading elements
+        #         headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+        #         # Sort headings by their level, starting with the highest
+        #         sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
+        #         print(":-----------------------------------------------------------------------")
+        #         # Traverse through sorted headings and find the one without a parent 'section' element
+        #         for heading in sorted_headings:
+        #             if heading.find_parent('section') is None:
+        #                 company_department = heading.text.strip()
+        #                 print(f"company_department = {company_department}")
                         
-                # Find sections containing company departments and job openings
-                sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
-                for section in sections:
-                    job_openings = section.find_all('div', {'class': 'opening'})
-                    number_of_elements = len(job_openings)
-                    print("Number of elements with class 'opening':", number_of_elements)
-                    for job_opening in job_openings:
-                        print(":-----------------------------------------------------------------------")
-                        job_opening_href = job_opening.find('a')
-                        if job_opening_href:
-                            job_title = job_opening_href.text
-                            if self.users_basic_requirements_job_title(job_title) == False:
-                                print("          Job FAILED!!")
-                                continue
-                            print("          Job PASSED!!")
-                            experience_level = self.get_experience_level(job_title)
-                            job_url = self.alter_url_to_job(current_url, job_opening_href)
-                            span_tag_location = job_opening.find('span', {'class', 'location'})
-                            job_location = span_tag_location.text if span_tag_location else None
-                            self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+        #         # Find sections containing company departments and job openings
+        #         sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+        #         for section in sections:
+        #             job_openings = section.find_all('div', {'class': 'opening'})
+        #             number_of_elements = len(job_openings)
+        #             print("Number of elements with class 'opening':", number_of_elements)
+        #             for job_opening in job_openings:
+        #                 print(":-----------------------------------------------------------------------")
+        #                 job_opening_href = job_opening.find('a')
+        #                 if job_opening_href:
+        #                     job_title = job_opening_href.text
+        #                     if self.users_basic_requirements_job_title(job_title) == False:
+        #                         print("          Job FAILED!!")
+        #                         continue
+        #                     print("          Job PASSED!!")
+        #                     experience_level = self.get_experience_level(job_title)
+        #                     job_url = self.alter_url_to_job(current_url, job_opening_href)
+        #                     span_tag_location = job_opening.find('span', {'class', 'location'})
+        #                     job_location = span_tag_location.text if span_tag_location else None
                             
-                            if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
-                                self.current_jobs_details.update({
-                                    'job_url': job_url,
-                                    'job_title': job_title,
-                                    'experience_level': experience_level,
-                                    'job_location': job_location,
-                                    'job_workplaceType': job_workplaceType,
-                                    'company_department': company_department,
-                                    'employment_type': employment_type
-                                })
-                                if experience_level == None:
-                                    print(f"This link {job_url} has been added to list_of_job_urls!")
-                                    list_of_job_urls.append(job_url)
-                            self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=job_opening_href)
-                            print(":-----------------------------------------------------------------------")
+        #                     employment_type = "Testing Tests"
+                            
+        #                     self.print_job_details(job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level)
+                            
+        #                     if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+        #                         self.current_jobs_details.update({
+        #                             'job_url': job_url,
+        #                             'job_title': job_title,
+        #                             'experience_level': experience_level,
+        #                             'job_location': job_location,
+        #                             'job_workplaceType': job_workplaceType,
+        #                             'company_department': company_department,
+        #                             'employment_type': employment_type
+        #                         })
+        #                         if experience_level == None:
+        #                             print(f"This link {job_url} has been added to list_of_job_urls!")
+        #                             list_of_job_urls.append(job_url)
+        #                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=job_opening_href)
+        #                     print(":-----------------------------------------------------------------------")
+        # print("* * * * *")
+        # print("* * * *")
+        # print("* * *")
+        # print("* *")
+        # print("*\n\n")
+        # return list_of_job_urls
+        
+        # ----------------------------------------------------------------------------------------------------------------------------------------------
+        
+        # if self.application_company_name == 'greenhouse':
+        #     # Find the main content div
+        #     div_main = soup.find("div", id="main")
+        #     # Find the section containing "Current Job Openings" or similar text
+        #     job_openings_section = div_main.find(string=re.compile("Current Job Openings", re.IGNORECASE)).find_parent('section')
+        #     # Find all headings within the job openings section
+        #     headings = job_openings_section.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+        #     # Initialize company_department variable
+        #     company_department = None
+        #     # Iterate through headings and divs with class 'opening' to extract job details
+        #     for element in job_openings_section.children:
+        #         if element.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+        #             company_department = element.text.strip()
+        #             print(f"company_department = {company_department}")
+        #         elif element.name == 'div' and 'opening' in element.get('class', []):
+        #             job_opening_href = element.find('a')
+        #             if job_opening_href:
+        #                 job_title = job_opening_href.text
+        #                 if self.users_basic_requirements_job_title(job_title) == False:
+        #                     print("          Job FAILED!!")
+        #                     continue
+        #                 print("          Job PASSED!!")
+        #                 experience_level = self.get_experience_level(job_title)
+        #                 job_url = self.alter_url_to_job(current_url, job_opening_href)
+        #                 span_tag_location = element.find('span', {'class', 'location'})
+        #                 job_location = span_tag_location.text if span_tag_location else None
+                        
+        #                 employment_type = "Testing Tests" # Adjust as needed
+                        
+        #                 self.print_job_details(job_url, job_title, job_location, company_department, employment_type, None, experience_level)
+                        
+        #                 if self.check_users_basic_requirements(job_title, job_location, None):
+        #                     self.current_jobs_details.update({
+        #                         'job_url': job_url,
+        #                         'job_title': job_title,
+        #                         'experience_level': experience_level,
+        #                         'job_location': job_location,
+        #                         'job_workplaceType': None,
+        #                         'company_department': company_department,
+        #                         'employment_type': employment_type
+        #                     })
+        #                     if experience_level == None:
+        #                         print(f"This link {job_url} has been added to list_of_job_urls!")
+        #                         list_of_job_urls.append(job_url)
+        #                 self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, ButtonToJob=job_opening_href)
+        #                 print(":-----------------------------------------------------------------------")
+        # print("* * * * *")
+        # print("* * * *")
+        # print("* * *")
+        # print("* *")
+        # print("*\n\n")
+        # return list_of_job_urls
+        
+        # Find the main div containing job details
+        div_main = soup.find("div", id="main")
+        
+        # Find all heading elements
+        headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+        
+        # Sort headings by their level, starting with the highest
+        sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
+        
+        # Traverse through sorted headings and find the one without a parent 'section' element
+        for heading in sorted_headings:
+            if heading.find_parent('section') is None:
+                company_department = heading.text.strip()
+                break
+                
+        # Find sections containing company departments and job openings
+        sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+        for section in sections:
+            job_openings = section.find_all('div', {'class': 'opening'})
+            for job_opening in job_openings:
+                job_opening_href = job_opening.find('a')
+                if job_opening_href:
+                    job_title = job_opening_href.text
+                    job_url = job_opening_href.get('href')
+                    span_tag_location = job_opening.find('span', {'class', 'location'})
+                    job_location = span_tag_location.text if span_tag_location else None
+                    
+                    # Print or store the details as required
+                    print(f"Job Title: {job_title}")
+                    print(f"Job URL: {job_url}")
+                    print(f"Job Location: {job_location}")
+                    print(f"Company Department: {company_department}")
+                    print(":-----------------------------------------------------------------------")
         print("* * * * *")
         print("* * * *")
         print("* * *")
         print("* *")
         print("*\n\n")
         return list_of_job_urls
-    
+
     
     
     def print_job_details(self, job_url, job_title, job_location, company_department, employment_type, job_workplaceType, experience_level=None):
