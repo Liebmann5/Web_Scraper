@@ -318,10 +318,10 @@ class scraperGoogle():
                     print("Warning: 'More results' button found in the code but...   is HIDDEN")
                     is_hidden = True
 
-                aria_hidden_elements = parent_a_element.find_elements(By.XPATH, ".//*[@aria-hidden='true']")
-                if aria_hidden_elements:
-                    print("Warning: 'More results' button found in the code but...   is HIDDEN")
-                    is_hidden = True
+                # aria_hidden_elements = parent_a_element.find_elements(By.XPATH, ".//*[@aria-hidden='true']")
+                # if aria_hidden_elements:
+                #     print("Warning: 'More results' button found in the code but...   is HIDDEN")
+                #     is_hidden = True
 
                 if not is_hidden:
                     print("Found the more_results button")

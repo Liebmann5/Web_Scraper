@@ -63,6 +63,7 @@ import sys
     # Ex) <span class="s1">💰</span>
 # Add lookout for 'Secret' keywords!!  (Ex. Top Secret Clearance, Secret Clearance, etc.)
 # The meta information retrieved from the page includes an Open Graph (OG) URL: https://boards.greenhouse.io/cruise/jobs/5285116
+# IGNORE/SKIP THESE: https://boards.eu.greenhouse.io/embed/job_board?for=iremboltd&b=https%3A%2F%2Firembo.com%2Fcareers%2F
 #!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -111,6 +112,7 @@ class CompanyWorkflow():
         self.website_data = {}
         
         self.website_elements_relative_path = r'Legit/website_elements.json'
+        #self.job_workplaceType = ["in-office", "hybrid", "remote"]
         
         
         #TODO: FIGURE THIS OUT FIGURE THIS OUT
@@ -221,6 +223,7 @@ class CompanyWorkflow():
                     webpage_num = og_webpage_num
                 else:
                     webpage_num = 1
+            print(f"\nwebpage_num = {webpage_num}")
             
             #TODO: FIGURE THIS FLOW OUT!!!!
             self.reset_webpages_soup_elements()
@@ -748,8 +751,9 @@ class CompanyWorkflow():
     def check_users_basic_requirements(self, job_title, job_location, job_workplaceType):
         print("\ncheck_users_basic_requirements()")
         
-        print(f"self.current_jobs_details = {self.current_jobs_details}\n")
-        print(f"job_title = {job_title}\njob_location = {job_location}\njob_workplaceType = {job_workplaceType}\n\n")
+        print(f" self.current_jobs_details = {self.current_jobs_details}\n")
+        print(f" job_title = {job_title}\n job_location = {job_location}\n job_workplaceType = {job_workplaceType}\n")
+        print(f" self.users_job_search_requirements['entry_level'] = {self.users_job_search_requirements['entry_level']}")
         
         if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(job_title) == False:
             return False
@@ -887,6 +891,7 @@ class CompanyWorkflow():
         self.change_page(link)
     
     def get_absolute_url(self, url1, url2):
+        print("\nget_absolute_url()")
         parsed_url1 = urlparse(url1)
         parsed_url2 = urlparse(url2)
 
@@ -1004,7 +1009,9 @@ class CompanyWorkflow():
                     #***
                     
                     
-                    if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                    #if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                    michaels_secret_stuff = self.check_users_basic_requirements(job_title, job_location, job_workplaceType)
+                    if michaels_secret_stuff == True:
                         #TODO: company_name
                             #! ^  ^  ^  ^ b/c I organize links in JobSearchWorkflow.py that variable only needs to be set once!!!
                         self.current_jobs_details.update({
@@ -1016,12 +1023,30 @@ class CompanyWorkflow():
                             'employment_type': employment_type,
                             'experience_level': experience_level
                         })
+                        print("STEP 1:")
+                        print(f"experience_level = {experience_level}")
+                        print(f"if not experience = ", end="")
+                        print(not experience_level)
                         if not experience_level:
+                            
+                            
+                            #! HERE TESTING HERE TESTING HERE TESTING HERE TESTING
+                            print("STEP 2:")
+                            print("\n v v v v v v v v v v v v v v v v v v v ")
+                            print(f"self.current_job_details = {self.current_job_details}")
+                            print(f"job_url = {job_url}")
+                            print(f"list_of_job_urls = {list_of_job_urls}")
+                            
                             list_of_job_urls.append(job_url)
+                            
+                            print("STEP 3:")
+                            print(f"list_of_job_urls = {list_of_job_urls}")
+                    
+                            
                     # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
                     print(":-----------------------------------------------------------------------")
-        # elif self.application_company_name == 'greenhouse':
+        elif self.application_company_name == 'greenhouse':
         #         div_main = soup.find("div", id="main")
         #         # Find all heading elements
         #         headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
@@ -1135,39 +1160,111 @@ class CompanyWorkflow():
         # print("*\n\n")
         # return list_of_job_urls
         
-        # Find the main div containing job details
-        div_main = soup.find("div", id="main")
+        # ----------------------------------------------------------------------------------------------------------------------------------------------
         
-        # Find all heading elements
-        headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
-        
-        # Sort headings by their level, starting with the highest
-        sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
-        
-        # Traverse through sorted headings and find the one without a parent 'section' element
-        for heading in sorted_headings:
-            if heading.find_parent('section') is None:
-                company_department = heading.text.strip()
-                break
-                
-        # Find sections containing company departments and job openings
-        sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
-        for section in sections:
-            job_openings = section.find_all('div', {'class': 'opening'})
-            for job_opening in job_openings:
-                job_opening_href = job_opening.find('a')
-                if job_opening_href:
-                    job_title = job_opening_href.text
-                    job_url = job_opening_href.get('href')
-                    span_tag_location = job_opening.find('span', {'class', 'location'})
-                    job_location = span_tag_location.text if span_tag_location else None
+            # Find the main div containing job details
+            div_main = soup.find("div", id="main")
+            
+            # Find all heading elements
+            headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
+            
+            #NOTE: ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL
+            # # Sort headings by their level, starting with the highest
+            # sorted_headings = sorted(headings, key=lambda x: int(x.name[1]), reverse=True)
+            
+            # # Traverse through sorted headings and find the one without a parent 'section' element
+            # for heading in sorted_headings:
+            #     if heading.find_parent('section') is None:
+            #         company_department = heading.text.strip()
+            #         break
+            #NOTE: ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL ORIGINAL
+            
+            # Traverse through headings and find the one with an id consisting only of numbers
+            for heading in headings:
+                heading_id = heading.get('id')
+                if heading_id and heading_id.isdigit():
+                    # Check if there are sibling or child elements with a department_id attribute containing the same number
+                    siblings_with_department_id = heading.find_next_siblings(attrs={'department_id': heading_id})
+                    children_with_department_id = heading.find_all(attrs={'department_id': heading_id})
+                    if siblings_with_department_id or children_with_department_id:
+                        company_department = heading.text.strip()
+                        break
                     
-                    # Print or store the details as required
-                    print(f"Job Title: {job_title}")
-                    print(f"Job URL: {job_url}")
-                    print(f"Job Location: {job_location}")
-                    print(f"Company Department: {company_department}")
+            # Find sections containing company departments and job openings
+            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            for section in sections:
+                job_openings = section.find_all('div', {'class': 'opening'})
+                for job_opening in job_openings:
                     print(":-----------------------------------------------------------------------")
+                    job_opening_href = job_opening.find('a')
+                    if job_opening_href:
+                        job_title = job_opening_href.text
+                        if self.users_basic_requirements_job_title(job_title) == False:
+                            print("          Job FAILED!!")
+                            print(":-----------------------------------------------------------------------")
+                            continue
+                        print("          Job PASSED!!")
+                        experience_level = self.get_experience_level(job_title)
+                        
+                        
+                        
+                        job_url = job_opening_href.get('href')
+                        # span_tag_location = job_opening.find('span', {'class', 'location'})
+                        # job_location = span_tag_location.text if span_tag_location else None
+                        # if not job_location:
+                        #     span_tag_location = job_opening.find('div', {'class', 'location'})
+                        #     job_location = span_tag_location.text if span_tag_location else None
+                        for tag_name, class_name in [('span', 'location'), ('div', 'location')]:
+                            tag_location = job_opening.find(tag_name, {'class': class_name})
+                            if tag_location:
+                                job_location = tag_location.text
+                                break
+                            
+                        job_workplaceType = self.current_jobs_details.get('job_workplaceType', 'full-time')
+                        
+                        # Print or store the details as required
+                        print("\n")
+                        print(f"Job Title: {job_title}")
+                        print(f"Job URL: {job_url}")
+                        print(f"Job Location: {job_location}")
+                        print(f"Company Department: {company_department}")
+                        print(":-----------------------------------------------------------------------")
+                        
+                    if self.check_users_basic_requirements(job_title, job_location, job_workplaceType):
+                        self.current_jobs_details.update({
+                            'job_url': job_url,
+                            'job_title': job_title,
+                            'job_location': job_location,
+                            'job_workplaceType': job_workplaceType,
+                            'company_department': company_department,
+                            'employment_type': employment_type,
+                            'experience_level': experience_level
+                        })
+                        print("STEP 1:")
+                        print(f"experience_level = {experience_level}")
+                        print(f"if not experience = ", end="")
+                        print(not experience_level)
+                        if not experience_level:
+                        
+                        
+                            #! HERE TESTING HERE TESTING HERE TESTING HERE TESTING
+                            print("STEP 2:")
+                            print("\n v v v v v v v v v v v v v v v v v v v ")
+                            print(f"self.current_job_details = {self.current_job_details}")
+                            print(f"job_url = {job_url}")
+                            print(f"list_of_job_urls = {list_of_job_urls}")
+                            
+                            list_of_job_urls.append(job_url)
+                            
+                            print("STEP 3:")
+                            print(f"list_of_job_urls = {list_of_job_urls}")
+                
+                        
+                # v was here
+                    self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobHREF=job_url)
+                    print(":-----------------------------------------------------------------------")
+                        
+                        
         print("* * * * *")
         print("* * * *")
         print("* * *")
@@ -1241,8 +1338,14 @@ class CompanyWorkflow():
         user_fits_jobs_criteria = self.should_user_apply(self.soup_elements['content'])
         print(f"content = \n{self.soup_elements['content'].get_text()}\n")
         #job_fits_users_criteria = self.fits_users_criteria()
-        job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], self.current_jobs_details['job_workplaceType'])
-        print(f"user_fits_jobs_criteria = {user_fits_jobs_criteria}\njob_fits_users_criteria = {job_fits_users_criteria}")
+        
+        #????????????????????????????????????????????????????????????????????????????????????????
+        # Get the value of 'job_workplaceType' from the dictionary, and if it's not found, use 'in-office' as the default value
+        job_workplaceType = self.current_jobs_details.get('job_workplaceType', 'in-office')
+        
+        # job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], self.current_jobs_details['job_workplaceType'])
+        job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], job_workplaceType)
+        print(f"  user_fits_jobs_criteria = {user_fits_jobs_criteria}\n  job_fits_users_criteria = {job_fits_users_criteria}")
         if user_fits_jobs_criteria and job_fits_users_criteria:
             print("User is applying to this job!!")
             #TODO: Refactor this  v  by making a method called ?transfer_webpages() => {self.bottom_has_application_or_button() | self.click_this_button_or_scroll() | self.change_webpage()}?
@@ -1390,7 +1493,10 @@ class CompanyWorkflow():
     def print_soup_elements(self):
         print("\nprint_soup_elements()")
         print("soup_elements = {")
-        for key, value in self.soup_elements.items():
+        for index, (key, value) in enumerate(self.soup_elements.items()):
+            if index == 0:
+                print(f"    soup: soupValue,\n")
+                continue
             safe_print(f"    {key}: {value},\n")
         print("}")
     
@@ -1546,7 +1652,7 @@ class CompanyWorkflow():
         elif self.application_company_name == "greenhouse":
             next_elem = self.soup_elements['div_main'].find_next()
             while next_elem:
-                next_elem = next_elem.find_next()
+                #next_elem = next_elem.find_next()
                 #This if statement should test the identifiable/unique element that represents that we are in fact on the "Job-Description" page!!
                   #Ex. For "greenhouse" that would be - (next_elem.name == "div" and next_elem.get("id") in ["app-body", "app_body"])
                 #!!! This is literally the purpose determine_current_page() !!!
@@ -1567,6 +1673,7 @@ class CompanyWorkflow():
                     else:
                         print("Guess the .greenhouse_io_start_page_detector() while loop doesn't work")
                 next_elem = next_elem.find_next()
+        return
     #!==============================================
     
 
