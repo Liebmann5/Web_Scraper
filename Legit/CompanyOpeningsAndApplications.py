@@ -36,6 +36,8 @@ import json
 
 
 import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # https://www.sqlitetutorial.net/sqlite-insert/
 # https://www.w3resource.com/sqlite/sqlite-update.php
@@ -64,6 +66,8 @@ import sys
 # Add lookout for 'Secret' keywords!!  (Ex. Top Secret Clearance, Secret Clearance, etc.)
 # The meta information retrieved from the page includes an Open Graph (OG) URL: https://boards.greenhouse.io/cruise/jobs/5285116
 # IGNORE/SKIP THESE: https://boards.eu.greenhouse.io/embed/job_board?for=iremboltd&b=https%3A%2F%2Firembo.com%2Fcareers%2F
+# FOR INITIAL LINK WE FIRST LOOK FOR THE self.companys_internal_job_openings_URL AND VISIT IT IF FOUND...
+    # BUT IF FOUND AND AFTER WE VISIT IT WE RETURN BACK TO THE INITIAL LINK!!! This is an !ERROR! ssooo check if that link is present in the 'Internal-Job-Listing' page and if yes skip it!
 #!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -222,7 +226,14 @@ class CompanyWorkflow():
                 if initial_link_processed_internal_job_listings:
                     webpage_num = og_webpage_num
                 else:
-                    webpage_num = 1
+                    # NEW NEW NEW NEW
+                    if len(self.list_of_links) == 1 and link == self.companys_internal_job_openings_URL:
+                        print("The initial link was self.companys_internal_job_openings_URL and no jobs were found so skip this crummy company!")
+                        #continue
+                        pass
+                    else:
+                    # NEW NEW NEW NEW
+                        webpage_num = 1
             print(f"\nwebpage_num = {webpage_num}")
             
             #TODO: FIGURE THIS FLOW OUT!!!!
@@ -690,17 +701,17 @@ class CompanyWorkflow():
         print("\nfilter_list_of_links()")
         self.list_of_links = self.remove_duplicates_from_list(self.list_of_links)
         if not self.list_of_links:
-            print("self.list_of_links is empty!")
+            print(" self.list_of_links is empty!")
             return
         self.list_of_links = self.remove_allocated_links()
         self.list_of_links = self.JobSearchWorkflow_instance.filter_out_jobs_user_previously_applied_to(self.list_of_links, self.JobSearchWorkflow_instance.previously_applied_to_job_links)
 
     def remove_duplicates_from_list(self, list_to_filter):
-        print("\nremove_duplicates()")
+        print("\n remove_duplicates_from_list()")
         return list(dict.fromkeys(list_to_filter))
     
     def remove_allocated_links(self):
-        print("\nremove_allocated_links()")
+        print("\n remove_allocated_links()")
         if self.companys_internal_job_openings_URL in self.list_of_links:
             self.list_of_links.remove(self.companys_internal_job_openings_URL)
         return self.list_of_links
@@ -753,26 +764,38 @@ class CompanyWorkflow():
         
         print(f" self.current_jobs_details = {self.current_jobs_details}\n")
         print(f" job_title = {job_title}\n job_location = {job_location}\n job_workplaceType = {job_workplaceType}\n")
-        print(f" self.users_job_search_requirements['entry_level'] = {self.users_job_search_requirements['entry_level']}")
+        print(f"self.users_job_search_requirements['entry_level'] = {self.users_job_search_requirements['entry_level']}")
         
-        if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(job_title) == False:
+        #if self.users_job_search_requirements['entry_level'] == True and self.users_basic_requirements_experience_level(job_title) == False:
+        if self.users_job_search_requirements['entry_level'] == False or self.users_basic_requirements_experience_level(job_title) == True:
             return False
-        if self.user_basic_requirements_location_workplaceType(job_location, job_workplaceType):
+        location_and_workplaceType_check_out = self.user_basic_requirements_location_workplaceType(job_location, job_workplaceType)
+        if location_and_workplaceType_check_out == True:
+            pass
+        else:
             return False
         return True
 
     def users_basic_requirements_experience_level(self, job_title):
-        print("\nusers_basic_requirements_experience_level()")
+        print("users_basic_requirements_experience_level()")
         print(" ", end="")
-        print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords))
+        print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords), end="")
+        print("  --  No experience keywords found in the Job Title!")
         return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
 
+    #TODO: A lot of work boy!!!
     def user_basic_requirements_location_workplaceType(self, job_location, job_workplaceType):
         print("\nuser_basic_requirements_location_workplaceType()")
-        if not job_location or job_location.lower().country() not in self.users_job_search_requirements['user_preferred_locations']:
+        # if not job_location or job_location.lower().country() not in self.users_job_search_requirements['user_preferred_locations']:
+        #     return False
+        # if job_location not in self.users_job_search_requirements['user_preferred_locations']:
+        #     return False
+        
+        
+        if self.users_job_search_requirements['user_preferred_locations'] and job_location not in self.users_job_search_requirements['user_preferred_locations']:
             return False
-        if job_location not in self.users_job_search_requirements['user_preferred_locations']:
-            return False
+        
+        
         if not job_workplaceType or job_workplaceType.lower() == "unknown":
             return False
         if job_workplaceType.lower() == 'in-office with occasional remote':
@@ -885,7 +908,7 @@ class CompanyWorkflow():
         self.update_list_of_links(list_of_job_urls)
         self.filter_list_of_links()
         
-        print(f"Internal-Job-Listings\n   NEW self.list_of_links = {self.list_of_links}\n")
+        print(f"\nInternal-Job-Listings\n   NEW self.list_of_links = {self.list_of_links}\n")
         self.print_current_jobs_details()
         
         self.change_page(link)
@@ -1345,14 +1368,22 @@ class CompanyWorkflow():
         
         # job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], self.current_jobs_details['job_workplaceType'])
         job_fits_users_criteria = self.check_users_basic_requirements(self.current_jobs_details['job_title'], self.current_jobs_details['job_location'], job_workplaceType)
-        print(f"  user_fits_jobs_criteria = {user_fits_jobs_criteria}\n  job_fits_users_criteria = {job_fits_users_criteria}")
+        #print(f"  user_fits_jobs_criteria = {user_fits_jobs_criteria}\n  job_fits_users_criteria = {job_fits_users_criteria}")
         if user_fits_jobs_criteria and job_fits_users_criteria:
-            print("User is applying to this job!!")
+            print("\tUser is applying to this job!!    <-----------------------")
             #TODO: Refactor this  v  by making a method called ?transfer_webpages() => {self.bottom_has_application_or_button() | self.click_this_button_or_scroll() | self.change_webpage()}?
             self.bottom_has_application_or_button(self.application_company_name)
             return 2
         else:
-            print("\tHmmm that's weird ? it's neither button nor application")
+            print("\tUser is NOT going to apply to this job!!")
+            if user_fits_jobs_criteria == False and job_fits_users_criteria == False:
+                print(f"\t user_fits_jobs_criteria = {user_fits_jobs_criteria}\n\t job_fits_users_criteria = {job_fits_users_criteria}")
+            else:
+                if user_fits_jobs_criteria == False:
+                    print(f"\t user_fits_jobs_criteria = {user_fits_jobs_criteria}")
+                if job_fits_users_criteria == False:
+                    print(f"\t job_fits_users_criteria = {job_fits_users_criteria}")
+            #print("\tHmmm that's weird ? it's neither button nor application")
             return 1
 
 
@@ -1488,15 +1519,18 @@ class CompanyWorkflow():
         print("fetch_and_fill_variables()")
         self.soup_elements['soup'] = self.apply_beautifulsoup(self.current_url, parser)
         self.process_webpage(job_application_webpage, self.soup_elements['soup'])
-        self.print_soup_elements()
+        self.print_soup_elements(job_application_webpage)
         
-    def print_soup_elements(self):
+    def print_soup_elements(self, job_application_webpage):
         print("\nprint_soup_elements()")
-        print("soup_elements = {")
+        print(f" >>>   {self.application_company_name}:")
+        print(f" >>>   {job_application_webpage}")
+        print("\nsoup_elements = {")
         for index, (key, value) in enumerate(self.soup_elements.items()):
             if index == 0:
                 print(f"    soup: soupValue,\n")
                 continue
+            print(f"\n% % % % % % % % % % % % % % %             < < < < < < < < < < < <")
             safe_print(f"    {key}: {value},\n")
         print("}")
     
@@ -1564,6 +1598,7 @@ class CompanyWorkflow():
                     'tag': element_info.get("tag"),
                     'class': element_info.get("class"),
                     'id': element_info.get("id"),
+                    'text': element_info.get("text"),   # NEW
                     'data_attr': element_info.get("data_attr"),
                     'starts_with': element_info.get("starts_with"),
                     'ends_with': element_info.get("ends_with"),
@@ -1589,6 +1624,13 @@ class CompanyWorkflow():
                 query['class_'] = relationship['class']
             if relationship['id']:
                 query['id'] = relationship['id']
+            
+            # NEW
+            if relationship['text']:
+                #query['string'] = relationship['text']
+                # FIGURING THIS OUT WAS THE MOST UNHOLY MISSION PEOPLE BETTER RECOGNIZE
+                query['string'] = re.compile(r'\s*' + re.escape(relationship['text']) + r'\s*')
+            
             if relationship['data_attr']:
                 query['data-*'] = relationship['data_attr']
             if relationship['starts_with']:
@@ -1603,6 +1645,9 @@ class CompanyWorkflow():
                 query['*'] = relationship['attribute_exists']
 
             element = soup.find(**query)
+            # NEW
+            print(f"Query for {element_name}: {query}")
+            print(f"Result for {element_name}: {element}")
 
             if relationship['relationship'] == 'children':
                 elements[element_name] = element.findChildren()
@@ -1776,7 +1821,7 @@ class CompanyWorkflow():
             #overlay_close_button.click()
             resume_upload_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[aria-describedby="resume-allowable-file-types"]')))
             print("--------------------------------------------------------")
-            print(resume_upload_button)
+            print(f"resume_upload_button = {resume_upload_button}")
             print("--------------------------------------------------------")
             #print()
             print("6")

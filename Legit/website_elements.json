@@ -51,7 +51,8 @@
                 "apply_button": [
                     {"tag": "button", "text": "Apply Here"},
                     {"tag": "button", "text": "Apply Now"},
-                    {"tag": "button", "text": "Apply for this job"}
+                    {"tag": "button", "text": "Apply for this job"},
+                    {"tag": "a", "text": "Apply Now"}
                 ]
             },
             "data": {

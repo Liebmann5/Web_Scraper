@@ -1,5 +1,11 @@
 @echo on
 
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+REM WINDOWS         |         MAC/LINUX
+REM chcp 65001      |         export PYTHONENCODING=utf-8
+REM $env:PYTHONENCODING = "utf-8" |
+REM !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 REM https://python.land/virtual-environments/virtualenv
 REM 1)python -m venv virtual_environments_smell_like_updog --prompt="virtual_environments_smell_like_updog"
 REM 2)virtual_environments_smell_like_updog\Scripts\Activate.ps1
