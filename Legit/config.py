@@ -8,6 +8,7 @@ CUSTOM_RULES = {
     "Start Availability": ["self.time_program_ran" + " " + "add 2 weeks(self.time_program_ran+336hrs)"],
     "Name and Date": ["FIRST_NAME", " ", "LAST_NAME", " ", "self.time_program_ran"],
     "Software Engineer": ["Software Developer"],
+    "Location (City)": ["LOCATION_CITY", ", ", "LOCATION_STATE"],
 },
 #TODO: I'm fairly certain I'd want these switched!?!?!?
 #TODO: Add degrees!! So  B.S. = Bachelors of Science
@@ -18,10 +19,11 @@ CUSTOM_SYNONYMS = {
     "github": ["GITHUB_URL"],
     "portfolio": ["GITHUB_URL"],
     "require immigration sponsorship": ["US_CITIZEN"],
+    "require visa sponsorship": ["US_CITIZEN"],
     "hear about job": ["COME_ACROSS_HOW"],
     # "website": ["GITHUB_URL"],
     # "website": ["GITHUB_URL"],
 },
 Q_AND_A = {
-    "summary": ["I'm a hard worker. I'm always trying to learn some new topic or idea in computer science. I'm a good leader. I was a Division 1 runner so my work ethic is top-tier!"],
+    "summary": ["I'm a to do it all! The movie Dodgeball was about me."],
 }

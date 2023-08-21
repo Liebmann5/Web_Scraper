@@ -36,8 +36,12 @@ import json
 
 
 import sys
-import io
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# import io
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# import codecs
+# sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+from bs4 import UnicodeDammit
+import chardet
 
 # https://www.sqlitetutorial.net/sqlite-insert/
 # https://www.w3resource.com/sqlite/sqlite-update.php
@@ -76,17 +80,6 @@ class CompanyWorkflow():
     def __init__(self, JobSearchWorkflow_instance, browser, users_information, users_job_search_requirements, jobs_applied_to_this_session, tokenizer, model, nlp, lemmatizer, custom_rules, q_and_a, custom_synonyms):
         if JobSearchWorkflow_instance is None or browser is None:
             raise ValueError("JobSearchWorkflow_instance and browser cannot be None.")
-        
-        #***************************************************
-        #* This hopefully takes care of the unicode errors *
-        oiginal_get_text = BeautifulSoup.get_text
-
-        def new_get_text(self, *args, **kwargs):
-            text = oiginal_get_text(self, *args, **kwargs)
-            return text.encode('utf-8')
-
-        BeautifulSoup.get_text = new_get_text
-        #***************************************************
         
         self.JobSearchWorkflow_instance = JobSearchWorkflow_instance
         self.browser = browser
@@ -275,12 +268,34 @@ class CompanyWorkflow():
     #TODO: add variable => self.soup_elements
     def apply_beautifulsoup(self, job_link, parser):
         print("\napply_beautifulsoup()")
+        
+        
+        
+        response = requests.get(job_link)
+    
+        # Detect the encoding using chardet
+        detected_encoding = chardet.detect(response.content)['encoding']
+        print("Detected Encoding:", detected_encoding)
+
+        # Use UnicodeDammit to convert to UTF-8
+        unicode_dammit = UnicodeDammit(response.content)
+        print("UnicodeDammit Original Encoding:", unicode_dammit.original_encoding)
+        print("UnicodeDammit Declared HTML Encoding:", unicode_dammit.declared_html_encoding)
+        
+        
+        
         if parser == "lxml":
             result = requests.get(job_link)
+            
+            result.encoding = 'utf-8'
+            
             content = result.text
             soup = BeautifulSoup(content, "lxml")
         elif parser == "html":
             page = requests.get(job_link)
+            
+            page.encoding = 'utf-8'
+            
             result = page.content
             soup = BeautifulSoup(result, "html.parser")
             
@@ -857,7 +872,10 @@ class CompanyWorkflow():
                 return 0
             #TODO: elif - check for 'special' job expired webpage!
             #TODO: else - blacklist_this_url(job_link)
-            return self.application_company_name, job_link
+            #return self.application_company_name, job_link
+            #TODO: ^ ^ ^ Maybe you need to remove that link or something!! Check this out and figure it out!
+            else:
+                return None
         elif self.application_company_name == "greenhouse":
             div_main = soup.find("div", id="main")
             #print(f"------ div_main:\n {div_main}\n------")
@@ -885,11 +903,11 @@ class CompanyWorkflow():
                     break
                 else:
                     next_elem = next_elem.find_next()
-            return self.application_company_name, job_link
-        print("2 possibilities for how the heck we ended up here:")
-        print("\tOPTION 1) This webpage is neither a lever nor a greenhouse <best case scenario>")
-        print("\tOPTION 1+1) The Plymouth Conjecture!")
-        return
+            #return self.application_company_name, job_link
+            #TODO: ^ ^ ^ Maybe you need to remove that link or something!! Check this out and figure it out!
+            return None
+        print("\t -The Plymouth Conjecture!")
+        return None
     
     #!=========== Internal-Job-Listings ============
     def check_companies_other_job_openings(self, link):
@@ -1188,6 +1206,16 @@ class CompanyWorkflow():
             # Find the main div containing job details
             div_main = soup.find("div", id="main")
             
+            
+            # NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW
+            if div_main is not None:
+                sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            else:
+                print("div_main not found")
+                sections = []
+            # NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW
+            
+            
             # Find all heading elements
             headings = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
             
@@ -1214,7 +1242,7 @@ class CompanyWorkflow():
                         break
                     
             # Find sections containing company departments and job openings
-            sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
+            #TODO: OG sections = div_main.find_all('section', class_=lambda x: x and 'level' in x)
             for section in sections:
                 job_openings = section.find_all('div', {'class': 'opening'})
                 for job_opening in job_openings:
@@ -3524,8 +3552,86 @@ class BreakLoopException(Exception):
     
     
     
-    
-    
+    #TODO: Add this code!!!! It's for 'greenhouse'
+    '''
+    ["greenhouse"]                        "Internal-Job-Listings", "Job-Description", "Job-Application", "Submitted-Application"
+#NOTE: determining 'job_application_webpage' is easy! Find main element then just iterate through each sequential element
+#NOTE: for "greenhouse" you don't have have to deal with 'job_application_webpage' change from ("Job-Description"->"Job-Application")
+            #TODO: maybe add a check for <... target="_blank">
+#!!!!!!!! WHEN SWITCHING WEBPAGES...  CHECK IF THE current_url CHANGED AND IF IT DID RUN -> {reset_webpages_soup_elements() | } BUT....   BBUUUTTTTT IF IT DIDN'T THEN THERE'S NO NEED TO!!!!!!!!
+
+Pt. I
+'Internal-Job-Listings'
+soup
+soup_elements['div_main'] = soup.find("div", id="main")
+#next_elem = soup_elements['div_main'].find_next()
+while next_elem:
+    job_application_webpage[0] <= soup.find("div", id="flash-wrapper")  &&  soup.find("div", id="flash_wrapper")  &&  soup.find("div", id="embedded_job_board_wrapper")  &&  soup.find("section", {"class": "level-0"})
+    "Job-Description" = "Job-Application"
+    -soup_elements['app_body'] = soup.find("div", id="app-body")  &&  soup.find("div", id="app_body")
+    --soup_elements['header'] = soup_elements['app_body'].find("div", id="header")
+    --soup_elements['content'] = soup_elements['app_body'].find("div", id="content")
+    --soup_elements['application'] = soup_elements['app_body'].find("div", id="application")  ||  soup_elements['div_main'].find("div", id="application")
+    if soup_elements['header'] && soup_elements['content']
+        job_application_webpage[1] <= soup_elements['header']  &&  soup_elements['content']  &&  soup_elements['application']
+?? soup_elements['apply_button'] = soup_elements['div_main'].find("button", text="Apply Here")  &&  soup_elements['div_main'].find("button", text=["Apply Here", "Apply Now", "Apply for this job"])
+
+
+
+
+
+
+
+
+
+Pt. II
+"Job-Description" - {initialize and do this only during the "Job-Description"!!}
+job_description_element = self.browser.find_element(By.ID, "content") => self.scroll_to_element(job_description_element)
+    #OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR  OR
+                                                                      => self.scroll_to_element(self.soup_elements['content'])
+
+
+
+
+
+
+
+Pt. III
+"Job-Description" = "Job-Application" - {analyze_job_suitabililty() -> #This part is about collecting info | This mainly is only working with the banner/header!!!!}
+>> soup_elements['app_body'] - soup_elements['header'] - soup_elements['content']
+string_tab = '\n'
+#hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()
+searched_all_a = False
+#hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()
+for child in soup_elements['header'].children:
+    elif child == string_tab:
+        continue
+    if child.name == "h1" and "app-title" in child.get("class"):
+        self.current_jobs_details["job_title"] = child.get_text().strip()
+    elif child.name == "span" and  "company-name" in child.get("class"):
+        self.current_jobs_details["company_name"] = child.get_text().strip()
+#hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()
+    elif child.name == "a" and not searched_all_a:
+        header_a_tags = header.find_all('a')
+        for head_a_tag in header_a_tags:
+            if '/' in head_a_tag['href']:
+                self.company_other_openings_href = head_a_tag
+            elif '#' in head_a_tag['href']:
+                self.a_fragment_identifier = head_a_tag
+            elif head_a_tag == None:
+                self.soup_elements['logo_container'] = self.soup_elements['app_body'].find('div', class_="logo-container")
+                company_openings_a = self.soup_elements['logo_container'].find('a')
+                self.company_other_openings_href = company_openings_a['href']
+                searched_all_a = True
+#hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()  hard_coded_link_extraction()
+    elif child.name == "div" and "location" in child.get("class"):
+        self.company_job_location = child.get_text().strip()
+        
+        
+        
+    {analyze_job_suitabililty() -> #This part determines if user is fit for the job}
+
+    '''
     
     
     

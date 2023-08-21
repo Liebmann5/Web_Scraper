@@ -9,6 +9,9 @@
 #6) export TRANSFORMERS_CACHE=./models/transformers_cache
 #7) python3 -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-1.3B')"
 #8) python3 -m spacy download en_core_web_md
+
+#NOTE: export PYTHONENCODING=utf-8
+
 #9) python3 Legit/JobSearchWorkflow.py
 
 
