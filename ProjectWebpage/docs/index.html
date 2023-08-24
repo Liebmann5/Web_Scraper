@@ -10,3 +10,59 @@
 https://www.freecodecamp.org/news/learn-react-js-in-5-minutes-526472d292f4/
 
 https://scrimba.com/scrim/cLNRpS6
+
+
+/*
+// 2 Ways to create a React Component
+
+//1) JavaScript Function == 'stateless functional component'
+//NOTE: JS f(n) must have return "JSX"/null
+//NOTE:v React requires your function name to begin with a capital letter
+const MyComponent = function() {
+  return (<div>Balls</div>);
+};
+
+//2) ES6 class syntax
+//NOTE: extending React.Component grants access to many useful React features, such as local state and lifecycle hooks
+//NOTE: Best Practice to call a component's constructor with super, and pass props to both
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>Hello React!</h1>
+      </div>
+    );
+  };
+};
+*/
+
+-----------------------------
+
+//When working with React components: to render a component as a 'child component' you put it inside of another component, thus making the outer component the 'parent component'. To do this just include the component name written as a custom HTML tag in the JSX.(This illustrates the parent/child component relationship)
+
+//NOTE: ChildComponent is defined with an ES6 arrow function because this is a very common practice when using React
+// (v JSX)            (v JS)   (v everything within {} HTML) ????
+const ChildComponent = () => {
+  return (
+    <div>
+      <p>I am the child</p>
+    </div>
+  );
+};
+
+class ParentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h1>I am the parent</h1>
+        <ChildComponent />
+      </div>
+    );
+  }
+};
