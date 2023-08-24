@@ -43,6 +43,7 @@ class DataSender:
         }
 
         # Send the request with the client certificate
+        #response = requests.post( data = {''} )
         response = requests.post(
             self.raspberry_pi_address,
             json=payload,
@@ -50,6 +51,8 @@ class DataSender:
             verify="path/to/server_cert.crt"
         )
         
+        print(f"The APIs repsonse = {response}")
+
         # Ensure success otherwise figure out issue and try again
         if response.status_code != 200:
             self.handle_failure(response)
@@ -61,6 +64,12 @@ class DataSender:
     #def handle_failure(self, error):
     def handle_failure(self, response):
         pass
+
+    # Header details (metadata)
+    def print_headerText(self, header):
+        print("API header details:")
+        print(f"\t{response.headers["date"]}")
+        print(f"\t{response.header}")
 
 
 

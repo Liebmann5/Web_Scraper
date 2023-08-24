@@ -1,0 +1,44 @@
+API Stuff:
+
+-API = Application Programming Interface
+-An API is built for the server!!!! It is like the post office and the whole point of a server is to be interactered with! It's just
+a bunch of blank(headless) computers that are designed and setup to do nothing else but offer assistance for data(mail)!!
+-REST = REpresentational State Transfer
+-'REST' is probably the most popular 'architectural style of APIs' "for web services"
+architectural style of APIs -> https://en.wikipedia.org/wiki/API | [https://blog.hubspot.com/website/types-of-apis]
+    OBJECTIVE: Client Device wants to access a Web Server
+      Web APIs are a "SERVICE" accessed from client devices (Mobile Phones, Laptop, etc.)
+      Client devices use Web API services to access speicific Web Servers
+      =To interact an with an API 'a program' must do so by conforming to the specific rules and standards of an/by 'HTTP request'
+      =Client devices create and send a request in the form of an HTTP(Hypertext Transfer Protocol) request which accesses specified APIs
+-A request is made up of the following components:
+    endpoint - The URL that delineates what data you are interacting with(an endpoint URL is tied to a specific resource within an API)
+    method - Specifies how you’re interacting with the resource located at the provided endpoint. REST APIs can provide methods to
+             enable full Create, Read, Update, and Delete (CRUD) functionality. Here are common methods most REST APIs provide:
+                        GET – Retrieve data
+                        PUT – Replace data
+                        POST – Create data
+                        DELETE – Delete data
+    data - If you’re using a method that involves changing data in a REST API, you’ll need to include a data payload with the request
+           that includes all data that will be created or modified
+    headers - Contain any metadata that needs to be included with the request, such as authentication tokens, the content type that
+              should be returned, and any caching policies.
+-A response
+    When you perform a request, you’ll get a response from the API. Just like in the request, it’ll have a response header and
+    response data, if applicable. The response header consists of useful metadata about the response, while the response data returns
+    what you actually requested. This can be any sort of data, as it’s really dependent on the API. The text is usually returned as
+    JSON, but other markdown languages like XML are also possible. 
+
+TERMINAL >  curl -X GET "http://api.open-notify.org/astros.json"
+    =response.content() # Return the raw bytes of the data payload
+    =response.text() # Return a string representation of the data payload
+    =response.json() # This method is convenient when the API returns JSON
+
+
+
+
+
+
+
+
+
