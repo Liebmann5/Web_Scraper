@@ -192,7 +192,7 @@ const TypesOfFruit = () => {
 
 
 
-JSX   = ReactDOM.render(JSXtoRender, targetNode)
+JSX   = ReactDOM.render('JSXtoRender', targetNode)
 React = ReactDOM.render(<ReactToRender />, targetNode)
 ^ DEPRICATED | New way to write it
 const root = ReactDOM.createRoot(targetNode);   //targetNode = document.getElementById('root')
@@ -201,7 +201,9 @@ root.render(<MyComponent />)
 
 
 
-
+Render:
+    ==> render a component as a child
+    ==> render a component to the DOM
 
 
 
@@ -473,6 +475,31 @@ const Welcome = (props) => <h1>Hello, {props.user}!</h1>
 It is standard to call this value props and when dealing with stateless functional components, you basically consider it as an argument to a function which returns JSX. You can access the value of the argument in the function body. With class components, you will see this is a little different.
 
 There are Calendar and CurrentDate components in the code editor. When rendering CurrentDate from the Calendar component, pass in a property of date assigned to the current date from JavaScript's Date object. Then access this prop in the CurrentDate component, showing its value within the p tags. Note that for prop values to be evaluated as JavaScript, they must be enclosed in curly brackets, for instance date={Date()}.
+###########################
+const CurrentDate = (props) => {
+  return (
+    <div>
+      { /* Change code below this line */ }
+      <p>The current date is: {props.date}</p>
+      { /* Change code above this line */ }
+    </div>
+  );
+};
+
+class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>What date is it?</h3>
+        <CurrentDate date={Date()} />
+      </div>
+    );
+  }
+};
+###########################
 
 
 
@@ -493,16 +520,43 @@ There are List and ToDo components in the code editor. When rendering each List 
 
 
 
+16)
+Use Default Props
+
+React also has an option to set default props. You can assign default props to a component as a property on the component itself and React assigns the default prop if necessary. This allows you to specify what a prop value should be if no value is explicitly provided. For example, if you declare MyComponent.defaultProps = { location: 'San Francisco' }, you have defined a location prop that's set to the string San Francisco, unless you specify otherwise. React assigns default props if props are undefined, but if you pass null as the value for a prop, it will remain null.
+
+The code editor shows a ShoppingCart component. Define default props on this component which specify a prop items with a value of 0.
+
+
+
+
+17)
+Override Default Props
+
+The ability to set default props is a useful feature in React. The way to override the default props is to explicitly set the prop values for a component.
+
+The ShoppingCart component now renders a child component Items. This Items component has a default prop quantity set to the integer 0. Override the default prop by passing in a value of 10 for quantity.
+
+Note: Remember that the syntax to add a prop to a component looks similar to how you add HTML attributes. However, since the value for quantity is an integer, it won't go in quotes but it should be wrapped in curly braces. For example, {100}. This syntax tells JSX to interpret the value within the braces directly as JavaScript.
 
 
 
 
 
+18)
+Use PropTypes to Define the Props You Expect
 
+React provides useful type-checking features to verify that components receive props of the correct type. For example, your application makes an API call to retrieve data that you expect to be in an array, which is then passed to a component as a prop. You can set propTypes on your component to require the data to be of type array. This will throw a useful warning when the data is of any other type.
 
+It's considered a best practice to set propTypes when you know the type of a prop ahead of time. You can define a propTypes property for a component in the same way you defined defaultProps. Doing this will check that props of a given key are present with a given type. Here's an example to require the type function for a prop called handleClick:
 
+MyComponent.propTypes = { handleClick: PropTypes.func.isRequired }
 
+In the example above, the PropTypes.func part checks that handleClick is a function. Adding isRequired tells React that handleClick is a required property for that component. You will see a warning if that prop isn't provided. Also notice that func represents function. Among the seven JavaScript primitive types, function and boolean (written as bool) are the only two that use unusual spelling. In addition to the primitive types, there are other types available. For example, you can check that a prop is a React element. Please refer to the documentation for all of the options.
 
+Note: As of React v15.5.0, PropTypes is imported independently from React, like this: import PropTypes from 'prop-types';
+
+Define propTypes for the Items component to require quantity as a prop and verify that it is of type number.
 
 
 
