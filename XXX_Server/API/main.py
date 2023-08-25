@@ -35,7 +35,7 @@ def process_users_jobs_applied_to_this_session(jobs_applied_to_this_session: str
         self.@app.response()
 
 
-@app.get("/")
+@app.get("/post/offerCodeUpdate/")
 def 
 
 

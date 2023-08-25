@@ -58,3 +58,14 @@ Recognizing React and JSX
         The colors are also organized are also organized and most likely applied at the 2nd level(so 'Languages' in the structure of order above)! Start with the most basic skeleton and continue to build on to it!
         3. BAM! Expert level
         NOTE: In case I'm confused how to do the box around the topics in the 'Skills' section I believe it just is applied the background color always EXCEPT when the mouse hovers inside of it... then make the box and the words BLUE!!!
+
+0. public/index.html
+1. src/index.js
+2. src/App.js
+3. src/layouts/Main.js
+4. src/pages/Resume.js
+5. src/components/Resume/skills.js
+6. src/components/Resume/Skills/CategoryButton.js
+7. src/components/Resume/Skills/SkillBar.js
+8. src/data/resume/skills.js
+9. src/data/routes.js
