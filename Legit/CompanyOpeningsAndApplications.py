@@ -89,7 +89,7 @@ class CompanyWorkflow():
         self.users_job_search_requirements = users_job_search_requirements
         self.application_company_name = None
         self.companys_internal_job_openings_URL = None
-        self.prior_experience_keywords = ["senior", "sr", "principal", "lead", "manager"]
+        self.prior_experience_keywords = ["senior", "sr", "principal", "lead", "manager", "director"]
         self.jobs_applied_to_this_session = jobs_applied_to_this_session
         self.one_resume_label = False
         self.form_input_details = {}
@@ -1768,7 +1768,7 @@ class CompanyWorkflow():
                                                     #    ^ try and see if you can do * instead of a number!!
     
 
-
+#https://boards.greenhouse.io/animallogicsydneyhybridusd/jobs/3985059
 
 
 
