@@ -1,4 +1,5 @@
 {
     "terminal.integrated.defaultProfile.windows": "PowerShell",
-    "files.autoSave": "afterDelay"
+    "files.autoSave": "afterDelay",
+    "livePreview.defaultPreviewPath": "/ProjectWebpage/src/public/index.html"
 }

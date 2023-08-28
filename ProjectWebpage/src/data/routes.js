@@ -1,4 +1,4 @@
-const  routes = [
+const routes = [
     {
         index: true,
         label: "Nicholas J. Liebmann",
