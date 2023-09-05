@@ -3151,8 +3151,11 @@ class CompanyWorkflow():
     
     
     
-    
-    
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    # ^ All that code deals with obtaining the right answer
+    # v All this code will deal with 
+
     #TODO: Once we submit the application confirm that here and then save everything!!!
         #? For the user or my google_sheet_stats i don't know???
     #* My vote is we leave it as it is so b/c this is the correct format for Google Sheet's!!!

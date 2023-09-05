@@ -310,3 +310,4 @@
     def bool_to_str(self, value):
         print("\nbool_to_str()")
         return "Yes" if value.lower() == "true" else "No"
+
