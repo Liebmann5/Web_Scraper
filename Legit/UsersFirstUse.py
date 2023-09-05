@@ -1,4 +1,5 @@
 #TODO: THIS IS TO INITIALIZE THE USER!!!  SSOOOO FILL IN .env AND etc...
+#https://stackoverflow.com/questions/71634422/how-can-i-make-reliable-multiple-choice-questions-in-python
 
 class UntouchedUser():
     

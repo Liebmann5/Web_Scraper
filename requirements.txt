@@ -19,6 +19,7 @@ clean-text[gpl]
 setuptools
 # This also includes uvicorn
 fastapi[all]
+chardet
 #pywin32
 #wordnet==2.1
 #config

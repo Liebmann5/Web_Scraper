@@ -41,7 +41,7 @@ import sys
 # import codecs
 # sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 from bs4 import UnicodeDammit
-import chardet
+#import chardet
 
 # https://www.sqlitetutorial.net/sqlite-insert/
 # https://www.w3resource.com/sqlite/sqlite-update.php
@@ -61,6 +61,12 @@ import chardet
 
 
 #https://gworks.bamboohr.com/careers/38
+
+
+#https://stackoverflow.com/questions/40697845/what-is-a-good-practice-to-check-if-an-environmental-variable-exists-or-not
+#https://pyshark.com/manage-environment-variables-using-dotenv-in-python/
+#https://docassemble.org/docs/security.html
+
 
 #!!!!!!!!!!!!!!!!!!!!!!!!
 # TODO
@@ -267,6 +273,7 @@ class CompanyWorkflow():
 
     #TODO: add variable => self.soup_elements
     def apply_beautifulsoup(self, job_link, parser):
+        import chardet
         print("\napply_beautifulsoup()")
         
         
@@ -732,6 +739,8 @@ class CompanyWorkflow():
         return self.list_of_links
 #!==============================================
 
+
+
 #?????????
 #*********
 #TODO TODO
@@ -794,9 +803,18 @@ class CompanyWorkflow():
     def users_basic_requirements_experience_level(self, job_title):
         print("users_basic_requirements_experience_level()")
         print(" ", end="")
-        print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords), end="")
-        print("  --  No experience keywords found in the Job Title!")
-        return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
+        # print(any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords), end="")
+        # print("  --  No experience keywords found in the Job Title!")
+        # return any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
+        # ^ KEEP ALL THIS AND ERASE BELOW WHEN READY!!!!! (Below is only for testing)
+        experience_found = any(experience_keyword in job_title for experience_keyword in self.prior_experience_keywords)
+        print(" ", end="")
+        print(experience_found, end="")
+        if experience_found:
+            print("  --  Experience keywords found in the Job Title!")
+        else:
+            print("  --  No experience keywords found in the Job Title!")
+        return experience_found
 
     #TODO: A lot of work boy!!!
     def user_basic_requirements_location_workplaceType(self, job_location, job_workplaceType):
@@ -1072,21 +1090,21 @@ class CompanyWorkflow():
                             
                             
                             #! HERE TESTING HERE TESTING HERE TESTING HERE TESTING
-                            print("STEP 2:")
-                            print("\n v v v v v v v v v v v v v v v v v v v ")
-                            print(f"self.current_job_details = {self.current_job_details}")
+                            print("\nSTEP 2:")
+                            print("\nv v v v v v v v v v v v v v v v v v v ")
+                            print(f"self.current_jobs_details = {self.current_jobs_details}")
                             print(f"job_url = {job_url}")
                             print(f"list_of_job_urls = {list_of_job_urls}")
                             
                             list_of_job_urls.append(job_url)
                             
-                            print("STEP 3:")
                             print(f"list_of_job_urls = {list_of_job_urls}")
+                            print("^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^")
                     
-                            
+                    print("\nSTEP 3:")    
                     # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobTeamInCompany=specialization, JobHREF=job_url, ButtonToJob=apply_href)
-                    print(":-----------------------------------------------------------------------")
+                    print("::----------------------------------------------------------------------")
         elif self.application_company_name == 'greenhouse':
         #         div_main = soup.find("div", id="main")
         #         # Find all heading elements
@@ -1300,20 +1318,20 @@ class CompanyWorkflow():
                         
                             #! HERE TESTING HERE TESTING HERE TESTING HERE TESTING
                             print("STEP 2:")
-                            print("\n v v v v v v v v v v v v v v v v v v v ")
-                            print(f"self.current_job_details = {self.current_job_details}")
+                            print("\nv v v v v v v v v v v v v v v v v v v")
+                            print(f"self.current_jobs_details = {self.current_jobs_details}")
                             print(f"job_url = {job_url}")
                             print(f"list_of_job_urls = {list_of_job_urls}")
                             
                             list_of_job_urls.append(job_url)
                             
-                            print("STEP 3:")
                             print(f"list_of_job_urls = {list_of_job_urls}")
+                            print("^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^")
                 
-                        
+                    print("\nSTEP 3:")   
                 # v was here
                     self.print_companies_internal_job_opening("company_job_openings", self.application_company_name, JobTitle=job_title, JobLocation=job_location, WorkPlaceTypes=job_workplaceType, CompanyDepartment=company_department, JobHREF=job_url)
-                    print(":-----------------------------------------------------------------------")
+                    print("::----------------------------------------------------------------------")
                         
                         
         print("* * * * *")
@@ -1346,7 +1364,6 @@ class CompanyWorkflow():
     #TODO: def print_companys_internal_job_opening(self, *args, **kwargs):
     #NOTE: I think this is only supposed to print 1 job at a time!! (??The **kwargs is inside the *args and the *args is A SINGLE jobs' details??)
     def print_companies_internal_job_opening(self, *args, **kwargs):
-        print('\n')
         print('----------------------------------------------------------------------------------------------------')
         print("print_company_job_openings()")
         method_name = None
@@ -1657,6 +1674,7 @@ class CompanyWorkflow():
             if relationship['text']:
                 #query['string'] = relationship['text']
                 # FIGURING THIS OUT WAS THE MOST UNHOLY MISSION PEOPLE BETTER RECOGNIZE
+                #vein of my existence; <- I meant to say that but forgot but straight super hero status!
                 query['string'] = re.compile(r'\s*' + re.escape(relationship['text']) + r'\s*')
             
             if relationship['data_attr']:
@@ -2759,7 +2777,10 @@ class CompanyWorkflow():
     #TODO: do something !!!!
     def process_text(self, text):
         print("process_text()")
-        if "*" in text or "✱" in text:
+        #if "*" in text or "✱" in text:
+        asterisk_list = ["*", "✲", "＊", "﹡", "⁎", "✻", "∗", "⃰", "✲", "✳", "꙳", "﹡", "※", "⁂", "✢", "✣", "✤", "✥", "✦", "✧", "✶", "✷", "✸", "✹", "✺", "✼", "✽", "❃", "❊", "❋"]
+
+        if any(asterisk in text for asterisk in asterisk_list):
             self.form_input_extended['mandatory'] = True
         if 'select one' in text.lower():
             self.form_input_extended['select one'] = True
@@ -3149,6 +3170,31 @@ class CompanyWorkflow():
         })
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+    #Design layout for Answering
+    #The question ITSELF requires either 'at most 1 answer' OR 'more'!!! (Meaning if there is a question present its there for a reason so requires 'at most an answer'...  UNLESS IT STATES IT WANTS !!a specific amount!! OR...  OR at least one->and this implies the max number of options available or infinity!)                    and beyond
+    #SSSSooooooo when programming the proces to fill in answers for the user this is the process
+      #MAIN IDEA) My program is either capable of answering the question or it isn't!!
+        #1)We always try to answer everything so...  ONWARD!!!  with trying to find an answer!
+        #2)Figure out if it's anything other than text input!
+            #NOTE:This is because at first glance we are restricted to only being able to choose from a
+            #select group of answers! IMPORTANT because this is POSSIBLY PROBLEMATIC b/c if we find an
+            #exact question<=>key match that means nothing!!!...   as the keys-value ALSO has to match
+            #one of the available answer options!!!!!
+         #2.1)Maybe here then is when we read the question for the first time and try to figure out if
+         #the question signifies {at most 1 answer|a specific amount and if so then more or less|max amount
+         #available}  
+
+    #**************************************
+    # form_input_details.append({
+    #     'label': input_label,
+    #     'type': input_type,
+    #     'values': values,
+    #     'is_hidden': is_hidden,
+    #     'html': input_html,
+    #     'dynamic': is_dynamic,
+    #     'related_elements': related_elements,
+    # })
+    #**************************************
 
 
 
@@ -3160,19 +3206,97 @@ class CompanyWorkflow():
 
 
 
+    # def how_to_anwser(self):
+    #     #Bubble in answers
+    #     #if one ans needed do what I have above it picks the best answer overall
+    #     if self.form_input_extended
+    #     #else multiple ans needed
+    #         #list_holding_multiple_keys = []
+    #         #for specific_answer in self.form_details:
+    #             #if specific_answer in self.env_values:
+    #                 #list_holding_multiple_keys.append(specific_answer)
+    #                 #print(self.env_values[specific_answer])  =>  the answer
+        
+    #     #Text filled answers
+        
+    #     #if Mandatory self.how_to_anwser() JUST ONCE!!!!
+    #     #else skip
+
+
+    def deconstruct_custom_rules_dict_smoothly(self, matching_key):
+        # for key, value_list in self.custom_rules.items():
+        #     if matching_key == key:
+        #         return value_list
+        # #No equal key found in CUSTOM_RULES
+        # return None
+        
+        #When choosing the first item from an iterable that passes a condition, we can use the next built-in function instead of a for-loop to make our code and our intent clearer.
+        # ^ [https://docs.sourcery.ai/Reference/Python/Default-Rules/use-next/#after]
+        #https://www.geeksforgeeks.org/python-next-method/ (<- so next isn't faster than the for loop but it just makes our code more concise...  idk the dumb computer told me to)
+        return next((value_list for key, value_list in self.custom_rules.items() if matching_key == key), None)
+            
+
+    #! 
+    def convert_customm_rule_values(self, label):
+        final_string = ''
+        # v ??This part is basically just checking if key is present otherwise skip!?!?!? 
+        custom_key_value = self.check_if_label_in_customs(self.custom_rules, label)
+        if custom_key_value:
+            custom_rule_split = custom_key_value.split(',')
+            for custom_rule_value in custom_rule_split:
+                custom_rule_value_trimmed_leading_and_trailing_spaces = custom_rule_value.strip()
+                value = self.determine_type_of_value(custom_rule_value_trimmed_leading_and_trailing_spaces)
+                
+                
+                
+                env_value = self.extract_env_values(custom_rule_value_trimmed_leading_and_trailing_spaces)
+                final_ans_string += (env_value + ' ')
+                else:
+                    final_ans_string += (trimmed_leading_and_trailing_spaces + ' ')
+        finalized_string = final_ans_string[:-1]
+        return finalized_string
+    
+    # This determines if the value obtained from the config.py dictionary variable's key-value pair is
+    # connected to the .env file | variable from the code | just regular string text  
+    def determine_type_of_value(self, custom_rule_key_value):
+        dds
+
+    def extract_env_values(self, custom_values_key):
+        for env_key in self.users_information:
+            if custom_values_key == env_key:
+                env_value = self.users_information[env_key]
+                return env_value
+        # v  This should never run
+        return NameError
+    
+    def check_if_label_in_customs(self, specific_custom, label):
+        for custom_key in specific_custom:
+            if label == custom_key:
+                custom_key_value = custom_key[label]
+                return custom_key_value
+        return None
 
 
 
-
-
-
-
-
-
-
-
-
-
+'''
+        #self.JobSearchWorkflow_instance.load_custom_rules()
+        print("words_in_label = ", words_in_label)
+        print("label = ", label)
+        #NOTE: Remember Q_AND_A is only for the summary! So we only traverse CUSTOM_RULES!!
+        print("self.custom_rules = ", self.custom_rules)
+        #? These might work in case that one doesn't
+        #for rule in self.custom_rules.keys():
+        #for rule, value in self.custom_rules.items():
+        #for rule, value in self.custom_rules:
+        for rule in self.custom_rules:
+            if label == rule:
+                print("MATCH: [ try_finding_match() ]")
+                print("\tCUSTOM_RULES = ", rule)
+                print("\tlabel = ", label)
+                #print("\t... value = ", value)
+                print("\t... value = ", self.custom_rules[rule])
+                return rule
+'''
 
 
 
