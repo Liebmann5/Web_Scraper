@@ -1,0 +1,7 @@
+CREATE DATABASE job_data;
+CREATE TABLE current_job_availabilities_data(company_name VARCHAR(30) PRIMARY KEY);
+
+#! Figure out how to identify this(pick variable for the KEY)!!!  {LOOK BACK AT PLANNED GRAPHS}
+
+CREATE TABLE current_candidate_data( VARCHAR(30) PRIMARY KEY);
+CREATE TABLE current_app_version_number(version_number VARCHAR(30) PRIMARY KEY);

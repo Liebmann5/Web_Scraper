@@ -4,6 +4,8 @@ from ..utils.database import add_job
 
 router = APIRouter()
 
+#
+
 @router.post("/add")
 async def add_job_endpoint(job: job):
     #Validate and add job data

@@ -3666,7 +3666,151 @@ class BreakLoopException(Exception):
     
     
     
-    
+    '''
+Web_Scraper
+├── DataCollection
+│   ├── JobsThatUserHasAppliedTo.csv
+│   ├── NotesAPI.txt
+│   ├── TempData
+│   │   └── Temp.txt
+│   ├── TheCollector.py
+│   ├── TheSender.py
+│   ├── TouchThisAndYoullHaveToDealWithMePettingThreeGoatsOhSoSoftly.xlsx
+│   ├── app.py
+│   └── signature_helper.py
+├── Legit
+│   ├── CompanyOpeningsAndApplications.py
+│   ├── Form
+│   │   ├── Four
+│   │   │   └── FormFour.py
+│   │   ├── One
+│   │   │   └── FormOne.py
+│   │   ├── Three
+│   │   │   └── FormThree.py
+│   │   └── Two
+│   │       └── FormTwo.py
+│   ├── GoogleSearch.py
+│   ├── JobSearchWorkflow.py
+│   ├── ManageUserJobSearch.py
+│   ├── UsersFirstUse.py
+│   ├── __pycache__
+│   │   ├── CompanyOpeningsAndApplications.cpython-311.pyc
+│   │   └── GoogleSearch.cpython-311.pyc
+│   ├── config.py
+│   ├── geckodriver.log
+│   └── website_elements.json
+├── ManageSecurity
+│   ├── ImportantSecurityNotes.txt
+│   └── oxylabs.py
+├── ProjectWebpage
+│   ├── README.md
+│   ├── docs
+│   │   ├── HowThisWasDone.md
+│   │   └── indexNotes.html
+│   ├── package.json
+│   └── src
+│       ├── App.js
+│       ├── components
+│       │   ├── Footer.js
+│       │   ├── MainCard.js
+│       │   ├── SiteNavigation.js
+│       │   └── SubCard.js
+│       ├── data
+│       │   ├── projects.js
+│       │   ├── routes.js
+│       │   └── stats.js
+│       ├── index.js
+│       ├── layouts
+│       │   └── Main.js
+│       ├── pages
+│       │   ├── Index.js
+│       │   ├── NotFound.js
+│       │   └── Projects.js
+│       └── public
+│           └── index.html
+├── README.md
+├── Scraper
+│   └── __pycache__
+│       ├── scraperGoogle.cpython-311.pyc
+│       └── scraperGoogleJob.cpython-311.pyc
+├── ThisFolderWasMadeAtThreeAM
+│   ├── setup.bat
+│   └── setup.sh
+├── XXX_Server
+│   ├── API
+│   │   ├── Models
+│   │   │   ├── job.py
+│   │   │   └── user.py
+│   │   ├── Routes
+│   │   │   ├── jobs.py
+│   │   │   └── users.py
+│   │   ├── Utils
+│   │   │   ├── database.py
+│   │   │   └── validation.py
+│   │   └── main.py
+│   ├── Ansible
+│   │   ├── hosts.ini
+│   │   └── playbook.yaml
+│   ├── DataProcessing
+│   │   ├── jobs
+│   │   │   └── unique_jobs.py
+│   │   ├── processor.py
+│   │   └── sqlite.db
+│   ├── GoogleSheet
+│   │   └── Graphs
+│   │       └── generate_graphs.py
+│   ├── Kubernetes
+│   │   ├── deployments.yaml
+│   │   └── services.yaml
+│   ├── Security
+│   │   ├── firewall.sh
+│   │   └── ssh_keys
+│   ├── backups
+│   └── logs
+│       ├── api.log
+│       └── data_processing.log
+├── geckodriver.log
+├── greenhouse_only_application_page.html
+├── models
+│   └── transformers_cache
+│       ├── 1ae5a53fe395100a9213705940d92cc94554a2269777c062d951d1b710c39bb8.3ae9ae72462581d20e36bc528e9c47bb30cd671bb21add40ca0b24a0be9fac22
+│       ├── 1ae5a53fe395100a9213705940d92cc94554a2269777c062d951d1b710c39bb8.3ae9ae72462581d20e36bc528e9c47bb30cd671bb21add40ca0b24a0be9fac22.json
+│       ├── 1ae5a53fe395100a9213705940d92cc94554a2269777c062d951d1b710c39bb8.3ae9ae72462581d20e36bc528e9c47bb30cd671bb21add40ca0b24a0be9fac22.lock
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.102e6e06599c480a8e55be9ba8dc6226140c958f3cd489f61627520db6817595
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.102e6e06599c480a8e55be9ba8dc6226140c958f3cd489f61627520db6817595.json
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.102e6e06599c480a8e55be9ba8dc6226140c958f3cd489f61627520db6817595.lock
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.d8f098d45d688889b6489796cfe34d41c2b2693f82a298587a0c442acbc822c2
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.d8f098d45d688889b6489796cfe34d41c2b2693f82a298587a0c442acbc822c2.json
+│       ├── 42252c2220ae3f9f1ea86a994b63e1dcab20953ba8982117c2384587f7c01c5d.d8f098d45d688889b6489796cfe34d41c2b2693f82a298587a0c442acbc822c2.lock
+│       ├── 5fe35a59019a6fb05bfa29a31b59d407cd81ae59da93e6953772a783b740b4c0.c31b6b7d3225be0c43bc0f8e5d84d03a8b49fdb6b9f6009bbfff1f9cc5ec18bc
+│       ├── 5fe35a59019a6fb05bfa29a31b59d407cd81ae59da93e6953772a783b740b4c0.c31b6b7d3225be0c43bc0f8e5d84d03a8b49fdb6b9f6009bbfff1f9cc5ec18bc.json
+│       ├── 5fe35a59019a6fb05bfa29a31b59d407cd81ae59da93e6953772a783b740b4c0.c31b6b7d3225be0c43bc0f8e5d84d03a8b49fdb6b9f6009bbfff1f9cc5ec18bc.lock
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.868c099ce9aa5596eeb3e7cf30190fdcc4c40c8265eff824bc7cccfdbbfe79a8
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.868c099ce9aa5596eeb3e7cf30190fdcc4c40c8265eff824bc7cccfdbbfe79a8.json
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.868c099ce9aa5596eeb3e7cf30190fdcc4c40c8265eff824bc7cccfdbbfe79a8.lock
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.a1b97b074a5ac71fad0544c8abc1b3581803d73832476184bde6cff06a67b6bb
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.a1b97b074a5ac71fad0544c8abc1b3581803d73832476184bde6cff06a67b6bb.json
+│       ├── 6111bc9bbed617156dc5c0b9fa9d6793147619aad08053f03b3697f1a5027973.a1b97b074a5ac71fad0544c8abc1b3581803d73832476184bde6cff06a67b6bb.lock
+│       ├── 7c5fac9d60b015cbc7c007ab8fe6d0512787fbaef81968922959898c49468d73.4c6a483fbfb5a25ac384bfcd71a1ff15245f06583a00c4ab4c44ed0f761f0b08
+│       ├── 7c5fac9d60b015cbc7c007ab8fe6d0512787fbaef81968922959898c49468d73.4c6a483fbfb5a25ac384bfcd71a1ff15245f06583a00c4ab4c44ed0f761f0b08.json
+│       ├── 7c5fac9d60b015cbc7c007ab8fe6d0512787fbaef81968922959898c49468d73.4c6a483fbfb5a25ac384bfcd71a1ff15245f06583a00c4ab4c44ed0f761f0b08.lock
+│       ├── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.d473d07c57b81529bfbbd5cbe20f6870c2272ea93fb9cff80d67bd438edd36d7
+│       ├── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.d473d07c57b81529bfbbd5cbe20f6870c2272ea93fb9cff80d67bd438edd36d7.json
+│       ├── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.d473d07c57b81529bfbbd5cbe20f6870c2272ea93fb9cff80d67bd438edd36d7.lock
+│       ├── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.f5b91da9e34259b8f4d88dbc97c740667a0e8430b96314460cdb04e86d4fc435
+│       ├── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.f5b91da9e34259b8f4d88dbc97c740667a0e8430b96314460cdb04e86d4fc435.json
+│       └── ec80888cdc98108f625f7ec7a29ec449eb361ae1325aa1e7e63006ce962c071c.f5b91da9e34259b8f4d88dbc97c740667a0e8430b96314460cdb04e86d4fc435.lock
+├── requirements.in
+├── requirements.txt
+├── terminalOutput.txt
+├── .env
+├── .gitignore
+└── virtual_environments_smell_like_updog
+    ├── Lib
+    │   ├── python3.9
+    │   │   └── site-packages
+(a lot of random stuff)
+    '''
     
     
     
