@@ -354,7 +354,7 @@ class scraperGoogle():
         print("Results from this Google Search: ")
         for i, job in enumerate(self.results_from_search):
             self.job_links_counter += 1
-            print("Result #" + str(self.job_links_counter) + " from Google Seaech")
+            print(f"Result #{self.job_links_counter} from Google Seaech")
             print("\tJob Title: ", end="")
             print(job)
             print("\tLink to Job: ", end="")
@@ -367,7 +367,7 @@ class scraperGoogle():
         print("Results from this Google Search: ")
         for i, job in enumerate(self.results_from_search):
             self.job_links_counter += 1
-            print("Result #" + str(i+1) + " from Google Seaech")
+            print(f"Result #{str(i + 1)} from Google Seaech")
             print("\tJob Title: ", end="")
             print(job)
             print("\tLink to Job: ", end="")
@@ -380,7 +380,7 @@ class scraperGoogle():
         print("Results from this Google Search: ")
         for i, job in enumerate(self.google_search_results_links):
             self.job_links_counter += 1
-            print("Result #" + str(i+1) + " from Google Seaech")
+            print(f"Result #{str(i + 1)} from Google Seaech")
             print("\tJob Title: ", end="")
             print(self.google_search_banner_titles[i])
             print("\tLink to Job: ", end="")

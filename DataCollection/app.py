@@ -19,17 +19,17 @@ allowed_employment_types = ['Full-time', 'Part-time', 'Contract', 'Temporary', '
 allowed_experience_levels = ['Entry', '', 'Staff', 'Senior', 'Lead', 'Principal']
 
 def validate_job_data(data):
-    if not all(field in data for field in expected_data):
+    if any(field not in data for field in expected_data):
         return False, 'Invalid data format'
-    
+
     if data['Employment Type'] not in allowed_employment_types:
         return False, 'Invalid Employment Type'
-    
+
     if data['Experience Level'] not in allowed_experience_levels:
         return False, 'Invalid Experience Level'
-    
+
     #TODO: Add more checks like insurance it's within users country!!!
-    
+
     return True, ''
 
 #TODO: REMEMBER IT'S NOT A DB!! So create a method that adds things together if `Industry=Employment Type= Location=Experience Level`

@@ -49,9 +49,7 @@ def check_if_user_wants_update():
 
 async def check_for_update():
     app_current_version = utils.get_app_current_version()
-    if users_app_current_version < app_current_version:
-        return True
-    return False
+    return users_app_current_version < app_current_version
 
 
 
