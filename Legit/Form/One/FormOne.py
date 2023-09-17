@@ -53,20 +53,15 @@
         input_element_str = str(input_element).lower()
         if 'button' in input_element_str and 'submit application' in input_element_str:
             return 'Submit Application'
-        
+
         if input_element.get('type') == 'radio':
-            label = self.find_radio_label(input_element)
-            return label
-        
+            return self.find_radio_label(input_element)
         if input_element.get('type') == 'checkbox':
             div_parent, parents_text = self.get_div_parent(input_element)
             if div_parent == 'None' or parents_text == 'None':
                 pass
             elif div_parent and parents_text:
-                #return div_parent, parents_text
-                checkbox_values = [div_parent, parents_text]
-                return checkbox_values
-
+                return [div_parent, parents_text]
         label = None
 
         # Case 1: Check if the label is a direct previous sibling of the input element
@@ -74,30 +69,26 @@
 
         # Case 2: Check if the label is inside a parent container
         if not label:
-            parent = input_element.find_parent()
-            if parent:
+            if parent := input_element.find_parent():
                 label = parent.find('label')
 
         # Case 3: Check if the label is associated using the "for" attribute
         if not label:
-            input_id = input_element.get('id')
-            if input_id:
+            if input_id := input_element.get('id'):
                 label = input_element.find_previous('label', attrs={'for': input_id})
 
         # Case 4: Check if the input element is a child of a label element
         if not label:
-            parent_label = input_element.find_parent('label')
-            if parent_label:
+            if parent_label := input_element.find_parent('label'):
                 label = parent_label
 
         # Case 5: Check if a label is inside a parent container of the input element
         if not label:
-            parent = input_element.find_parent()
-            if parent:
+            if parent := input_element.find_parent():
                 label = parent.find('label')
-                
+
         # Case 6: Checks if the input element has an 'aria-label' meaning it's dynamic so goes & searches
-        # all previous label containers to see if any have text values that are equal to the aria-label' 
+        # all previous label containers to see if any have text values that are equal to the aria-label'
         if not label:
             if 'aria-label' in input_element.attrs:
                 aria_label_match = None
@@ -106,30 +97,35 @@
                 if parent_label.text.strip() == aria_label_value:
                     aria_label_match = True
                 if aria_label_match:
-                    dynamic_label = aria_label_value + " (dynamic " + input_element.get('type') + ")"
-                    if dynamic_label:
+                    if (
+                        dynamic_label := f"{aria_label_value} (dynamic "
+                        + input_element.get('type')
+                        + ")"
+                    ):
                         return dynamic_label
-                elif aria_label_match == None:
+                elif aria_label_match is None:
                     return aria_label_value
-                        
+
         # Case 7: Checks if the input element's style attribute is equal to 'display: none;' meaning it's
         # dynamic so goes & searches for the most previous label container to specify its text value is dynamic
         if not label:
             if input_element.get('style') == 'display: none;':
-                previous_input = input_element.find_previous('input')
-                if previous_input:
+                if previous_input := input_element.find_previous('input'):
                     parent_label = previous_input.find_previous('label')
-                    dynamic_label = parent_label.text.strip() + " (dynamic " + input_element.get('type') + ")"
-                    if dynamic_label:
+                    if (
+                        dynamic_label := f"{parent_label.text.strip()} (dynamic "
+                        + input_element.get('type')
+                        + ")"
+                    ):
                         return dynamic_label
-                    
+
         # Case 8: Special case for Resume/CV
         if not label and self.one_resume_label == False:
             found_attach = False
             parent_label = input_element.find_previous('label')
             label = parent_label
             self.one_resume_label = True
-            
+
             current_element = input_element
             while current_element:
                 if isinstance(current_element, NavigableString) and 'attach' in str(current_element).lower():
@@ -138,8 +134,7 @@
                 current_element = current_element.next_sibling
             # Traverse up from the specific_element and find the label tag
             if found_attach:
-                label_tag = input_element.find_previous('label')
-                if label_tag:
+                if label_tag := input_element.find_previous('label'):
                     # Check if the immediate child is a text value
                     first_child = label_tag.contents[0]
                     if isinstance(first_child, NavigableString) and first_child.strip():
@@ -156,8 +151,10 @@
 
         # Check if the label contains a nested div element with the class "application-label" (case for Input 18)
         if label:
-            app_label = label.find(lambda tag: 'class' in tag.attrs and 'application-label' in tag['class'])
-            if app_label:
+            if app_label := label.find(
+                lambda tag: 'class' in tag.attrs
+                and 'application-label' in tag['class']
+            ):
                 label = app_label
 
         if label:
@@ -174,9 +171,7 @@
 
             return label_text
 
-        # Case 6: Check if the input_element has a placeholder attribute
-        placeholder = input_element.get('placeholder')
-        if placeholder:
+        if placeholder := input_element.get('placeholder'):
             return f"Placeholder ~ {placeholder}"
 
         return None
@@ -185,13 +180,12 @@
         current_level = 0
         while (current_level <= stop_level):
             print(f"Level {current_level}:")
-            if current_level == 0 or current_level == 5:
-                if current_level == 0:
-                    print(element.prettify())
-                if current_level == 5:
-                    sauce = element.next_element.get_text(strip=True)
-                    print(sauce)
-                    return sauce
+            if current_level == 0:
+                print(element.prettify())
+            elif current_level == 5:
+                sauce = element.next_element.get_text(strip=True)
+                print(sauce)
+                return sauce
             element = element.parent
             current_level += 1
 
@@ -224,9 +218,9 @@
 
     def get_form_input_details(self, url):
         self.one_resume_label = False
-        
+
         print("\nget_form_input_details()")
-        print("URL = " + url)
+        print(f"URL = {url}")
         page = requests.get(url)
         soup = BeautifulSoup(page.content, 'lxml')
 
@@ -259,9 +253,7 @@
             values = []
             if input_type == 'select':
                 options = field.find_all('option')
-                for option in options:
-                    values.append(option.text.strip())
-
+                values.extend(option.text.strip() for option in options)
             if input_type == 'radio':
                 radio_name = field.get('name')
                 if radio_name in processed_radios:
@@ -270,10 +262,10 @@
                 radio_group = soup.find_all('input', {'name': radio_name})
                 values = [radio.get('value') for radio in radio_group]
                 input_html = ''.join([str(radio).strip() for radio in radio_group])
-                
+
                 # Call get_label for the entire radio button group
                 input_label = self.get_label(field)
-                
+
             elif input_type == 'checkbox':
                 if field in processed_radios:
                     continue
@@ -290,7 +282,7 @@
                 for index, input_element in enumerate(checkbox_group):
                     parent_label = input_element.find_previous('label')
                     if input_element.get('type') == 'text':
-                        values.append(parent_label.text.strip() + "(dynamic)")
+                        values.append(f"{parent_label.text.strip()}(dynamic)")
                         continue
                     values.append(parent_label.text.strip())
                     processed_radios.add(input_element)

@@ -56,10 +56,6 @@
                     continue
 
                 print("This is -> == None       ...straight-up")
-                if input_data['label'] is None:
-                    print("Dang so -> == None       ...straight-up")
-                    continue
-
                 print("This is -> == None       IT'S A STRING")
                 if input_data['label'] == 'None':
                     print("Dang so -> == None       IT'S A STRING")
@@ -111,8 +107,7 @@
                 print("TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING BUTTS!!")
                 if input_type in ['select', 'radio', 'checkbox']:
                     print("Ahhhhhhh yes it is either one of these: 'select', 'radio', 'checkbox'")
-                    matching_keys = self.get_matching_keys(label)               #! .get_matching_keys() does all the comaparing to get the right answer!!!!! ssooo there do   special case check -> .env chack -> long q>a ... a>a check!!!
-                    if matching_keys:
+                    if matching_keys := self.get_matching_keys(label):
                         #!HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE HERE
                         print("self.form_input_extended = ", self.form_input_extended)
                         for key in matching_keys:
@@ -149,11 +144,9 @@
                             #self.fill_form(label, answer)
                     else:
                         context = self.q_and_a['summary'] + " " + label
-                        answer = self.generate_response(context)
-                        if answer:
+                        if answer := self.generate_response(context):
                             # Input the answer into the form
                             print(f"Entering '{answer}' for '{label}'")
-                            #self.fill_form(label, answer)
                         else:
                             print(f"No stored answers found for '{label}'")
                 self.form_input_extended['env_html'] = self.extract_css(input_data['html'])

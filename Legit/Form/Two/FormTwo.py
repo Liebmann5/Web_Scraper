@@ -47,12 +47,11 @@
             value = self.form_input_extended['env_values'][0]
             print("element = ", element)
             print("value = ", value)
-            success = self.troubleshoot_form_filling(element, value)
-            if not success:
-                print("Failed to fill in the form. See the error messages above for details.")
-            else:
+            if success := self.troubleshoot_form_filling(element, value):
                 print("Successfully filled in the form.")
-            
+
+            else:
+                print("Failed to fill in the form. See the error messages above for details.")
             #This  v  checks if the "value" is 'empty' or 'None'
             #if self.form_input_extended['bc_nick_said']:
             if 'bc_nick_said' in self.form_input_extended:
@@ -71,7 +70,7 @@
                     print("form_input_ans = ", form_input_ans)
                     form_input_answer = form_input_ans
                 form_input_html = self.form_input_extended['env_html']
-                
+
                 if form_input_answer:
                     #form_input_html.click()
                     #self.browser.form_input_html.send_keys(form_input_answer)
@@ -80,13 +79,13 @@
                     print("Text should be inserted => ", form_input_answer)
                     time.sleep(3)
                     return
-                
+
             elif self.form_input_extended['select'] is True:
                 #form_input_answer = self.form_input_extended['env_values']
                 for form_input_ans in self.form_input_extended['env_values']:
                     print("form_input_ans = ", form_input_ans)
                     form_input_answer = form_input_ans
-                
+
                 if answer:
                     form_input_html = self.form_input_extended['env_html']
                     input_select_element = self.form_input_html.find_element(By.TAG_NAME, "input")
@@ -99,7 +98,7 @@
                 elif form_input_answer is None:
                     form_input_html = self.form_input_extended['env_html']
                     input_select_element = self.form_input_html.find_element(By.TAG_NAME, "input")
-                    
+
                     input_select_element.click()
                     self.input_select_element.send_keys(By.TEXT, form_input_answer)
                     self.send_keys("ENTER")
@@ -110,68 +109,76 @@
                         print("Otherwise click the correct school!")
                     elif input_select_element is not form_input_answer:
                         raise BreakLoopException
-                        
+
             if self.form_input_extended['radio'] is True:
                 form_input_answer = self.form_input_extended['env_values']
                 form_input_html = self.form_input_extended['env_html']
-                
-                answer = form_input_html.find_element(By.ID, form_input_answer)
-                if answer:
+
+                if answer := form_input_html.find_element(
+                    By.ID, form_input_answer
+                ):
                     answer.click()
                     return
                 elif answer is None:
-                    answer = self.browser.find_element(By.TEXT, form_input_answer)
-                    if answer:
+                    if answer := self.browser.find_element(
+                        By.TEXT, form_input_answer
+                    ):
                         answer.click()
                     elif answer is None:
                         print("Ummmm I have no clue about this [radio] call the police maybe??")
-                        
+
             if self.form_input_extended['checkbox'] is True:
                 #TODO: Utilize the `select_all` || `select_one` from  self.form_input_extended['']
                 form_input_answer = self.form_input_extended['env_values']
                 form_input_html = self.form_input_extended['env_html']
-                
-                answer = form_input_html.find_element(By.ID, form_input_answer)
-                if answer:
+
+                if answer := form_input_html.find_element(
+                    By.ID, form_input_answer
+                ):
                     answer.click()
                     return
                 elif answer is None:
-                    answer = self.browser.find_element(By.TEXT, form_input_answer)
-                    if answer:
+                    if answer := self.browser.find_element(
+                        By.TEXT, form_input_answer
+                    ):
                         answer.click()
                     elif answer is None:
                         print("Ummmm I have no clue about this [checkbox] call the police maybe??")
-                        
+
             if self.form_input_extended['button'] is True:
                 form_input_answer = self.form_input_extended['env_values']
                 form_input_html = self.form_input_extended['env_html']
-                
-                answer = form_input_html.find_element(By.ID, form_input_answer)
-                if answer:
+
+                if answer := form_input_html.find_element(
+                    By.ID, form_input_answer
+                ):
                     answer.click()
                     return
                 elif answer is None:
-                    answer = self.browser.find_element(By.TEXT, form_input_answer)
-                    if answer:
+                    if answer := self.browser.find_element(
+                        By.TEXT, form_input_answer
+                    ):
                         answer.click()
                     elif answer is None:
                         print("Ummmm I have no clue about this [checkbox] call the police maybe??")
-                        
+
             elif self.form_input_extended['file'] is True:
                 form_input_answer = self.form_input_extended['env_values']
                 form_input_html = self.form_input_extended['env_html']
-                
-                answer = form_input_html.find_element(By.ID, form_input_answer)
-                if answer:
+
+                if answer := form_input_html.find_element(
+                    By.ID, form_input_answer
+                ):
                     answer.click()
                     return
                 elif answer is None:
-                    answer = self.browser.find_element(By.TEXT, form_input_answer)
-                    if answer:
+                    if answer := self.browser.find_element(
+                        By.TEXT, form_input_answer
+                    ):
                         answer.click()
                     elif answer is None:
                         print("Ummmm I have no clue about this [file] call the police maybe??")
-                        
+
         if self.form_input_extended['mandatory'] is True and not self.form_input_extended['env_values']:
             if self.max_similarity < .25:
                 print("prompt user to answer!!!")
