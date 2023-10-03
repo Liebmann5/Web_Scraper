@@ -1,0 +1,92 @@
+@import './githubInfo.scss';
+
+// Reset some default browser styles
+body, h1, h2, h3, h4, h5, h6, p, ul, ol {
+    margin: 0;
+    padding: 0;
+  }
+  
+  // Make a classless HTML element look like a Flexbox container
+  .flex {
+    display: flex;
+  }
+  
+  // Basic styling
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+  }
+  
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    overflow: hidden;
+  }
+  
+  // Header styling
+  header {
+    background: #50b3a2;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  // Sidebar styling
+  .sidebar {
+    background: #333;
+    color: #fff;
+    padding: 15px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+  }
+  
+  // Main content styling
+  .main-content {
+    margin-left: 230px;
+    padding: 20px;
+  }
+  
+  // Footer styling
+  footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  // Github Info styling
+  .github-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  
+    .github-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  
+    .github-details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      .username-repo,
+      .stars-forks {
+        font-size: 14px;
+        margin: 5px;
+      }
+    }
+  }
+  

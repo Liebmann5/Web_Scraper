@@ -1,0 +1,25 @@
+.github-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+  
+    .github-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  
+    .github-details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      .username-repo,
+      .stars-forks {
+        font-size: 14px;
+        margin: 5px;
+      }
+    }
+}
+  

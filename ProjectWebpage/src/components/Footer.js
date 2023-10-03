@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -27,7 +28,7 @@ const Footer = () => (
                 <span id="index-one">
                     <a className="facebook-link" href={data.link} target="_blank">
                         <span className={data.elementorScreenOnly}>Facebook-f</span>
-                        <i className={data.facbookIcon} /> {/*class="fab fa-facebook-f*/}
+                        <i className={data.facbookIcon} /> {/*class="fab fa-facebook-f*}
                     </a>
                 </span>
                 <span id="index-two">
@@ -52,3 +53,23 @@ const Footer = () => (
         </div>
     </footer>
 );
+
+export default Footer;
+*/
+
+import React from 'react';
+import '../static/css/Footer.scss'; // Assuming you have a Footer.scss file for styling
+
+const Footer = () => (
+  <footer className="footer">
+    <div className="container">
+      <div className="content">
+        <p>
+          Nick? © 2023. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
+export default Footer;
