@@ -1,17 +1,8 @@
-// https://github.com/staylor/react-helmet-async
-// https://blog.sachinchaurasiya.dev/how-to-integrate-reactjs-and-react-helmet-async-manage-seo-and-meta-data
-// https://blog.logrocket.com/search-optimized-spas-react-helmet/
-// https://www.digitalocean.com/community/tutorials/react-react-helmet
-/*import React from 'react'
-import ReactDOM from 'react-dom'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
-
-const main */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import GithubInfo from '../components/GithubInfo';
-import SiteNavigation from '../components/SiteNavigation';
+import Navigation from '../components/Template/Navigation';
 import Footer from '../components/Footer';
 import Analytics from '../components/Template/Analytics';
 
@@ -20,12 +11,12 @@ const Main = (props) => (
       <Analytics />
       {/* Uncomment when made a ScrollToTop component */}
       {/* <ScrollToTop /> */}
-      <Helmet titleTemplate="%s | Nick" defaultTitle="Nick" defer={false}>
+      <Helmet titleTemplate="%s | Nick 0" defaultTitle="Nick 1" defer={false}>
         {props.title && <title>{props.title}</title>}
         <meta name="description" content={props.description} />
       </Helmet>
       <div id="wrapper">
-        <SiteNavigation />
+        <Navigation />
         <div id="main">
           <article className="post">
             <header>

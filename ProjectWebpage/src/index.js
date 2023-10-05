@@ -1,7 +1,3 @@
-/*
-    new concurrent mode API with createRoot
-    https://www.dhiwise.com/post/deep-dive-into-react-concurrent-mode-exploring-key-features-and-use-cases
-*/
 import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';

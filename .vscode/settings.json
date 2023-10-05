@@ -1,5 +1,6 @@
 {
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "files.autoSave": "afterDelay",
-    "livePreview.defaultPreviewPath": "/ProjectWebpage/src/public/index.html"
+    "livePreview.defaultPreviewPath": "/ProjectWebpage/src/public/index.html",
+    "sourcery.token": "user_inO6j0fMnhoQ_9_mrJwVAkM_F7SnSbwBXFka7zeaYqpt9a64_1E1FFjY848"
 }

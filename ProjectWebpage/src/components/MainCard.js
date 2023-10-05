@@ -1,11 +1,3 @@
-// write raw data
-// propType is what get that data and lets use it in our component
-// make component
-//     -import stuff
-//     -component
-//     -propType
-//     -export default jazz
-
 import React from 'react';
 import PropTypes from 'prop-types';
 

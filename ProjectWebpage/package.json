@@ -5,11 +5,10 @@
   "license": "of-couse-here-officer",
   "repository": {
     "type": "git",
-    "url": "tbd"
+    "url": "https://github.com/liebmann5/personal-site.git"
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node fetchGithubData.js",
     "build": "react-scripts build",
     "postbuild": "react-snap"
   },
@@ -32,6 +31,8 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.15",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.22.11",
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@testing-library/jest-dom": "^5.17.0",

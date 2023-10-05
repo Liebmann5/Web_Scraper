@@ -1,13 +1,9 @@
-//0) https://legacy.reactjs.org/docs/code-splitting.html  |  https://react.dev/blog/2022/03/29/react-v18#new-suspense-features
-//1) React.lazy
-//2) Route-based code splitting
 import React, { Suspense, lazy } from 'react';
-//import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Main from './layouts/Main'; //fallback for lazy pages
 
-import './static/css/main.scss';
+import './static/css/Main.scss';
 import Footer from './components/Footer';
 const { PUBLIC_URL } = process.env;
 
@@ -20,7 +16,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 // const LiveData = lazy(() => import('./pages/LiveData'));
 // const Papers = lazy(() => import('./pages/Papers'));
 
-const App = () => {
+const App = () => (
     <BrowserRouter basename={PUBLIC_URL}>
         <Suspense fallback={<Main />}>
             <Routes>
@@ -37,18 +33,11 @@ const App = () => {
                 <Route path="/live-data" element={<LiveData />} />
                 <Route path="/papers" element={<Papers />} />
                 */}
-                <Route path="*/" element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </Suspense>
         <Footer />
     </BrowserRouter>
-};
+);
 
 export default App;
-
-// we need to send it to the DOM
-// so we need to find and send it to the root then...
-// have Babel render it son
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<App />);
-// BUT dont do that HERE!! thats why its done in the ./src/index.js

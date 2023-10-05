@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import '../../static/css/SiteNavigation.scss';
+import '../../static/css/Navigation.scss';
+//import routes from '../../data/routes';
 
 const Navigation = ({ routes }) => (
   <nav className="navigation">

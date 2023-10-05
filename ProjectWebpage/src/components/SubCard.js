@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 const SubCard = () => (
     <div className="sub-card">
+        {/*
         <section className="sub-card-attr">
             <div className="download-project">
                 <a href={data.projectLink}>
@@ -14,6 +15,7 @@ const SubCard = () => (
                 <GithubStats />
             </div>
         </section>
+        */}
     </div>
 )
 

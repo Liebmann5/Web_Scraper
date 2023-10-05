@@ -1,3 +1,20 @@
+import React from 'react';
+import '../static/css/Footer.scss'; // Assuming you have a Footer.scss file for styling
+
+const Footer = () => (
+  <footer className="footer">
+    <div className="container">
+      <div className="content">
+        <p>
+          Nick? © 2023. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+);
+
+export default Footer;
+
 /*
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -57,19 +74,4 @@ const Footer = () => (
 export default Footer;
 */
 
-import React from 'react';
-import '../static/css/Footer.scss'; // Assuming you have a Footer.scss file for styling
 
-const Footer = () => (
-  <footer className="footer">
-    <div className="container">
-      <div className="content">
-        <p>
-          Nick? © 2023. All rights reserved.
-        </p>
-      </div>
-    </div>
-  </footer>
-);
-
-export default Footer;
