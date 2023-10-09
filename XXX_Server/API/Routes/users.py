@@ -6,9 +6,7 @@ router = APIRouter()
 
 @router.post("/add/")
 async def add_user_endpoint(user: User):
-    #Validate and add user data
-    result = add_user(user)
-    return result
+    return add_user(user)
 
 #TODO: Get rid of this!!
 @router.get("/{user_id}/jobs/")
