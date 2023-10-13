@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import GithubInfo from '../components/GithubInfo';
+
 import Navigation from '../components/Template/Navigation';
 import Footer from '../components/Footer';
 // import Analytics from '../components/Template/Analytics';
@@ -12,23 +12,14 @@ const Main = (props) => (
       {/* <Analytics /> */}
       {/* Uncomment when made a ScrollToTop component */}
       {/* <ScrollToTop /> */}
-      <Helmet titleTemplate="%s | Nick 0" defaultTitle="Nick 1" defer={false}>
+      <Helmet titleTemplate="%s | Nick is better than you!" defaultTitle="Nick L" defer={false}>
         {props.title && <title>{props.title}</title>}
         <meta name="description" content={props.description} />
       </Helmet>
       <div id="wrapper">
         <Navigation />
         <div id="main">
-          <article className="post">
-            <header>
-              <div className="title">
-                <h2>Under Construction you Bald Headed dunce</h2>
-                <p>{props.description}</p>
-              </div>
-              <GithubInfo />
-            </header>
-            {props.children}
-          </article>
+          {props.children}
         </div>
         {props.fullPage ? null : <Footer />}
       </div>
@@ -49,7 +40,7 @@ Main.defaultProps = {
   children: null,
   fullPage: false,
   title: null,
-  description: "Default props description",
+  description: "Nick's Private Website",
 };
 
 export default Main;

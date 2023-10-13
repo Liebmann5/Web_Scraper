@@ -29,11 +29,37 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
   
   // Header styling
   header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #50b3a2;
     color: white;
     padding: 20px;
     text-align: center;
   }
+
+  // .title {
+  //   padding-left: 240px;
+  // }
+
+  .title {
+    padding-left: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .title h2, .title p {
+    margin: 0;  /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    //width: fit-content; /* Limit width to content */
+    
+  }
+  
+  .title p {
+    white-space: pre-wrap;  /* Allow text to wrap to next line */
+  }
+  
   
   // Sidebar styling
   .sidebar {
@@ -44,14 +70,14 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol {
     position: fixed;
     top: 0;
     left: 0;
-    width: 220px;
+    width: 220px; //************************ */
   }
   
   // Main content styling
-  .main-content {
-    margin-left: 230px;
-    padding: 20px;
+  .webpage-contents {
     overflow-y: auto;
+    margin-left: 280px;
+    padding: 20px;
   }
   
   // Footer styling

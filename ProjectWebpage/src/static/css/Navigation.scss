@@ -1,36 +1,87 @@
-//.navigation
-.navigation-bar {
-  background-color: #1a202c; // Dark background
-  color: #a0aec0; // Light text
-  width: 250px; // Fixed width
-  height: 100vh; // Full height
-  position: fixed; // Fixed position
+#navigation-bar {
+  background-color: #1a202c;
+  color: #a0aec0;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
   top: 0;
   left: 0;
-  overflow-y: auto; // Scrollable
-  padding-top: 20px;
+  overflow-y: auto;
+  text-align: center; // Center everything
+}
+
+.navigation-title {
+  font-size: 2.5em; // Increase the font size to 2.5em
+  padding-top: 25px; // Adjust this value to center the title vertically
+  padding-bottom: 10px; // Adjust this value to center the title vertically
 }
 
 .navigation-links {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  padding-top: 19px; // Start the list right at the bottom of the header
 }
 
 .navigation-item {
   padding: 8px;
   text-align: center;
   margin-bottom: 10px;
+
+  &:first-child {
+    margin-top: 0; // Start the first item right at the bottom of the header
+  }
+
+  &:hover {
+    background-color: #575757; // Background color on hover
+  }
 }
 
 .navigation-link {
-  color: #a0aec0; // Light text
+  color: white;
   padding: 12px;
   text-decoration: none;
   display: block;
-
-  &:hover {
-    background-color: #575757; // Hover effect
-    color: white;
-  }
 }
+
+
+//----------------------------
+
+
+// #navigation-bar {
+//   background-color: #1a202c; // Dark background
+//   color: #a0aec0; // Light text
+//   width: 250px; // Fixed width
+//   height: 100vh; // Full height
+//   position: fixed; // Fixed position
+//   top: 0;
+//   left: 0;
+//   overflow-y: auto; // Scrollable
+//   padding-top: 20px;
+// }
+
+// .navigation-links {
+//   list-style-type: none;
+//   margin: 0;
+//   padding: 0;
+//   color: white;
+// }
+
+// .navigation-item {
+//   padding: 8px;
+//   text-align: center;
+//   margin-bottom: 10px;
+// }
+
+// .navigation-link {
+//   //color: #a0aec0; // Light text
+//   color: white;
+//   padding: 12px;
+//   text-decoration: none;
+//   display: block;
+
+//   &:hover {
+//     background-color: #575757; // Hover effect
+//     color: white;
+//   }
+// }

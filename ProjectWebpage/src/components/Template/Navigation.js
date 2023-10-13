@@ -8,7 +8,7 @@ import routes from '../../data/routes';
 const Navigation = () => (
   <nav id="navigation-bar">
     {/* Display the index route */}
-    <h1 className="navigation">
+    <h1 className="navigation-title">
       {routes.filter((route) => route.index).map((route) => (
         <Link key={route.name} to={route.path}>{route.name}</Link>
       ))}
@@ -17,9 +17,7 @@ const Navigation = () => (
     <ul className="navigation-links">
       {routes.filter((route) => !route.index).map((route) => (
         <li key={route.name} className="navigation-item">
-          <Link to={route.path} className="navigation-link">
-            {route.name}
-          </Link>
+          <Link to={route.path} className="navigation-link">{route.name}</Link>
         </li>
       ))}
     </ul>

@@ -1,27 +1,27 @@
 const routes = [
     {
         index: true,
-        label: "Nicholas J. Liebmann",
+        name: "Nicholas J. Liebmann",
         path: '/',
     },
     {
-        label: 'About',
+        name: 'About',
         path: '/about',
     },
     {
-        label: 'Projects',
+        name: 'Projects',
         path: '/projects',
     },
     {
-        label: 'Stats',
+        name: 'Stats',
         path: '/stats',
     },
     {
-        label: 'Live Data',
-        path: '/live-data',
+        name: 'Data',
+        path: '/data',
     },
     {
-        label: 'Papers',
+        name: 'Papers',
         path: '/papers',
     },
 ];
