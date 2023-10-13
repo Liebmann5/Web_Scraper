@@ -6,7 +6,7 @@ const Footer = () => (
     <div className="container">
       <div className="content">
         <p>
-          Nick? © 2023. All rights reserved.
+          Nick The Chick © 2023. All rights reserved.
         </p>
       </div>
     </div>

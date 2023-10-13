@@ -1,14 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import '../../static/css/Navigation.scss';
-//import routes from '../../data/routes';
+import routes from '../../data/routes';
 
-const Navigation = ({ routes }) => (
-  <nav className="navigation">
-    <ul className="navigation-list">
-      {routes.map((route, index) => (
-        <li key={index} className="navigation-item">
+// Navigation component to display the list of routes
+const Navigation = () => (
+  <nav id="navigation-bar">
+    {/* Display the index route */}
+    <h1 className="navigation">
+      {routes.filter((route) => route.index).map((route) => (
+        <Link key={route.name} to={route.path}>{route.name}</Link>
+      ))}
+    </h1>
+    {/* Display the other routes */}
+    <ul className="navigation-links">
+      {routes.filter((route) => !route.index).map((route) => (
+        <li key={route.name} className="navigation-item">
           <Link to={route.path} className="navigation-link">
             {route.name}
           </Link>
@@ -17,14 +25,5 @@ const Navigation = ({ routes }) => (
     </ul>
   </nav>
 );
-
-Navigation.propTypes = {
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      path: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
 
 export default Navigation;

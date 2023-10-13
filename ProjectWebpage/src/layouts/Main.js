@@ -4,11 +4,12 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import GithubInfo from '../components/GithubInfo';
 import Navigation from '../components/Template/Navigation';
 import Footer from '../components/Footer';
-import Analytics from '../components/Template/Analytics';
+// import Analytics from '../components/Template/Analytics';
 
 const Main = (props) => (
     <HelmetProvider>
-      <Analytics />
+      {/* Uncomment when Analytics component is done! */}
+      {/* <Analytics /> */}
       {/* Uncomment when made a ScrollToTop component */}
       {/* <ScrollToTop /> */}
       <Helmet titleTemplate="%s | Nick 0" defaultTitle="Nick 1" defer={false}>
@@ -21,9 +22,10 @@ const Main = (props) => (
           <article className="post">
             <header>
               <div className="title">
-                <h2>Under Construction</h2>
+                <h2>Under Construction you Bald Headed dunce</h2>
                 <p>{props.description}</p>
               </div>
+              <GithubInfo />
             </header>
             {props.children}
           </article>

@@ -2,5 +2,11 @@
     "terminal.integrated.defaultProfile.windows": "PowerShell",
     "files.autoSave": "afterDelay",
     "livePreview.defaultPreviewPath": "/ProjectWebpage/src/public/index.html",
-    "sourcery.token": "user_inO6j0fMnhoQ_9_mrJwVAkM_F7SnSbwBXFka7zeaYqpt9a64_1E1FFjY848"
+    "sourcery.token": "user_inO6j0fMnhoQ_9_mrJwVAkM_F7SnSbwBXFka7zeaYqpt9a64_1E1FFjY848",
+    "python.analysis.extraPaths": [
+        "c:\\Users\\user\\.vscode\\extensions\\continue.continue-0.0.412-win32-x64"
+    ],
+    "python.autoComplete.extraPaths": [
+        "c:\\Users\\user\\.vscode\\extensions\\continue.continue-0.0.412-win32-x64"
+    ]
 }
