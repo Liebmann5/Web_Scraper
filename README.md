@@ -7,7 +7,6 @@ pip install -r requirements.txt
 Then run this
 python -u Legit/JobSearchWorkflow.py
 
-and... BOOM! That's how babies are made in Ireland.
-
+and... BOOM! That's how it's done.
 
 
