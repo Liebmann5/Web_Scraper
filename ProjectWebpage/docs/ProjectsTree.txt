@@ -1,0 +1,102 @@
+ok so here is my current project's tree
+ProjectWebpage
+│   package-lock.json
+│   package.json
+│   README.md
+│
+├───docs
+│       fetchGithubData.js
+│       HowThisWasDone.md
+│       indexNotes.html
+│       webpageNotes.txt
+│
+│
+├───public
+│       index.html
+│
+└───src
+    │   App.js
+    │   index.js
+    │
+    ├───components
+    │   │   Footer.js
+    │   │   GithubInfo.js
+    │   │   MainCard.js
+    │   │   SubCard.js
+    │   │
+    │   └───Template
+    │           Analytics.js
+    │           Navigation.js
+    │
+    ├───data
+    │       githubData.json
+    │       projects.js
+    │       routes.js
+    │       stats.js
+    │
+    ├───layouts
+    │       Main.js
+    │
+    ├───pages
+    │       Index.js
+    │       NotFound.js
+    │       Projects.js
+    │       About.js
+    │       Data.js
+    │       NicksPrivateParts.js
+    │       Papers.js
+    │       Stats.js
+    │
+    └───static
+        └───css
+        |       Footer.scss
+        |       GithubInfo.scss
+        |       Main.scss
+        |       Navigation.scss
+        └───images
+		NicePng_caution-tape.png
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liebmann5.github.io
+│   CNAME
+│   LICENSE
+│   README.md
+│
+├───docs
+│       styles.css
+│       index.html
+│       CNAME
+
+
+
+
+
+docs
+
+CNAME
+index.html
+
+    styles.css
+
+CNAME
+LICENSE
+README.md

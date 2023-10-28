@@ -3,8 +3,8 @@ import '../static/css/Footer.scss'; // Assuming you have a Footer.scss file for 
 
 const Footer = () => (
   <footer className="footer">
-    <div className="container">
-      <div className="content">
+    <div className="container footer-whole">
+      <div className="content footer-visible">
         <p>
           Nick The Chick © 2023. All rights reserved.
         </p>

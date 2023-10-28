@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// THIS IS RELATED TO projects.js !!!! (This file is basically just a cell holding cells -> ??SubCard.js??)
 const Card = ({ data }) => (
     <div className="main-card">
         <figure className="main-card-attr">

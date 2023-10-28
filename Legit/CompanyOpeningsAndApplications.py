@@ -1,3 +1,7 @@
+#This class currently includes the entire application process from deciding if candidate fits the description and description
+#fits the user to applying! It also finds the specifics company other job openings webpage and applies to at max the 5 best
+#matches. The last thing needed here is figuring out the logic handling for answering questions!
+
 from urllib import request
 import requests
 from urllib.parse import urlparse, parse_qs, urljoin
@@ -261,6 +265,25 @@ class CompanyWorkflow():
     #print("\n()")
 #!======= company_workflow variables ==========
     def determine_application_company_name(self):
+        """
+        Determines the company handling the application which is essentially just the current URL in the `CompanyOpeningsAndApplications` class.
+        The options use to be ashby, greenhouse, and lever! I say 'use to' because the goal of this class was to be capable of working for any
+        and all online job applications. My assumption was by having 3 different forms allowed me to seperate each and compare them against each
+        other to figure out how to do just that.
+        UPDATE: Figured it out by treating it like a hierarchy structure and breaking it down. 
+        
+        Args:
+            self: The instance of the `CompanyOpeningsAndApplications` class.
+
+        Returns:
+            None
+
+        Examples:
+            ```
+            coaa = CompanyOpeningsAndApplications()
+            coaa.determine_application_company_name()
+            ```
+        """
         print("\ndetermine_application_company_name()")
         #self.set_current_url()
         
@@ -271,8 +294,28 @@ class CompanyWorkflow():
         else:
             print("Neither 'lever' nor 'greenhouse' ssooo...   idk")
 
+    
     #TODO: add variable => self.soup_elements
     def apply_beautifulsoup(self, job_link, parser):
+        """
+        Applies BeautifulSoup parsing to a given job link using the specified parser in the `CompanyOpeningsAndApplications` class.
+        UPDATE: BeautifulSoup is having a lot of trouble with 'encodings'!!
+
+        Args:
+            self: The instance of the `CompanyOpeningsAndApplications` class.
+            job_link (str): The link of the job to parse.
+            parser (str): The parser to use for parsing the job link. Valid values are "lxml" and "html".
+
+        Returns:
+            BeautifulSoup: The parsed soup object.
+
+        Examples:
+            ```
+            coaa = CompanyOpeningsAndApplications()
+            soup = coaa.apply_beautifulsoup("https://example.com/job", "lxml")
+            ```
+
+        """
         import chardet
         print("\napply_beautifulsoup()")
         

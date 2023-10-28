@@ -1,0 +1,13 @@
+// _whole.scss
+
+// This part contains styles for the entire sidebar, including the overlapped areas.
+.sidebar-whole {
+    width: 200px; // Replace with the width you prefer
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #2a2a2a;
+    //z-index: 1; // To make it appear above the header
+  }
+  

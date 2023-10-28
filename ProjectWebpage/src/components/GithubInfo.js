@@ -30,6 +30,7 @@ const GithubInfo = () => {
         <span className="username-repo">{githubData.full_name}</span>
         <span className="stars-forks">
           <span className="stars">Stars: {githubData.stargazers_count}</span>
+          {' | '}
           <span className="forks">Forks: {githubData.forks_count}</span>
         </span>
       </div>

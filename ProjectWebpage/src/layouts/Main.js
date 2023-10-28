@@ -17,7 +17,12 @@ const Main = (props) => (
         <meta name="description" content={props.description} />
       </Helmet>
       <div id="wrapper">
-        <Navigation />
+        <div className="header-whole">
+          <div className="header-visible">
+            <Navigation />
+          </div>
+        </div>
+        {/* <Navigation /> */}
         <div id="main">
           {props.children}
         </div>

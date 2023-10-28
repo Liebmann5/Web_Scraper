@@ -1,0 +1,14 @@
+// Footer styles
+.footer-whole {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 1;
+  }
+  
+  .footer-visible {
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }

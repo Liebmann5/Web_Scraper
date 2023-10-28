@@ -1,0 +1,9 @@
+// _whole.scss
+
+// This part contains styles for the entire header, including the overlapped areas.
+.header-whole {
+    width: 100%;
+    background-color: #50b3a2;
+    z-index: 0; // This keeps it below the sidebar and other elements
+  }
+  

@@ -1,0 +1,17 @@
+// Example mixin for flexbox layout
+@mixin flexbox($direction: row, $justify: center, $align: center) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+  }
+  
+  // Example mixin for responsive text
+  @mixin responsive-text($min-font-size, $max-font-size) {
+    font-size: $min-font-size;
+  
+    @media (min-width: 768px) {
+      font-size: $max-font-size;
+    }
+  }
+  

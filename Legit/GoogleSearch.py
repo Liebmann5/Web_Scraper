@@ -1,3 +1,9 @@
+"""
+This class is in charge of just doing the google search with any and all specific considerations needed by the user!
+Have the headless mode to work faster but stuck with this slower version to make sure my code is perfect before
+making that switch. However, and most likely just for now but the security seems to like this slow version better!
+"""
+
 import time
 import contextlib
 from bs4 import BeautifulSoup

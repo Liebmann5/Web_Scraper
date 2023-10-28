@@ -1,0 +1,11 @@
+// _visible.scss
+
+.webpage-content-visible {
+    // Visible area of the webpage content
+    margin-left: 260px; // Considering the sidebar width
+    margin-top: 60px; // Considering the header height
+    margin-bottom: 60px; // Considering the footer height
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  

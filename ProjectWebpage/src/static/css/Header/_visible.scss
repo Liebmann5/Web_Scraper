@@ -1,0 +1,9 @@
+// _visible.scss
+
+// This part contains styles for the visible area of the header.
+.header-visible {
+    margin-left: 200px; // Replace 200px with the width of your sidebar
+    color: white;
+    z-index: 0; // This keeps it below the sidebar and other elements
+  }
+  

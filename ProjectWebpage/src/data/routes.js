@@ -24,6 +24,10 @@ const routes = [
         name: 'Papers',
         path: '/papers',
     },
+    {
+        name: 'Nicks Private Parts',
+        path: '/privateparts',
+    },
 ];
 
 export default routes;
