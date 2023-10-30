@@ -106,7 +106,7 @@
             max_similarity = similarity
             best_match = key
             if max_similarity == 1.0:
-                return self.handle_match(key, label), max_similarity
+                return self.handle_match(best_match, label), max_similarity
         return best_match, max_similarity
 
     def find_the_bestest_match(self, label):       #aka - "find_best_match"
@@ -138,8 +138,7 @@
         synonyms = []
 
         for syn in wordnet.synsets(word):
-            for lemma in syn.lemmas():
-                synonyms.append(lemma.name())
+            synonyms.extend(lemma.name() for lemma in syn.lemmas())
         #TODO: DOUBLE CHECK THIS!!!!! Your asking for the synonyms of `phone number`?!?!?!?! Do we really want the synonyms for the key and not the label?!?!?!
         if word.lower() in self.custom_synonyms:
             #for custom_syn in self.custom_synonyms[word]:
@@ -153,14 +152,14 @@
 
         print("self.custom_synonyms = ", end="")
         print(self.custom_synonyms)
-        
-        
+
+
         print("synonyms = ", end="")
         print(synonyms)
         print("\n--------------------")
-        
+
         time.sleep(2)
-        
+
         return synonyms
     
     #*Just for me to see what it does!!
@@ -174,10 +173,7 @@
         print(f"union = {union}")
         jaccard_similarity = (len(intersection) / len(union))
         print(f"jaccard_similarity = {jaccard_similarity}")
-        if jaccard_similarity > 90:
-            return True
-        else:
-            return False
+        return jaccard_similarity > 90
     
     def submit_job_application(self, submit_button):
         
@@ -192,32 +188,6 @@
         self.keep_jobs_applied_to_info()
         #self.sessions_applied_to_info
         return
-        
-        
-        
-        
-        
-        #submit_button_index = self.form_input_details.get('KEY-NAME')
-        #submit_button = self.extract_css(submit_button_index['HTML'])
-        
-        '''
-        submit_button = self.extract_css(submit_button['HTML'])
-        
-        self.browser.find_element(By.CSS_SELECTOR, submit_button).click()
-        
-        WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".response-message")))
-        
-        response_message = self.browser.find_element(By.CSS_SELECTOR, ".response-message").text
-        if "success" in response_message.lower():
-            self.keep_jobs_applied_to_info()
-            print("Form submission was successful!")
-        else:
-            print("Form submission failed!")
-            
-        error_messages = self.driver.find_elements(By.CSS_SELECTOR, ".error-message")
-        for error_message in error_messages:
-            print(f"Error: {error_message.text}")
-        '''
             
         #TODO: Add call to oxylabs captcha!!!!! 
             
@@ -236,10 +206,8 @@
             if label == 'select':
                 select_element = self.browser.find_element(label)
                 is_multiple_choice = select_element.get_attribute('multiple') is not None
-                if is_multiple_choice is True:
+                if is_multiple_choice:
                     self.form_input_extended['text'] = 'is_multiple_choice'
-                elif is_multiple_choice is False:
-                    pass
             elif label == 'checkbox':
                 self.form_input_extended['checkbox'] = True
                 self.form_input_extended = 'is_multiple_choice'
@@ -247,15 +215,11 @@
                 self.form_input_extended['radio'] = True
             elif label == 'file':
                 self.form_input_extended['file'] = True
+        elif label in ['text', 'textarea', 'button']:
+            self.form_input_extended['text'] = True
         else:
-            if label == 'text' or label == 'textarea':
-                self.form_input_extended['text'] = True
-            elif label == 'button':
-                self.form_input_extended['text'] = True
-            
-            else:
-                print("There has been an error father...")
-                print("label = ", label)
+            print("There has been an error father...")
+            print("label = ", label)
         return
 
     #TODO: Once we submit the application confirm that here and then save everything!!!

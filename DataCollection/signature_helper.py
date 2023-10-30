@@ -10,16 +10,12 @@ def sign_data(data, private_key_path):
             password=None,
             backend=default_backend()
         )
-        
-    # Create a signature
-    signature = private_key.sign(
+
+    return private_key.sign(
         data,
         padding.PSS(
             mgf=padding.MGF1(hashes.SHA256()),
-            salt_length=padding.PSS.MAX_LENGTH
+            salt_length=padding.PSS.MAX_LENGTH,
         ),
-        hashes.SHA256()
+        hashes.SHA256(),
     )
-    
-    # return signature.hex()    #used this when I didn't have any default_backend code!!! 
-    return signature

@@ -213,11 +213,10 @@ class UntouchedUser():
                 + "  https://huggingface.co/EleutherAI/gpt-neo-2.7B/tree/main")
           
     def set_spacy(self):
-        print(f"Alright the next big setup is SpaCy!")
+        print("Alright the next big setup is SpaCy!")
         print("\t1) en_core_web_sm => 12 MB")
         print("\t2) en_core_web_md => 40 MB")
         print("\t3) en_core_web_lg => 560 MB")
-            #If this is chosen you want to run => 'python -m spacy download en_core_web_lg'
         print("Type the number, and only the number, of the one you want!")
         user_exp = input()
         if self.validate_user_exp(user_exp):
