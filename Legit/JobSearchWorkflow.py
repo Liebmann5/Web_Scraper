@@ -15,6 +15,10 @@ from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
 
+#! from fileName import className
+from GoogleSearch import scraperGoogle
+from CompanyOpeningsAndApplications import CompanyWorkflow
+
 from dotenv import load_dotenv
 from urllib.parse import urlparse, urlunparse
 
@@ -31,10 +35,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
 
-#! from fileName import className
-from GoogleSearch import scraperGoogle
-from CompanyOpeningsAndApplications import CompanyWorkflow
-
 
 import sys
 print("Here's some info about sys.executable: ", sys.executable)
@@ -44,6 +44,26 @@ import site
 
 
 
+
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG, 
+    format='%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s',
+    filename='app.log', 
+    filemode='w'
+)
+
+
+
+
+
+
+
+# ----https://boards.greenhouse.io/openmesh
+# Internships!!! Graduated person may not want to apply for these AS WELL AS might not even qualify due to it possibly only allowing current students!!
+# If CompanyWorkflow has issues with the resume in any way... the whole thing crashes!!
 
 #!!!!!!!!!!!!!!!!!!! THIS MIGHT HELP WITH LOCATION STUFF !!!!!!!!!!!!!!!!!!!!!!!!!!
 #!!!!!!!!!!!!!!!!!!! https://towardsdatascience.com/transform-messy-address-into-clean-data-effortlessly-using-geopy-and-python-d3f726461225 !!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -126,7 +146,7 @@ class Workflow():
         self.google_search_results_links, job_links_organized_by_company = self.filter_through_google_search_results(google_search_results_links)
         self.load_company_resources()
         #self.apply_to_jobs(last_link_from_google_search, self.google_search_results_links, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, job_links_organized_by_company)
-        self.refatored_apply_to_jobs(self.google_search_results_links, users_job_search_requirements, job_links_organized_by_company)
+        self.refactored_apply_to_jobs(self.google_search_results_links, users_job_search_requirements, job_links_organized_by_company)
         
         self.close_browser()
         
@@ -143,8 +163,8 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
-        #users_browser_choice, browser_name = 1, " Firefox "
-        users_browser_choice, browser_name = 2, " Safari "
+        users_browser_choice, browser_name = 1, " Firefox "
+        #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
         return users_browser_choice, browser_name
         print("When you are done, type ONLY the number of your preferred web browser then press ENTER")
@@ -378,7 +398,7 @@ class Workflow():
         return
 
 
-    def refatored_apply_to_jobs(self, google_search_results_links, users_job_search_requirements, job_links_organized_by_company):
+    def refactored_apply_to_jobs(self, google_search_results_links, users_job_search_requirements, job_links_organized_by_company):
         print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(google_search_results_links) - 1, -1, -1):
@@ -403,11 +423,27 @@ class Workflow():
                         print("Clicking on the element failed.")
                 except Exception as e:
                     print(f"Safe click failed: {e}")
+                    # Diagnose the page state if the expected condition fails
+                    diagnostics = self.diagnose_page_state(self.browser)
+                    print("Diagnostics after clicking a link:", diagnostics)
                 
                 clicked_link_from_google_search = True
                 print("Accidently clicked whoops...")
                 
-                self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
+                
+                
+                
+                time.sleep(2)
+                try:
+                    self.wait_for_element_explicitly(self.browser, 5, (By.TAG_NAME, 'a'), 'visibility')
+                except Exception as e:
+                    print(f"wait_for_element_explicitly() failed: {e}")
+                    # Diagnose the page state if the expected condition fails
+                    diagnostics = self.diagnose_page_state(self.browser)
+                    print("Diagnostics after clicking a link:", diagnostics)
+                
+                
+                
 
                 print("Or was it an accident!")
                 time.sleep(4)
@@ -575,6 +611,40 @@ class Workflow():
             return wait.until(EC.element_to_be_clickable(locator_tuple))
         else:
             raise ValueError(f"Invalid condition: {condition}")
+    
+    def diagnose_page_state(self, browser):
+        diagnostics = {}
+        
+        # Current URL
+        diagnostics['Current URL'] = browser.current_url
+        
+        # Check for presence of 'a' tags
+        try:
+            a_tags = browser.find_elements(By.TAG_NAME, 'a')
+            diagnostics['Number of <a> Tags'] = len(a_tags)
+            diagnostics['First <a> Tag Visible'] = a_tags[0].is_displayed() if a_tags else 'No <a> tags found'
+        except NoSuchElementException:
+            diagnostics['Number of <a> Tags'] = 'No <a> tags found'
+
+        # Additional checks can be added here
+
+        return diagnostics
+    
+    def ensure_page_loaded(self, browser, timeout=30):
+        try:
+            # Wait for the URL to change if needed
+            WebDriverWait(browser, timeout).until(EC.url_changes(browser.current_url))
+
+            # Wait for at least one 'a' tag to be visible
+            WebDriverWait(browser, timeout).until(EC.visibility_of_element_located((By.TAG_NAME, 'a')))
+            
+            # Additional checks for dynamic content can be added here
+
+        except TimeoutException:
+            # Handle timeout exception
+            print("Page did not load as expected within the timeout period.")
+            diagnostics = self.diagnose_page_state(browser)
+            print("Diagnostics:", diagnostics)
     
     def consolidate_job_links_by_company(self, job_link, job_links_organized_by_company):
         print("\nconsolidate_job_links_by_company()\n")
