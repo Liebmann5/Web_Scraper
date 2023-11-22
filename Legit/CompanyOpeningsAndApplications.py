@@ -2450,7 +2450,7 @@ class CompanyWorkflow():
                 css_selector = f'#{identifier}'
             elif child.get('class'):
                 identifier = child.get('class')[0]
-                css_selector = f'.{identifier}'
+                css_selector = f'.{identifier}'  
             else:
                 raise ValueError('The element does not have an id or a class')
 
@@ -2474,6 +2474,12 @@ class CompanyWorkflow():
             elif child.get('class'):
                 identifier = child.get('class')[0]
                 css_selector = f'.{identifier}'
+                
+            #NEW
+            elif child.has_attr('name'):
+                name_value = child['name']
+                css_selector = f'input[name="{name_value}"]'
+                
             else:
                 raise ValueError('The element does not have an id or a class')
 

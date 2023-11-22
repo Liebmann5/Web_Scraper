@@ -1,5 +1,5 @@
 Here's some info about sys.executable:  C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Scripts\python.exe
-This program began running at 2023-11-22 15:15:29
+This program began running at 2023-11-22 15:50:33
 Execution Started -- Opening Firefox Browser
 Searching for software engineer, backend engineer jobs...
 1/2
@@ -10,47 +10,47 @@ GET SUCKED WIZARD!
 Filtering by past 24
 --------------------------------
 1/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="635cdafe-2c42-4a0f-b015-3120161df21c")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="92107377-807f-4a1b-9090-24de352e4b20")>
 Here is link #1: https://boards.greenhouse.io/casetext/jobs/4342161005
 --------------------------------
 2/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="e24688c3-9dd1-446f-90f4-0cc8d78cec1f")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="75b85501-2dfd-48ad-9019-ba765010b763")>
 Here is link #2: https://boards.greenhouse.io/casetext/jobs/4341802005
 --------------------------------
 3/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="35dd4a8e-e347-4eb2-b69a-49cc1339e1e0")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="ee5f7953-ad58-47c3-8df2-a926c1f3157c")>
 Here is link #3: https://boards.greenhouse.io/dashlane/jobs/5524324
 --------------------------------
 4/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="5adb9b57-99d8-45da-935a-11fec6e6b8ad")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="7ca4e1da-c775-4cce-bc49-be90ea4661d2")>
 Here is link #4: https://boards.greenhouse.io/alchemy/jobs/4341922005
 --------------------------------
 5/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="26d79c4f-c7e7-4385-8d62-cb5ca4ac1a37")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="b74af4da-12b2-4eed-93d7-30a012475cdf")>
 Here is link #5: https://boards.greenhouse.io/project44/jobs/5115352
 --------------------------------
 6/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="bc63d44c-fd0e-4503-9366-129b5ba83e9e")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="562e192f-92a5-4a74-8e86-a49e784ad914")>
 Here is link #6: https://boards.greenhouse.io/embed/job_app?for=jwplayer&token=5520072
 --------------------------------
 7/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="fe88fdb5-37d1-4d21-8116-a99ded818843")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="59ed6cae-f1a3-4f1c-9e50-a4a54e039fdd")>
 Here is link #7: https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806
 --------------------------------
 8/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="fa6839bd-7665-4f22-b940-3a12aa60f334")>
-Here is link #8: https://boards.greenhouse.io/workatbackbase/jobs/5521021
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="5e9f2290-718b-4985-b6d4-d46040705184")>
+Here is link #8: https://boards.greenhouse.io/himshers/jobs/7015067002
 --------------------------------
 9/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="49f390a2-98ba-4151-989a-1b0323e7fdc5")>
-Here is link #9: https://boards.greenhouse.io/himshers/jobs/7015067002
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a70ab128-5d3e-4838-85b8-65b8c53b0566")>
+Here is link #9: https://boards.greenhouse.io/workatbackbase/jobs/5521021
 --------------------------------
 10/10
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="dff24712-b84f-4056-9301-64afb24e740b")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="394309a8-104c-4bb9-b7d4-dfa2e6074469")>
 Here is link #10: https://boards.greenhouse.io/perplexityai/jobs/4147686007
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="dff24712-b84f-4056-9301-64afb24e740b")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="394309a8-104c-4bb9-b7d4-dfa2e6074469")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -62,52 +62,52 @@ First Index = 0 && Last Index = 10
 
 increment_search_results
 ****************************************************************
-Current Height == 2232
+Current Height == 2200
 Scrolled...
-New Height == 3931
+New Height == 3877
 --------------------------------
 11/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="ba3ca181-b649-4e83-89a9-6aa010764335")>
-Here is link #11: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="b68e2a54-b9e6-413c-8d6a-98b44cb576a4")>
+Here is link #11: https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007
 --------------------------------
 12/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="a5ea5841-e505-4bd8-9a9a-242492dba8d6")>
-Here is link #12: https://boards.greenhouse.io/twilio/jobs/5509924
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="5e7ddb41-4c6d-425e-b1b6-c92f0cd36468")>
+Here is link #12: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb
 --------------------------------
 13/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="eac4a088-a35e-49b6-bc86-0cd484c163f8")>
-Here is link #13: https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="e9438653-3e6b-4f2d-b14a-7978433f3a45")>
+Here is link #13: https://boards.greenhouse.io/twilio/jobs/5509924
 --------------------------------
 14/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="337ff1e8-18de-48ab-b421-cd58003d7d2e")>
-Here is link #14: https://boards.greenhouse.io/thirtymadison/jobs/7007221002
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="cac414d5-c553-4a7d-95d7-11b21537670d")>
+Here is link #14: https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002
 --------------------------------
 15/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="8fd29f2f-873b-49b4-a457-aecba4c02725")>
-Here is link #15: https://boards.greenhouse.io/smartsheet/jobs/5520328
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="263a4166-b8de-4681-9f7d-203d04cead18")>
+Here is link #15: https://boards.greenhouse.io/thirtymadison/jobs/7007221002
 --------------------------------
 16/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="3983eab9-d354-4134-b7ff-fcbaa36bddb9")>
-Here is link #16: https://boards.greenhouse.io/skydio/jobs/5738838003
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a3b3f25c-eb06-4ca9-bbbf-31e1c85bba27")>
+Here is link #16: https://boards.greenhouse.io/smartsheet/jobs/5520328
 --------------------------------
 17/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="94d68de0-2bcc-41e7-8914-4ab6c2dc7a75")>
-Here is link #17: https://boards.greenhouse.io/perplexityai/jobs/4147683007
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="2a935826-38ae-43f3-83ec-50b7728b39bf")>
+Here is link #17: https://boards.greenhouse.io/skydio/jobs/5738838003
 --------------------------------
 18/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="57a2e101-7724-4d03-bd60-75f77802251d")>
-Here is link #18: https://boards.greenhouse.io/transferwise/jobs/5521201
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="4504f28a-e193-44ba-9e0d-80562f6cdac7")>
+Here is link #18: https://boards.greenhouse.io/perplexityai/jobs/4147683007
 --------------------------------
 19/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="61bdbc00-159e-4e5b-8f8b-a71d05344177")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="3f8a484d-d5c7-4ac2-a181-688a8b9b9e37")>
 Here is link #19: https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us
 --------------------------------
 20/20
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="83100c46-9f21-4748-8d54-4cefa3ebf33b")>
-Here is link #20: https://boards.greenhouse.io/gusto
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="612c409e-5852-4ecd-a26d-51494b7500b7")>
+Here is link #20: https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4132814007
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="83100c46-9f21-4748-8d54-4cefa3ebf33b")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="612c409e-5852-4ecd-a26d-51494b7500b7")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -119,52 +119,52 @@ First Index = 0 && Last Index = 20
 
 increment_search_results
 ****************************************************************
-Current Height == 3931
+Current Height == 3877
 Scrolled...
-New Height == 5630
+New Height == 5359
 --------------------------------
 21/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="0252e47f-b8bd-4665-833d-86a9dda97222")>
-Here is link #21: https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="5f8f0898-ee23-4530-81b3-e2b03c43cd1f")>
+Here is link #21: https://boards.greenhouse.io/transferwise/jobs/5521201
 --------------------------------
 22/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="845f5c4d-d72a-45c9-97c0-78f69a4b6102")>
-Here is link #22: https://boards.greenhouse.io/purestorage/jobs/5521019
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="2783a7c9-b054-41c3-831b-1d19110df00e")>
+Here is link #22: https://boards.greenhouse.io/gusto
 --------------------------------
 23/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="cfe85c2f-e0ed-415e-aa42-264df3fa7484")>
-Here is link #23: https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="6c219061-351c-4604-bd9a-78883bb8e149")>
+Here is link #23: https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006
 --------------------------------
 24/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="5a1e9222-97e9-48b4-9752-582db20fde56")>
-Here is link #24: https://boards.greenhouse.io/kunai
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a7f56c24-e287-491e-bd78-954668a6c41d")>
+Here is link #24: https://boards.greenhouse.io/purestorage/jobs/5521019
 --------------------------------
 25/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="545ccaed-f6bc-405c-9fc4-3ad6f3f71223")>
-Here is link #25: https://boards.greenhouse.io/hugeinc/jobs/5499762
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a2fdcfe2-24f9-4599-9af9-68e9469ac549")>
+Here is link #25: https://boards.greenhouse.io/kunai
 --------------------------------
 26/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="727ad7f0-f6e4-498f-a3db-ba93adcb4194")>
-Here is link #26: https://boards.greenhouse.io/himshers
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="553ad20c-c1c8-4ec1-964d-85ce24c765c2")>
+Here is link #26: https://boards.greenhouse.io/hugeinc/jobs/5499762
 --------------------------------
 27/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="17fc3afc-ed90-4220-897f-e972d0af641d")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="8e09f0ef-77a4-492b-899b-be968b266e76")>
 Here is link #27: https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a
 --------------------------------
 28/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="b00c07f9-24c6-4055-babf-4d8cf68d7c2a")>
-Here is link #28: https://boards.greenhouse.io/discord
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="de919cc2-930a-490d-aa9d-e1574fd250ee")>
+Here is link #28: https://boards.greenhouse.io/himshers
 --------------------------------
 29/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="1d1463a0-2f87-4295-90a3-f6bdea33bcd0")>
-Here is link #29: https://boards.greenhouse.io/celonis/jobs/5814476003
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="cd9b2fc5-9788-430e-9a5c-c67ecf39c11b")>
+Here is link #29: https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
 --------------------------------
 30/30
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="8512ca6e-e56b-444d-8b52-7ee9477f4169")>
-Here is link #30: https://boards.greenhouse.io/gympass/jobs/6978714002
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="4c5765d2-8607-4854-b19b-fe4961f0a9cb")>
+Here is link #30: https://boards.greenhouse.io/discord
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="8512ca6e-e56b-444d-8b52-7ee9477f4169")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="4c5765d2-8607-4854-b19b-fe4961f0a9cb")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -176,52 +176,52 @@ First Index = 0 && Last Index = 30
 
 increment_search_results
 ****************************************************************
-Current Height == 5630
+Current Height == 5359
 Scrolled...
-New Height == 7132
+New Height == 6992
 --------------------------------
 31/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="9579bd5e-f0b3-4409-b5a6-39940bcc686e")>
-Here is link #31: https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="86d93166-0f06-4557-be7e-9d81d078c304")>
+Here is link #31: https://boards.greenhouse.io/gympass/jobs/6978714002
 --------------------------------
 32/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="1752bc91-76af-43d2-b2d8-2dd18edf78ef")>
-Here is link #32: https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="38a2b408-43a9-410f-9e2d-0d498102ad36")>
+Here is link #32: https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us
 --------------------------------
 33/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="c6975efa-49fc-4716-8983-ee3ac272f410")>
-Here is link #33: https://boards.greenhouse.io/onetrust/jobs/5507798
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="e1f170d6-e2f8-4454-b9b7-dbe393338901")>
+Here is link #33: https://boards.greenhouse.io/celonis/jobs/5814476003
 --------------------------------
 34/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="37968676-7c94-4b05-8ab6-336af3ecdfff")>
-Here is link #34: https://boards.greenhouse.io/ziprecruiter/jobs/5517523
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="79b161e0-661d-4b0e-af07-9b6d3707e7d7")>
+Here is link #34: https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204
 --------------------------------
 35/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="7759ed9a-119b-4fa5-97f6-b30804429811")>
-Here is link #35: https://boards.eu.greenhouse.io/spektrum/jobs/4251032101
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="6f0b5d33-f335-4d05-bd39-dd070ddc7272")>
+Here is link #35: https://boards.greenhouse.io/onetrust/jobs/5507798
 --------------------------------
 36/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="98e47c4e-c626-4706-a6b7-6b6d7da88041")>
-Here is link #36: https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="7037fffa-f5b5-4ae9-aa6d-c657027db6c3")>
+Here is link #36: https://boards.greenhouse.io/ziprecruiter/jobs/5517523
 --------------------------------
 37/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="4b9a8773-b05f-45b3-ae5d-eccff3c265bc")>
-Here is link #37: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="aaf7a379-ddc4-4b6a-a1f7-c64bb2ee3005")>
+Here is link #37: https://boards.eu.greenhouse.io/spektrum/jobs/4251032101
 --------------------------------
 38/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="377fe150-8fbf-4dc2-969b-9732b7db6b3f")>
-Here is link #38: https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="57ce524d-6db7-4238-ad2c-3996d5aae5a5")>
+Here is link #38: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply
 --------------------------------
 39/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="b03ef42e-cc27-43e7-886e-11c76f335552")>
-Here is link #39: https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="b3a4334a-158d-434a-9b96-c80e90f39792")>
+Here is link #39: https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
 --------------------------------
 40/40
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="4a953148-e885-49d3-898b-c3158667a6f9")>
-Here is link #40: https://boards.greenhouse.io/figure
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="fad028f5-b809-4bd5-9c96-ee472b30886e")>
+Here is link #40: https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="4a953148-e885-49d3-898b-c3158667a6f9")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="fad028f5-b809-4bd5-9c96-ee472b30886e")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -233,52 +233,52 @@ First Index = 0 && Last Index = 40
 
 increment_search_results
 ****************************************************************
-Current Height == 7132
+Current Height == 6992
 Scrolled...
-New Height == 8634
+New Height == 8733
 --------------------------------
 41/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="584f1ce1-a38d-4359-b07d-680891ad7314")>
-Here is link #41: https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="6d7dcfc7-d018-475a-9cdb-bf146d91628d")>
+Here is link #41: https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
 --------------------------------
 42/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="923375bd-6ef5-409a-901a-f22170ab07cb")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="f1980c8d-e14d-4139-9f18-88eb3c65720c")>
 Here is link #42: https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75
 --------------------------------
 43/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="7c3cfbb1-e286-41b1-bde3-d515be3197fc")>
-Here is link #43: https://boards.greenhouse.io/perplexityai
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="c5846e40-7703-4693-aa05-496a892b61f9")>
+Here is link #43: https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561
 --------------------------------
 44/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="4de4cbf5-d9cb-4d1e-b4d2-e0afbf8cf8b2")>
-Here is link #44: https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a669ba45-9dbf-4790-abce-02fdb1f21ec2")>
+Here is link #44: https://boards.greenhouse.io/perplexityai
 --------------------------------
 45/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="ce65e3d3-592d-4715-bdf0-57379100ae96")>
-Here is link #45: https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="c5896cb4-4cca-42a3-b68e-831f164f0a72")>
+Here is link #45: https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9
 --------------------------------
 46/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="7ca3469d-6c41-44a6-b80a-eea1ca89df6c")>
-Here is link #46: https://boards.greenhouse.io/fidelityguarantylife
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="7de67d54-6691-4e3d-a698-56efca301a20")>
+Here is link #46: https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply
 --------------------------------
 47/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="84eff7da-8248-4f05-84ec-46f2f2c26697")>
-Here is link #47: https://boards.greenhouse.io/smartsheet
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="4273212a-de5d-41fc-902b-015d3e2fdd62")>
+Here is link #47: https://boards.greenhouse.io/fidelityguarantylife
 --------------------------------
 48/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="c63ed245-ad4c-4a4e-a9e0-3d2aa6bf3d21")>
-Here is link #48: https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="168c77cc-17d5-4bf3-b82f-cd83253bf621")>
+Here is link #48: https://boards.greenhouse.io/smartsheet
 --------------------------------
 49/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="f75ee577-fea1-47b4-9353-ef3d39b1bd3d")>
-Here is link #49: https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="506b9f9f-df39-46fa-a460-3571d1a44432")>
+Here is link #49: https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d
 --------------------------------
 50/50
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="2315795e-9d4a-4164-8ac5-0647f84e8f1d")>
-Here is link #50: https://boards.greenhouse.io/embed/job_board?for=fivetran
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="92faaad9-ad39-4e8f-8137-3bb40dc4297f")>
+Here is link #50: https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="2315795e-9d4a-4164-8ac5-0647f84e8f1d")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="92faaad9-ad39-4e8f-8137-3bb40dc4297f")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -290,52 +290,52 @@ First Index = 0 && Last Index = 50
 
 increment_search_results
 ****************************************************************
-Current Height == 8634
+Current Height == 8733
 Scrolled...
-New Height == 10246
+New Height == 10521
 --------------------------------
 51/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="2cc10f5a-ece9-44f8-84c9-b2dd27b3433f")>
-Here is link #51: https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="b6da0954-708e-49d3-bd7a-b6b05a0e86be")>
+Here is link #51: https://boards.greenhouse.io/embed/job_board?for=fivetran
 --------------------------------
 52/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="bf8305b3-fa13-449c-9223-eb9919581124")>
-Here is link #52: https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a45e44a2-342d-4ff2-8e4f-75cd5e8ee514")>
+Here is link #52: https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply
 --------------------------------
 53/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="6d6a2b52-15e9-4d3d-acb0-fc4a3cef1273")>
-Here is link #53: https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="bca0f1fa-7b69-4e86-9b7a-c0e9fc9154ca")>
+Here is link #53: https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004
 --------------------------------
 54/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="d7ddd359-d3d2-45ce-bead-dbed66fc8d67")>
-Here is link #54: https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="46de5c91-0ba3-46c1-82d5-82b8d1c7a7e5")>
+Here is link #54: https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774
 --------------------------------
 55/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="9ded6fa5-579e-4784-aef3-d76e53c3f1f6")>
-Here is link #55: https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="686622ae-60c4-4baa-9af9-c08b3d4f885a")>
+Here is link #55: https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004
 --------------------------------
 56/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="113f7d64-7bad-4976-bcdf-eb4bdf53db96")>
-Here is link #56: https://boards.greenhouse.io/boxinc/jobs/5523554
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="732d2dba-16b4-4788-866d-3b97a3a8bdd6")>
+Here is link #56: https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
 --------------------------------
 57/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="16b10271-1740-4543-94b9-4d64cef63622")>
-Here is link #57: https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="3252d58c-08c6-441e-af6b-3878dbb915ac")>
+Here is link #57: https://jobs.lever.co/fluence
 --------------------------------
 58/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="355b9666-8568-4682-88c9-3f7688d6d72d")>
-Here is link #58: https://jobs.lever.co/bumbleinc
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="ad50eb80-451e-4bb6-8e8e-277fbc0808d9")>
+Here is link #58: https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com
 --------------------------------
 59/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="ceb58d2e-532e-4842-91a8-677b5d891052")>
-Here is link #59: https://boards.greenhouse.io/antler/
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="05ecd3d4-f843-4f94-98f8-21914f23e35f")>
+Here is link #59: https://jobs.lever.co/bumbleinc
 --------------------------------
 60/60
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="ab08a2cc-a490-4937-8894-88ec1b864283")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="e28e2ab9-520d-4a19-b4de-070134158559")>
 Here is link #60: https://jobs.eu.lever.co/matterlabs?location=Dublin
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="ab08a2cc-a490-4937-8894-88ec1b864283")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="e28e2ab9-520d-4a19-b4de-070134158559")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
@@ -347,48 +347,56 @@ First Index = 0 && Last Index = 60
 
 increment_search_results
 ****************************************************************
-Current Height == 10246
+Current Height == 10521
 Scrolled...
-New Height == 10246
+New Height == 10521
 Found the more_results button
 Clicked 'More results' button
 --------------------------------
-61/65
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="5f56a5d0-82e0-4bed-9ae4-809c3a03d149")>
-Here is link #61: https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA
+61/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="12fde02f-930f-41d0-9db7-27c16e6e0ceb")>
+Here is link #61: https://boards.greenhouse.io/boxinc/jobs/5523554
 --------------------------------
-62/65
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="05d26d7b-d132-465f-80de-4f4b49978f89")>
-Here is link #62: https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us
+62/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="71f1a89b-5c28-44d7-8b6e-abbd6a5a4f8a")>
+Here is link #62: https://boards.greenhouse.io/antler/
 --------------------------------
-63/65
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="9862a2d4-8c6e-4c5b-a4db-519f202971c0")>
-Here is link #63: https://boards.greenhouse.io/gympass/jobs/7006629002
+63/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="424f2a6f-845c-4734-a3c7-c61412a24a7e")>
+Here is link #63: https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA
 --------------------------------
-64/65
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="2747fd1d-85ea-4147-bfad-71eaf458214a")>
-Here is link #64: https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004
+64/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="5f6fb8c6-d528-4ed1-8a35-5397eb4dedae")>
+Here is link #64: https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us
 --------------------------------
-65/65
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="b3d2f0be-c4c5-4840-ae6e-01699ec764a5")>
-Here is link #65: https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
+65/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="6be8cdfc-f2bd-44f2-887a-bc3cf47d3548")>
+Here is link #65: https://boards.greenhouse.io/gympass/jobs/7006629002
+--------------------------------
+66/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="a4c8860f-2665-494d-b742-17c51db8b6c2")>
+Here is link #66: https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004
+--------------------------------
+67/67
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="8415918a-9fd0-4578-a655-8e2a47a02786")>
+Here is link #67: https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="b3d2f0be-c4c5-4840-ae6e-01699ec764a5")>
+<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="8415918a-9fd0-4578-a655-8e2a47a02786")>
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 I am at end of search_results()...
-First Index = 0 && Last Index = 65
+First Index = 0 && Last Index = 67
 
 
 
 
 increment_search_results
 ****************************************************************
-Current Height == 11074
+Current Height == 11828
 Scrolled...
-New Height == 11074
+New Height == 11828
 No more search results
 I'm the issue 2
 I'm the issue 4
@@ -416,177 +424,183 @@ Result #7 from Google Seaech
 	Job Title: Findem - Software Engineer Frontend- IN
 	Link to Job: https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806
 Result #8 from Google Seaech
-	Job Title: Job Application for Backend Engineer at Backbase
-	Link to Job: https://boards.greenhouse.io/workatbackbase/jobs/5521021
-Result #9 from Google Seaech
 	Job Title: Job Application for Sr. Software Engineer, Fullstack at hims ...
 	Link to Job: https://boards.greenhouse.io/himshers/jobs/7015067002
+Result #9 from Google Seaech
+	Job Title: Job Application for Backend Engineer at Backbase
+	Link to Job: https://boards.greenhouse.io/workatbackbase/jobs/5521021
 Result #10 from Google Seaech
 	Job Title: Software Engineer - Full Stack at Perplexity AI
 	Link to Job: https://boards.greenhouse.io/perplexityai/jobs/4147686007
 Result #11 from Google Seaech
+	Job Title: Java Software Engineer II
+	Link to Job: https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007
+Result #12 from Google Seaech
 	Job Title: Sr. Backend Engineer - Madison Logic, Inc.
 	Link to Job: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb
-Result #12 from Google Seaech
+Result #13 from Google Seaech
 	Job Title: Job Application for Software Engineer, Twilio Flex at Twilio
 	Link to Job: https://boards.greenhouse.io/twilio/jobs/5509924
-Result #13 from Google Seaech
+Result #14 from Google Seaech
 	Job Title: Software Engineer (Starshield) - Top Secret Clearance
 	Link to Job: https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002
-Result #14 from Google Seaech
+Result #15 from Google Seaech
 	Job Title: Senior Software Engineer - at Thirty Madison
 	Link to Job: https://boards.greenhouse.io/thirtymadison/jobs/7007221002
-Result #15 from Google Seaech
+Result #16 from Google Seaech
 	Job Title: Job Application for Software Engineer II at Smartsheet
 	Link to Job: https://boards.greenhouse.io/smartsheet/jobs/5520328
-Result #16 from Google Seaech
+Result #17 from Google Seaech
 	Job Title: Fullstack Software Engineer Intern
 	Link to Job: https://boards.greenhouse.io/skydio/jobs/5738838003
-Result #17 from Google Seaech
+Result #18 from Google Seaech
 	Job Title: Frontend Software Engineer - at Perplexity AI
 	Link to Job: https://boards.greenhouse.io/perplexityai/jobs/4147683007
-Result #18 from Google Seaech
-	Job Title: Senior Backend Engineer - Regional Expansion
-	Link to Job: https://boards.greenhouse.io/transferwise/jobs/5521201
 Result #19 from Google Seaech
 	Job Title: Job Application for Software Engineer at BJSS
 	Link to Job: https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us
 Result #20 from Google Seaech
+	Job Title: Job Application for Java Software Engineer at Toshiba ...
+	Link to Job: https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4132814007
+Result #21 from Google Seaech
+	Job Title: Senior Backend Engineer - Regional Expansion
+	Link to Job: https://boards.greenhouse.io/transferwise/jobs/5521201
+Result #22 from Google Seaech
 	Job Title: Jobs at Gusto, Inc.
 	Link to Job: https://boards.greenhouse.io/gusto
-Result #21 from Google Seaech
+Result #23 from Google Seaech
 	Job Title: Senior Software Engineer û Instrument SW Team
 	Link to Job: https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006
-Result #22 from Google Seaech
+Result #24 from Google Seaech
 	Job Title: Job Application for GUI Software Engineer at Pure Storage
 	Link to Job: https://boards.greenhouse.io/purestorage/jobs/5521019
-Result #23 from Google Seaech
-	Job Title: capital.com - Java Software Engineer
-	Link to Job: https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
-Result #24 from Google Seaech
+Result #25 from Google Seaech
 	Job Title: Jobs at Kunai
 	Link to Job: https://boards.greenhouse.io/kunai
-Result #25 from Google Seaech
+Result #26 from Google Seaech
 	Job Title: Job Application for Software Engineer Python at HugeInc
 	Link to Job: https://boards.greenhouse.io/hugeinc/jobs/5499762
-Result #26 from Google Seaech
-	Job Title: Jobs at hims & hers
-	Link to Job: https://boards.greenhouse.io/himshers
 Result #27 from Google Seaech
 	Job Title: Impossible Cloud - Software Engineer - Backend (Go)
 	Link to Job: https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a
 Result #28 from Google Seaech
+	Job Title: Jobs at hims & hers
+	Link to Job: https://boards.greenhouse.io/himshers
+Result #29 from Google Seaech
+	Job Title: capital.com - Java Software Engineer
+	Link to Job: https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
+Result #30 from Google Seaech
 	Job Title: Jobs at Discord
 	Link to Job: https://boards.greenhouse.io/discord
-Result #29 from Google Seaech
-	Job Title: Software Engineer - Machine Learning at Celonis
-	Link to Job: https://boards.greenhouse.io/celonis/jobs/5814476003
-Result #30 from Google Seaech
+Result #31 from Google Seaech
 	Job Title: Mid-level Frontend Software Engineer
 	Link to Job: https://boards.greenhouse.io/gympass/jobs/6978714002
-Result #31 from Google Seaech
+Result #32 from Google Seaech
 	Job Title: Job Application for Senior Software Engineer at Canonical
 	Link to Job: https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us
-Result #32 from Google Seaech
+Result #33 from Google Seaech
+	Job Title: Software Engineer - Machine Learning at Celonis
+	Link to Job: https://boards.greenhouse.io/celonis/jobs/5814476003
+Result #34 from Google Seaech
 	Job Title: Job Application for Software Engineer at Jampp
 	Link to Job: https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204
-Result #33 from Google Seaech
+Result #35 from Google Seaech
 	Job Title: Job Application for Principal Software Engineer - BE at ...
 	Link to Job: https://boards.greenhouse.io/onetrust/jobs/5507798
-Result #34 from Google Seaech
+Result #36 from Google Seaech
 	Job Title: Job Application for Junior Software Engineer at ZipRecruiter
 	Link to Job: https://boards.greenhouse.io/ziprecruiter/jobs/5517523
-Result #35 from Google Seaech
+Result #37 from Google Seaech
 	Job Title: IOTA Full Stack Software Engineer
 	Link to Job: https://boards.eu.greenhouse.io/spektrum/jobs/4251032101
-Result #36 from Google Seaech
-	Job Title: Software Engineer - Deputy
-	Link to Job: https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
-Result #37 from Google Seaech
+Result #38 from Google Seaech
 	Job Title: Sr. Backend Engineer - Madison Logic, Inc.
 	Link to Job: https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply
-Result #38 from Google Seaech
+Result #39 from Google Seaech
+	Job Title: Software Engineer - Deputy
+	Link to Job: https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
+Result #40 from Google Seaech
 	Job Title: Software Engineer II - Remote, US
 	Link to Job: https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529
-Result #39 from Google Seaech
+Result #41 from Google Seaech
 	Job Title: IOVLabs - Software Engineer
 	Link to Job: https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
-Result #40 from Google Seaech
-	Job Title: Jobs at Figure
-	Link to Job: https://boards.greenhouse.io/figure
-Result #41 from Google Seaech
-	Job Title: Senior Software Engineer, Data
-	Link to Job: https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561
 Result #42 from Google Seaech
 	Job Title: Anduril Industries - Front End Software Engineer
 	Link to Job: https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75
 Result #43 from Google Seaech
+	Job Title: Senior Software Engineer, Data
+	Link to Job: https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561
+Result #44 from Google Seaech
 	Job Title: Jobs at Perplexity AI
 	Link to Job: https://boards.greenhouse.io/perplexityai
-Result #44 from Google Seaech
+Result #45 from Google Seaech
 	Job Title: OLX - Java Backend Engineer SE I
 	Link to Job: https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9
-Result #45 from Google Seaech
+Result #46 from Google Seaech
 	Job Title: Quizlet - Sr. Android Software Engineer
 	Link to Job: https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply
-Result #46 from Google Seaech
+Result #47 from Google Seaech
 	Job Title: Discover Your Next Career Opportunity
 	Link to Job: https://boards.greenhouse.io/fidelityguarantylife
-Result #47 from Google Seaech
+Result #48 from Google Seaech
 	Job Title: Jobs at Smartsheet
 	Link to Job: https://boards.greenhouse.io/smartsheet
-Result #48 from Google Seaech
+Result #49 from Google Seaech
 	Job Title: Software Engineer- Blockchain Integrations - Matter Labs
 	Link to Job: https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d
-Result #49 from Google Seaech
+Result #50 from Google Seaech
 	Job Title: Owner - Senior Software Engineer
 	Link to Job: https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply
-Result #50 from Google Seaech
+Result #51 from Google Seaech
 	Job Title: Jobs at Fivetran
 	Link to Job: https://boards.greenhouse.io/embed/job_board?for=fivetran
-Result #51 from Google Seaech
+Result #52 from Google Seaech
 	Job Title: Findem - Software Engineer Frontend- IN
 	Link to Job: https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply
-Result #52 from Google Seaech
+Result #53 from Google Seaech
 	Job Title: Job Application for Principal Software Engineer 1 (Server) ...
 	Link to Job: https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004
-Result #53 from Google Seaech
+Result #54 from Google Seaech
 	Job Title: Job Application for Staff Software Engineer, Search ...
 	Link to Job: https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774
-Result #54 from Google Seaech
+Result #55 from Google Seaech
 	Job Title: Job Application for Principal Software Engineer 1 (Server) ...
 	Link to Job: https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004
-Result #55 from Google Seaech
+Result #56 from Google Seaech
 	Job Title: Senior Software Engineer C/C++ [gn] - Remote/ Germany
 	Link to Job: https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
-Result #56 from Google Seaech
-	Job Title: Application Security Architect - at Box
-	Link to Job: https://boards.greenhouse.io/boxinc/jobs/5523554
 Result #57 from Google Seaech
+	Job Title: Fluence
+	Link to Job: https://jobs.lever.co/fluence
+Result #58 from Google Seaech
 	Job Title: Viacom18
 	Link to Job: https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com
-Result #58 from Google Seaech
+Result #59 from Google Seaech
 	Job Title: Bumble Inc.
 	Link to Job: https://jobs.lever.co/bumbleinc
-Result #59 from Google Seaech
-	Job Title: Jobs at Antler
-	Link to Job: https://boards.greenhouse.io/antler/
 Result #60 from Google Seaech
 	Job Title: Matter Labs
 	Link to Job: https://jobs.eu.lever.co/matterlabs?location=Dublin
 Result #61 from Google Seaech
+	Job Title: Application Security Architect - at Box
+	Link to Job: https://boards.greenhouse.io/boxinc/jobs/5523554
+Result #62 from Google Seaech
+	Job Title: Jobs at Antler
+	Link to Job: https://boards.greenhouse.io/antler/
+Result #63 from Google Seaech
 	Job Title: Zoox
 	Link to Job: https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA
-Result #62 from Google Seaech
+Result #64 from Google Seaech
 	Job Title: Software Design Architect
 	Link to Job: https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us
-Result #63 from Google Seaech
+Result #65 from Google Seaech
 	Job Title: Job Application for Salesforce Tech Lead - at Gympass
 	Link to Job: https://boards.greenhouse.io/gympass/jobs/7006629002
-Result #64 from Google Seaech
+Result #66 from Google Seaech
 	Job Title: Alerting (Remote, EMEA or GMT) at Grafana Labs
 	Link to Job: https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004
-Result #65 from Google Seaech
+Result #67 from Google Seaech
 	Job Title: PayU - Head of Global Program Management
 	Link to Job: https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
 --------------------------------------------
@@ -594,7 +608,7 @@ Returning back to JobSearchWorkflow
 
 
 DOPE
-['https://boards.greenhouse.io/casetext/jobs/4342161005', 'https://boards.greenhouse.io/casetext/jobs/4341802005', 'https://boards.greenhouse.io/dashlane/jobs/5524324', 'https://boards.greenhouse.io/alchemy/jobs/4341922005', 'https://boards.greenhouse.io/project44/jobs/5115352', 'https://boards.greenhouse.io/embed/job_app?for=jwplayer&token=5520072', 'https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806', 'https://boards.greenhouse.io/workatbackbase/jobs/5521021', 'https://boards.greenhouse.io/himshers/jobs/7015067002', 'https://boards.greenhouse.io/perplexityai/jobs/4147686007', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb', 'https://boards.greenhouse.io/twilio/jobs/5509924', 'https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002', 'https://boards.greenhouse.io/thirtymadison/jobs/7007221002', 'https://boards.greenhouse.io/smartsheet/jobs/5520328', 'https://boards.greenhouse.io/skydio/jobs/5738838003', 'https://boards.greenhouse.io/perplexityai/jobs/4147683007', 'https://boards.greenhouse.io/transferwise/jobs/5521201', 'https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us', 'https://boards.greenhouse.io/gusto', 'https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006', 'https://boards.greenhouse.io/purestorage/jobs/5521019', 'https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2', 'https://boards.greenhouse.io/kunai', 'https://boards.greenhouse.io/hugeinc/jobs/5499762', 'https://boards.greenhouse.io/himshers', 'https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a', 'https://boards.greenhouse.io/discord', 'https://boards.greenhouse.io/celonis/jobs/5814476003', 'https://boards.greenhouse.io/gympass/jobs/6978714002', 'https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us', 'https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204', 'https://boards.greenhouse.io/onetrust/jobs/5507798', 'https://boards.greenhouse.io/ziprecruiter/jobs/5517523', 'https://boards.eu.greenhouse.io/spektrum/jobs/4251032101', 'https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply', 'https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529', 'https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app', 'https://boards.greenhouse.io/figure', 'https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561', 'https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75', 'https://boards.greenhouse.io/perplexityai', 'https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9', 'https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply', 'https://boards.greenhouse.io/fidelityguarantylife', 'https://boards.greenhouse.io/smartsheet', 'https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d', 'https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply', 'https://boards.greenhouse.io/embed/job_board?for=fivetran', 'https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply', 'https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004', 'https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774', 'https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004', 'https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app', 'https://boards.greenhouse.io/boxinc/jobs/5523554', 'https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com', 'https://jobs.lever.co/bumbleinc', 'https://boards.greenhouse.io/antler/', 'https://jobs.eu.lever.co/matterlabs?location=Dublin', 'https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA', 'https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us', 'https://boards.greenhouse.io/gympass/jobs/7006629002', 'https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004', 'https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf']
+['https://boards.greenhouse.io/casetext/jobs/4342161005', 'https://boards.greenhouse.io/casetext/jobs/4341802005', 'https://boards.greenhouse.io/dashlane/jobs/5524324', 'https://boards.greenhouse.io/alchemy/jobs/4341922005', 'https://boards.greenhouse.io/project44/jobs/5115352', 'https://boards.greenhouse.io/embed/job_app?for=jwplayer&token=5520072', 'https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806', 'https://boards.greenhouse.io/himshers/jobs/7015067002', 'https://boards.greenhouse.io/workatbackbase/jobs/5521021', 'https://boards.greenhouse.io/perplexityai/jobs/4147686007', 'https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb', 'https://boards.greenhouse.io/twilio/jobs/5509924', 'https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002', 'https://boards.greenhouse.io/thirtymadison/jobs/7007221002', 'https://boards.greenhouse.io/smartsheet/jobs/5520328', 'https://boards.greenhouse.io/skydio/jobs/5738838003', 'https://boards.greenhouse.io/perplexityai/jobs/4147683007', 'https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us', 'https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4132814007', 'https://boards.greenhouse.io/transferwise/jobs/5521201', 'https://boards.greenhouse.io/gusto', 'https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006', 'https://boards.greenhouse.io/purestorage/jobs/5521019', 'https://boards.greenhouse.io/kunai', 'https://boards.greenhouse.io/hugeinc/jobs/5499762', 'https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a', 'https://boards.greenhouse.io/himshers', 'https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2', 'https://boards.greenhouse.io/discord', 'https://boards.greenhouse.io/gympass/jobs/6978714002', 'https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us', 'https://boards.greenhouse.io/celonis/jobs/5814476003', 'https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204', 'https://boards.greenhouse.io/onetrust/jobs/5507798', 'https://boards.greenhouse.io/ziprecruiter/jobs/5517523', 'https://boards.eu.greenhouse.io/spektrum/jobs/4251032101', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply', 'https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch', 'https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529', 'https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app', 'https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75', 'https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561', 'https://boards.greenhouse.io/perplexityai', 'https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9', 'https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply', 'https://boards.greenhouse.io/fidelityguarantylife', 'https://boards.greenhouse.io/smartsheet', 'https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d', 'https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply', 'https://boards.greenhouse.io/embed/job_board?for=fivetran', 'https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply', 'https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004', 'https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774', 'https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004', 'https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app', 'https://jobs.lever.co/fluence', 'https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com', 'https://jobs.lever.co/bumbleinc', 'https://jobs.eu.lever.co/matterlabs?location=Dublin', 'https://boards.greenhouse.io/boxinc/jobs/5523554', 'https://boards.greenhouse.io/antler/', 'https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA', 'https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us', 'https://boards.greenhouse.io/gympass/jobs/7006629002', 'https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004', 'https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf']
 DOPER
 filter_through_google_search_results()
 
@@ -623,15 +637,17 @@ encapsulate_companies_urls()
                          = 2
 5) company_filtered_list = ['https://boards.greenhouse.io/perplexityai/jobs/4147686007', 'https://boards.greenhouse.io/perplexityai/jobs/4147683007', 'https://boards.greenhouse.io/perplexityai']
                          = 3
-6) company_filtered_list = ['https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply']
+6) company_filtered_list = ['https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007', 'https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4132814007']
                          = 2
-7) company_filtered_list = ['https://boards.greenhouse.io/smartsheet/jobs/5520328', 'https://boards.greenhouse.io/smartsheet']
+7) company_filtered_list = ['https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb', 'https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply']
                          = 2
-8) company_filtered_list = ['https://boards.greenhouse.io/gympass/jobs/6978714002', 'https://boards.greenhouse.io/gympass/jobs/7006629002']
+8) company_filtered_list = ['https://boards.greenhouse.io/smartsheet/jobs/5520328', 'https://boards.greenhouse.io/smartsheet']
                          = 2
-9) company_filtered_list = ['https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d', 'https://jobs.eu.lever.co/matterlabs?location=Dublin']
+9) company_filtered_list = ['https://boards.greenhouse.io/gympass/jobs/6978714002', 'https://boards.greenhouse.io/gympass/jobs/7006629002']
                          = 2
-10) company_filtered_list = ['https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004', 'https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004']
+10) company_filtered_list = ['https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d', 'https://jobs.eu.lever.co/matterlabs?location=Dublin']
+                         = 2
+11) company_filtered_list = ['https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004', 'https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004']
                          = 2
 
 
@@ -644,65 +660,67 @@ Index | List to Filter URL | Updated Google Search Results URL
     3 | https://boards.greenhouse.io/alchemy/jobs/4341922005 | https://boards.greenhouse.io/project44/jobs/5115352
     4 | https://boards.greenhouse.io/project44/jobs/5115352 | https://boards.greenhouse.io/embed/job_app?for=jwplayer&token=5520072
     5 | https://boards.greenhouse.io/embed/job_app?for=jwplayer&token=5520072 | https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806
-    6 | https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806 | https://boards.greenhouse.io/workatbackbase/jobs/5521021
-    7 | https://boards.greenhouse.io/workatbackbase/jobs/5521021 | https://boards.greenhouse.io/himshers/jobs/7015067002
-    8 | https://boards.greenhouse.io/himshers/jobs/7015067002 | https://boards.greenhouse.io/perplexityai/jobs/4147686007
-    9 | https://boards.greenhouse.io/perplexityai/jobs/4147686007 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb
-   10 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb | https://boards.greenhouse.io/twilio/jobs/5509924
-   11 | https://boards.greenhouse.io/twilio/jobs/5509924 | https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002
-   12 | https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002 | https://boards.greenhouse.io/thirtymadison/jobs/7007221002
-   13 | https://boards.greenhouse.io/thirtymadison/jobs/7007221002 | https://boards.greenhouse.io/smartsheet/jobs/5520328
-   14 | https://boards.greenhouse.io/smartsheet/jobs/5520328 | https://boards.greenhouse.io/skydio/jobs/5738838003
-   15 | https://boards.greenhouse.io/skydio/jobs/5738838003 | https://boards.greenhouse.io/transferwise/jobs/5521201
-   16 | https://boards.greenhouse.io/perplexityai/jobs/4147683007 | https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us
-   17 | https://boards.greenhouse.io/transferwise/jobs/5521201 | https://boards.greenhouse.io/gusto
-   18 | https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us | https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006
-   19 | https://boards.greenhouse.io/gusto | https://boards.greenhouse.io/purestorage/jobs/5521019
-   20 | https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006 | https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
-   21 | https://boards.greenhouse.io/purestorage/jobs/5521019 | https://boards.greenhouse.io/kunai
-   22 | https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2 | https://boards.greenhouse.io/hugeinc/jobs/5499762
-   23 | https://boards.greenhouse.io/kunai | https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a
-   24 | https://boards.greenhouse.io/hugeinc/jobs/5499762 | https://boards.greenhouse.io/discord
-   25 | https://boards.greenhouse.io/himshers | https://boards.greenhouse.io/celonis/jobs/5814476003
+    6 | https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806 | https://boards.greenhouse.io/himshers/jobs/7015067002
+    7 | https://boards.greenhouse.io/himshers/jobs/7015067002 | https://boards.greenhouse.io/workatbackbase/jobs/5521021
+    8 | https://boards.greenhouse.io/workatbackbase/jobs/5521021 | https://boards.greenhouse.io/perplexityai/jobs/4147686007
+    9 | https://boards.greenhouse.io/perplexityai/jobs/4147686007 | https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007
+   10 | https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb
+   11 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb | https://boards.greenhouse.io/twilio/jobs/5509924
+   12 | https://boards.greenhouse.io/twilio/jobs/5509924 | https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002
+   13 | https://boards.greenhouse.io/spacex/jobs/7017736002?gh_jid=7017736002 | https://boards.greenhouse.io/thirtymadison/jobs/7007221002
+   14 | https://boards.greenhouse.io/thirtymadison/jobs/7007221002 | https://boards.greenhouse.io/smartsheet/jobs/5520328
+   15 | https://boards.greenhouse.io/smartsheet/jobs/5520328 | https://boards.greenhouse.io/skydio/jobs/5738838003
+   16 | https://boards.greenhouse.io/skydio/jobs/5738838003 | https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us
+   17 | https://boards.greenhouse.io/perplexityai/jobs/4147683007 | https://boards.greenhouse.io/transferwise/jobs/5521201
+   18 | https://boards.greenhouse.io/bjss/jobs/2196486?t=3014208a1us | https://boards.greenhouse.io/gusto
+   19 | https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4132814007 | https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006
+   20 | https://boards.greenhouse.io/transferwise/jobs/5521201 | https://boards.greenhouse.io/purestorage/jobs/5521019
+   21 | https://boards.greenhouse.io/gusto | https://boards.greenhouse.io/kunai
+   22 | https://boards.greenhouse.io/seluxdiagnostics/jobs/4306089006 | https://boards.greenhouse.io/hugeinc/jobs/5499762
+   23 | https://boards.greenhouse.io/purestorage/jobs/5521019 | https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a
+   24 | https://boards.greenhouse.io/kunai | https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2
+   25 | https://boards.greenhouse.io/hugeinc/jobs/5499762 | https://boards.greenhouse.io/discord
    26 | https://jobs.lever.co/impossiblecloud/bf69682f-fa1d-4d99-ae89-829753f4210a | https://boards.greenhouse.io/gympass/jobs/6978714002
-   27 | https://boards.greenhouse.io/discord | https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us
-   28 | https://boards.greenhouse.io/celonis/jobs/5814476003 | https://boards.greenhouse.io/onetrust/jobs/5507798
-   29 | https://boards.greenhouse.io/gympass/jobs/6978714002 | https://boards.greenhouse.io/ziprecruiter/jobs/5517523
-   30 | https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us | https://boards.eu.greenhouse.io/spektrum/jobs/4251032101
-   31 | https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204 | https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
-   32 | https://boards.greenhouse.io/onetrust/jobs/5507798 | https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
-   33 | https://boards.greenhouse.io/ziprecruiter/jobs/5517523 | https://boards.greenhouse.io/figure
-   34 | https://boards.eu.greenhouse.io/spektrum/jobs/4251032101 | https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75
-   35 | https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch | https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9
-   36 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply | https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply
-   37 | https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529 | https://boards.greenhouse.io/fidelityguarantylife
-   38 | https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app | https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d
-   39 | https://boards.greenhouse.io/figure | https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply
-   40 | https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561 | https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004
+   27 | https://boards.greenhouse.io/himshers | https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us
+   28 | https://jobs.lever.co/capital/890002cf-fbfe-4991-a078-63c2e4a483d2 | https://boards.greenhouse.io/celonis/jobs/5814476003
+   29 | https://boards.greenhouse.io/discord | https://boards.greenhouse.io/onetrust/jobs/5507798
+   30 | https://boards.greenhouse.io/gympass/jobs/6978714002 | https://boards.greenhouse.io/ziprecruiter/jobs/5517523
+   31 | https://boards.greenhouse.io/canonicaljobs/jobs/5522312?gh_src=8fdfaaf81us | https://boards.eu.greenhouse.io/spektrum/jobs/4251032101
+   32 | https://boards.greenhouse.io/celonis/jobs/5814476003 | https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch
+   33 | https://boards.greenhouse.io/embed/job_app?for=jampp&token=5510204 | https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
+   34 | https://boards.greenhouse.io/onetrust/jobs/5507798 | https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75
+   35 | https://boards.greenhouse.io/ziprecruiter/jobs/5517523 | https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9
+   36 | https://boards.eu.greenhouse.io/spektrum/jobs/4251032101 | https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply
+   37 | https://jobs.lever.co/madisonlogic/28be6506-1617-4125-b2d7-0ed0e4733bdb/apply | https://boards.greenhouse.io/fidelityguarantylife
+   38 | https://jobs.lever.co/deputy/f5e24fe9-b86b-4b90-b417-216898cbcd80?source=hatch | https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d
+   39 | https://boards.greenhouse.io/embed/job_app?for=earnest&token=5480529 | https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply
+   40 | https://jobs.lever.co/iovlabs/94eeb63f-4757-4116-8f44-d4832b2cbb3a?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app | https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004
    41 | https://jobs.lever.co/anduril/1c23a86a-df62-43aa-b26b-ea4a2c6e6a75 | https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app
-   42 | https://boards.greenhouse.io/perplexityai | https://boards.greenhouse.io/boxinc/jobs/5523554
-   43 | https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9 | https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com
-   44 | https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply | https://jobs.lever.co/bumbleinc
-   45 | https://boards.greenhouse.io/fidelityguarantylife | https://boards.greenhouse.io/antler/
-   46 | https://boards.greenhouse.io/smartsheet | https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA
-   47 | https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d | https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us
-   48 | https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply | https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
-   49 | https://boards.greenhouse.io/embed/job_board?for=fivetran | N/A
-   50 | https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply | N/A
-   51 | https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004 | N/A
-   52 | https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774 | N/A
-   53 | https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004 | N/A
-   54 | https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app | N/A
-   55 | https://boards.greenhouse.io/boxinc/jobs/5523554 | N/A
-   56 | https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com | N/A
-   57 | https://jobs.lever.co/bumbleinc | N/A
-   58 | https://boards.greenhouse.io/antler/ | N/A
+   42 | https://boards.greenhouse.io/embed/job_app?for=doximity&token=5495561 | https://jobs.lever.co/fluence
+   43 | https://boards.greenhouse.io/perplexityai | https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com
+   44 | https://jobs.eu.lever.co/olx/f06ac7ad-4dff-4ac6-b786-5f20e39ed1f9 | https://jobs.lever.co/bumbleinc
+   45 | https://jobs.lever.co/quizlet-2/ad08fef1-0d39-479f-8631-319e2ccb4d12/apply | https://boards.greenhouse.io/boxinc/jobs/5523554
+   46 | https://boards.greenhouse.io/fidelityguarantylife | https://boards.greenhouse.io/antler/
+   47 | https://boards.greenhouse.io/smartsheet | https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA
+   48 | https://jobs.eu.lever.co/matterlabs/d3fef853-df9e-4579-a144-872dbcd5b35d | https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us
+   49 | https://jobs.lever.co/owner/d72226c5-347e-4e1d-90be-93f204c6ad60/apply | https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
+   50 | https://boards.greenhouse.io/embed/job_board?for=fivetran | N/A
+   51 | https://jobs.lever.co/findem/451c848d-da15-43e9-94d9-f066f2935806/apply | N/A
+   52 | https://boards.greenhouse.io/zynga/jobs/5025284004?gh_jid=5025284004 | N/A
+   53 | https://boards.greenhouse.io/embed/job_app?for=airbnb&token=5519774 | N/A
+   54 | https://boards.greenhouse.io/zynga/jobs/5025279004?gh_jid=5025279004 | N/A
+   55 | https://jobs.lever.co/actian/ec9968f1-a1d7-4d23-ad74-6aad0afa164a/apply?utm_source=himalayas.app&utm_medium=himalayas.app&utm_campaign=himalayas.app&ref=himalayas.app&source=himalayas.app&lever-origin=applied&lever-source%5B%5D=himalayas.app&lever-requisition-name=himalayas.app&lever-posting-owner-name=himalayas.app&lever-source=himalayas.app&lever-referer=himalayas.app | N/A
+   56 | https://jobs.lever.co/fluence | N/A
+   57 | https://jobs.lever.co/viacom18?department=Software+Engineering&ref=blog.jiocinema.com | N/A
+   58 | https://jobs.lever.co/bumbleinc | N/A
    59 | https://jobs.eu.lever.co/matterlabs?location=Dublin | N/A
-   60 | https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA | N/A
-   61 | https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us | N/A
-   62 | https://boards.greenhouse.io/gympass/jobs/7006629002 | N/A
-   63 | https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004 | N/A
-   64 | https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf | N/A
+   60 | https://boards.greenhouse.io/boxinc/jobs/5523554 | N/A
+   61 | https://boards.greenhouse.io/antler/ | N/A
+   62 | https://jobs.lever.co/zoox?location=Foster%20City%20or%20San%20Diego%2C%20CA | N/A
+   63 | https://boards.greenhouse.io/chameleonconsultinggroup/jobs/4058654007?gh_src=10e7a6277us | N/A
+   64 | https://boards.greenhouse.io/gympass/jobs/7006629002 | N/A
+   65 | https://boards.greenhouse.io/embed/job_app?for=grafanalabs&token=5024681004 | N/A
+   66 | https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf | N/A
 
 load_company_resources()
   Loaded Users Information...
@@ -735,7 +753,7 @@ nlp_load()
   Loaded WordNetLemmatizer()...
 Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight
 job_link =  https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
-job_link_element =  <selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="8a026c96-7302-42e7-be95-f269594ee490")>
+job_link_element =  <selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="c0cb0aa3-3f69-4bef-8f55-82977b6eb139")>
 Scrolled to this place...
 
 Present in DOM: No, Error: Message: Unable to locate element: a
@@ -749,7 +767,7 @@ Displayed: Yes
 Enabled: Yes
 Scroll Into View: Success
 Normal Click: Success
-JavaScript Click: Error: Message: The element with the reference 8a026c96-7302-42e7-be95-f269594ee490 is not known in the current browsing context
+JavaScript Click: Error: Message: The element with the reference c0cb0aa3-3f69-4bef-8f55-82977b6eb139 is not known in the current browsing context
 Stacktrace:
 RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
 WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:189:5
@@ -764,7 +782,7 @@ deserializeJSON@chrome://remote/content/marionette/json.sys.mjs:289:16
 json.deserialize@chrome://remote/content/marionette/json.sys.mjs:293:10
 receiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:72:30
 
-Has Children: Error: Message: The element with the reference 8a026c96-7302-42e7-be95-f269594ee490 is not known in the current browsing context
+Has Children: Error: Message: The element with the reference c0cb0aa3-3f69-4bef-8f55-82977b6eb139 is not known in the current browsing context
 Stacktrace:
 RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
 WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:189:5
@@ -778,7 +796,7 @@ deserializeJSON@chrome://remote/content/marionette/json.sys.mjs:289:16
 json.deserialize@chrome://remote/content/marionette/json.sys.mjs:293:10
 receiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:72:30
 
-Covered by another element: Error: Message: The element with the reference 8a026c96-7302-42e7-be95-f269594ee490 is not known in the current browsing context
+Covered by another element: Error: Message: The element with the reference c0cb0aa3-3f69-4bef-8f55-82977b6eb139 is not known in the current browsing context
 Stacktrace:
 RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
 WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:189:5
@@ -797,7 +815,7 @@ safe_click()
 1) Normal click attempt
 This dumb thing didn't work!
 2) Waiting for element to be clickable attempt
-Safe click failed: Message: The element with the reference 8a026c96-7302-42e7-be95-f269594ee490 is not known in the current browsing context
+Safe click failed: Message: The element with the reference c0cb0aa3-3f69-4bef-8f55-82977b6eb139 is not known in the current browsing context
 Stacktrace:
 RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
 WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:189:5
@@ -843,6 +861,12 @@ consolidate_job_links_by_company()
 	job_link =  https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
 		vs.
 	companies_url_list[0] =  https://boards.greenhouse.io/perplexityai/jobs/4147686007
+
+--------------------------------
+
+	job_link =  https://jobs.eu.lever.co/payu/5c0cb9f5-e898-4fcc-8da2-30cfc48f5faf
+		vs.
+	companies_url_list[0] =  https://boards.greenhouse.io/toshibaglobalcommercesolutions/jobs/4149391007
 
 --------------------------------
 
@@ -4457,14 +4481,14 @@ C:\Users\user\OneDrive\Desktop\ResumeTesties.pdf
 2.1 = 5
 
 dismiss_random_popups()
-Found element: <selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="208466b6-94f7-4be9-9995-79e648890897")>
+Found element: <selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="70432e33-ff99-4a6c-a750-37a03e4714ac")>
 --------------------------------------------------------
-resume_upload_button = <selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="208466b6-94f7-4be9-9995-79e648890897")>
+resume_upload_button = <selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="70432e33-ff99-4a6c-a750-37a03e4714ac")>
 --------------------------------------------------------
 6
 8
 Bargain-Mart
-(<selenium.webdriver.remote.webelement.WebElement (session="dade748b-dfe1-453a-b627-a3495ca58e85", element="208466b6-94f7-4be9-9995-79e648890897")>, False)
+(<selenium.webdriver.remote.webelement.WebElement (session="883f5172-6dec-4bad-9122-32f6f5047bc4", element="70432e33-ff99-4a6c-a750-37a03e4714ac")>, False)
 8.1
 13
 14 Holy Hole
@@ -4508,3 +4532,259 @@ This is -> == None       IT'S A STRING
 scroll_to_question()
 soup =  <html><body><input name="name" required="" type="text"/></body></html>
 element =  <input name="name" required="" type="text"/>
+  Scrolled here I guess...
+
+self.form_input_extended = {'mandatory': False, 'text': True, 'select': False, 'radio': False, 'checkbox': False, 'button': False, 'file': False, 'select all': False, 'select one': False, 'dynamic': False, 'env_key': None, 'env_values': [], 'env_html': None}
+unprocessed label: Full name Γ£▒
+process_text()
+processed label: full name
+predefined_options = []
+
+_____________________________________________________________________________________
+TIME FOR COMPARISONS! DO YOU HEAR THAT BUTT-HEAD!!! WE ARE GONNA BE COMPARING!!
+This one ain't special... this one ain't even intelligent... dumb ol' question any how
+
+1)try_finding_match()
+This question has 2 words or less.
+['full', 'name']
+words_in_label =  ['full', 'name']
+label =  full name
+self.custom_rules =  {'Full name': ['FIRST_NAME', ' ', 'MIDDLE_NAME', ' ', 'LAST_NAME'], 'Signature': ['FIRST_NAME', ' ', 'LAST_NAME'], 'Address': ['91293 Reje Ct.', ' ', 'USERS_CITY', ', ', 'USERS_STATE', ' ', 'USERS_ZIP_CODE'], 'Start Availability': ['self.time_program_ran add 2 weeks(self.time_program_ran+336hrs)'], 'Name and Date': ['FIRST_NAME', ' ', 'LAST_NAME', ' ', 'self.time_program_ran'], 'Software Engineer': ['Software Developer'], 'Location (City)': ['LOCATION_CITY', ', ', 'LOCATION_STATE']}
+
+2)find_best_match()
+-doc1 =  full name
+
+3)get_synonyms()
+word = full name
+self.custom_synonyms = {'phone': ['PHONE_NUMBER', 'PERSONAL_CELL', 'CELLPHONE', 'PHONE'], 'linkedIn profile': ['LINKEDIN_PROFILE'], 'website': ['GITHUB_URL'], 'github': ['GITHUB_URL'], 'portfolio': ['GITHUB_URL'], 'require immigration sponsorship': ['US_CITIZEN'], 'require visa sponsorship': ['US_CITIZEN'], 'hear about job': ['COME_ACROSS_HOW']}
+synonyms = []
+
+--------------------
+users_information + 1
+-doc2(self.users_information.key) =  untouched user
+similarity =  0.3051649338123362
+key =  UNTOUCHED_USER
+max_similarity =  0.3051649338123362
+best_match =  UNTOUCHED_USER
+
+users_information + 1
+-doc2(self.users_information.key) =  last applied
+similarity =  0.2953533619093672
+key =  LAST_APPLIED
+
+users_information + 1
+-doc2(self.users_information.key) =  linkedin username
+similarity =  0.4227218929791831
+key =  LINKEDIN_USERNAME
+max_similarity =  0.4227218929791831
+best_match =  LINKEDIN_USERNAME
+
+users_information + 1
+-doc2(self.users_information.key) =  linkedin password
+similarity =  0.3670149631178092
+key =  LINKEDIN_PASSWORD
+
+users_information + 1
+-doc2(self.users_information.key) =  windows resume path
+similarity =  0.3013425763210286
+key =  WINDOWS_RESUME_PATH
+
+users_information + 1
+-doc2(self.users_information.key) =  mac resume path
+similarity =  0.2685976126251648
+key =  MAC_RESUME_PATH
+
+users_information + 1
+-doc2(self.users_information.key) =  resume path
+similarity =  0.29369516659250233
+key =  RESUME_PATH
+
+users_information + 1
+-doc2(self.users_information.key) =  first name
+similarity =  0.7441818271094007
+key =  FIRST_NAME
+max_similarity =  0.7441818271094007
+best_match =  FIRST_NAME
+
+users_information + 1
+-doc2(self.users_information.key) =  middle initial
+similarity =  0.35838357421586403
+key =  MIDDLE_INITIAL
+
+users_information + 1
+-doc2(self.users_information.key) =  last name
+similarity =  0.6508302572967908
+key =  LAST_NAME
+
+users_information + 1
+-doc2(self.users_information.key) =  email
+similarity =  0.18424534436780068
+key =  EMAIL
+
+users_information + 1
+-doc2(self.users_information.key) =  phone number
+similarity =  0.30042493502784134
+key =  PHONE_NUMBER
+
+users_information + 1
+-doc2(self.users_information.key) =  home phone
+similarity =  0.22466263203140385
+key =  HOME_PHONE
+
+users_information + 1
+-doc2(self.users_information.key) =  location city
+similarity =  0.23371725172492916
+key =  LOCATION_CITY
+
+users_information + 1
+-doc2(self.users_information.key) =  location state
+similarity =  0.26159177544392775
+key =  LOCATION_STATE
+
+users_information + 1
+-doc2(self.users_information.key) =  zip code
+similarity =  0.22699423653426978
+key =  ZIP_CODE
+
+users_information + 1
+-doc2(self.users_information.key) =  school
+similarity =  0.14948692887494802
+key =  SCHOOL
+
+users_information + 1
+-doc2(self.users_information.key) =  degree
+similarity =  0.1847050859608092
+key =  DEGREE
+
+users_information + 1
+-doc2(self.users_information.key) =  discipline
+similarity =  0.30864367769338186
+key =  DISCIPLINE
+
+users_information + 1
+-doc2(self.users_information.key) =  school start date month
+similarity =  0.32910586353602167
+key =  SCHOOL_START_DATE_MONTH
+
+users_information + 1
+-doc2(self.users_information.key) =  school start date year
+similarity =  0.32388120836601714
+key =  SCHOOL_START_DATE_YEAR
+
+users_information + 1
+-doc2(self.users_information.key) =  school end date month
+similarity =  0.32348245675257087
+key =  SCHOOL_END_DATE_MONTH
+
+users_information + 1
+-doc2(self.users_information.key) =  school end date year
+similarity =  0.32079058575481456
+key =  SCHOOL_END_DATE_YEAR
+
+users_information + 1
+-doc2(self.users_information.key) =  gpa
+similarity =  0.06739604413406525
+key =  GPA
+
+users_information + 1
+-doc2(self.users_information.key) =  current company
+similarity =  0.3552362554333604
+key =  CURRENT_COMPANY
+
+users_information + 1
+-doc2(self.users_information.key) =  current title
+similarity =  0.5084320153816623
+key =  CURRENT_TITLE
+
+users_information + 1
+-doc2(self.users_information.key) =  company start date
+similarity =  0.412650620131647
+key =  COMPANY_START_DATE
+
+users_information + 1
+-doc2(self.users_information.key) =  current employee
+similarity =  0.3016282161134094
+key =  CURRENT_EMPLOYEE
+
+users_information + 1
+-doc2(self.users_information.key) =  company end date
+similarity =  0.39350740540541723
+key =  COMPANY_END_DATE
+
+users_information + 1
+-doc2(self.users_information.key) =  linkedin profile
+similarity =  0.3463049763755636
+key =  LINKEDIN_PROFILE
+
+users_information + 1
+-doc2(self.users_information.key) =  github url
+similarity =  0.15774025863321256
+key =  GITHUB_URL
+
+users_information + 1
+-doc2(self.users_information.key) =  personal url
+similarity =  0.2722712656437701
+key =  PERSONAL_URL
+
+users_information + 1
+-doc2(self.users_information.key) =  us citizen
+similarity =  0.09798797093440567
+key =  US_CITIZEN
+
+users_information + 1
+-doc2(self.users_information.key) =  gender
+similarity =  0.31732772246106644
+key =  GENDER
+
+users_information + 1
+-doc2(self.users_information.key) =  pronouns
+similarity =  0.33121865964180774
+key =  PRONOUNS
+
+users_information + 1
+-doc2(self.users_information.key) =  sexual orientation
+similarity =  0.263594109821362
+key =  SEXUAL_ORIENTATION
+
+users_information + 1
+-doc2(self.users_information.key) =  race
+similarity =  0.11649329986217334
+key =  RACE
+
+users_information + 1
+-doc2(self.users_information.key) =  veteran
+similarity =  0.11056418057616806
+key =  VETERAN
+
+users_information + 1
+-doc2(self.users_information.key) =  disability
+similarity =  0.22758282039777963
+key =  DISABILITY
+
+users_information + 1
+-doc2(self.users_information.key) =  salary expectations
+similarity =  0.23535062175268373
+key =  SALARY_EXPECTATIONS
+
+users_information + 1
+-doc2(self.users_information.key) =  non compete agreement
+similarity =  0.3067919282262963
+key =  NON_COMPETE_AGREEMENT
+
+users_information + 1
+-doc2(self.users_information.key) =  come across how
+similarity =  0.1965366042495505
+key =  COME_ACROSS_HOW
+
+users_information + 1
+-doc2(self.users_information.key) =  job type
+similarity =  0.3232186794149045
+key =  JOB_TYPE
+
+users_information + 1
+max_similarity =  0.7441818271094007
+best_match =  FIRST_NAME
+None
+found_best_match =  None
+matching_keys = None
+if matching_keys: False
