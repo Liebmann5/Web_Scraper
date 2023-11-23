@@ -2450,7 +2450,15 @@ class CompanyWorkflow():
                 css_selector = f'#{identifier}'
             elif child.get('class'):
                 identifier = child.get('class')[0]
-                css_selector = f'.{identifier}'  
+                css_selector = f'.{identifier}'
+                
+                
+            #NEW
+            elif child.has_attr('name'):
+                name_value = child['name']
+                css_selector = f'input[name="{name_value}"]'
+                
+                
             else:
                 raise ValueError('The element does not have an id or a class')
 
@@ -2458,6 +2466,7 @@ class CompanyWorkflow():
 
         return elemental
     #TODO: ^ ^ ^ ^ v v v v These are literally exactly the same nerd!
+    #!GOOD LORD THEY ARE NOT!!!  ^ ^ ^ ^DO NOT TOUCH^ ^ ^ ^
     #*Scrolls to each question in the form
     def scroll_to_question(self, input_data_html):
         print("\nscroll_to_question()")
@@ -2485,7 +2494,7 @@ class CompanyWorkflow():
 
             elemental = WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, css_selector)))
 
-            self.browser.execute_script("arguments[0].scrollIntoView();", elemental)
+            self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", elemental)
 
 
     #TODO: Good Luck
@@ -2890,6 +2899,17 @@ class CompanyWorkflow():
                     # if matching_keys:
                     #     for key in matching_keys:
                     if matching_keys:
+                        
+                        
+                        
+                        
+                        if not self.form_input_extended['env_values']:
+                            #self.form_input_extended['env_values'] is originally ASSIGNED a list type... so a lsit type it MUST remain!
+                            self.form_input_extended['env_values'].append(matching_keys)
+                        
+                        
+                        
+                        
                         print("self.form_input_extended['env_values'] = ", self.form_input_extended['env_values'])
                         for key in self.form_input_extended['env_values']:
                             safe_print(f"key = {key}")
@@ -2952,14 +2972,31 @@ class CompanyWorkflow():
         #for rule in self.custom_rules.keys():
         #for rule, value in self.custom_rules.items():
         #for rule, value in self.custom_rules:
-        for rule in self.custom_rules:
+        for rule_capital in self.custom_rules:
+            
+            
+            
+            
+            
+            
+            rule = rule_capital.lower()
             if label == rule:
                 print("MATCH: [ try_finding_match() ]")
                 print("\tCUSTOM_RULES = ", rule)
                 print("\tlabel = ", label)
                 #print("\t... value = ", value)
-                print("\t... value = ", self.custom_rules[rule])
-                return rule
+                ##########print("\t... value = ", self.custom_rules[rule])
+                ##########return rule
+                value = self.convert_custom_rule_values(label, rule_capital)
+                print("\t... value = ", self.custom_rules[rule_capital])
+                self.form_input_extended['env_key'] = rule_capital
+                return value
+            
+            
+            
+            
+            
+            
             
         found_best_match = self.find_best_match(label)
         print("found_best_match = ", found_best_match)
@@ -3092,6 +3129,7 @@ class CompanyWorkflow():
     #TODO:------------------------------------------------------------------------------
     #TODO: redid the synonym method
     def handle_match(self, key, label):
+        print(f"\nhandle_match()")
         print("MATCH: [ 2.1)find_best_match() -> .similarity(question{*label*} | self.users_information.key)]")
         print("\tusers_information = ", key)
         print("\tlabel = ", label)
@@ -3330,7 +3368,7 @@ class CompanyWorkflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #!                                                                               !
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    
+
     #TODO: Check the wording in the question
     #*special_case() method 2
     def is_special_case(self, input_data):
@@ -3452,34 +3490,80 @@ class CompanyWorkflow():
             
 
     #! 
-    def convert_customm_rule_values(self, label):
+    def convert_custom_rule_values(self, label, rule_capital):
+        print(f"\nconvert_custom_rule_values()")
         final_string = ''
-        # v ??This part is basically just checking if key is present otherwise skip!?!?!? 
-        custom_key_value = self.check_if_label_in_customs(self.custom_rules, label)
+        final_ans_string = ''
+        # v ??This part is basically just checking if key is present otherwise skip!?!?!?
+        #! I believe  v  this is for synonyms!?!?!?!?
+        #custom_key_value = self.check_if_label_in_customs(self.custom_rules, label)
+        print(f"      label = {label}")
+        custom_key_value = self.custom_rules[rule_capital]
+        print(f"      rule_capital = {rule_capital}")
+        print(f"      custom_key_value = {custom_key_value}")
+        
+        #! UNECESSARY
         if custom_key_value:
-            custom_rule_split = custom_key_value.split(',')
-            for custom_rule_value in custom_rule_split:
-                custom_rule_value_trimmed_leading_and_trailing_spaces = custom_rule_value.strip()
-                value = self.determine_type_of_value(custom_rule_value_trimmed_leading_and_trailing_spaces)
+            #custom_rule_split = custom_key_value.split(',')
+            #for custom_rule_value in custom_rule_split:
+            for custom_rule_value in custom_key_value:
+                print(f"      custom_rule_value = {custom_rule_value}")
+                if custom_rule_value.strip():
+                # custom_rule_value_trimmed_leading_and_trailing_spaces = custom_rule_value.strip()
+                # value = self.determine_type_of_value(custom_rule_value_trimmed_leading_and_trailing_spaces)
+                    value = self.determine_type_of_value(custom_rule_value.strip())
+                else:
+                    #Handles the space issue!
+                    value = " "
+                print(f"      value = {value}")
+                final_ans_string += value
+                print(f"      final_ans_string = {final_ans_string}\n")
                 
                 
-                
-                env_value = self.extract_env_values(custom_rule_value_trimmed_leading_and_trailing_spaces)
-                final_ans_string += (env_value + ' ')
+                # env_value = self.extract_env_values(custom_rule_value_trimmed_leading_and_trailing_spaces)
+                # final_ans_string += (env_value + ' ')
         else:
-            final_ans_string += (custom_rule_value_trimmed_leading_and_trailing_spaces + ' ')
-        finalized_string = final_ans_string[:-1]
-        return finalized_string
+            #final_ans_string += (custom_rule_value_trimmed_leading_and_trailing_spaces + ' ')
+            final_ans_string = custom_key_value
+        #finalized_string = final_ans_string[:-1]
+        # print(f"      finalized_string = {finalized_string}")
+        # return finalized_string
+        print(f"      final_ans_string = {final_ans_string}")
+        return final_ans_string
     
     # This determines if the value obtained from the config.py dictionary variable's key-value pair is
     # connected to the .env file | variable from the code | just regular string text  
-    def determine_type_of_value(self, custom_rule_key_value):
-        return
+    def determine_type_of_value(self, custom_rule_value):
+        print(f"\ndetermine_type_of_value()")
+        if value := self.extract_env_values(custom_rule_value):
+            print("Found in the .env file")
+        #TODO: Perhaps change this so that it checks if index 0=( and length-1=) signifying exec instead of running it the way you are!!!
+        elif value := self.check_if_custom_rule_exec(custom_rule_value):
+            print("Found out this is executable")
+        else:
+            #value = custom_rule_value
+            print("Found out this is Normal  boooo")
+        return value
+        
+    def check_if_custom_rule_exec(self, custom_rule_value):
+        print(f"\ncheck_if_custom_rule_exec()")
+        try:
+            exec("result = " + custom_rule_value)
+            #final_value += str(result) + ' '
+            final_value += str(result)
+        except Exception as e:
+            print(f"Error in executing code: {e}")
+        return final_value
 
     def extract_env_values(self, custom_values_key):
+        print(f"\nextract_env_values()")
+        print(f"      self.users_information = {self.users_information}")
         for env_key in self.users_information:
+            print(f"      env_key = {env_key}")
+            print(f"      custom_values_key = {custom_values_key}")
             if custom_values_key == env_key:
                 env_value = self.users_information[env_key]
+                print(f"      env_value = {env_value}")
                 return env_value
         # v  This should never run
         return NameError

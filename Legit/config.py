@@ -2,7 +2,7 @@
 # When coming up with custom names -> figure out how ChatGPT does it!!
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CUSTOM_RULES = {
-    "Full name": ["FIRST_NAME", " ", "MIDDLE_NAME", " ", "LAST_NAME"],
+    "Full name": ["FIRST_NAME", " ", "MIDDLE_INITIAL", " ", "LAST_NAME"],
     "Signature": ["FIRST_NAME", " ", "LAST_NAME"],
     "Address": ["91293 Reje Ct.", " ", "USERS_CITY", ", ", "USERS_STATE", " ", "USERS_ZIP_CODE"],
     "Start Availability": ["self.time_program_ran" + " " + "add 2 weeks(self.time_program_ran+336hrs)"],
