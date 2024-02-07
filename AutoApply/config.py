@@ -1,6 +1,3 @@
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# When coming up with custom names -> figure out how ChatGPT does it!!
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 CUSTOM_RULES = {
     "Full name": ["FIRST_NAME", " ", "MIDDLE_INITIAL", " ", "LAST_NAME"],
     "Signature": ["FIRST_NAME", " ", "LAST_NAME"],
@@ -10,10 +7,6 @@ CUSTOM_RULES = {
     "Software Engineer": ["Software Developer"],
     "Location (City)": ["LOCATION_CITY", ", ", "LOCATION_STATE"],
 },
-#TODO: I'm fairly certain I'd want these switched!?!?!?
-#TODO: Add degrees!! So  B.S. = Bachelors of Science
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-#The reason for this setup is 'get form question'
 CUSTOM_SYNONYMS = {
     "phone": ["PHONE_NUMBER", "PERSONAL_CELL", "CELLPHONE", "PHONE"],
     "linkedIn profile": ["LINKEDIN_PROFILE"],

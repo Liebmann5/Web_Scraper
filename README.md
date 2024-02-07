@@ -1,29 +1,69 @@
-# Web_Scraper
+# Web Scraper: Automate Your Job Search
 
+Welcome to the Web Scraper project, a cutting-edge solution designed to transform the way you approach the job market. By harnessing the power of machine learning and artificial intelligence with SpaCy & EleutherAI, this tool almost completely automates the entire job application process, making it more efficient and significantly less time-consuming.
 
-Just copy & paste this
-pip install -r requirements.txt
+## Features
 
-Then run this
-python -u AutoApply/JobSearchWorkflow.py
+- **Automated Job Searching**: Leverages SpaCy AI to identify job openings that match your skills and interests.
+- **Intelligent Application Process**: Automatically fills out application forms with unique, personalized responses.
+- **Security Bypass Capabilities**: Uses OxyLabs solutions to navigate around common web scraping hurdles, such as CAPTCHAs and IP bans.
+- **Market Insights**: Integrates with FastAPI and MariaDB for backend operations, providing real-time job market analytics through Google Sheets.
 
-and... BOOM! That's how it's done.
+## Quick Start
 
+### Installation
 
-# Summary:
-This project is designed to automate the job application process, making it easier and more efficient for users. The only time they insert info is their first time which collects their resume, basic info, and lastly a unqiue summary about their career. The project utilizes ML and SpaCy AI to find and apply to specific jobs the user qualifies for and is interested in. The security is bypassed using OxyLabs(for now) which provides everything from rotational residential IP addesses to CAPTCHA's. The ML adds different answers to every miscellaneous question it comes across while also avoiding security as well by making each answered question unique to each user.
+First, clone the repository to your local machine and navigate to the project directory:
 
-I also built a server that incorporates a FastAPI, MariaDB, data analysis, and output of data to Google Sheets in the form of many useful graphs that provide current insight into the job market in real-time!
+```bash
+git clone https://github.com/Liebmann5/Web_Scraper.git
+cd Web_Scraper
+```
+For MAC users:
 
+```bash
+sh setup.sh
+```
+For Windows users:
 
-AutoApply:
- JobSearchWorkflow.py   - The main program which controls the workflow of everything
- UsersFirstUse.py       - The purpose of this program is to collect all the info from the user in relation to their job search & is also only meant to be run once
- ManageUserJobSearch.py - Part two of aboves file but deals with users technology preferences utilized
- GoogleSearch.py        - The program responsible for opening the users browser to search for job openings, resulting in a list of current roles that meet the users requirements
- CompanyOpeningsAndApplications.py - the file responsible for the entire job application process and is still in 'Under Construction' as it will be broken down into 3 parts which I'll list below
-    I. Search for companies other job openings webpage and consider up to 5 other roles(if available)
-    II. Read Job description and see if it meets the users requirements AS WELL AS vice versa
-    III. Fill out job application to apply
- website_elements.json  - JSON file used to quickly identify and retrieve necessary info WHICH ALSO allows for this program to be extremely adaptable and work with & for more online forms over time
+```cmd
+setup.bat
+```
+Press **ENTER**
 
+That's it! The program should be ready to go!
+
+## How It Works
+
+On the first run, you'll be prompted to enter details such as your resume, social security number, other basic personal information, and a unique career summary. Web_Scraper then takes over, using sophisticated algorithms like [point-slope formula](https://en.wikipedia.org/wiki/Linear_equation), to find and apply to jobs that not only match your qualifications but also your career aspirations.
+
+## AutoApply - The Heart of Automation
+
+The AutoApply module is central to the Web Scraper, encompassing several components each tailored to streamline specific aspects of the job application process:
+
+- **JobSearchWorkflow.py**: Coordinates the overall workflow.
+- **UsersFirstUse.py**: Collects initial user data for a personalized experience.
+- **ManageUserJobSearch.py**: Tailors job search based on user's technology preferences.
+- **GoogleSearch.py**: Automates web searches for relevant job openings.
+- **CompanyOpeningsAndApplications.py**: Handles the application process, from finding openings to submitting applications.
+
+## Workflow Overview & Diagram
+
+The AutoApply program follows this streamlined process:
+
+`JobSearchWorkflow.py > GoogleSearch.py > JobSearchWorkflow.py > CompanyOpeningsAndApplications.py`
+
+1. **Start with JobSearchWorkflow.py**: Initiates the job search.
+2. **Proceed to GoogleSearch.py**: Finds relevant job openings.
+3. **Return to JobSearchWorkflow.py**: Filters and Organizes found job openings.
+4. **End with CompanyOpeningsAndApplications.py**: Applies to appropriately fit roles.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+## Stay Connected
+
+For more information, questions, and updates, check out this [GitHub repository](https://github.com/Liebmann5/Web_Scraper) that leads you no where :P.
+
+Thank you and now go do whatever the heck it is that you do!

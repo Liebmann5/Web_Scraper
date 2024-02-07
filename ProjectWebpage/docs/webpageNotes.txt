@@ -1,0 +1,64 @@
+ChatGPT Tokenizer:
+    https://platform.openai.com/tokenizer
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!! EMPTY githubData.json FILE BEFORE PUTTING IT ON GITHUB PAGES !!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+StrictMode - https://react.dev/reference/react/StrictMode
+react-snap - https://github.com/stereobooster/react-snap
+async-components - https://github.com/stereobooster/guide-to-async-components
+?? - https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+?? - https://github.com/civiccc/react-waypoint
+
+1 - https://mldangelo.com/projects/
+2 - https://github.com/mldangelo/personal-site/blob/main/docs/design-goals.md
+3 - https://github.com/mldangelo/personal-site/blob/main/src/data/resume/skills.js
+4 - https://github.com/mldangelo/personal-site/blob/main/src/App.js
+5 - https://github.com/mldangelo/personal-site/blob/main/src/layouts/Main.js
+6 - https://github.com/mldangelo/personal-site/blob/main/src/pages/Resume.js
+7 - https://github.com/mldangelo/personal-site/blob/main/src/components/Resume/Skills.js
+8 - https://github.com/mldangelo/personal-site/blob/main/src/components/Resume/Skills/CategoryButton.js
+9 - https://github.com/mldangelo/personal-site/blob/main/src/components/Resume/Skills/SkillBar.js
+10 - https://github.com/mldangelo/personal-site/blob/main/src/data/resume/skills.js
+11 - https://github.com/mldangelo/personal-site/blob/main/src/data/routes.js
+12 - https://github.com/mldangelo/personal-site/blob/main/src/data/projects.js
+13 - https://github.com/mldangelo/personal-site/blob/main/src/components/Projects/Cell.js
+
+
+
+
+
+
+How to run:
+Download Node.js: Visit the "official Node.js website" to download the installer for your operating system.
+Run the Installer: Follow the installation instructions. npm is distributed with Node.js, so by installing Node.js, you'll automatically install npm as well.
+Verify Installation: After installation is complete, open a new terminal window and run the following commands to verify that Node.js and npm are correctly installed:
+
+zsh
+
+node -v
+npm -v
+
+Open your package.json and look for the "scripts" section and add a start script to run your development server.
+If you're using Create React App, it would look like this:
+"scripts": {
+  "start": "react-scripts start",
+  // other scripts might be here
+}
+If you're using Webpack Dev Server, it might look like:
+"scripts": {
+  "start": "webpack-dev-server",
+  // other scripts might be here
+}
+
+npm install react-scripts --save   |   npm install -g npm@10.2.0
+
+script (fetchGithubData.js) that fetches GitHub data and writes it to githubData.json. To populate the githubData.json file
+node fetchGithubData.js
+
+npm start

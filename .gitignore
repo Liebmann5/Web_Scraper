@@ -28,3 +28,8 @@ app.log
 .vscode\settings.json
 AutoApply\Untitled-1.py
 AutoApply\Untitled-3.py
+.VSCodeCounter
+ProjectWebpage\docs\HowThisWasDone.md
+ProjectWebpage\docs\indexNotes.html
+ProjectWebpage\docs\ProjectsCode.txt
+ProjectWebpage\docs\webpageNotes.txt

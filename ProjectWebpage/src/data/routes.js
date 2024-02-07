@@ -26,7 +26,7 @@ const routes = [
     },
     {
         name: 'Nicks Private Parts',
-        path: '/privateparts',
+        path: '/autoapply',
     },
 ];
 

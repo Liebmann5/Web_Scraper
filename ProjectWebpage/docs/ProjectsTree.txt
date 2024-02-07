@@ -43,7 +43,7 @@ ProjectWebpage
     │       Projects.js
     │       About.js
     │       Data.js
-    │       NicksPrivateParts.js
+    │       Auto-Apply.js
     │       Papers.js
     │       Stats.js
     │

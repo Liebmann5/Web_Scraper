@@ -13,17 +13,14 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Stats = lazy(() => import('./pages/Stats'));
 const Data = lazy(() => import('./pages/Data'));
 const Papers = lazy(() => import('./pages/Papers'));
-const NicksPrivateParts = lazy(() => import('./pages/NicksPrivateParts'));
+const AutoApply = lazy(() => import('./pages/Auto-Apply'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const App = () => (
     <BrowserRouter basename={PUBLIC_URL}>
         <Suspense fallback={<Main />}>
             <Routes>
-            {/* <Banner />
-            ok roots being here makes sense b/c I was laying out the overall design BUT... 
-            how do you put all your various pages here? You can't you dunce! SSSSSooooo direct
-            them here you doofus dunce crook! */}
+            {/* <Banner /> */}
                 {/* Commented out routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
@@ -31,7 +28,7 @@ const App = () => (
                 <Route path="/stats" element={<Stats />} />
                 <Route path="/data" element={<Data />} />
                 <Route path="/papers" element={<Papers />} />
-                <Route path="/privateparts" element={<NicksPrivateParts />} />
+                <Route path="/autoapply" element={<AutoApply />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Suspense>

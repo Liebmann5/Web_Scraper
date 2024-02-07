@@ -21,7 +21,7 @@ const Index = () => (
       <div className="webpage-contents">
         <p> Welcome to my website. Please feel free to read more <Link to="/about">about me</Link>,
           or you can check out my available {' '}
-          <Link to="/privateparts">Private Parts</Link>!
+          <Link to="/autoapply">Private Parts</Link>!
           {/*<Link to="/resume">resume</Link>, {' '}
           <Link to="/projects">projects</Link>, {' '}
           view <Link to="/stats">site statistics</Link>, {' '}
