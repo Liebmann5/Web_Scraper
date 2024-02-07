@@ -1,3 +1,4 @@
+#APPLY WHEN READY: change all '==' to '~=' as this allows all updates before MAJOR version change!!
 beautifulsoup4==4.11.2
 python-dotenv==1.0.0
 Requests==2.30.0

@@ -12,7 +12,7 @@
 
 #NOTE: export PYTHONENCODING=utf-8
 
-#9) python3 Legit/JobSearchWorkflow.py
+#9) python3 AutoApply/JobSearchWorkflow.py
 
 
 # Check for a command that runs Python 3
@@ -55,7 +55,7 @@ $PYTHON_CMD -m spacy download en_core_web_md
 #In Terminal: python3 -m pip uninstall en_core_web_md
 
 # Run your Python script
-$PYTHON_CMD Legit/JobSearchWorkflow.py
+$PYTHON_CMD AutoApply/JobSearchWorkflow.py
 
 # Deactivate the virtual environment
 deactivate

@@ -10,7 +10,7 @@
             "type": "python",
             "request": "launch",
             // "program": "${file}",
-            "program": "${workspaceFolder}\\Legit\\JobSearchWorkflow.py",
+            "program": "${workspaceFolder}\\AutoApply\\JobSearchWorkflow.py",
             "console": "integratedTerminal"
             //"justMyCode": true
         },
@@ -19,7 +19,7 @@
             "type": "python",
             "request": "launch",
             // "program": "${file}",
-            "program": "${workspaceFolder}\\Legit\\JobSearchWorkflow.py",
+            "program": "${workspaceFolder}\\AutoApply\\JobSearchWorkflow.py",
             "console": "integratedTerminal",
             "stopOnEntry": true,
             //"autoAttachChildProcesses": true

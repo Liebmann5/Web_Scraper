@@ -4,7 +4,6 @@ import time
 import openpyxl
 import requests
 import config
-
 import nltk
 import torch
 import spacy
@@ -14,14 +13,10 @@ from datetime import datetime
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer, pipeline
-
-#! from fileName import className
 from GoogleSearch import scraperGoogle
 from CompanyOpeningsAndApplications import CompanyWorkflow
-
 from dotenv import load_dotenv
 from urllib.parse import urlparse, urlunparse
-
 from bs4 import BeautifulSoup, Tag
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
@@ -30,7 +25,6 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.edge.options import Options as EdgeOptions
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
@@ -39,12 +33,6 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 import sys
 print("Here's some info about sys.executable: ", sys.executable)
 import site
-
-
-
-
-
-
 import logging
 
 # Configure logging
@@ -58,40 +46,25 @@ logging.basicConfig(
 
 
 
-
-
-
-# ----https://boards.greenhouse.io/openmesh
-# Internships!!! Graduated person may not want to apply for these AS WELL AS might not even qualify due to it possibly only allowing current students!!
-# If CompanyWorkflow has issues with the resume in any way... the whole thing crashes!!
-
-#!!!!!!!!!!!!!!!!!!! THIS MIGHT HELP WITH LOCATION STUFF !!!!!!!!!!!!!!!!!!!!!!!!!!
-#!!!!!!!!!!!!!!!!!!! https://towardsdatascience.com/transform-messy-address-into-clean-data-effortlessly-using-geopy-and-python-d3f726461225 !!!!!!!!!!!!!!!!!!!!!!!!!!
-
-#NOTE: "Mechanize" - a python import that I believe I want to refer to for browser security methods
-
-
-                #Run "python|python3 -u Legit/JobSearchWorkflow.py"
-                #!!!!!!!!!!!!!!!!!!! TEST THIS HAS  CHECKLIST !!!!!!!!!!!!!!!!!!!!!!!!!!
-                #https://jobs.lever.co/hive/9461e715-9e58-4414-bc9b-13e449f92b08/apply
-                #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                #ThisFolderWasMadeAtThreeAM/setup.sh
-                #!!!!!!!!!!!!!!!!!!! chmod +x setup.sh & .bat !!!!!!!!!!!!!!!!!!!!!!!!!!
-
-#! EXTRACT JOB_TYPE AS LIST OD len()=3 | {DESIRED_LOCATION, HYBRID, REMOTE}
-#NOTE: When sending data to Google Sheets for total of anything just do (self.jobs_applied_to_this_session + self.current_jobs_details)
-
-
-
-#NOTE: Bracket Pair Color DLW
-#NOTE: How to run
-#NOTE: Press Ctrl + Shift + P (Win, Linux) / Cmd + Shift + P (Mac) and search for the Toggle 'Bracket Color DLW' command.
-
-
-
 class Workflow():
+    """
+    Manages the overall job search and application workflow.
+    
+    This class encapsulates the entire process of a job search workflow, including browser setup, executing job searches, filtering results, applying to jobs, and managing job application data.
+    """
        
     def __init__(self):
+        """
+        Initializes the Workflow class with default values and configurations.
+        
+        Sets up initial lists for storing job search links, job application data, and user preferences. It also configures paths for environmental variables and previous job data, as well as initializing various attributes related to job search and application tracking.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         self.browser = None
         self.google_search_results_links = []
         #TODO: Change this name... it's all the job info a user has previously applied to!!
@@ -106,10 +79,8 @@ class Workflow():
         self.last_time_user_applied = None
         self.jobs_applied_to_this_session = {}
         self.user_preferred_workplaceType = []
-
         self.senior_jobs_found = {}  #Job_Title, Company_Name, Job_Location, Todays_Date
         self.entry_jobs_found = {}
-
         self.custom_rules = None
         self.q_and_a = None
         self.custom_synonyms = None
@@ -127,6 +98,17 @@ class Workflow():
         
         
     def job_search_workflow(self):
+        """
+        Executes the main job search and application workflow.
+        
+        This method orchestrates the entire job search process, from setting up the browser, filtering search results, loading company resources, to applying to jobs and closing the browser session. It utilizes various helper methods to perform each step in the workflow.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         self.browser_setup()
         
         # self.load_company_resources()
@@ -134,9 +116,6 @@ class Workflow():
         # self.__del__()
         
         #TODO: GET RID OF OLD VARIABLES - last_link_from_google_search, user_desired_jobs, user_preferred_locations, etc....
-        # self.google_search_results_links, last_link_from_google_search, user_desired_jobs = scraperGoogle(self.browser).user_requirements()
-        #google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType = scraperGoogle(self.browser).user_requirements()
-        #google_search_results_links, last_link_from_google_search, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, users_job_search_requirements = scraperGoogle(self.browser).user_requirements()
         google_search_results_links, self.last_link_from_google_search, self.user_desired_jobs, self.user_preferred_locations, user_preferred_workplaceType, users_job_search_requirements = scraperGoogle(self.browser).user_requirements()
         print("DOPE")
         print(google_search_results_links)
@@ -154,8 +133,6 @@ class Workflow():
     
     
     
-    
-    
        
         
         
@@ -163,6 +140,20 @@ class Workflow():
     #TODO: Setup browser HERE... b/c only the 1st run of this programm should take a long time for info setup!! The 2nd
     #TODO: time they run it just ask them what browser... HERE lol then if they make any changes GoogleSearch.py takes effect!
     def users_browser_choice(self):
+        """
+        Retrieves the user's preferred browser choice for the job search.
+        
+        This method prompts the user to choose a web browser for conducting the job search. It defaults to a predetermined choice if the user does not make a selection or if an invalid selection is made.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - tuple: Contains the user's browser choice as an integer and the browser's name as a string.
+        
+        Note:
+        - Currently, this method returns a default value without user input. Future implementations should include user input handling.
+        """
         users_browser_choice, browser_name = 1, " Firefox "
         #users_browser_choice, browser_name = 2, " Safari "
         #users_browser_choice, browser_name = 3, " Chrome "
@@ -198,6 +189,17 @@ class Workflow():
     
     #! I have browser setup called 1st and then users_browser_choice b/c if the user uses the same browser over & over this will remember it!!!
     def browser_setup(self):
+        """
+        Configures and initializes the web browser based on the user's choice.
+        
+        Sets up the desired web browser with specific options to enhance the job search process, such as disabling notifications and setting page load timeouts. It opens a Google page to verify the internet connection and browser setup.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         users_browser_choice, browser_name = self.users_browser_choice()
         print(f'Execution Started -- Opening{browser_name}Browser')
 
@@ -245,13 +247,46 @@ class Workflow():
         return
     
     def close_browser(self):
+        """
+        Closes the web browser session at the end of the job search workflow.
+        
+        This method safely quits the browser session, ensuring that all resources are properly released.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         self.browser.quit()
         print('Execution Ending -- Webdriver session is Closing')
     
     def get_time(self):
+        """
+        Retrieves the current time formatted as a string.
+        
+        Provides the current date and time in "YYYY-MM-DD HH:MM:SS" format, useful for timestamping events within the job search process.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - str: The current date and time as a string.
+        """
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     def get_date(self):
+        """
+        Retrieves the current date formatted as a string.
+        
+        Provides the current date in "YYYY-MM-DD" format, useful for date-stamping job applications or other relevant activities.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - str: The current date as a string.
+        """
         return datetime.now().strftime("%Y-%m-%d")
     
     
@@ -261,85 +296,27 @@ class Workflow():
     
     
     
-    
-    
-    
-    
-    '''
-    def apply_to_jobs(self, last_link_from_google_search, user_desired_jobs):
-        print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
-        clicked_link_from_google_search = False
-        # for job_link in self.google_search_results_links[::1]:
-        for i in range(len(self.google_search_results_links) - 1, -1, -1):   #? I think this goes last to first???
-            job_link = self.google_search_results_links[i]
-            if not clicked_link_from_google_search:
-                print(last_link_from_google_search)
-                #self.browser.find_element(By.X_PATH, )
-                
-                self.browser.execute_script("arguments[0].scrollIntoView();", last_link_from_google_search)
-                print("Scrolled to this place...\n")
-                time.sleep(5)
-                
-                
-                
-                
-                
-                diagnostics = self.diagnose_interaction(last_link_from_google_search)
-                for check, result in diagnostics.items():
-                    print(f"{check}: {result}")
-                # element_code_outer = last_link_from_google_search.get_attribute('outerHTML')
-                # element_code_inner = last_link_from_google_search.get_attribute('innerHTML')
-                # soup_outer = BeautifulSoup(element_code_outer, 'html.parser')
-                # soup_inner = BeautifulSoup(element_code_inner, 'html.parser')
-                # dumb_a_tag_link = soup_inner.find('a')
-                # print("------------------------------------------------------")
-                # print("This is the selenium element outerHTML: ")
-                # print(soup_outer.prettify())
-                # print("------------------------------------------------------")
-                # print("This is the selenium element innerHTML: ")
-                # print(soup_inner.prettify())
-                # print("------------------------------------------------------")
-                # print("This is my attempt to find the <a>: ")
-                # print(dumb_a_tag_link)
-                # print("------------------------------------------------------Kenny Powers")
-                # some_thing = self.test_click_element(dumb_a_tag_link)
-                # print(some_thing)
-                # time.sleep(15)
-                if not self.safe_click(last_link_from_google_search):
-                    print("Clicking on the element failed.")
-                
-                
-                 
-                
-                # last_a_tag = last_link_from_google_search.find_element(By.TAG_NAME, 'a')
-                # last_a_tag.click()
-                clicked_link_from_google_search = True
-                print("Accidently punished")
-                wait_fur_this = self.wait_for_element_explicitly(self.browser, 10, (By.TAG_NAME, 'a'), 'visibility')
-                print("This time wasn't an accident!")
-                time.sleep(4)
-
-
-
-                #print("\n\n\n???????????????????????????????????????????????????")
-                #self.cookie_information()
-                #self.website_modified_cookie_info()
-                #print("???????????????????????????????????????????????????\n\n\n")
-
-
-
-            else:
-                print(job_link)
-                self.browser.get(job_link)
-                time.sleep(5)
-            print("\n\n" + "--------------------------------------------" + "\nTransferring power to CompanyWorkflow")
-            #self.jobs_applied_to_this_session = CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, senior_experience=False).company_workflow(job_link)
-            CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, senior_experience=False).test_this_pile_of_lard(job_link)
-    '''
-    
-    
     #DEPRICATED
     def apply_to_jobs(self, last_link_from_google_search, google_search_results_links, user_desired_jobs, user_preferred_locations, user_preferred_workplaceType, job_links_organized_by_company):
+        """
+        (Deprecated) Attempts to apply to jobs based on the gathered search results.
+        
+        This method iterates through Google search results links and attempts to interact with each job posting. It is marked as deprecated and should no longer be used in favor of a refactored approach.
+        
+        Parameters:
+        - last_link_from_google_search: The last job link from Google search results.
+        - google_search_results_links (list[str]): A list of job links from Google search results.
+        - user_desired_jobs (list[str]): A list of job titles the user desires.
+        - user_preferred_locations (list[str]): A list of preferred job locations by the user.
+        - user_preferred_workplaceType (list[str]): A list of preferred workplace types by the user.
+        - job_links_organized_by_company (dict): Job links organized by company.
+        
+        Returns:
+        - None
+        
+        Note:
+        - This method contains legacy code and is recommended for refactoring or replacement.
+        """
         print("Begin the  Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(google_search_results_links) - 1, -1, -1):
@@ -399,6 +376,19 @@ class Workflow():
 
 
     def refactored_apply_to_jobs(self, google_search_results_links, users_job_search_requirements, job_links_organized_by_company):
+        """
+        Applies to jobs using refactored logic based on the search results and user preferences.
+        
+        Iterates over Google search results and applies to jobs, handling page interactions and diagnostics. It incorporates user preferences and requirements into the job application process.
+        
+        Parameters:
+        - google_search_results_links (list[str]): A list of job links from Google search results.
+        - users_job_search_requirements (dict): User-defined job search requirements including desired job titles, locations, and workplace types.
+        - job_links_organized_by_company (list): Organized job links by company for targeted applications.
+        
+        Returns:
+        - None
+        """
         print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         clicked_link_from_google_search = False
         for i in range(len(google_search_results_links) - 1, -1, -1):
@@ -466,9 +456,31 @@ class Workflow():
 
 
     def transition_link_into_selenium(self, job_link):
+        """
+        Transitions a job link into a Selenium WebElement.
+        
+        Given a job link URL, this method finds and returns the corresponding WebElement on the page.
+        
+        Parameters:
+        - job_link (str): The URL of the job link to be transitioned into a Selenium WebElement.
+        
+        Returns:
+        - WebElement: The WebElement corresponding to the job link URL.
+        """
         return self.browser.find_element(By.CSS_SELECTOR, f'a[href="{job_link}"]')
     
     def ludacris_speed_apply_to_jobs(self, user_desired_jobs=None):
+        """
+        Quickly applies to jobs using a predefined set of user job preferences.
+        
+        Initiates an accelerated job application process using predefined or specified user job preferences, transferring control to the CompanyWorkflow for actual application.
+        
+        Parameters:
+        - user_desired_jobs (list[str], optional): A list of job titles the user desires, defaults to None.
+        
+        Returns:
+        - None
+        """
         print("Begin the powerCore Batman... Robin... I'll need an extra set of hands in a second so hang tight")
         self.load_users_information()
         print("Accidently clicked that whoops...")
@@ -477,6 +489,17 @@ class Workflow():
         CompanyWorkflow(self, self.browser, self.users_information, user_desired_jobs, self.jobs_applied_to_this_session, self.tokenizer, self.model, self.nlp, self.lemmatizer, self.custom_rules, self.q_and_a, self.custom_synonyms).test_this_pile_of_lard('https://www.google.com')
 
     def safe_click(self, element):
+        """
+        Attempts to safely click a WebElement, trying multiple strategies.
+        
+        This method attempts to click on a given WebElement using various strategies to handle common issues like element not being clickable, being covered by another element, or not being visible.
+        
+        Parameters:
+        - element (WebElement): The WebElement to click.
+        
+        Returns:
+        - bool: True if the click was successful, False otherwise.
+        """
         print("safe_click()")
         #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         print("1) Normal click attempt")
@@ -529,6 +552,17 @@ class Workflow():
         return False
 
     def diagnose_interaction(self, element):
+        """
+        Diagnoses interaction issues with a given WebElement.
+        
+        Performs a series of checks on the WebElement to diagnose common interaction issues, such as visibility or being covered by another element.
+        
+        Parameters:
+        - element (WebElement): The WebElement to diagnose.
+        
+        Returns:
+        - dict: A dictionary of diagnostic results.
+        """
         diagnostics = {}
 
         # Check 1: Is the element present in the DOM?
@@ -600,6 +634,23 @@ class Workflow():
         return diagnostics
 
     def wait_for_element_explicitly(self, browser, timeout, locator_tuple, condition):
+        """
+        Waits explicitly for an element to satisfy a specific condition.
+        
+        Waits for a web element, specified by its locator tuple, to meet a given condition within a timeout period.
+        
+        Parameters:
+        - browser (WebDriver): The Selenium WebDriver instance.
+        - timeout (int): The timeout in seconds.
+        - locator_tuple (tuple): The locator tuple for the WebElement.
+        - condition (str): The condition to wait for ('presence', 'visibility', or 'clickable').
+        
+        Returns:
+        - WebElement: The WebElement if the condition is met within the timeout period.
+        
+        Raises:
+        - ValueError: If an invalid condition is specified.
+        """
         print("wait_for_element_explicitly()")
         wait = WebDriverWait(browser, timeout)
         
@@ -613,6 +664,17 @@ class Workflow():
             raise ValueError(f"Invalid condition: {condition}")
     
     def diagnose_page_state(self, browser):
+        """
+        Diagnoses the current state of the page.
+        
+        Collects diagnostics about the current state of the page, such as the current URL and the visibility of certain elements.
+        
+        Parameters:
+        - browser (WebDriver): The Selenium WebDriver instance.
+        
+        Returns:
+        - dict: A dictionary containing diagnostic information about the page state.
+        """
         diagnostics = {}
         
         # Current URL
@@ -631,6 +693,21 @@ class Workflow():
         return diagnostics
     
     def ensure_page_loaded(self, browser, timeout=30):
+        """
+        Ensures that a page is fully loaded within a specified timeout period.
+        
+        Waits for basic indicators of page load completion, such as URL changes or visibility of specific elements, to ensure the page is fully loaded.
+        
+        Parameters:
+        - browser (WebDriver): The Selenium WebDriver instance.
+        - timeout (int, optional): The timeout in seconds, defaults to 30.
+        
+        Returns:
+        - None
+        
+        Note:
+        - Additional dynamic content loading checks can be added as needed.
+        """
         try:
             # Wait for the URL to change if needed
             WebDriverWait(browser, timeout).until(EC.url_changes(browser.current_url))
@@ -647,6 +724,18 @@ class Workflow():
             print("Diagnostics:", diagnostics)
     
     def consolidate_job_links_by_company(self, job_link, job_links_organized_by_company):
+        """
+        Consolidates job links by company for organized access.
+        
+        Matches a given job link against a list of job links organized by company, aiding in the organization and application process.
+        
+        Parameters:
+        - job_link (str): The job link to be matched and consolidated.
+        - job_links_organized_by_company (list): A list of job links organized by company.
+        
+        Returns:
+        - mixed: The matched company URL list if a match is found; otherwise, returns the original job link.
+        """
         print("\nconsolidate_job_links_by_company()\n")
         for companies_url_list in job_links_organized_by_company:
             print("\tjob_link = ", job_link)
@@ -665,16 +754,27 @@ class Workflow():
     
     
     
-    
-    
-    
-    
-    
         
         
     
         
     def show_warning(message, category, filename, lineno, file=None, line=None):
+        """
+        Custom warning display function.
+        
+        Overrides the default warning display to print warnings with a specific format.
+        
+        Parameters:
+        - message (str): The warning message.
+        - category (Warning): The category of the warning.
+        - filename (str): The name of the file in which the warning occurred.
+        - lineno (int): The line number at which the warning occurred.
+        - file (Optional[IO]): The file object to write the warning to, defaults to None.
+        - line (Optional[str]): The line of code that generated the warning, defaults to None.
+        
+        Returns:
+        - None
+        """
         print(f"Warning: {message}")
     warnings.showwarning = show_warning
     
@@ -684,6 +784,17 @@ class Workflow():
     
     #! HERE HERE HERE          CHANGE  GPT-Neo-#.#B            HERE HERE HERE
     def load_company_resources(self):
+        """
+        Loads various resources and libraries necessary for the job search process.
+        
+        Initiates the loading of user information, custom rules, Natural Language Processing resources, and initializes GPT-Neo and NLTK libraries.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("\nload_company_resources()")
         self.load_users_information()
         print("  Loaded Users Information...")
@@ -712,6 +823,17 @@ class Workflow():
     
     #!------------- .env --------------------
     def load_users_information(self):
+        """
+        Loads user information from the .env file into the class attribute.
+        
+        Reads the .env file line by line, extracting key-value pairs and storing them in a dictionary attribute for later use.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         self.users_information = {}
         with open(self.env_path) as file:
             for line in file:
@@ -722,6 +844,17 @@ class Workflow():
         #self.print_users_information()
     
     def print_users_information(self):
+        """
+        Prints the loaded user information to the console.
+        
+        Iterates over the users_information dictionary and prints each key-value pair.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print('--------USERS .ENV INFO--------')
         for key, value in self.users_information.items():
             print(f"{key}: {value}")
@@ -730,6 +863,17 @@ class Workflow():
     
     #!------------ config -------------------
     def load_custom_rules(self):
+        """
+        Loads custom rules defined in the config module into class attributes.
+        
+        Iterates through attributes of the config module that do not start with "__", checking for specific custom rules and synonyms to load them into class attributes.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("\nload_custom_rules()")
         print("dir(config) = ", dir(config))
         
@@ -762,6 +906,17 @@ class Workflow():
     #!---------------------------------------
     
     def init_nltk(self):
+        """
+        Initializes NLTK resources, specifically downloading the WordNet data if not already present.
+        
+        Checks for the presence of WordNet data and downloads it if necessary, ensuring NLTK functionalities are ready for use.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         try:
             #Try to access WordNet
             nltk.corpus.wordnet.synsets('word')
@@ -770,12 +925,34 @@ class Workflow():
             nltk.download('wordnet')
     
     def from_website_gptneo_setup(self):
+        """
+        Downloads and Initializes the requested GPT-Neo model with the users GPU.
+        
+        Loads the GPT-Neo model and tokenizer with the specified model name, setting them up for use in generating text or processing inputs.
+        
+        Parameters:
+        - model_name (str): The name of the GPT-Neo model to download.
+        
+        Returns:
+        - None
+        """
         #https://gist.github.com/pszemraj/791d72587e718aa90ff2fe79f45b3cfe
         model_3B_pars = 'EleutherAI/gpt-neo-2.7B'
         
         #gpu_mem = round(gpu_mem_total() / 1024, 2)
         
     def init_gpt_neo(self, model_name):
+        """
+        Initializes the GPT-Neo model and tokenizer for text generation.
+        
+        Loads the GPT-Neo model and tokenizer with the specified model name, setting them up for use in generating text or processing inputs.
+        
+        Parameters:
+        - model_name (str): The name of the GPT-Neo model to load.
+        
+        Returns:
+        - None
+        """
         print("init_gpt_neo()")
         #self.tokenizer = GPT2Tokenizer.from_pretrained(model_name)
         self.check_cuda_compatibility()
@@ -784,6 +961,18 @@ class Workflow():
         #return self.tokenizer, self.model
         
     def clean_gpt_out(self, text, remove_breaks=True):
+        """
+        Cleans the output from GPT-Neo text generation for readability and formatting.
+        
+        Uses the clean-text library to remove unwanted characters, fix unicode, and optionally strip line breaks from the generated text.
+        
+        Parameters:
+        - text (str): The text output from GPT-Neo to be cleaned.
+        - remove_breaks (bool, optional): Whether to remove line breaks from the text, defaults to True.
+        
+        Returns:
+        - str: The cleaned text.
+        """
         from cleantext import clean
         cleaned_text = clean(text,
                          fix_unicode=True,               # fix various unicode errors
@@ -809,6 +998,17 @@ class Workflow():
         return cleaned_text
     
     def test_gpt_neo(self, model_name):
+        """
+        Tests the GPT-Neo model by generating a response to a given prompt.
+        
+        Sets up the text-generation pipeline with the specified model, generates a response to a test prompt, and prints the cleaned output.
+        
+        Parameters:
+        - model_name (str): The name of the GPT-Neo model to test.
+        
+        Returns:
+        - None
+        """
         print("\ntest_gpt_neo()")
         print("The module name of GPT-Neo-2.7B is ", end='')
         print(GPTNeoForCausalLM.__module__)
@@ -863,6 +1063,17 @@ class Workflow():
         pp.pprint(self.clean_gpt_out(out3_dict["generated_text"], remove_breaks=True), compact=True)
         
     def check_cuda_compatibility(self):
+        """
+        Checks for CUDA availability and prints the CUDA version if available.
+        
+        Verifies if the CUDA environment is available for PyTorch operations, aiding in model performance optimization.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("check_cuda_compatibility()")
         if torch.cuda.is_available():
             print("CUDA is available!")
@@ -871,6 +1082,17 @@ class Workflow():
             print("CUDA is not available.")
             
     def nlp_load(self):
+        """
+        Loads Spacy's English medium model into the class attribute for NLP operations.
+        
+        Prepares the Spacy NLP model for text processing tasks such as tokenization, part-of-speech tagging, and named entity recognition.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("nlp_load()")
         self.nlp = spacy.load("en_core_web_md")
         #self.nlp.add_pipe()
@@ -878,6 +1100,17 @@ class Workflow():
         return
     
     def __del__(self):
+        """
+        Custom destructor for the class to ensure proper cleanup of resources upon deletion.
+        
+        Specifically deletes the loaded GPT-Neo model and tokenizer to free up memory resources.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         # Delete the model when the object is destroyed
         del self.model
         del self.tokenizer
@@ -889,19 +1122,7 @@ class Workflow():
     
     
     
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -912,6 +1133,17 @@ class Workflow():
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     def filter_through_google_search_results(self, google_search_results_links):
+        """
+        Filters through Google search results to remove duplicates and previously applied jobs.
+        
+        This method processes the list of Google search results by removing duplicates, filtering out jobs previously applied to, and organizing remaining job links by company.
+        
+        Parameters:
+        - google_search_results_links (list[str]): A list of job links obtained from Google search.
+        
+        Returns:
+        - tuple: A tuple containing the filtered list of Google search results links and a list of job links organized by company.
+        """
         print("filter_through_google_search_results()")
         self.previous_job_applications_data = self.convert_csv_data(self.previous_job_data_csv_relative_path)
         google_search_results_links = self.ensure_no_duplicates(google_search_results_links)
@@ -921,6 +1153,17 @@ class Workflow():
         return google_search_results_links, job_links_organized_by_company
     
     def convert_csv_data(self, csv_relative_path):
+        """
+        Converts CSV data from a given file path into a list of lists.
+        
+        Reads the CSV file, skipping the header row, and converts each row into a list, with each cell's '=>' replaced by ','.
+        
+        Parameters:
+        - csv_relative_path (str): The relative path to the CSV file.
+        
+        Returns:
+        - list: A list of lists containing the CSV data.
+        """
         print("\nconvert_csv_data() =")
         csv_to_list = []
         
@@ -938,6 +1181,17 @@ class Workflow():
     
     #TODO: You are a doofus implement THE BETTER WAY!
     def ensure_no_duplicates(self, list_to_filter):
+        """
+        Ensures that a list contains no duplicate elements.
+        
+        Processes a given list and returns a new list with all duplicate elements removed.
+        
+        Parameters:
+        - list_to_filter (list): The list to filter for duplicates.
+        
+        Returns:
+        - list: A list with duplicates removed.
+        """
         print("\nensure_no_duplicates()")
         
         unique_results = []
@@ -949,6 +1203,17 @@ class Workflow():
     #TODO: Keep job url's
     #! Pretty sure this is the only time I use JobsThatUserHasAppliedTo.csv so it doesn't matter
     def get_job_links_users_applied_to(self, extract_URLs_from_dictionary):
+        """
+        Ensures that a list contains no duplicate elements.
+        
+        Processes a given list and returns a new list with all duplicate elements removed.
+        
+        Parameters:
+        - list_to_filter (list): The list to filter for duplicates.
+        
+        Returns:
+        - list: A list with duplicates removed.
+        """
         print("\nget_job_links_users_applied_to() =")
         URLs_list = []
         
@@ -968,6 +1233,18 @@ class Workflow():
     
     #TODO: Only include links that are within the past 6 months for "previously_applied_links" !!!
     def filter_out_jobs_user_previously_applied_to(self, list_to_filter, previously_applied_links):
+        """
+        Filters out jobs from a list that the user has previously applied to.
+        
+        Compares a list of job links against a list of previously applied job links and removes any matches.
+        
+        Parameters:
+        - list_to_filter (list): The list of current job links to filter.
+        - previously_applied_links (list): A list of job links that the user has previously applied to.
+        
+        Returns:
+        - list: A filtered list of job links excluding previously applied jobs.
+        """
         print("\nfilter_out_jobs_user_previously_applied_to()")
         Lake_Minnetonka_Purified_list = []
         
@@ -989,6 +1266,17 @@ class Workflow():
     
     #TODO: Write a special rule for embed 'companyNames'! If they have filter them by the 'for=forValue' forValue instead!!
     def encapsulate_companies_urls(self, list_to_filter):
+        """
+        Organizes job links by company base URLs to encapsulate company-specific job listings.
+        
+        Parses and groups job links by their base company URLs to assist in company-specific job application processes.
+        
+        Parameters:
+        - list_to_filter (list): A list of job links to organize by company.
+        
+        Returns:
+        - tuple: A tuple containing the updated list of job links and a list of job links organized by company.
+        """
         print("\nencapsulate_companies_urls()")
         updated_google_search_results_links = []
         job_links_organized_by_company = []
@@ -1016,6 +1304,18 @@ class Workflow():
         return updated_google_search_results_links, job_links_organized_by_company
 
     def print_lists_side_by_side(self, list_to_filter, updated_google_search_results_links):
+        """
+        Prints two lists side by side for comparison.
+        
+        Used for debugging or comparison purposes to show how job links are filtered and updated through the process.
+        
+        Parameters:
+        - list_to_filter (list): The original list of job links.
+        - updated_google_search_results_links (list): The updated list of job links after filtering.
+        
+        Returns:
+        - None
+        """
         print("\n\n    Sup Norrington")
         print("Index | List to Filter URL | Updated Google Search Results URL")
         print("------|-------------------|-----------------------------------")
@@ -1030,11 +1330,7 @@ class Workflow():
         
       
     
-    
-    
-    
-    
-    
+
     
     
     
@@ -1042,6 +1338,17 @@ class Workflow():
     
     #TODO: Do stuff at very end or once CompanyOpeningsAndApplications.py instance ends!!
     def write_to_csv(self, job_data):
+        """
+        Writes job application data to a CSV file.
+        
+        Appends a row of job application data to an existing CSV file for record-keeping purposes.
+        
+        Parameters:
+        - job_data (list): A list of job application data to write to the CSV file.
+        
+        Returns:
+        - str: A confirmation message indicating the data write operation is completed.
+        """
         with open ('job_data.csv', mode='a', newline='') as file:
             writer = csv.writer(file)
             #for row in writer:
@@ -1055,15 +1362,18 @@ class Workflow():
 
 
 
-
-
-
-
-
-
-
-
     def cookie_information(self):
+        """
+        Fetches and prints cookie information for the current web page.
+        
+        Sends a POST request to the current URL with predefined parameters and prints out the cookies and response text.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("cookie_information()")
         current_url = self.browser.current_url
         #parameters = {'Name':'{FIRST_NAME} {LAST_NAME}', 'Email-id':'{EMAIL}','Message':'Hello cookies'}
@@ -1074,6 +1384,17 @@ class Workflow():
         print(r.text)
 
     def website_modified_cookie_info(self):
+        """
+        Fetches and prints modified cookie information after interacting with the website.
+        
+        Uses a session to send a POST request with predefined parameters to the current URL and prints the modified cookies and response text.
+        
+        Parameters:
+        - None
+        
+        Returns:
+        - None
+        """
         print("website_modified_cookie_info()")
         current_url = self.browser.current_url
         session = requests.Session()
@@ -1086,11 +1407,6 @@ class Workflow():
 
 
 
- 
-
-
-   
-    
     
     
         
@@ -1098,43 +1414,3 @@ class Workflow():
 if __name__ == '__main__':
     workflow = Workflow()
     workflow.job_search_workflow()
-
-
-
-
-
-
-
-#site:lever.co | site:greenhouse.io | site:workday.com ("Software Engineer" | "Backend Engineer") -Senior -Sr location:us
-
-
-
-
-
-
-# Web_Scraper/
-# ├── config.py
-# ├── Legit
-# │   ├── JobSearchWorkflow.py
-# │   ├── GoogleSearch.py
-# │   └── CompanyOpeningsAndApplications.py
-# ├── .env
-# ├── README.md
-# └── Scraper
-#     ├── scraperGoogle.py
-#     ├── scraperGoogleJob.py
-#     ├── TestingSelenium.py
-#     └── JobData.csv
-
-
-
-
-
-
-
-
-
-
-
-
-

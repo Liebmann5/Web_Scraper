@@ -1,0 +1,51 @@
+CREATE DATABASE job_market_data;
+USE job_market_data;
+CREATE TABLE current_job_availabilities_data(
+    company_name VARCHAR(30) PRIMARY KEY,
+    company_department VARCHAR(30),
+    job_title VARCHAR(30),
+    job_id_number VARCHAR(50) FOREIGN KEY,  # relate to hired!!
+    job_url VARCHAR(100),
+    job_release_date VARCHAR(30),
+    company_industry VARCHAR(30),
+    job_location VARCHAR(30),
+    employment_type VARCHAR(30),
+    job_workplaceType VARCHAR(30),
+    experience_level VARCHAR(30),
+    years_of_experience VARCHAR(30),
+);
+
+#! Figure out how to identify this(pick variable for the KEY)!!!  {LOOK BACK AT PLANNED GRAPHS}
+
+# CREATE TABLE current_candidate_data(
+CREATE TABLE hired_candidate_data(
+    id VARCHAR(30) PRIMARY KEY,
+    job_search_days_count INT,
+    total_jobs_applied INT,
+    gender VARCHAR(10),
+    race VARCHAR(20),
+    age INT,
+    current_location VARCHAR(20),
+    preferred_job_locations ARRAY---,
+    num_of_prior_jobs INT,
+    years_of_experience INT,
+    latest_degree_name VARCHAR(30),
+    latest_degree_year INT,
+);
+CREATE TABLE current_app_version_number(version_number VARCHAR(30) PRIMARY KEY);
+
+
+
+        self.current_jobs_details = {
+            ---"job_url": None,
+            ---"job_title": None,
+            ---"job_location": None,
+            ---"company_name": None,
+            ---"job_workplaceType": None,
+            ---"company_department": None,
+            ---"job_id_number": None,
+            ---"job_release_date": None,
+            ---"employment_type": None,
+            "experience_level": None,
+            "years_of_experience": None,
+            "company_industry": None,

@@ -12,6 +12,8 @@ CUSTOM_RULES = {
 },
 #TODO: I'm fairly certain I'd want these switched!?!?!?
 #TODO: Add degrees!! So  B.S. = Bachelors of Science
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#The reason for this setup is 'get form question'
 CUSTOM_SYNONYMS = {
     "phone": ["PHONE_NUMBER", "PERSONAL_CELL", "CELLPHONE", "PHONE"],
     "linkedIn profile": ["LINKEDIN_PROFILE"],
@@ -21,9 +23,14 @@ CUSTOM_SYNONYMS = {
     "require immigration sponsorship": ["US_CITIZEN"],
     "require visa sponsorship": ["US_CITIZEN"],
     "hear about job": ["COME_ACROSS_HOW"],
-    # "website": ["GITHUB_URL"],
-    # "website": ["GITHUB_URL"],
+    # "GITHUB_URL": ["github", "website", "repo", "projects", "portfolio"],
+    #! This citizen list are True/False
+    # "US_CITIZEN" : ["require immigration sponsorship", "require visa sponsorship"],
 },
+#Add another dictionary for lists!! Ex)List all your skills, more than 1 college, whats your tech stack...
+CUSTOM_MULTI_ANWSERS = {
+    "skills": [],
+}
 Q_AND_A = {
     "summary": ["I'm a to do it all! The movie Dodgeball was about me."],
 }

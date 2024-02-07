@@ -126,11 +126,11 @@ class UntouchedUser():
             # This program began running at 2023-06-15 21:58:12
             # Execution Started -- Opening Firefox Browser
             # Traceback (most recent call last):
-            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 924, in <module>
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\AutoApply\JobSearchWorkflow.py", line 924, in <module>
             # workflow.job_search_workflow()
-            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 107, in job_search_workflow
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\AutoApply\JobSearchWorkflow.py", line 107, in job_search_workflow
             # self.browser_setup()
-            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\Legit\JobSearchWorkflow.py", line 188, in browser_setup
+            # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\AutoApply\JobSearchWorkflow.py", line 188, in browser_setup
             # self.browser = webdriver.Firefox(options=options)
             #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             # File "C:\Users\user\OneDrive\Documents\GitHub\Web_Scraper\virtual_environments_smell_like_updog\Lib\site-packages\selenium\webdriver\firefox\webdriver.py", line 201, in __init__

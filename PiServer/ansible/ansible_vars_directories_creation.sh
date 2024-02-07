@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Create the subdirectories
-#mkdir -p centralized_san
+mkdir -p centralized_san
 
 cat <<'EOL' > picluster.yml
 ---
@@ -454,10 +454,6 @@ vault:
       secret: {{ ionos_secret }}
 EOL
 
-cat <<'EOL' > network
-
-EOL
-
 cd centralized_san
 
 cat <<'EOL' > centralized_san_initiator.yml
@@ -515,10 +511,101 @@ storage_mounts:
 EOL
 
 cat <<'EOL' > centralized_san_target.yml
+---
+# ------------------------------------------
+# CENTRALIZED SAN (ALTERNATIVE ARCHITECTURE)
+# ------------------------------------------
+# Variables for configuring iSCSI in gateway node
+# Local Storage and LUNs creation + iSCSI Target Configuration
 
+##############
+# Storage Role
+##############
+
+storage_volumegroups:
+  - name: vg_iscsi
+    devices:
+      - /dev/sda3
+
+storage_volumes:
+  - name: vg_iscsi_lv_node1
+    vg: vg_iscsi
+    size: 100g
+  - name: vg_iscsi_lv_node2
+    vg: vg_iscsi
+    size: 100g
+  - name: vg_iscsi_lv_node3
+    vg: vg_iscsi
+    size: 100g
+  - name: vg_iscsi_lv_node4
+    vg: vg_iscsi
+    size: 100g
+
+###################
+# iSCSI_Target Role
+###################
+
+iscsi_targets:
+  - name: iqn.2021-07.com.ricsanfre:gateway
+    disks:
+      - name: lun_node1
+        path: /dev/vg_iscsi/vg_iscsi_lv_node1
+        type: block
+        lunid: 0
+      - name: lun_node2
+        path: /dev/vg_iscsi/vg_iscsi_lv_node2
+        type: block
+        lunid: 1
+      - name: lun_node3
+        path: /dev/vg_iscsi/vg_iscsi_lv_node3
+        type: block
+        lunid: 2
+      - name: lun_node4
+        path: /dev/vg_iscsi/vg_iscsi_lv_node4
+        type: block
+        lunid: 3
+    initiators:
+      - name: iqn.2021-07.com.ricsanfre:node1
+        authentication:
+          userid: iqn.2021-07.com.ricsanfre:node1
+          password: "{{ vault.san.iscsi.node_pass }}"
+          userid_mutual: iqn.2021-07.com.ricsanfre:gateway
+          password_mutual: "{{ vault.san.iscsi.password_mutual }}"
+        mapped_luns:
+          - mapped_lunid: 0
+            lunid: 0
+      - name: iqn.2021-07.com.ricsanfre:node2
+        authentication:
+          userid: iqn.2021-07.com.ricsanfre:node2
+          password: "{{ vault.san.iscsi.node_pass }}"
+          userid_mutual: iqn.2021-07.com.ricsanfre:gateway
+          password_mutual: "{{ vault.san.iscsi.password_mutual }}"
+        mapped_luns:
+          - mapped_lunid: 0
+            lunid: 1
+      - name: iqn.2021-07.com.ricsanfre:node3
+        authentication:
+          userid: iqn.2021-07.com.ricsanfre:node3
+          password: "{{ vault.san.iscsi.node_pass }}"
+          userid_mutual: iqn.2021-07.com.ricsanfre:gateway
+          password_mutual: "{{ vault.san.iscsi.password_mutual }}"
+        mapped_luns:
+          - mapped_lunid: 0
+            lunid: 2
+      - name: iqn.2021-07.com.ricsanfre:node4
+        authentication:
+          userid: iqn.2021-07.com.ricsanfre:node4
+          password: "{{ vault.san.iscsi.node_pass }}"
+          userid_mutual: iqn.2021-07.com.ricsanfre:gateway
+          password_mutual: "{{ vault.san.iscsi.password_mutual }}"
+        mapped_luns:
+          - mapped_lunid: 0
+            lunid: 3
+    portals:
+      - ip: 10.0.0.1
 EOL
 
-cd..
+cd ..
 
 chmod +x picluster.yml
 chmod +x selfsigned-certificates.yml
@@ -526,3 +613,5 @@ chmod +x vault.yml
 chmod +x vault.yml.j2
 chmod +x centralized_san/centralized_san_initiator.yml
 chmod +x centralized_san/centralized_san_target.yml
+
+cd ..

@@ -10,7 +10,7 @@ REM https://python.land/virtual-environments/virtualenv
 REM 1)python -m venv virtual_environments_smell_like_updog --prompt="virtual_environments_smell_like_updog"
 REM 2)virtual_environments_smell_like_updog\Scripts\Activate.ps1
 REM         -.\virtual_environments_smell_like_updog\Scripts\Activate
-REM 3)python Legit\JobSearchWorkflow.py > terminalOutput.txt
+REM 3)python AutoApply\JobSearchWorkflow.py > terminalOutput.txt
 REM End)deactivate
 
 REM Check for a command that runs Python 3
@@ -60,7 +60,7 @@ REM Download the Transformers model
 %PYTHON_CMD% -c "from transformers import GPTNeoForCausalLM; GPTNeoForCausalLM.from_pretrained('EleutherAI/gpt-neo-2.7B')"
 
 REM Run your Python script
-@REM %PYTHON_CMD% Legit\JobSearchWorkflow.py
+@REM %PYTHON_CMD% AutoApply\JobSearchWorkflow.py
 
 REM Deactivate the virtual environment
 deactivate
