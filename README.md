@@ -58,6 +58,14 @@ The AutoApply program follows this streamlined process:
 3. **Return to JobSearchWorkflow.py**: Filters and Organizes found job openings.
 4. **End with CompanyOpeningsAndApplications.py**: Applies to appropriately fit roles.
 
+## Video Demonstration
+
+[![Video Demo](https://github.com/Liebmann5/Web_Scraper/blob/main/Web_Scraper_Functionality_02-ezgif.com-video-to-gif-converter.gif)](https://pixeldrain.com/u/onnHYrVS)
+
+## Follow Terminal Output
+
+[![Follow Terminal Output](https://img.shields.io/badge/Terminal%20Output-Link-blue)](https://github.com/Liebmann5/Web_Scraper/blob/main/terminalOutput.txt)
+
 ## License
 
 Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
