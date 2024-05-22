@@ -60,7 +60,7 @@ The AutoApply program follows this streamlined process:
 
 ## Video Demonstration
 
-[![Video Demo](https://github.com/Liebmann5/Web_Scraper/blob/main/Web_Scraper_Functionality_02-ezgif.com-video-to-gif-converter.gif)](https://pixeldrain.com/u/onnHYrVS)
+[![Video Demo](https://github.com/Liebmann5/Web_Scraper/blob/main/Web_Scraper_Functionality_02-ezgif.com-video-to-gif-converter(1).gif)](https://pixeldrain.com/u/onnHYrVS)
 
 ## Follow Terminal Output
 
